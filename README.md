@@ -107,3 +107,13 @@ Each of the top 100 carries a 2–3 hop typed path to ALS as the receipt the UI 
 `Gene:Pathway` edges and zero `Pathway:Disease` edges, so a pathway can never be the last
 hop. The reachable shapes are drug → gene → ALS and drug → gene → gene → ALS, preferring
 curated gene–disease edges over literature co-occurrence.
+
+## BBB permeability
+
+```bash
+python -m src.bbb_model train   # downloads B3DB to data/raw/, writes artifacts/bbb_model.joblib
+python -m src.bbb_model score   # writes data/bbb_scores.json
+```
+
+`in_domain: false` must return a null probability. Live `POST /api/predict` uses the
+trained model via `server/bbb_adapter.py`. Metrics are in `artifacts/bbb_metrics.json`.

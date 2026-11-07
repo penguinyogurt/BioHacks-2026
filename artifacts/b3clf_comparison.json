@@ -1,0 +1,47 @@
+{
+  "comparison_notes": [
+    "B3clf (XGB + PaDEL) is the published B3DB baseline (Meng et al., Sci Data 2021).",
+    "Fair pairwise test: BBBP structures not in B3DB (scripts/build_external_set.py).",
+    "Full B3clf rescoring needs Java + padelpy; published B3DB hold-out ROC-AUC ~0.91."
+  ],
+  "ours_scaffold_split_cv": {
+    "roc_auc": {
+      "mean": 0.927046992316537,
+      "sd": 0.023173988396150657
+    },
+    "pr_auc": {
+      "mean": 0.952393476535154,
+      "sd": 0.020305048943583398
+    },
+    "mcc": {
+      "mean": 0.6805984776867916,
+      "sd": 0.08519141304796378
+    },
+    "accuracy": {
+      "mean": 0.8448143405889883,
+      "sd": 0.05667111406032764
+    },
+    "brier": {
+      "mean": 0.09766395378494379,
+      "sd": 0.02844323120452265
+    }
+  },
+  "ours_external_bbbp_all_molecules": {
+    "roc_auc": 0.8072,
+    "pr_auc": 0.804,
+    "mcc": 0.447,
+    "n": 201
+  },
+  "ours_external_bbbp_in_domain_only": {
+    "roc_auc": 0.8264,
+    "pr_auc": 0.8211,
+    "mcc": 0.5211,
+    "n": 178
+  },
+  "b3clf_published_b3db_benchmark": {
+    "roc_auc": 0.91,
+    "citation": "B3DB/B3clf authors; engineering-spec validation baseline",
+    "model": "xgb + PaDEL, trained on B3DB"
+  },
+  "delta_scaffold_roc_auc_vs_published_b3clf": 0.017
+}

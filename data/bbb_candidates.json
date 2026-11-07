@@ -1,0 +1,12 @@
+{
+  "meta": {"owner": "E2", "description": "Controls and demo molecules until E1 crosswalk lands."},
+  "compounds": [
+    {"name": "riluzole", "smiles": "Nc1nc2ccc(OC(F)(F)F)cc2s1", "role": "positive_control"},
+    {"name": "edaravone", "smiles": "CC1=NN(C(=O)C1)c1ccccc1", "role": "positive_control"},
+    {"name": "sucrose", "smiles": "OCC1OC(OC2(CO)OC(CO)C(O)C2O)C(O)C(O)C1O", "role": "demo"},
+    {"name": "loperamide", "smiles": "CN(C)C(=O)C(CCN1CCC(CC1)(C2=CC=C(C=C2)Cl)O)(C3=CC=CC=C3)C4=CC=CC=C4", "role": "demo"},
+    {"name": "levodopa", "smiles": "NC(Cc1ccc(O)c(O)c1)C(=O)O", "role": "demo"},
+    {"name": "metformin", "smiles": "CN(C)C(=N)N=C(N)N", "role": "candidate"},
+    {"name": "memantine", "smiles": "CC12CC3CC(C1)(CC(C3)(C2)N)C", "role": "candidate"}
+  ]
+}

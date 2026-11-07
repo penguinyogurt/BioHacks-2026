@@ -1,0 +1,1010 @@
+{
+  "compounds": [
+    {
+      "name": "ethinamate",
+      "smiles": "C#CC1(OC(N)=O)CCCCC1",
+      "label": 1
+    },
+    {
+      "name": "efrotomycin",
+      "smiles": "C/C=C/C=C/C1OC(O)(C(CC)C(=O)NC/C=C/C=C(\\C)C(OC)C(C)C2OC(/C=C/C=C/C=C(\\C)C(=O)c3c(O)n(C)ccc3=O)C(O)C2O)C(O)C(OC2OC(C)C(OC3OC(C)C(OC)C(O)C3OC)C(OC)C2O)C1(C)C",
+      "label": 0
+    },
+    {
+      "name": "Meclocycline",
+      "smiles": "C=C1c2c(Cl)ccc(O)c2C(O)=C2C(=O)C3(O)C(=O)/C(=C(/N)O)C(=O)C(N(C)C)C3C(O)C12",
+      "label": 0
+    },
+    {
+      "name": "methacycline",
+      "smiles": "C=C1c2cccc(O)c2C(O)=C2C(=O)[C@]3(O)C(=O)/C(=C(/N)O)C(=O)[C@@H](N(C)C)[C@@H]3[C@@H](O)[C@H]12",
+      "label": 0
+    },
+    {
+      "name": "naloxone",
+      "smiles": "C=CCN1CC[C@]23c4c5ccc(O)c4O[C@H]2C(=O)CC[C@@]3(O)[C@H]1C5",
+      "label": 1
+    },
+    {
+      "name": "Quinidine",
+      "smiles": "C=C[C@H]1CN2CC[C@H]1C[C@@H]2[C@@H](O)c1ccnc2ccc(OC)cc12",
+      "label": 1
+    },
+    {
+      "name": "warfarin",
+      "smiles": "CC(=O)CC(c1ccccc1)c1c(O)oc2ccccc2c1=O",
+      "label": 0
+    },
+    {
+      "name": "benorilate",
+      "smiles": "CC(=O)Nc1ccc(OC(=O)c2ccccc2OC(C)=O)cc1",
+      "label": 1
+    },
+    {
+      "name": "famciclovir",
+      "smiles": "CC(=O)OCC(CCn1cnc2cnc(N)nc21)COC(C)=O",
+      "label": 1
+    },
+    {
+      "name": "acetorphan/racecadotril/ecadotril",
+      "smiles": "CC(=O)SCC(Cc1ccccc1)C(=O)NCC(=O)OCc1ccccc1",
+      "label": 1
+    },
+    {
+      "name": "Spironolactone",
+      "smiles": "CC(=O)S[C@@H]1CC2=CC(=O)CC[C@]2(C)[C@H]2CC[C@@]3(C)[C@@H](CC[C@@]34CCC(=O)O4)[C@H]12",
+      "label": 0
+    },
+    {
+      "name": "Ketoprofen",
+      "smiles": "CC(C(=O)O)c1cccc(C(=O)c2ccccc2)c1",
+      "label": 1
+    },
+    {
+      "name": "Indinavir",
+      "smiles": "CC(C)(C)NC(=O)[C@@H]1CN(Cc2cccnc2)CCN1C[C@@H](O)C[C@@H](Cc1ccccc1)C(=O)N[C@H]1c2ccccc2C[C@H]1O",
+      "label": 1
+    },
+    {
+      "name": "nadolol",
+      "smiles": "CC(C)(C)NCC(O)COc1cccc2c1C[C@H](O)[C@H](O)C2",
+      "label": 1
+    },
+    {
+      "name": "pirbuterol",
+      "smiles": "CC(C)(C)NCC(O)c1ccc(O)c(CO)n1",
+      "label": 0
+    },
+    {
+      "name": "Ceftazidime",
+      "smiles": "CC(C)(O/N=C(\\C(=O)N[C@@H]1C(=O)N2C(C(=O)[O-])=C(C[n+]3ccccc3)CS[C@H]12)c1csc(N)n1)C(=O)O",
+      "label": 1
+    },
+    {
+      "name": "lorcainide",
+      "smiles": "CC(C)N1CCC(N(C(=O)Cc2ccccc2)c2ccc(Cl)cc2)CC1",
+      "label": 1
+    },
+    {
+      "name": "valganciclovir(RS790702)",
+      "smiles": "CC(C)[C@H](N)C(=O)OCC(CO)OCn1cnc2c(=O)nc(N)[nH]c21",
+      "label": 1
+    },
+    {
+      "name": "valaciclovir",
+      "smiles": "CC(C)[C@H](N)C(=O)OCCOCn1cnc2c(=O)nc(N)[nH]c21",
+      "label": 1
+    },
+    {
+      "name": "labetalol",
+      "smiles": "CC(CCc1ccccc1)NCC(O)c1ccc(O)c(C(N)=O)c1",
+      "label": 0
+    },
+    {
+      "name": "naprodoxime",
+      "smiles": "CC(Oc1cccc2ccccc12)/C(N)=N/O",
+      "label": 1
+    },
+    {
+      "name": "Diethylstilbestrol",
+      "smiles": "CC/C(=C(/CC)c1ccc(O)cc1)c1ccc(O)cc1",
+      "label": 0
+    },
+    {
+      "name": "oxetacillin",
+      "smiles": "CC1(C)S[C@@H]2[C@H](N3C(=O)C(c4ccc(O)cc4)NC3(C)C)C(=O)N2[C@H]1C(=O)O",
+      "label": 0
+    },
+    {
+      "name": "carbenicillin",
+      "smiles": "CC1(C)S[C@@H]2[C@H](NC(=O)C(C(=O)O)c3ccccc3)C(=O)N2[C@H]1C(=O)O",
+      "label": 0
+    },
+    {
+      "name": "Ticarcillin",
+      "smiles": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](C(=O)O)c3ccsc3)C(=O)N2[C@H]1C(=O)O",
+      "label": 1
+    },
+    {
+      "name": "hydrocortisone-valerate",
+      "smiles": "CC12CCC(=O)C=C1CCC1C2C(O)CC2(C)C1CCC2(O)C(=O)COC(=O)CCC1CCCC1",
+      "label": 1
+    },
+    {
+      "name": "zometapine",
+      "smiles": "CC1=C2C(c3cccc(Cl)c3)=NCCN=C2N(C)N1",
+      "label": 1
+    },
+    {
+      "name": "moxiraprine",
+      "smiles": "CC1=CC(=C2C=CC(=O)C=C2)NN=C1NCCN1CCOCC1",
+      "label": 1
+    },
+    {
+      "name": "rimexolone",
+      "smiles": "CCC(=O)[C@@]1(C)[C@H](C)C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@H]3[C@@H](O)C[C@@]21C",
+      "label": 1
+    },
+    {
+      "name": "aminoglutethimide",
+      "smiles": "CCC1(c2ccc(N)cc2)CCC(=O)NC1=O",
+      "label": 1
+    },
+    {
+      "name": "tofisopam",
+      "smiles": "CCC1C(C)=NN=C(c2ccc(OC)c(OC)c2)c2cc(OC)c(OC)cc21",
+      "label": 1
+    },
+    {
+      "name": "budesonide",
+      "smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@]5(C)[C@H]4[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+      "label": 1
+    },
+    {
+      "name": "fengabine",
+      "smiles": "CCCCN/C(=C1/C=C(Cl)C=CC1=O)c1ccccc1Cl",
+      "label": 1
+    },
+    {
+      "name": "tolbutamide",
+      "smiles": "CCCCNC(=O)NS(=O)(=O)c1ccc(C)cc1",
+      "label": 0
+    },
+    {
+      "name": "losartan",
+      "smiles": "CCCCc1nc(Cl)c(CO)n1Cc1ccc(-c2ccccc2-c2nn[nH]n2)cc1",
+      "label": 0
+    },
+    {
+      "name": "chlorpropamide",
+      "smiles": "CCCNC(=O)NS(=O)(=O)c1ccc(Cl)cc1",
+      "label": 0
+    },
+    {
+      "name": "Bretyliumtosilate",
+      "smiles": "CCCSc1ccc2[nH]c(NC(=O)OC)nc2c1",
+      "label": 1
+    },
+    {
+      "name": "Albendazole",
+      "smiles": "CCCSc1ccc2nc(NC(=O)OC)[nH]c2c1",
+      "label": 1
+    },
+    {
+      "name": "celiprolol",
+      "smiles": "CCN(CC)C(=O)Nc1ccc(OCC(O)CNC(C)(C)C)c(C(C)=O)c1",
+      "label": 1
+    },
+    {
+      "name": "Disulfiram",
+      "smiles": "CCN(CC)C(=S)SSC(=S)N(CC)CC",
+      "label": 1
+    },
+    {
+      "name": "Chloroquine",
+      "smiles": "CCN(CC)CCCC(C)Nc1ccnc2cc(Cl)ccc12",
+      "label": 1
+    },
+    {
+      "name": "dicyclomine",
+      "smiles": "CCN(CC)CCOC(=O)C1(C2CCCCC2)CCCCC1",
+      "label": 0
+    },
+    {
+      "name": "bamifylline",
+      "smiles": "CCN(CCO)CCn1c(Cc2ccccc2)nc2c1c(=O)n(C)c(=O)n2C",
+      "label": 1
+    },
+    {
+      "name": "cefoperazone",
+      "smiles": "CCN1CCN(C(=O)N[C@@H](C(=O)N[C@@H]2C(=O)N3C(C(=O)O)=C(CSc4nnnn4C)CS[C@H]23)c2ccc(O)cc2)C(=O)C1=O",
+      "label": 1
+    },
+    {
+      "name": "piperacillin",
+      "smiles": "CCN1CCN(C(=O)N[C@@H](C(=O)N[C@@H]2C(=O)N3[C@@H]2SC(C)(C)[C@@H]3C(=O)O)c2ccccc2)C(=O)C1=O",
+      "label": 1
+    },
+    {
+      "name": "12",
+      "smiles": "CCNC(=NC#N)NCCSCc1ncccc1Br",
+      "label": 0
+    },
+    {
+      "name": "fenozolone",
+      "smiles": "CCNC1=NC(=O)C(c2ccccc2)O1",
+      "label": 1
+    },
+    {
+      "name": "etasuline",
+      "smiles": "CCNC1=Nc2ccc(Cl)cc2C(c2ccccc2)S1",
+      "label": 1
+    },
+    {
+      "name": "fencamfamin",
+      "smiles": "CCNC1C2CCC(C2)C1c1ccccc1",
+      "label": 1
+    },
+    {
+      "name": "clofibrate",
+      "smiles": "CCOC(=O)C(C)(C)Oc1ccc(Cl)cc1",
+      "label": 0
+    },
+    {
+      "name": "neodicoumarol",
+      "smiles": "CCOC(=O)C(c1c(O)oc2ccccc2c1=O)c1c(O)oc2ccccc2c1=O",
+      "label": 0
+    },
+    {
+      "name": "nitrendipine",
+      "smiles": "CCOC(=O)C1=C(C)NC(C)=C(C(=O)OC)C1c1cccc([N+](=O)[O-])c1",
+      "label": 0
+    },
+    {
+      "name": "cinitapride",
+      "smiles": "CCOc1cc(N)c([N+](=O)[O-])cc1C(=O)NC1CCN(CC2CC=CCC2)CC1",
+      "label": 1
+    },
+    {
+      "name": "phenacetin",
+      "smiles": "CCOc1ccc(NC(C)=O)cc1",
+      "label": 0
+    },
+    {
+      "name": "tinidazole",
+      "smiles": "CCS(=O)(=O)CCn1c([N+](=O)[O-])cnc1C",
+      "label": 1
+    },
+    {
+      "name": "Pravastatin",
+      "smiles": "CC[C@H](C)C(=O)O[C@H]1C[C@H](O)C=C2C=C[C@H](C)[C@H](CC[C@@H](O)C[C@@H](O)CC(=O)O)[C@H]21",
+      "label": 0
+    },
+    {
+      "name": "lexithromycin",
+      "smiles": "CC[C@H]1OC(=O)[C@H](C)[C@@H](OC2CC(C)(OC)C(O)C(C)O2)C(C)[C@@H](OC2OC(C)CC(N(C)C)C2O)[C@](C)(O)C[C@@H](C)/C(=N\\OC)[C@H](C)[C@@H](O)[C@]1(C)O",
+      "label": 0
+    },
+    {
+      "name": "vinblastine",
+      "smiles": "CC[C@]1(O)C[C@H]2CN(CCc3c([nH]c4ccccc34)[C@@](C(=O)OC)(c3cc4c(cc3OC)N(C)[C@H]3[C@@](O)(C(=O)OC)[C@H](OC(C)=O)[C@]5(CC)C=CCN6CC[C@]43[C@@H]65)C2)C1",
+      "label": 1
+    },
+    {
+      "name": "Ethionamide",
+      "smiles": "CCc1cc(C(N)=S)ccn1",
+      "label": 1
+    },
+    {
+      "name": "lomefloxacin",
+      "smiles": "CCn1cc(C(=O)O)c(=O)c2cc(F)c(N3CCNC(C)C3)c(F)c21",
+      "label": 0
+    },
+    {
+      "name": "enoxacin",
+      "smiles": "CCn1cc(C(=O)O)c(=O)c2cc(F)c(N3CCNCC3)nc21",
+      "label": 0
+    },
+    {
+      "name": "asimadoline",
+      "smiles": "CN(C(=O)C(c1ccccc1)c1ccccc1)[C@H](CN1CC[C@H](O)C1)c1ccccc1",
+      "label": 1
+    },
+    {
+      "name": "Pyridostigminebromide",
+      "smiles": "CN(C)C(=O)Oc1ccc[n+](C)c1",
+      "label": 1
+    },
+    {
+      "name": "guamecycline",
+      "smiles": "CN(C)C1C(=O)/C(=C(/O)NCN2CCN(C(=N)N=C(N)N)CC2)C(=O)C2(O)C(=O)C3=C(O)c4c(O)cccc4C(C)(O)C3CC12",
+      "label": 0
+    },
+    {
+      "name": "pipacycline",
+      "smiles": "CN(C)C1C(=O)/C(=C(/O)NCN2CCN(CCO)CC2)C(=O)C2(O)C(=O)C3=C(O)c4c(O)cccc4C(C)(O)C3CC12",
+      "label": 0
+    },
+    {
+      "name": "pheniramine",
+      "smiles": "CN(C)CCC(c1ccccc1)c1ccccn1",
+      "label": 0
+    },
+    {
+      "name": "Dacarbazine",
+      "smiles": "CN(C)N/N=C1/N=CN=C1C(N)=O",
+      "label": 1
+    },
+    {
+      "name": "lymecycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(/N)O)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)ccc(Cl)c4[C@@](C)(O)[C@H]3C[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "apicycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(/O)NC(C(=O)O)N2CCN(CCO)CC2)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)cccc4[C@@](C)(O)[C@H]3C[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "pecocycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(/O)NCN2CCCC(C(=O)O)C2)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)cccc4[C@@](C)(O)[C@H]3C[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "rolitetracycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(/O)NCN2CCCC2)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)cccc4[C@@](C)(O)[C@H]3C[C@@H]12",
+      "label": 1
+    },
+    {
+      "name": "penimocycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(/O)NCNC(C(=O)NC2C(=O)N3C2SC(C)(C)C3C(=O)O)c2ccccc2)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)cccc4[C@@](C)(O)[C@H]3C[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "clomocycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(/O)NCO)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)ccc(Cl)c4[C@@](C)(O)[C@H]3C[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "Demeclocycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(\\N)O)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)ccc(Cl)c4[C@@H](O)[C@H]3C[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "Chlortetracycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(\\N)O)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)ccc(Cl)c4[C@@](C)(O)[C@H]3C[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "nitrocycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(\\N)O)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)ccc([N+](=O)[O-])c4C[C@H]3C[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "demecycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(\\N)O)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)cccc4[C@@H](O)[C@H]3C[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "TetraCycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(\\N)O)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)cccc4[C@@](C)(O)[C@H]3C[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "oxytetracycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(\\N)O)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(O)cccc4[C@@](C)(O)[C@H]3[C@H](O)[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "amicycline",
+      "smiles": "CN(C)[C@@H]1C(=O)/C(=C(\\N)O)C(=O)[C@@]2(O)C(=O)C3=C(O)c4c(ccc(N)c4O)C[C@H]3C[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "11a",
+      "smiles": "CN(C)c1cc(-c2nc(N)n[nH]2)ccn1",
+      "label": 0
+    },
+    {
+      "name": "Minocycline",
+      "smiles": "CN(C)c1ccc(O)c2c1C[C@H]1C[C@H]3[C@H](N(C)C)C(O)=C(C(N)=O)C(=O)[C@@]3(O)C(O)=C1C2=O",
+      "label": 1
+    },
+    {
+      "name": "etamocycline",
+      "smiles": "CN(CCN(C)CN/C(O)=C1\\C(=O)[C@@H](N(C)C)[C@@H]2C[C@H]3C(=C(O)c4c(O)cccc4[C@@]3(C)O)C(=O)[C@]2(O)C1=O)CN/C(O)=C1\\C(=O)[C@@H](N(C)C)[C@@H]2C[C@H]3C(=C(O)c4c(O)cccc4[C@@]3(C)O)C(=O)[C@]2(O)C1=O",
+      "label": 0
+    },
+    {
+      "name": "piroxicam",
+      "smiles": "CN1/C(=C(/O)Nc2ccccn2)C(=O)c2ccccc2S1(=O)=O",
+      "label": 0
+    },
+    {
+      "name": "tenoxicam",
+      "smiles": "CN1/C(=C(\\O)Nc2ccccn2)C(=O)c2sccc2S1(=O)=O",
+      "label": 0
+    },
+    {
+      "name": "homatropine",
+      "smiles": "CN1C2CCC1CC(OC(=O)C(O)c1ccccc1)C2",
+      "label": 0
+    },
+    {
+      "name": "fenobam",
+      "smiles": "CN1CC(=O)N=C1NC(=O)Nc1cccc(Cl)c1",
+      "label": 1
+    },
+    {
+      "name": "zopiclone",
+      "smiles": "CN1CCN(C(=O)OC2c3nccnc3C(=O)N2c2ccc(Cl)cn2)CC1",
+      "label": 1
+    },
+    {
+      "name": "clozapine",
+      "smiles": "CN1CCN(C2=c3ccccc3=Nc3ccc(Cl)cc3N2)CC1",
+      "label": 1
+    },
+    {
+      "name": "Pirenzepine",
+      "smiles": "CN1CCN(CC(=O)N2c3ccccc3C(=O)Nc3cccnc32)CC1",
+      "label": 1
+    },
+    {
+      "name": "scopolamine",
+      "smiles": "CN1[C@@H]2CC(OC(=O)[C@H](CO)c3ccccc3)C[C@H]1[C@@H]1O[C@@H]12",
+      "label": 0
+    },
+    {
+      "name": "Tiotidine",
+      "smiles": "CN=C(NC#N)NCCSCc1csc(N=C(N)N)n1",
+      "label": 1
+    },
+    {
+      "name": "19",
+      "smiles": "CNC(=NC#N)Nc1cccc(-c2csc(N=C(N)N)n2)c1",
+      "label": 0
+    },
+    {
+      "name": "dipivefrin",
+      "smiles": "CNCC(O)c1ccc(OC(=O)C(C)(C)C)c(OC(=O)C(C)(C)C)c1",
+      "label": 0
+    },
+    {
+      "name": "procarbazine",
+      "smiles": "CNNCc1ccc(C(=O)NC(C)C)cc1",
+      "label": 1
+    },
+    {
+      "name": "oximonam",
+      "smiles": "CO/N=C(\\C(=O)NC1C(=O)N(OCC(=O)O)[C@H]1C)c1csc(N)n1",
+      "label": 0
+    },
+    {
+      "name": "cefditoren",
+      "smiles": "CO/N=C(\\C(=O)NC1C(=O)N2C(C(=O)O)=C(/C=C\\c3scnc3C)CS[C@H]12)c1csc(N)n1",
+      "label": 0
+    },
+    {
+      "name": "gloximonam",
+      "smiles": "CO/N=C(\\C(=O)N[C@@H]1C(=O)N(OCC(=O)OCC(=O)OC(C)(C)C)[C@H]1C)c1csc(N)n1",
+      "label": 0
+    },
+    {
+      "name": "cefetamet",
+      "smiles": "CO/N=C(\\C(=O)N[C@@H]1C(=O)N2C(C(=O)O)=C(C)CS[C@H]12)c1csc(N)n1",
+      "label": 0
+    },
+    {
+      "name": "cefuracetime",
+      "smiles": "CO/N=C(\\C(=O)N[C@@H]1C(=O)N2C(C(=O)O)=C(COC(C)=O)CS[C@H]12)c1ccco1",
+      "label": 0
+    },
+    {
+      "name": "ceftioxide",
+      "smiles": "CO/N=C(\\C(=O)N[C@@H]1C(=O)N2C(C(=O)O)=C(COC(C)=O)C[S+]([O-])[C@H]12)c1csc(N)n1",
+      "label": 0
+    },
+    {
+      "name": "ceftiofur",
+      "smiles": "CO/N=C(\\C(=O)N[C@@H]1C(=O)N2C(C(=O)O)=C(CSC(=O)c3ccco3)CS[C@H]12)c1csc(N)n1",
+      "label": 0
+    },
+    {
+      "name": "cefuzonam",
+      "smiles": "CO/N=C(\\C(=O)N[C@@H]1C(=O)N2C(C(=O)O)=C(CSc3cnns3)CS[C@H]12)c1csc(N)n1",
+      "label": 0
+    },
+    {
+      "name": "cefmenoxime",
+      "smiles": "CO/N=C(\\C(=O)N[C@@H]1C(=O)N2C(C(=O)O)=C(CSc3nnnn3C)CS[C@H]12)c1csc(N)n1",
+      "label": 0
+    },
+    {
+      "name": "cefteram",
+      "smiles": "CO/N=C(\\C(=O)N[C@@H]1C(=O)N2C(C(=O)O)=C(Cn3nnc(C)n3)CS[C@H]12)c1csc(N)n1",
+      "label": 0
+    },
+    {
+      "name": "cefuroxime-axetil",
+      "smiles": "CO/N=C(\\C(=O)N[C@@H]1C(=O)N2C(C(=O)OC(C)OC(C)=O)=C(COC(N)=O)CS[C@H]12)c1ccco1",
+      "label": 0
+    },
+    {
+      "name": "milameline",
+      "smiles": "CO/N=C/C1=CCCN(C)C1",
+      "label": 1
+    },
+    {
+      "name": "nifedipine",
+      "smiles": "COC(=O)C1=C(C)NC(C)=C(C(=O)OC)C1c1ccccc1[N+](=O)[O-]",
+      "label": 0
+    },
+    {
+      "name": "nicardipine",
+      "smiles": "COC(=O)C1=C(C)NC(C)=C(C(=O)OCCN(C)Cc2ccccc2)C1c1cccc([N+](=O)[O-])c1",
+      "label": 0
+    },
+    {
+      "name": "rifampin",
+      "smiles": "COC1C=COC2(C)Oc3c(C)c(O)c4c(c3C2=O)C(=O)C(=CNN2CCN(C)CC2)C(=C4O)NC(=O)C(C)=CC=CC(C)C(O)C(C)C(O)C(C)C(OC(C)=O)C1C",
+      "label": 0
+    },
+    {
+      "name": "cefdaloxime",
+      "smiles": "COCC1=C(C(=O)O)N2C(=O)[C@@H](NC(=O)/C(=N\\O)c3csc(N)n3)[C@H]2SC1",
+      "label": 0
+    },
+    {
+      "name": "cefuroxime-pivoxetil",
+      "smiles": "COCCCC(=O)OC(C)OC(=O)C1=C(COC(N)=O)CS[C@@H]2[C@H](NC(=O)/C(=N\\OC)c3ccco3)C(=O)N12",
+      "label": 0
+    },
+    {
+      "name": "novobiocin",
+      "smiles": "CO[C@@H]1[C@@H](OC(N)=O)[C@@H](O)[C@H](Oc2ccc3c(=O)c(NC(=O)c4ccc(O)c(CC=C(C)C)c4)c(O)oc3c2C)OC1(C)C",
+      "label": 0
+    },
+    {
+      "name": "cefoxitin",
+      "smiles": "CO[C@@]1(NC(=O)Cc2cccs2)C(=O)N2C(C(=O)O)=C(COC(N)=O)CS[C@@H]21",
+      "label": 1
+    },
+    {
+      "name": "rifapentine",
+      "smiles": "CO[C@H]1/C=C/O[C@@]2(C)Oc3c(C)c(O)c4c(c3C2=O)C(=O)/C(=C/NN2CCN(C3CCCC3)CC2)C(=C4O)NC(=O)/C(C)=C\\C=C\\[C@H](C)[C@H](O)[C@@H](C)[C@@H](O)[C@@H](C)[C@H](OC(C)=O)[C@@H]1C",
+      "label": 0
+    },
+    {
+      "name": "rifabutin",
+      "smiles": "CO[C@H]1/C=C/O[C@@]2(C)Oc3c(C)c(O)c4c(c3C2=O)C2=NC3(CCN(CC(C)C)CC3)NC2=C(NC(=O)/C(C)=C\\C=C\\[C@H](C)[C@H](O)[C@@H](C)[C@@H](O)[C@@H](C)[C@H](OC(C)=O)[C@@H]1C)C4=O",
+      "label": 0
+    },
+    {
+      "name": "Trimethoprim",
+      "smiles": "COc1cc(Cc2cnc(N)nc2N)cc(OC)c1OC",
+      "label": 1
+    },
+    {
+      "name": "Cisapride",
+      "smiles": "COc1cc(N)c(Cl)cc1C(=O)NC1CCN(CCCOc2ccc(F)cc2)CC1OC",
+      "label": 1
+    },
+    {
+      "name": "clebopride",
+      "smiles": "COc1cc(N)c(Cl)cc1C(=O)NC1CCN(Cc2ccccc2)CC1",
+      "label": 1
+    },
+    {
+      "name": "papaverine",
+      "smiles": "COc1ccc(Cc2nccc3cc(OC)c(OC)cc23)cc1OC",
+      "label": 0
+    },
+    {
+      "name": "Busulfan",
+      "smiles": "CS(=O)(=O)OCCCCOS(C)(=O)=O",
+      "label": 1
+    },
+    {
+      "name": "alclometasone",
+      "smiles": "C[C@@H]1C[C@H]2[C@H]3[C@H]([C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CO)[C@@]1(C)C=CC(=O)C=C1C[C@H]3Cl",
+      "label": 1
+    },
+    {
+      "name": "fosfomycin",
+      "smiles": "C[C@@H]1O[C@@H]1P(=O)(O)O",
+      "label": 1
+    },
+    {
+      "name": "Levofloxacin",
+      "smiles": "C[C@H]1COc2c(N3CCN(C)CC3)c(F)cc3c(=O)c(C(=O)O)cn1c23",
+      "label": 1
+    },
+    {
+      "name": "beclomethasone/beclometasone",
+      "smiles": "C[C@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(Cl)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CO",
+      "label": 1
+    },
+    {
+      "name": "Betamethasone",
+      "smiles": "C[C@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CO",
+      "label": 0
+    },
+    {
+      "name": "doxycycline",
+      "smiles": "C[C@H]1c2cccc(O)c2C(O)=C2C(=O)[C@]3(O)C(=O)/C(=C(/N)O)C(=O)[C@@H](N(C)C)[C@@H]3[C@@H](O)[C@@H]21",
+      "label": 0
+    },
+    {
+      "name": "methyldopa",
+      "smiles": "C[C@](N)(Cc1ccc(O)c(O)c1)C(=O)O",
+      "label": 0
+    },
+    {
+      "name": "prednisone",
+      "smiles": "C[C@]12C=CC(=O)C=C1CC[C@@H]1[C@@H]2C(=O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)CO",
+      "label": 0
+    },
+    {
+      "name": "Triamcinolone",
+      "smiles": "C[C@]12C=CC(=O)C=C1CC[C@H]1[C@@H]3C[C@@H](O)[C@](O)(C(=O)CO)[C@@]3(C)C[C@H](O)[C@@]12F",
+      "label": 0
+    },
+    {
+      "name": "Cortisone",
+      "smiles": "C[C@]12CCC(=O)C=C1CC[C@@H]1[C@@H]2C(=O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)CO",
+      "label": 0
+    },
+    {
+      "name": "fludrocortisone",
+      "smiles": "C[C@]12CCC(=O)C=C1CC[C@H]1[C@@H]3CC[C@](O)(C(=O)CO)[C@@]3(C)C[C@H](O)[C@@]12F",
+      "label": 1
+    },
+    {
+      "name": "estradiol",
+      "smiles": "C[C@]12CC[C@@H]3c4ccc(O)cc4CC[C@H]3[C@@H]1CC[C@@H]2O",
+      "label": 0
+    },
+    {
+      "name": "testosterone",
+      "smiles": "C[C@]12CC[C@H]3[C@@H](CCC4=CC(=O)CC[C@@]43C)[C@@H]1CC[C@@H]2O",
+      "label": 0
+    },
+    {
+      "name": "ademetionine(adenosyl-methionine)",
+      "smiles": "C[S+](CC[C@H](N)C(=O)[O-])C[C@H]1O[C@@H](n2cnc3c(N)ncnc32)[C@H](O)[C@@H]1O",
+      "label": 1
+    },
+    {
+      "name": "cp20",
+      "smiles": "Cc1c(O)c(=O)ccn1C",
+      "label": 1
+    },
+    {
+      "name": "23",
+      "smiles": "Cc1c[nH][o+]c(C([NH])CC(C)C(C)(C)N(C(C)(C)C)C(C)(N)N)c1=O",
+      "label": 1
+    },
+    {
+      "name": "isoxicam",
+      "smiles": "Cc1cc(N/C(O)=C2\\C(=O)c3ccccc3S(=O)(=O)N2C)no1",
+      "label": 0
+    },
+    {
+      "name": "sulfamethoxazole(tiabendazole)",
+      "smiles": "Cc1cc(NS(=O)(=O)c2ccc(N)cc2)no1",
+      "label": 1
+    },
+    {
+      "name": "flumezapine",
+      "smiles": "Cc1cc2c(s1)=Nc1ccc(F)cc1NC=2N1CCN(C)CC1",
+      "label": 1
+    },
+    {
+      "name": "tolcapone",
+      "smiles": "Cc1ccc(C(=O)c2cc(O)c(O)c([N+](=O)[O-])c2)cc1",
+      "label": 0
+    },
+    {
+      "name": "8-5",
+      "smiles": "Cc1ccc(CC2=CNC(NCCSCc3ccc(CN(C)C)o3)=NC2)cn1",
+      "label": 0
+    },
+    {
+      "name": "Meclofenamate",
+      "smiles": "Cc1ccc(Cl)c(Nc2ccccc2C(=O)O)c1Cl",
+      "label": 0
+    },
+    {
+      "name": "ropizine",
+      "smiles": "Cc1cccc(/C=N/N2CCN(C(c3ccccc3)c3ccccc3)CC2)n1",
+      "label": 1
+    },
+    {
+      "name": "mexiletine",
+      "smiles": "Cc1cccc(C)c1OCC(C)N",
+      "label": 1
+    },
+    {
+      "name": "Mefenamic_acid",
+      "smiles": "Cc1cccc(Nc2ccccc2C(=O)O)c1C",
+      "label": 0
+    },
+    {
+      "name": "orphenadrine",
+      "smiles": "Cc1ccccc1C(OCCN(C)C)c1ccccc1",
+      "label": 1
+    },
+    {
+      "name": "meloxicam",
+      "smiles": "Cc1cnc(N/C(O)=C2/C(=O)c3ccccc3S(=O)(=O)N2C)s1",
+      "label": 0
+    },
+    {
+      "name": "tasosartan",
+      "smiles": "Cc1nc(C)c2c(n1)N(Cc1ccc(-c3ccccc3-c3nn[nH]n3)cc1)C(=O)CC2",
+      "label": 1
+    },
+    {
+      "name": "Metronidazole",
+      "smiles": "Cc1ncc([N+](=O)[O-])n1CCO",
+      "label": 1
+    },
+    {
+      "name": "Sulfafurazole",
+      "smiles": "Cc1noc(NS(=O)(=O)c2ccc(N)cc2)c1C",
+      "label": 1
+    },
+    {
+      "name": "cloxacillin",
+      "smiles": "Cc1onc(-c2ccccc2Cl)c1C(=O)N[C@@H]1C(=O)N2[C@@H]1SC(C)(C)[C@@H]2C(=O)O",
+      "label": 1
+    },
+    {
+      "name": "9-C1",
+      "smiles": "Cn1c(=O)c2nc[nH]c2n(C)c1=O",
+      "label": 1
+    },
+    {
+      "name": "cefamandole",
+      "smiles": "Cn1nnnc1SCC1=C(C(=O)O)N2C(=O)[C@@H](NC(=O)[C@H](O)c3ccccc3)[C@H]2SC1",
+      "label": 1
+    },
+    {
+      "name": "trizoxime",
+      "smiles": "N/C(N=O)=C1\\NNc2ccccc2N(Cc2ccccc2)C1=O",
+      "label": 1
+    },
+    {
+      "name": "guanoxyfen",
+      "smiles": "N=C(N)NCCCOc1ccccc1",
+      "label": 1
+    },
+    {
+      "name": "progabide",
+      "smiles": "NC(=O)CCCN/C(=C1\\C=C(F)C=CC1=O)c1ccc(Cl)cc1",
+      "label": 1
+    },
+    {
+      "name": "Hydroxycarbamide",
+      "smiles": "NC(=O)NO",
+      "label": 1
+    },
+    {
+      "name": "carumonam",
+      "smiles": "NC(=O)OCC1[C@H](NC(=O)/C(=N\\OCC(=O)O)c2csc(N)n2)C(=O)N1S(=O)(=O)O",
+      "label": 0
+    },
+    {
+      "name": "salicylamide",
+      "smiles": "NC(=O)c1ccccc1O",
+      "label": 1
+    },
+    {
+      "name": "Amiloride",
+      "smiles": "NC(N)=NC(=O)c1nc(Cl)c(N)nc1N",
+      "label": 1
+    },
+    {
+      "name": "Famotidine",
+      "smiles": "NC(N)=Nc1nc(CSCCC(N)=NS(N)(=O)=O)cs1",
+      "label": 1
+    },
+    {
+      "name": "pemoline",
+      "smiles": "NC1=NC(=O)C(c2ccccc2)O1",
+      "label": 1
+    },
+    {
+      "name": "Amikacin",
+      "smiles": "NCC[C@H](O)C(=O)N[C@@H]1C[C@H](N)[C@@H](O[C@H]2O[C@H](CN)[C@@H](O)[C@H](O)[C@H]2O)[C@H](O)[C@H]1O[C@H]1O[C@H](CO)[C@@H](O)[C@H](N)[C@H]1O",
+      "label": 1
+    },
+    {
+      "name": "dopamine",
+      "smiles": "NCCc1ccc(O)c(O)c1",
+      "label": 0
+    },
+    {
+      "name": "isoniazid",
+      "smiles": "NNC(=O)c1ccncc1",
+      "label": 0
+    },
+    {
+      "name": "hydralazine",
+      "smiles": "NNc1nncc2ccccc12",
+      "label": 0
+    },
+    {
+      "name": "chlorthalidone",
+      "smiles": "NS(=O)(=O)c1cc(C2(O)NC(=O)c3ccccc32)ccc1Cl",
+      "label": 0
+    },
+    {
+      "name": "hydroflumethiazide",
+      "smiles": "NS(=O)(=O)c1cc2c(cc1C(F)(F)F)NCNS2(=O)=O",
+      "label": 0
+    },
+    {
+      "name": "Hydrochlorothiazide",
+      "smiles": "NS(=O)(=O)c1cc2c(cc1Cl)NCNS2(=O)=O",
+      "label": 0
+    },
+    {
+      "name": "Flucytosine",
+      "smiles": "Nc1[nH]c(=O)ncc1F",
+      "label": 1
+    },
+    {
+      "name": "phenazopyridine",
+      "smiles": "Nc1ccc(N=Nc2ccccc2)c(N)n1",
+      "label": 0
+    },
+    {
+      "name": "Sulfadiazine",
+      "smiles": "Nc1ccc(S(=O)(=O)Nc2ncccn2)cc1",
+      "label": 1
+    },
+    {
+      "name": "dapsone",
+      "smiles": "Nc1ccc(S(=O)(=O)c2ccc(N)cc2)cc1",
+      "label": 0
+    },
+    {
+      "name": "Cytarabine",
+      "smiles": "Nc1ccn([C@@H]2O[C@H](CO)[C@@H](O)[C@@H]2O)c(=O)n1",
+      "label": 1
+    },
+    {
+      "name": "Calcium-folinate",
+      "smiles": "Nc1nc(=O)c2c([nH]1)NCC(CNc1ccc(C(=O)N[C@@H](CCC(=O)O)C(=O)O)cc1)N2C=O",
+      "label": 1
+    },
+    {
+      "name": "folic-acid",
+      "smiles": "Nc1nc(=O)c2nc(CNc3ccc(C(=O)N[C@@H](CCC(=O)O)C(=O)O)cc3)cnc2[nH]1",
+      "label": 1
+    },
+    {
+      "name": "penciclovir",
+      "smiles": "Nc1nc(=O)c2ncn(CCC(CO)CO)c2[nH]1",
+      "label": 1
+    },
+    {
+      "name": "buciclovir",
+      "smiles": "Nc1nc(=O)c2ncn(CC[C@@H](O)CO)c2[nH]1",
+      "label": 1
+    },
+    {
+      "name": "ganciclovir",
+      "smiles": "Nc1nc(=O)c2ncn(COC(CO)CO)c2[nH]1",
+      "label": 0
+    },
+    {
+      "name": "Cladribine",
+      "smiles": "Nc1nc(Cl)nc2c1ncn2[C@H]1C[C@H](O)[C@@H](CO)O1",
+      "label": 1
+    },
+    {
+      "name": "Vidarabine",
+      "smiles": "Nc1ncnc2c1ncn2C1OC(CO)C(O)C1O",
+      "label": 1
+    },
+    {
+      "name": "Praziquantel",
+      "smiles": "O=C(C1CCCCC1)N1CC(=O)N2CCc3ccccc3C2C1",
+      "label": 1
+    },
+    {
+      "name": "chloramphenicol",
+      "smiles": "O=C(NC(CO)C(O)c1ccc([N+](=O)[O-])cc1)C(Cl)Cl",
+      "label": 0
+    },
+    {
+      "name": "sulfasalazine",
+      "smiles": "O=C(O)C1=C/C(=N\\Nc2ccc(S(=O)(=O)Nc3ccccn3)cc2)C=CC1=O",
+      "label": 0
+    },
+    {
+      "name": "Oxaprozin",
+      "smiles": "O=C(O)CCc1nc(-c2ccccc2)c(-c2ccccc2)o1",
+      "label": 0
+    },
+    {
+      "name": "salsalate(salsalic-acid)",
+      "smiles": "O=C(Oc1ccccc1C(=O)O)c1ccccc1O",
+      "label": 1
+    },
+    {
+      "name": "Ketorolac",
+      "smiles": "O=C(c1ccccc1)c1ccc2n1CCC2C(=O)O",
+      "label": 0
+    },
+    {
+      "name": "Atovaquone",
+      "smiles": "O=C1C(=O)c2ccccc2C(O)=C1C1CCC(c2ccc(Cl)cc2)CC1",
+      "label": 0
+    },
+    {
+      "name": "ascorbic-acid",
+      "smiles": "O=C1C(O)=C(O)OC1C(O)CO",
+      "label": 1
+    },
+    {
+      "name": "fenadiazole",
+      "smiles": "O=C1C=CC=C/C1=C1/NN=CO1",
+      "label": 1
+    },
+    {
+      "name": "bentazepam",
+      "smiles": "O=C1CNC(c2ccccc2)=c2c3c(sc2=N1)CCCC3",
+      "label": 1
+    },
+    {
+      "name": "cyclazodone",
+      "smiles": "O=C1N=C(NC2CC2)OC1c1ccccc1",
+      "label": 1
+    },
+    {
+      "name": "triclofos",
+      "smiles": "O=P(O)(O)OCC(Cl)(Cl)Cl",
+      "label": 1
+    },
+    {
+      "name": "Mesna",
+      "smiles": "O=S(=O)(O)CCS",
+      "label": 0
+    },
+    {
+      "name": "dicumarol",
+      "smiles": "O=c1c(Cc2c(O)oc3ccccc3c2=O)c(O)oc2ccccc12",
+      "label": 0
+    },
+    {
+      "name": "coumarin",
+      "smiles": "O=c1ccc2ccccc2o1",
+      "label": 0
+    },
+    {
+      "name": "Didanosine",
+      "smiles": "O=c1nc[nH]c2c1ncn2[C@H]1CC[C@@H](CO)O1",
+      "label": 0
+    },
+    {
+      "name": "allopurinol",
+      "smiles": "O=c1ncnc2[nH][nH]cc1-2",
+      "label": 0
+    },
+    {
+      "name": "5-69",
+      "smiles": "S=C(NC1CCCCC1)N1CCC(c2c[nH]cn2)CC1",
+      "label": 1
+    },
+    {
+      "name": "Thiotepa",
+      "smiles": "S=P(N1CC1)(N1CC1)N1CC1",
+      "label": 1
+    }
+  ],
+  "n": 201
+}
