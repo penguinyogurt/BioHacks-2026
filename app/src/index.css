@@ -24,14 +24,15 @@
   --surface-sunk: oklch(0.142 0.012 285);
   --ink: oklch(0.97 0.004 285);
   --ink-soft: oklch(0.775 0.009 285);
-  /* `.label` is 11px/500 — normal text to WCAG, so it needs 4.5:1. This
-     measures ~7:1 on paper, comfortably clear while still reading quiet. */
+  /* `.label` is 11px/500 — normal text to WCAG, so it needs 4.5:1. Measured
+     5.62 on paper, 5.15 on surface, 5.80 on the sunk strip. */
   --ink-faint: oklch(0.635 0.012 285);
   --rule: oklch(0.295 0.016 285);
   /* Carries control identity (WCAG 1.4.11): buttons are surface-on-paper,
      barely a fill difference, so this border is the only thing marking them
-     as interactive and must clear 3:1 against both. */
-  --rule-strong: oklch(0.44 0.022 285);
+     as interactive and must clear 3:1. Surface is the binding side, not
+     paper — 0.44 measured 2.26 there and failed. */
+  --rule-strong: oklch(0.53 0.024 285);
 
   /* The one accent: elimination. Nothing else may use it. Lifted in
      lightness for a dark ground — a dark red on dark violet is invisible. */
@@ -44,13 +45,17 @@
   --keep: oklch(0.80 0.145 158);
   --keep-soft: oklch(0.255 0.045 158);
 
-  /* Data-ink for the two graveyard buckets. On a dark ground the mapping
-     inverts: the recessive bucket is the dimmer one. Both clear 3:1 on
-     surface, because these dots ARE the datum — their position on the axis
-     is the entire partition claim — and they stay ~3.4:1 apart from each
-     other so the buckets survive greyscale. */
-  --bucket-never: oklch(0.52 0.035 285);
-  --bucket-arrived: oklch(0.88 0.03 285);
+  /* Data-ink for the two graveyard buckets. Both are bright, because both
+     are the datum — their positions on the axis ARE the partition claim, and
+     a dot you can't see is a trial you can't count. The bucket itself is
+     carried by hollow-vs-solid, the side of the threshold, and the sunk
+     field behind the barrier-negative half, so it survives greyscale without
+     leaning on these two values. "Never arrived" takes the slightly brighter
+     one: it's the smaller group and the more surprising half of the finding.
+     An earlier pass dimmed "arrived" to push that contrast further and made
+     the dense pile — the thing you're supposed to see first — recede. */
+  --bucket-never: oklch(0.90 0.035 285);
+  --bucket-arrived: oklch(0.78 0.03 285);
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;

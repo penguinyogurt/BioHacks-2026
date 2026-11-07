@@ -1,15 +1,32 @@
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import type { GraveyardEntry } from "@/lib/contract";
 import { cn, prob } from "@/lib/utils";
 
 /**
- * The headline: every drug that failed a human ALS trial, split by whether the
- * barrier model thinks it ever reached the tissue.
+ * The headline: every drug that failed a human ALS trial, placed on a single
+ * axis of predicted barrier permeability and split at the model's 0.5
+ * threshold.
  *
- * Drawn as a single axis of predicted permeability with one point per drug,
- * because the claim is about where each drug sits on that axis — a two-bar
- * count chart would throw away the only variable that matters and show two
- * numbers we already print in the legend.
+ * One axis rather than two charts, because the claim is a claim about a
+ * distribution — where these drugs sit relative to the line is the finding,
+ * and two bar counts would throw away the only variable that carries it. Dots
+ * dodge upward when they crowd, so the pile under each region of the axis is a
+ * histogram you can read at arm's length and still resolve to one drug.
+ *
+ * The bucket is never carried by colour alone: it is the side of the divider,
+ * the sunk field on the left, and a hollow-vs-solid mark. Greyscale-safe by
+ * construction.
  */
+
+const R = 6; // dot radius
+const DY = 16; // vertical pitch of a dodged stack
+const PAD = 8; // keeps a dot at 0.00 or 1.00 inside the frame
+const LABEL_Y = 12; // baseline of the persistent callouts
+const TOP = 32; // top of the highest dot
+/** Dodge window in probability, not pixels, so columns form at any width. */
+const BIN = 0.045;
+const TICKS = [0, 0.25, 0.5, 0.75, 1];
 
 const BUCKETS = [
   {
@@ -26,109 +43,373 @@ const BUCKETS = [
   },
 ];
 
+type Dot = {
+  entry: GraveyardEntry;
+  x: number;
+  /** 0 sits on the axis; each step up is one dodged neighbour. */
+  row: number;
+  order: number;
+};
+
+const idOf = (e: GraveyardEntry) => `${e.name}-${e.year}`;
+
+/**
+ * Beeswarm dodge. Entries are swept left to right and dropped into the lowest
+ * row that still clears its neighbour, so x stays the real predicted value and
+ * only y is invented. `minGap` is wide enough that a cluster builds a visible
+ * column instead of a smear of touching dots.
+ */
+function place(entries: GraveyardEntry[], width: number) {
+  const span = width - PAD * 2;
+  const minGap = Math.max(R * 2 + 3, span * BIN);
+  const lastX: number[] = [];
+
+  const dots: Dot[] = [...entries]
+    .sort((a, b) => a.bbb_prob - b.bbb_prob || a.name.localeCompare(b.name))
+    .map((entry, order) => {
+      const x = PAD + entry.bbb_prob * span;
+      let row = 0;
+      while (lastX[row] !== undefined && x - lastX[row] < minGap) row++;
+      lastX[row] = x;
+      return { entry, x, row, order };
+    });
+
+  return { dots, rows: Math.max(lastX.length, 1) };
+}
+
+type Callout = Dot & { anchor: "start" | "end"; tx: number };
+
+/**
+ * Twenty-four names would be noise, so only four are printed: the two
+ * extremes, and the pair that straddles the threshold — the drugs the
+ * partition is most arguable about. Anything that would collide is dropped
+ * rather than overlapped.
+ */
+function callouts(dots: Dot[], width: number): Callout[] {
+  if (dots.length === 0) return [];
+  const mid = width / 2;
+
+  const wanted: Array<{ dot: Dot | undefined; anchor: "start" | "end"; tx?: number }> = [
+    { dot: dots[0], anchor: "start" },
+    { dot: dots[dots.length - 1], anchor: "end" },
+  ];
+  const under = [...dots].reverse().find((d) => d.entry.bbb_prob < 0.5);
+  const over = dots.find((d) => d.entry.bbb_prob >= 0.5);
+  if (under) wanted.push({ dot: under, anchor: "end", tx: Math.min(under.x, mid - 7) });
+  if (over) wanted.push({ dot: over, anchor: "start", tx: Math.max(over.x, mid + 7) });
+
+  const taken: Array<[number, number]> = [];
+  const seen = new Set<string>();
+  const out: Callout[] = [];
+
+  for (const { dot, anchor, tx } of wanted) {
+    if (!dot || seen.has(idOf(dot.entry))) continue;
+    const at = tx ?? dot.x;
+    const w = dot.entry.name.length * 6.3 + 4;
+    const lo = anchor === "start" ? at : at - w;
+    const hi = lo + w;
+    if (lo < 0 || hi > width) continue;
+    if (taken.some(([a, b]) => lo < b && a < hi)) continue;
+    taken.push([lo, hi]);
+    seen.add(idOf(dot.entry));
+    out.push({ ...dot, anchor, tx: at });
+  }
+
+  return out;
+}
+
 export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
+  const frame = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+  /** The last reading stays on screen — an instrument doesn't blank when you
+      take your hand off it, and the presenter needs it to survive a gesture. */
+  const [read, setRead] = useState<string | null>(null);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const el = frame.current;
+    if (!el) return;
+    // Seed synchronously: a ResizeObserver that never fires (a backgrounded or
+    // unpainted tab) would otherwise leave the chart permanently blank.
+    setWidth(el.clientWidth);
+    const ro = new ResizeObserver(([e]) => setWidth(e.contentRect.width));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   if (entries.length === 0) return null;
+
+  const { dots, rows } = place(entries, width);
+  const mid = width / 2;
+  const cy = (row: number) => TOP + R + (rows - 1 - row) * DY;
+  const axisY = cy(0) + R + 8;
+  const height = axisY + 40;
+  const marks = callouts(dots, width);
+  /** Opens on the strongest case for the finding — the lowest predicted
+      permeability in the set — so the readout is never empty at the table. */
+  const active = dots.find((d) => idOf(d.entry) === read) ?? dots[0];
 
   return (
     <section aria-labelledby="graveyard-heading" className="hairline-b pb-10">
-      <header className="mb-6">
+      <header>
         <h2 id="graveyard-heading" className="text-[1.0625rem] leading-tight font-semibold">
           Why {entries.length} failed ALS trials failed, split two ways
         </h2>
         <p className="mt-1 max-w-[70ch] text-[0.8125rem] leading-normal text-ink-soft">
-          Each drug placed by its predicted barrier permeability. Nobody has
-          published this partition for ALS.
+          Every drug placed by its predicted barrier permeability. Left of the
+          line, the trial may never have delivered the drug to the tissue it was
+          testing. Nobody has published this partition for ALS.
         </p>
       </header>
 
-      <div className="space-y-7">
-        {BUCKETS.map((bucket) => {
-          const inBucket = entries
-            .filter((e) => e.bucket === bucket.key)
-            .sort((a, b) => a.bbb_prob - b.bbb_prob);
-          if (inBucket.length === 0) return null;
+      <div className="mt-7 grid grid-cols-[minmax(0,1fr)_20rem] items-start gap-10">
+      <div>
+      {/* Counts sit directly over the half of the axis they describe, and the
+          rule between them is the same 0.5 divider the chart draws. */}
+      <div className="grid grid-cols-2">
+        {BUCKETS.map((bucket, i) => {
+          const n = entries.filter((e) => e.bucket === bucket.key).length;
+          const never = bucket.key === "never_arrived";
 
           return (
-            <div key={bucket.key}>
-              <div className="mb-3 flex items-baseline gap-3">
-                <h3 className="text-[0.875rem] leading-tight font-semibold">
-                  {bucket.title}
-                </h3>
-                <span className="readout text-[0.8125rem] font-semibold text-ink-soft">
-                  {inBucket.length}
+            <div
+              key={bucket.key}
+              className={cn(
+                "flex flex-col gap-2",
+                i === 0 ? "pr-6" : "border-l border-rule pl-5",
+              )}
+            >
+              <div className="flex items-center gap-2">
+                <svg width="12" height="12" aria-hidden="true" className="shrink-0">
+                  {never ? (
+                    <circle
+                      cx="6"
+                      cy="6"
+                      r="4.1"
+                      fill="none"
+                      strokeWidth={1.75}
+                      className="stroke-bucket-never"
+                    />
+                  ) : (
+                    <circle cx="6" cy="6" r="4.75" className="fill-bucket-arrived" />
+                  )}
+                </svg>
+                <span className="label">{bucket.title}</span>
+              </div>
+
+              <div className="flex items-baseline gap-2">
+                <span className="readout text-[2rem] leading-none font-medium tracking-[-0.02em]">
+                  {n}
+                </span>
+                <span className="readout text-[0.75rem] text-ink-faint">
+                  of {entries.length}
                 </span>
               </div>
-              <p className="mb-4 max-w-[64ch] text-[0.8125rem] leading-normal text-ink-soft">
+
+              <p className="max-w-[46ch] text-[0.8125rem] leading-normal text-ink-soft">
                 {bucket.blurb}
               </p>
-
-              <ul className="space-y-1.5">
-                {inBucket.map((entry) => (
-                  <li
-                    key={`${entry.name}-${entry.year}`}
-                    className="grid grid-cols-[10rem_5rem_1fr_3rem] items-center gap-3"
-                  >
-                    <a
-                      href={entry.source_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={cn(
-                        "truncate text-[0.8125rem] leading-tight font-medium capitalize underline decoration-rule-strong decoration-1 underline-offset-2",
-                        "transition-colors duration-150 ease-out",
-                        "hover:[@media(hover:hover)and(pointer:fine)]:decoration-ink",
-                      )}
-                      title={entry.note}
-                    >
-                      {entry.name}
-                    </a>
-
-                    <span className="readout text-[0.75rem] text-ink-faint">
-                      {entry.year} · ph {entry.phase}
-                    </span>
-
-                    {/* One shared axis across both buckets, so the positions
-                        are comparable between them. */}
-                    <div className="relative h-5">
-                      <div
-                        className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-rule"
-                        aria-hidden="true"
-                      />
-                      {/* 0.5 is where the classifier stops saying "no". */}
-                      <div
-                        className="absolute top-1/2 left-1/2 h-3 w-px -translate-x-1/2 -translate-y-1/2 bg-rule-strong"
-                        aria-hidden="true"
-                      />
-                      <div
-                        className={cn(
-                          "absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-surface",
-                          bucket.key === "never_arrived"
-                            ? "bg-bucket-never"
-                            : "bg-bucket-arrived",
-                        )}
-                        style={{ left: `${entry.bbb_prob * 100}%` }}
-                      />
-                    </div>
-
-                    <span className="readout text-right text-[0.8125rem] text-ink-soft">
-                      {prob(entry.bbb_prob)}
-                    </span>
-                  </li>
-                ))}
-              </ul>
             </div>
           );
         })}
       </div>
 
-      <div className="mt-5 grid grid-cols-[10rem_5rem_1fr_3rem] gap-3">
-        <span className="label">Predicted</span>
-        <span />
-        <div className="flex justify-between">
-          <span className="label">0.0 — cannot cross</span>
-          <span className="label">0.5</span>
-          <span className="label">crosses — 1.0</span>
-        </div>
-        <span />
+      <div className="mt-6 mb-1.5 flex items-baseline justify-between">
+        <span className="label">Predicted blood–brain barrier permeability</span>
+        <span className="label">one dot per trial</span>
+      </div>
+
+      <div ref={frame} className="min-h-[8.5rem]">
+        {width > 0 && (
+          <svg width={width} height={height} className="block">
+            {/* Non-colour carrier #1: the barrier-negative field is sunk. */}
+            <rect x={0} y={0} width={mid} height={axisY} className="fill-surface-sunk" />
+
+            <line
+              x1={0}
+              x2={width}
+              y1={axisY}
+              y2={axisY}
+              strokeWidth={1}
+              className="stroke-rule-strong"
+            />
+            {/* Non-colour carrier #2: the threshold, full height. */}
+            <line
+              x1={mid}
+              x2={mid}
+              y1={0}
+              y2={axisY + 5}
+              strokeWidth={1}
+              className="stroke-rule-strong"
+            />
+
+            {TICKS.map((t) => {
+              const x = PAD + t * (width - PAD * 2);
+              const edge = t === 0 || t === 1;
+              return (
+                <g key={t}>
+                  {!edge && t !== 0.5 && (
+                    <line
+                      x1={x}
+                      x2={x}
+                      y1={axisY}
+                      y2={axisY + 5}
+                      strokeWidth={1}
+                      className="stroke-rule-strong"
+                    />
+                  )}
+                  <text
+                    x={x}
+                    y={axisY + 18}
+                    textAnchor={t === 0 ? "start" : t === 1 ? "end" : "middle"}
+                    className={cn(
+                      "readout text-[0.6875rem]",
+                      t === 0.5 ? "fill-ink font-medium" : "fill-ink-faint",
+                    )}
+                  >
+                    {prob(t)}
+                  </text>
+                </g>
+              );
+            })}
+
+            <text x={0} y={axisY + 33} className="fill-ink-faint text-[0.625rem] tracking-[0.07em] uppercase">
+              cannot cross
+            </text>
+            <text
+              x={mid}
+              y={axisY + 33}
+              textAnchor="middle"
+              className="fill-ink-soft text-[0.625rem] tracking-[0.07em] uppercase"
+            >
+              model threshold
+            </text>
+            <text
+              x={width}
+              y={axisY + 33}
+              textAnchor="end"
+              className="fill-ink-faint text-[0.625rem] tracking-[0.07em] uppercase"
+            >
+              crosses
+            </text>
+
+            {marks.map((m) => (
+              <g key={`callout-${idOf(m.entry)}`}>
+                <line
+                  x1={m.x}
+                  x2={m.x}
+                  y1={LABEL_Y + 5}
+                  y2={cy(m.row) - R - 3}
+                  strokeWidth={1}
+                  className="stroke-rule-strong"
+                />
+                <text
+                  x={m.tx}
+                  y={LABEL_Y}
+                  textAnchor={m.anchor}
+                  className="fill-ink text-[0.6875rem] font-medium capitalize"
+                >
+                  {m.entry.name}
+                </text>
+              </g>
+            ))}
+
+            <g
+              role="group"
+              aria-label={`${entries.length} failed ALS trial drugs by predicted permeability`}
+            >
+              {dots.map((d) => {
+                const e = d.entry;
+                const never = e.bucket === "never_arrived";
+                return (
+                  <a
+                    key={idOf(e)}
+                    href={e.source_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    tabIndex={0}
+                    aria-label={`${e.name}, ${e.year}, phase ${e.phase}, predicted permeability ${prob(e.bbb_prob)}, ${never ? "never arrived" : "arrived and still failed"}. ${e.note}. Opens the trial record in a new tab.`}
+                    onPointerEnter={() => setRead(idOf(e))}
+                    onFocus={() => setRead(idOf(e))}
+                  >
+                    {/* Comfortable target without inflating the mark. */}
+                    <circle cx={d.x} cy={cy(d.row)} r={9} fill="transparent" />
+                    <motion.circle
+                      cx={d.x}
+                      cy={cy(d.row)}
+                      r={never ? R - 0.75 : R}
+                      fill={never ? "none" : undefined}
+                      strokeWidth={never ? 1.75 : 0}
+                      className={never ? "stroke-bucket-never" : "fill-bucket-arrived"}
+                      style={{ transformBox: "fill-box", transformOrigin: "center" }}
+                      initial={reduce ? false : { opacity: 0, scale: 0.6, y: 8 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{
+                        duration: 0.4,
+                        ease: [0.23, 1, 0.32, 1],
+                        delay: Math.min(d.order * 0.03, 0.5),
+                      }}
+                    />
+                  </a>
+                );
+              })}
+            </g>
+
+            {/* Drawn last so the live reading is never under another dot. */}
+            {active && (
+              <circle
+                cx={active.x}
+                cy={cy(active.row)}
+                r={R + 4}
+                fill="none"
+                strokeWidth={1.5}
+                className="stroke-ink"
+              />
+            )}
+          </svg>
+        )}
+      </div>
+
+      </div>
+
+      {/* The instrument's readout. It holds the last value rather than
+          blanking, so a presenter can take their hand off the trackpad. */}
+      {/* Not a live region: each point's own label already carries the whole
+          record, so announcing this too would say everything twice. */}
+      <div className="border-l border-rule pl-5 text-[0.8125rem] leading-normal">
+        <div className="label">Trial record</div>
+        {active && (
+          <>
+            <a
+              href={active.entry.source_url}
+              target="_blank"
+              rel="noreferrer"
+              className={cn(
+                "mt-2 inline-block text-[0.9375rem] leading-tight font-semibold capitalize",
+                "underline decoration-rule-strong decoration-1 underline-offset-[3px]",
+                "transition-colors duration-150 ease-out hover:decoration-ink",
+              )}
+            >
+              {active.entry.name}
+            </a>
+
+            <p className="readout mt-2 text-[0.75rem] text-ink-faint">
+              {active.entry.year} · phase {active.entry.phase}
+              <span className="text-ink-soft">
+                {" · p "}
+                {prob(active.entry.bbb_prob)}
+                {" · "}
+                {active.entry.bucket === "never_arrived"
+                  ? "never arrived"
+                  : "arrived, failed"}
+              </span>
+            </p>
+
+            <p className="mt-3 text-ink-soft">{active.entry.note}</p>
+          </>
+        )}
+        <p className="label mt-4">Point at any dot, or tab through them</p>
+      </div>
       </div>
     </section>
   );

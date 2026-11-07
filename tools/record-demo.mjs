@@ -92,13 +92,17 @@ async function main() {
   await scrollTo(page, "#candidates-heading", { pause: 1600 });
   await beat(page, 1800); // let the molecules and card stagger land
 
+  // The filter views in story order: the contribution first (drugs only this
+  // project would reject), then the state almost nobody builds (a molecule
+  // the barrier model refuses to predict on), then the ones already tried.
   console.log("  filters");
-  await clickFilter(page, "Cut by the patient filter", 2600);
-  await clickFilter(page, "Cut at the barrier", 2600);
+  await clickFilter(page, "Cut by the patient filter", 3000);
+  await clickFilter(page, "Cut at the barrier", 3000);
+  await clickFilter(page, "Already failed a trial", 2600);
   await clickFilter(page, "Survived every stage", 1800);
 
   console.log("  graveyard partition");
-  await scrollTo(page, "#graveyard-heading", { pause: 3200 });
+  await scrollTo(page, "#graveyard-heading", { pause: 4200 });
 
   console.log("  validation");
   await scrollTo(page, "#validation-heading", { pause: 2600 });
