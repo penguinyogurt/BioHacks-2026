@@ -77,7 +77,11 @@ data/pipeline.json     the frozen contract + a hand-written sample
 app/                   the frontend (Vite + React 19 + TS + Tailwind v4)
   src/lib/contract.ts  zod schema — the ONLY place the UI learns the shape
   src/lib/validate.ts  CLI validator for the Python owners
+  src/lib/provenance.ts  what the pipeline is made of, for the provenance panel
   src/components/      one component per section of the report
+  src/components/ui/   shadcn/ui primitives, themed via index.css aliases
+tools/record-demo.mjs  drives Playwright through the whole story → demo/*.webm
+tools/shot.mjs         full-resolution stills of every section
 .claude/skills/        21 vetted design/frontend skills (see CLAUDE.md)
 skills-lock.json       pinned skill versions — `npx skills update` to refresh
 ```
@@ -96,12 +100,23 @@ All frontend commands run from `app/` (or add `--prefix app`):
 
 ## Frontend
 
-Stack: Vite + React 19 + TypeScript + Tailwind v4 + `motion`. Static site, no
-backend, no router.
+Stack: Vite + React 19 + TypeScript + Tailwind v4 + `motion` + shadcn/ui +
+`three`/`@react-three/fiber` (for the Dither background only). Static site,
+no backend, no router.
 
-**No shadcn/ui, no Radix, no component library.** This is one bespoke funnel,
-one card and one chart — a library would be installed to go almost entirely
-unused. Don't add one.
+**shadcn/ui lives in `app/src/components/ui/`.** Every token it expects
+(`background`, `foreground`, `primary`, `muted`, `border`, `ring`…) is
+aliased in `index.css` onto a token this project already defined, so dropped-in
+components inherit the theme rather than fighting it. Add more with
+`npx shadcn@latest add <name>` — but note the CLI resolves `@` as a literal
+directory here and writes `cn` imports as `from "cn"`, so after adding you
+must move `app/@/components/ui/*` into `src/components/ui/` and fix that
+import. The hand-written `components.json` is correct; don't run `init` over
+it.
+
+**Charts stay hand-rolled.** The beeswarm and the knowledge graph are bespoke
+SVG and both beat what a charting library gives by default. Don't swap them
+for Recharts.
 
 ### Decisions — settled, don't re-litigate
 

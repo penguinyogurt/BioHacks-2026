@@ -63,9 +63,16 @@ npm run validate --prefix app -- data/pipeline.json
 | [`AGENTS.md`](AGENTS.md) | Working agreement for humans and agents. Read this first. |
 | [`docs/CONTRACT.md`](docs/CONTRACT.md) | The `pipeline.json` contract, annotated. |
 | `data/pipeline.json` | The frozen contract + a sample that exercises every UI edge case. |
-| `app/` | Frontend — Vite, React 19, TypeScript, Tailwind v4. |
+| `app/` | Frontend — Vite, React 19, TypeScript, Tailwind v4, shadcn/ui. |
 | `app/src/lib/contract.ts` | zod schema. The only place the UI learns the data shape. |
+| `tools/record-demo.mjs` | Drives Playwright through the whole story and writes `demo/*.webm`. |
 | `.claude/skills/` | 21 pinned design/frontend skills, shared via `skills-lock.json`. |
+
+Record a fresh demo video any time:
+
+```bash
+node tools/record-demo.mjs
+```
 
 ## Data sources
 

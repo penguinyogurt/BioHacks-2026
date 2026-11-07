@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
 
 const TAU = Math.PI * 2;
 /** The whole graph has to be legible in one glance on a laptop. */
-const MAX = 780;
+const MAX = 840;
 /** Room outside the drug ring for its labels. */
 const PAD = 104;
 /** Ring radii as a fraction of the outer (drug) ring. */
@@ -339,7 +339,10 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
         </p>
       </header>
 
-      <div className="mt-7 grid grid-cols-[minmax(0,1fr)_20rem] items-start gap-10">
+      {/* Centred on the graph, not top-aligned: a square sitting next to a
+          short panel otherwise leaves the whole lower right of the section
+          empty, and the readout reads as a caption to the ring it describes. */}
+      <div className="mt-7 grid grid-cols-[minmax(0,1fr)_20rem] items-center gap-10">
         <div>
           <div className="mb-3 flex flex-wrap items-baseline gap-x-2 gap-y-1">
             {[
@@ -362,7 +365,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
             ))}
           </div>
 
-          <div ref={frame} className="min-h-[24rem]">
+          <div ref={frame} className="flex min-h-[24rem] justify-center">
             {size > 0 && (
               <svg
                 width={size}
@@ -406,7 +409,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                           hotPaths && on ? "stroke-ink-soft" : "stroke-rule-strong",
                         )}
                         style={{
-                          opacity: hotPaths ? (on ? 1 : 0.07) : 0.55,
+                          opacity: hotPaths ? (on ? 1 : 0.07) : 0.62,
                           ...delay(EDGE_IN[a.ring], rank.get(e.a) ?? 0),
                         }}
                       />
@@ -523,12 +526,15 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                 {/* The sink. Drawn after the edges so 24 curves land under it
                     rather than through the word. */}
                 <g>
+                  {/* Opaque, so the curves land under the word rather than
+                      through it — and `surface` rather than `paper` because
+                      this sits on an elevated, translucent panel. */}
                   <circle
                     cx={cx}
                     cy={cy}
                     r={hub}
                     strokeWidth={1.5}
-                    className={cn("fill-paper stroke-rule-strong", !reduce && "kg-node")}
+                    className={cn("fill-surface stroke-rule-strong", !reduce && "kg-node")}
                     style={delay(0, 0)}
                   />
                   <text

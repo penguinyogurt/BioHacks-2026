@@ -276,9 +276,9 @@ export function PipelineProvenance({
                     >
                       {source.name}
                       {/* Non-breaking space, so a name that wraps never leaves
-                          arrow orphaned on a line of its own. */}
+                          the arrow orphaned on a line of its own. */}
                       <span aria-hidden="true" className="text-ink-faint">
-                        {" ↗"}
+                        &nbsp;&#8599;
                       </span>
                       <span className="sr-only"> (opens in a new tab)</span>
                     </a>
