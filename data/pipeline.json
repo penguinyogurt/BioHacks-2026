@@ -1,4 +1,46 @@
 {
+  "patient_profile": {
+    "display_name": "Alex",
+    "summary": "Limb-onset ALS, diagnosed 2026. On riluzole 50 mg twice daily since July 2026. Lives in Hamilton, Ontario.",
+    "findings": [
+      {
+        "label": "Current prescription",
+        "value": "Riluzole 50 mg BID",
+        "implication": "Riluzole is cleared by CYP1A2, so anything that inhibits or induces CYP1A2 changes his existing dose",
+        "drives": ["cyp1a2"]
+      },
+      {
+        "label": "Respiratory function",
+        "value": "FVC 76% sitting, 61% supine",
+        "implication": "Already reduced and declining; a respiratory depressant is not survivable here",
+        "drives": ["respiratory"]
+      },
+      {
+        "label": "Weight",
+        "value": "86 → 77.5 kg, unintentional",
+        "implication": "Losing weight without trying; a drug with appetite loss as a common event accelerates it",
+        "drives": ["weight_loss"]
+      },
+      {
+        "label": "Creatine kinase",
+        "value": "470 U/L (ref < 195)",
+        "implication": "Muscle damage marker already elevated, so myopathy-risk drugs start from a worse baseline",
+        "drives": ["myopathy"]
+      },
+      {
+        "label": "Swallowing",
+        "value": "Coughs on thin liquids",
+        "implication": "Needs a small tablet, dispersible, film or liquid form — not every formulation is usable",
+        "drives": ["swallow"]
+      },
+      {
+        "label": "Hand function",
+        "value": "Right pinch 3 kg, grip 14 kg",
+        "implication": "Cannot actuate a grip-triggered inhaler or self-inject; the route has to be manageable",
+        "drives": ["dexterity"]
+      }
+    ]
+  },
   "meta": {
     "generated_at": "2026-11-07T18:00:00Z",
     "n_input": 4805,

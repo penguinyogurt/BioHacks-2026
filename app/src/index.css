@@ -39,6 +39,11 @@
     "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono",
     "Roboto Mono", Menlo, Consolas, monospace;
+
+  /* The built-in CSS easings are too weak to read as intentional. Never
+     ease-in on UI: it delays the first frame, exactly when the eye is on it. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 @theme inline {

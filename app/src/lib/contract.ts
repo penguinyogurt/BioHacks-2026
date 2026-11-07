@@ -90,7 +90,31 @@ export const graveyardEntrySchema = z.object({
   source_url: z.string().url(),
 });
 
+/**
+ * The chart values the patient filter is derived from.
+ *
+ * Optional so merge.py isn't blocked on emitting it, but the UI shows the
+ * person before the ranked list — these numbers are what make the filter
+ * clinically grounded rather than a plausible-looking rule table. They live
+ * in the data, not in JSX, so they can't go stale against patient_filter.py.
+ */
+export const patientFindingSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+  /** Why this finding disqualifies drugs. Rendered verbatim. */
+  implication: z.string(),
+  /** Rule ids in `filters[]` that this finding drives. */
+  drives: z.array(z.string()),
+});
+
+export const patientProfileSchema = z.object({
+  display_name: z.string(),
+  summary: z.string(),
+  findings: z.array(patientFindingSchema),
+});
+
 export const pipelineSchema = z.object({
+  patient_profile: patientProfileSchema.optional(),
   meta: z.object({
     generated_at: z.string(),
     n_input: z.number().int().positive(),
@@ -119,6 +143,8 @@ export type PathHop = z.infer<typeof pathHopSchema>;
 export type FilterResult = z.infer<typeof filterResultSchema>;
 export type Bbb = z.infer<typeof bbbSchema>;
 export type Candidate = z.infer<typeof candidateSchema>;
+export type PatientFinding = z.infer<typeof patientFindingSchema>;
+export type PatientProfile = z.infer<typeof patientProfileSchema>;
 export type GraveyardEntry = z.infer<typeof graveyardEntrySchema>;
 export type Pipeline = z.infer<typeof pipelineSchema>;
 
