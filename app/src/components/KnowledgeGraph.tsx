@@ -280,13 +280,27 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
   useEffect(() => {
     const el = frame.current;
     if (!el) return;
-    // Seeded synchronously. A ResizeObserver that never fires — a backgrounded
-    // or unpainted tab, which is exactly what a screen recorder is — would
-    // otherwise leave this blank.
-    setWidth(el.clientWidth);
-    const ro = new ResizeObserver(([e]) => setWidth(e.contentRect.width));
+    // The observer delivers the first size itself, so reading clientWidth
+    // here would only duplicate it — and that read forces a full-document
+    // reflow at mount, measured at 590ms, the single worst long task on the
+    // page. The fallback below keeps the property the synchronous read was
+    // there for (a backgrounded or unpainted tab, which is exactly what a
+    // screen recorder is) without paying for it on the normal path.
+    let delivered = false;
+    const ro = new ResizeObserver(([e]) => {
+      delivered = true;
+      setWidth(e.contentRect.width);
+    });
     ro.observe(el);
-    return () => ro.disconnect();
+
+    const fallback = window.setTimeout(() => {
+      if (!delivered) setWidth(el.clientWidth);
+    }, 150);
+
+    return () => {
+      ro.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   const graph = useMemo(() => build(candidates), [candidates]);
