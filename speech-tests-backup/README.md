@@ -5,7 +5,7 @@ Run from this directory with Python 3.9–3.11 and access to [VOC-ALS](https://d
 Install once with `python3 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt`. Reproduce with:
 
 ```sh
-cd ~/Documents/BioHacks/Speech_Quality_Classification && .venv/bin/python speech_severity.py
+cd ~/Documents/BioHacks/speech-tests-backup && .venv/bin/python speech_severity.py
 ```
 
 The experiment selects ALS speakers with speech scores 1 (severe), 2 (moderate), 3 (mild), or 4 (normal). It reports counts before and after checking for a complete set of recordings. Each speaker contributes eight 768-value vectors in A, E, I, O, U, PA, TA, KA order. Each vector is the time average of frozen HuBERT final-layer states for one mono, 16 kHz recording. Clinical metadata supplies eligibility and targets only.

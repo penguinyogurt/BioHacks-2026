@@ -3,13 +3,13 @@
 On this Mac, run setup once:
 
 ```sh
-cd ~/Documents/BioHacks/Expression_Challenge && ./setup.sh
+cd ~/Documents/BioHacks/facial-test && ./setup.sh
 ```
 
 Launch the loopback server and open the browser:
 
 ```sh
-cd ~/Documents/BioHacks/Expression_Challenge && .venv/bin/python app.py
+cd ~/Documents/BioHacks/facial-test && .venv/bin/python app.py
 ```
 
 The four challenges are Happy, Sad, Disgusted, and Neutral. After Neutral, the summary counts the latest scored attempt for each expression. A retake for face count adds no failure. Start new challenge resets the total.

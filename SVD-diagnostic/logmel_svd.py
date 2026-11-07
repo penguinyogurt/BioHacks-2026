@@ -1,4 +1,4 @@
-"""Run offline: .venv/bin/python -B logmel_svd.py"""
+"""Run offline: ../speech-tests-backup/.venv/bin/python -B logmel_svd.py"""
 import csv
 import math
 import os
@@ -13,7 +13,7 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import StandardScaler
 from threadpoolctl import threadpool_limits
 
-PRIVATE = Path(__file__).resolve().parent / "private"
+PRIVATE = Path(__file__).resolve().parents[1] / "speech-tests-backup" / "private"
 OUTPUT = PRIVATE / "logmel_svd"
 TASKS = ("phonationA", "phonationE", "phonationI", "phonationO", "phonationU",
          "rhythmPA", "rhythmTA", "rhythmKA")

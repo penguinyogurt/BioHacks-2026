@@ -18,3 +18,10 @@ The script checks patient IDs and header metadata, then takes each patient's med
 ## Results
 
 Across 6 ALS and 9 healthy participants, logistic regression on two components and on all four features each achieved 83.3% balanced accuracy. Both correctly classified four ALS participants and all nine controls. Scaling and the two-component SVD were refitted inside each leave-one-patient-out fold. These findings describe ALS-associated patterns within this cohort.
+
+The speech SVD comparisons are also stored here. Run either script from this directory using the sibling speech backup's environment and local VOC-ALS cache:
+
+```sh
+../speech-tests-backup/.venv/bin/python hubert_pca.py
+../speech-tests-backup/.venv/bin/python logmel_svd.py
+```

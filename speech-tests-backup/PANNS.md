@@ -1,11 +1,11 @@
 # PANNs temporal pooling on VOC-ALS
 
-Run in the existing Speech_Quality_Classification environment with the original downloaded WAVs, metadata, and HuBERT predictions available. The published [PANNs checkpoint](https://zenodo.org/records/3987831) is AudioSet CNN6. The extractor follows the [authors’ CNN6 architecture](https://github.com/qiuqiangkong/audioset_tagging_cnn/blob/master/pytorch/models.py). All data, checkpoints, caches and speaker-level outputs stay under the ignored private directory.
+Run in the existing speech-tests-backup environment with the original downloaded WAVs, metadata, and HuBERT predictions available. The published [PANNs checkpoint](https://zenodo.org/records/3987831) is AudioSet CNN6. The extractor follows the [authors’ CNN6 architecture](https://github.com/qiuqiangkong/audioset_tagging_cnn/blob/master/pytorch/models.py). All data, checkpoints, caches and speaker-level outputs stay under the ignored private directory.
 
 On a fresh copy, fetch the checkpoint once:
 
 ```sh
-cd ~/Documents/BioHacks/Speech_Quality_Classification
+cd ~/Documents/BioHacks/speech-tests-backup
 mkdir -p private/panns
 curl -fL --retry 2 'https://zenodo.org/records/3987831/files/Cnn6_mAP%3D0.343.pth?download=1' -o private/panns/cnn6.pth
 ```
@@ -13,7 +13,7 @@ curl -fL --retry 2 'https://zenodo.org/records/3987831/files/Cnn6_mAP%3D0.343.pt
 To reproduce with the existing checkpoint:
 
 ```sh
-cd ~/Documents/BioHacks/Speech_Quality_Classification
+cd ~/Documents/BioHacks/speech-tests-backup
 .venv/bin/python -B panns_sequences.py && .venv/bin/python -B panns_pooling.py
 ```
 

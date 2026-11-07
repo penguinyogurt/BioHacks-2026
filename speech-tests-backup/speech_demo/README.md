@@ -3,7 +3,7 @@
 Double-click **Launch Speech Demo.command** in the parent directory. The launcher opens http://127.0.0.1:8769 in your default browser. Keep its Terminal window open. A second launch opens the existing server. Alternatively:
 
 ```sh
-cd ~/Documents/BioHacks/Speech_Quality_Classification && ./speech_demo/.venv/bin/python -B speech_demo/app.py
+cd ~/Documents/BioHacks/speech-tests-backup && ./speech_demo/.venv/bin/python -B speech_demo/app.py
 ```
 
 Choose **Compare readings** to hear and inspect the preloaded standard/slower synthetic examples. Both input cards support WAV upload, microphone recording and full playback. Select Record again (Stop recording) to finish, and allow browser microphone permission if asked. Recordings are limited to 60 seconds. Choose the edited sample to test a skipped word and a replacement. To compare your own two readings, replace both samples. Switching to the macOS voice uses one whole-passage Samantha recording as the reference; switching back restores your baseline.
@@ -30,3 +30,9 @@ speech_demo/.venv/bin/python -B speech_demo/make_samples.py
 ```
 
 The first command checks identical-input scores, duration on slower speech, the edited reading, repeated occurrences, insertion alignment and ambiguity. The second regenerates sample WAVs with macOS say.
+
+## Personal calibration
+
+On first launch, record the displayed passage five times in your normal voice and five times using your chosen extreme example. Replay and save each take. Refreshing or relaunching resumes at the next take. Calibration spectra are saved privately under private/speech_demo/calibration-v1.json; microphone audio stays in memory. Recalibrate score reference starts a separate draft. The current profile stays active until ten replacement takes pass validation. Cancel recalibration discards the draft. Once ready, both input cards automatically show a personal score, independent of the word-comparison reference selector.
+
+For each reliably aligned occurrence, average windowed spectral power into 32 logarithmic bands spanning 80–8000 Hz, normalize to the strongest band, and floor at −60 dB. The normal template is the mean per-band profile of the normal examples for that occurrence. The word error is mean absolute dB difference from that template. Sum the errors over usable words. Compute the normal and extreme anchors as sums of the respective groups’ mean word errors on exactly those words. Score = 1 + 99 × (input total − normal anchor) / (extreme anchor − normal anchor), displayed within 1–100, with out-of-range readings labeled. At least 7 of 14 words and three valid calibration examples per group for each contributing word are required. An anchor gap at or below 0.1 dB per contributing word is unscorable. Transcript errors, duration and MFCC-DTW remain separate; missing words reduce coverage. Scores describe similarity to the user's own example styles and are not clinical severity estimates.

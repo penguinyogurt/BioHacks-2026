@@ -7,6 +7,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.request import urlopen
 
+import calibration as cal
 from engine import PASSAGE, ROOT, compare
 
 HERE=Path(__file__).resolve().parent
@@ -29,6 +30,10 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.headers.get("Host")!=URL[7:]:
             return self.send_error(403)
+        if self.path=="/calibration":
+            with LOCK:
+                state=cal.current_state()
+            return self.reply(200,json.dumps(state).encode(),"application/json")
         if self.path=="/health":
             return self.reply(200,b"local-passage-demo-v1","text/plain")
         if self.path=="/":
@@ -41,7 +46,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_error(404)
 
     def do_POST(self):
-        if self.path!="/compare" or self.headers.get("Host")!=URL[7:] or self.headers.get("Origin")!=URL:
+        if self.path not in ("/compare","/calibrate","/score","/reset-calibration","/start-recalibration","/cancel-recalibration") or self.headers.get("Host")!=URL[7:] or self.headers.get("Origin")!=URL:
             return self.send_error(403)
         try:
             size=int(self.headers.get("Content-Length","0"))
@@ -49,7 +54,35 @@ class Handler(BaseHTTPRequestHandler):
                 raise ValueError("Please use recordings of 60 seconds or less.")
             data=json.loads(self.rfile.read(size))
             with LOCK:
-                result=compare(*(base64.b64decode(data[k],validate=True) for k in ("baseline","repeat")))
+                if self.path=="/compare":
+                    base,repeat=(base64.b64decode(data[k],validate=True) for k in ("baseline","repeat"))
+                    result=compare(base,repeat)
+                    entries=cal.load()
+                    if len(entries)==10:
+                        result["personal_score"]=cal.score(entries,cal.fingerprint(repeat))
+                elif self.path=="/start-recalibration":
+                    if len(cal.load())!=10:
+                        raise ValueError("Complete your initial calibration first.")
+                    if not cal.draft_path().exists():
+                        cal.save([],cal.draft_path())
+                    result=cal.current_state()
+                elif self.path=="/cancel-recalibration":
+                    cal.draft_path().unlink(missing_ok=True)
+                    result=cal.current_state()
+                elif self.path=="/reset-calibration":
+                    if len(cal.load())==10:
+                        raise ValueError("Use Recalibrate score reference to replace an active profile.")
+                    cal.save([])
+                    result=cal.current_state()
+                else:
+                    entries=cal.load()
+                    reading=cal.fingerprint(base64.b64decode(data["audio"],validate=True))
+                    if self.path=="/calibrate":
+                        result=cal.accept_take(reading,data["step"],data.get("replacing",False))
+                    elif len(entries)==10:
+                        result=cal.score(entries,reading)
+                    else:
+                        raise ValueError("Finish calibration first.")
             self.reply(200,json.dumps(result,allow_nan=False).encode(),"application/json")
         except Exception as e:
             self.reply(400,json.dumps({"error":str(e)}).encode(),"application/json")

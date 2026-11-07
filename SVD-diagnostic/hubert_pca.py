@@ -1,4 +1,4 @@
-"""Offline HuBERT dimensionality comparison. Run with .venv/bin/python hubert_pca.py."""
+"""Offline HuBERT dimensionality comparison. Run with ../speech-tests-backup/.venv/bin/python hubert_pca.py."""
 import csv
 import hashlib
 import os
@@ -11,6 +11,9 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import StandardScaler
 from threadpoolctl import threadpool_limits
 
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "speech-tests-backup"))
 from speech_severity import PRIVATE, REV, TASKS, evaluate
 
 CANDIDATES = (2, 4, 8, 16)
