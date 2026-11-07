@@ -151,6 +151,32 @@ the cost of being readable.
 funnel counts. Keeps the file ~200KB and guarantees stage 4 is always fully
 visible. This is a deliberate change from the spec.
 
+### Things that were measured, not guessed
+
+Each of these was found with a measurement and cost real time. Don't undo one
+without taking the same measurement.
+
+- **Every entrance animation is gated on visibility, not on mount.** The
+  funnel run, the knowledge-graph draw-in, the candidate stagger and the
+  beeswarm all played and finished below the fold. `Reveal` does not help —
+  it sets opacity, which hides an animation rather than pausing it. Use
+  `useOnScreen` or `whileInView`.
+- **The dither background does not animate.** At any speed slow enough to
+  read as ambient texture the canvas is bit-identical frame to frame, while
+  the render loop costs 33.3ms — it was halving the frame rate of every
+  animation on the page. Frozen, the page runs at 59.9fps.
+- **Panels are 88% opaque, not translucent.** Dropping them to 28% to show
+  more texture made the composited panel *darker* than the ground behind it,
+  so they read as holes punched in a busy field. The texture belongs in the
+  gaps between panels.
+- **Don't use a ref as a "have I started" guard in an effect.** A ref
+  survives StrictMode's mount/cleanup/mount, so the first cleanup cancels the
+  work and the second mount skips it. Latch on state instead.
+- **Run the palette validator rather than reasoning about colour.** Our
+  pass/fail green-and-red measured ΔE 7.9 for deuteranopia — the single worst
+  pair available. Colour must never be the only carrier, which it isn't here
+  (glyphs, hollow-vs-solid, position), but that is a floor and not an excuse.
+
 ### Non-negotiables
 
 - Eliminated candidates stay in `candidates[]` with `verdict` and
