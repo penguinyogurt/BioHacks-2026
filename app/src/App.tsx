@@ -1,9 +1,9 @@
-import type { Pipeline } from "@/lib/contract";
+import type { Pipeline, Stage } from "@/lib/contract";
 import { pipelineResult } from "@/lib/pipeline";
 import { STAGES, SOURCES, buildStats } from "@/lib/provenance";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ContractError } from "@/components/ContractError";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useCallback, useState } from "react";
 import { Panel } from "@/components/Panel";
 import { SectionNav } from "@/components/SectionNav";
 import { Reveal } from "@/components/Reveal";
@@ -42,6 +42,24 @@ export default function App() {
  */
 function Report({ data }: { data: Pipeline }) {
   const generated = new Date(data.meta.generated_at);
+
+  /**
+   * The funnel's "see them" links. The token makes a repeat request distinct
+   * from the previous one, so clicking the same stage twice still scrolls.
+   */
+  const [requestedView, setRequestedView] = useState<
+    { view: "bbb" | "patient_filter" | "trial_history"; token: number } | undefined
+  >();
+
+  const showCuts = useCallback((stage: Stage) => {
+    if (stage !== "bbb" && stage !== "patient_filter" && stage !== "trial_history") {
+      return;
+    }
+    setRequestedView({ view: stage, token: Date.now() });
+    document
+      .getElementById("candidates-heading")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
 
   return (
     <TooltipProvider delayDuration={120}>
@@ -95,7 +113,7 @@ function Report({ data }: { data: Pipeline }) {
             </Panel>
 
             <Panel className="p-8">
-              <FunnelRun funnel={data.funnel} />
+              <FunnelRun funnel={data.funnel} onShowCuts={showCuts} />
             </Panel>
 
             {data.patient_profile && (
@@ -117,7 +135,10 @@ function Report({ data }: { data: Pipeline }) {
 
             <Reveal>
               <Panel className="p-8">
-                <CandidatesSection candidates={data.candidates} />
+                <CandidatesSection
+                  candidates={data.candidates}
+                  requestedView={requestedView}
+                />
               </Panel>
             </Reveal>
           </div>

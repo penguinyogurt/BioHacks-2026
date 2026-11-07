@@ -1,13 +1,22 @@
 import { useRef } from "react";
 import { motion } from "motion/react";
-import type { FunnelStage } from "@/lib/contract";
+import type { FunnelStage, Stage } from "@/lib/contract";
 import { logBarWidth } from "@/lib/pipeline";
 import { useFunnelRun } from "@/hooks/useFunnelRun";
 import { useOnScreen } from "@/hooks/useOnScreen";
 import { Button } from "@/components/ui/button";
 import { cn, num } from "@/lib/utils";
 
-export function FunnelRun({ funnel }: { funnel: FunnelStage[] }) {
+/** Stages whose eliminated drugs are actually carried in `candidates`. */
+const CUTS_SHOWN = new Set<Stage>(["bbb", "patient_filter", "trial_history"]);
+
+export function FunnelRun({
+  funnel,
+  onShowCuts,
+}: {
+  funnel: FunnelStage[];
+  onShowCuts?: (stage: Stage) => void;
+}) {
   const max = funnel[0]?.count ?? 1;
   const final = funnel[funnel.length - 1];
 
@@ -133,6 +142,20 @@ export function FunnelRun({ funnel }: { funnel: FunnelStage[] }) {
                     </span>
                     {stage.top_reason && (
                       <span className="text-ink-soft">{stage.top_reason}</span>
+                    )}
+                    {/* The drugs a stage removed are carried in the data for
+                        the last three stages only; the first two are counts.
+                        Where we have the cards, let the number reach them —
+                        otherwise the funnel and the card grid are two
+                        unrelated pictures of the same run. */}
+                    {onShowCuts && CUTS_SHOWN.has(stage.stage) && (
+                      <button
+                        type="button"
+                        onClick={() => onShowCuts(stage.stage)}
+                        className="rounded text-sm text-ink-faint underline decoration-rule-strong underline-offset-2 transition-colors duration-150 ease-out hover:text-ink hover:decoration-ink"
+                      >
+                        see them
+                      </button>
                     )}
                   </motion.p>
                 )}

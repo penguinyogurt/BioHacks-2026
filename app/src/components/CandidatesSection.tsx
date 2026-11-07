@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import type { Candidate } from "@/lib/contract";
 import { CandidateCard } from "./CandidateCard";
@@ -38,8 +38,24 @@ function select(candidates: Candidate[], view: ViewKey): Candidate[] {
   return picked.toSorted((a, b) => a.kg.rank - b.kg.rank);
 }
 
-export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
+export function CandidatesSection({
+  candidates,
+  requestedView,
+}: {
+  candidates: Candidate[];
+  /**
+   * A view the funnel asked for. Carries a token rather than being a plain
+   * string so that asking for the SAME view twice still re-applies — the
+   * second click on "see them" has to re-focus the section, not no-op.
+   */
+  requestedView?: { view: ViewKey; token: number };
+}) {
   const [view, setView] = useState<ViewKey>("survived");
+
+  useEffect(() => {
+    if (!requestedView) return;
+    setView(requestedView.view);
+  }, [requestedView]);
 
   const counts = useMemo(
     () =>
