@@ -18,8 +18,10 @@ import { cn } from "@/lib/utils";
 // Monochrome on purpose: colour means elimination in this app, and a
 // CPK-coloured molecule would be the loudest thing on screen for no
 // information gain.
-const INK = "#2b2f36";
-const INK_SOFT = "#5c626c";
+// smiles-drawer takes literal colours, not CSS variables, so these track
+// --ink / --ink-soft by hand. If the palette moves, move these.
+const INK = "#f2f0f7";
+const INK_SOFT = "#a9a6b6";
 
 const CLINICAL_THEME: Record<string, string> = {
   C: INK,
@@ -48,10 +50,36 @@ type Props = {
 export function MoleculeView({ smiles, name, height = 108, className }: Props) {
   const ref = useRef<SVGSVGElement>(null);
   const [failed, setFailed] = useState(false);
+  const [near, setNear] = useState(false);
 
+  // Parsing and laying out a structure is synchronous, and a full run has
+  // ~100 cards. Drawing them all on mount blocks the main thread through the
+  // funnel animation, so each one waits until it's nearly on screen.
   useEffect(() => {
     const target = ref.current;
     if (!target) return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      setNear(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setNear(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "400px" },
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const target = ref.current;
+    if (!target || !near) return;
 
     let cancelled = false;
     setFailed(false);
@@ -93,7 +121,7 @@ export function MoleculeView({ smiles, name, height = 108, className }: Props) {
       // stack two structures on top of each other.
       if (target) target.innerHTML = "";
     };
-  }, [smiles, height]);
+  }, [smiles, height, near]);
 
   if (failed) {
     return (

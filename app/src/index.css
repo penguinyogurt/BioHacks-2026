@@ -1,48 +1,56 @@
 @import "tailwindcss";
 
 /* ───────────────────────────────────────────────────────────────────────────
-   Clinical instrument.
+   Dark lab console.
 
-   Near-neutral cool greys, one accent reserved for elimination, tabular
-   numerals everywhere a number appears. Light ground: the demo runs on a
-   laptop under conference lighting, where dark UI loses contrast and reads as
-   "hackathon project". System font stacks on purpose — no webfont request can
-   fail at the expo table.
+   Deep violet-black ground, elevated surfaces, luminous data. One accent
+   reserved for elimination, tabular numerals everywhere a number appears.
+
+   Revised from an earlier light direction: this one optimises for attention
+   at an expo table rather than for a clinician's desk. The data discipline
+   is unchanged — colour never carries meaning on its own, and nothing
+   decorative is allowed to cost legibility.
+
+   System font stacks on purpose: no webfont request can fail at the table.
    ─────────────────────────────────────────────────────────────────────────── */
 
 :root {
-  /* Ground and ink */
-  --paper: oklch(0.988 0.0015 260);
-  --surface: oklch(1 0 0);
-  --surface-sunk: oklch(0.967 0.002 260);
-  --ink: oklch(0.19 0.012 260);
-  --ink-soft: oklch(0.42 0.009 260);
-  /* 0.54, not 0.58: `.label` is 11px/500, which WCAG counts as normal text
-     and needs 4.5:1. At 0.58 it measured 4.14:1 on paper and 3.89:1 on the
-     sunk descriptor strip. This gives 4.79 / 4.50 and still reads quieter
-     than --ink-soft. */
-  --ink-faint: oklch(0.54 0.007 260);
-  --rule: oklch(0.905 0.004 260);
-  /* Carries control identity (WCAG 1.4.11): the buttons are bg-surface on
-     paper, a 1.03:1 fill difference, so this border is the only thing marking
-     them as interactive and must clear 3:1. 0.83 measured 1.69:1. */
-  --rule-strong: oklch(0.66 0.005 260);
+  color-scheme: dark;
 
-  /* The one accent: elimination. Nothing else may use it. */
-  --cut: oklch(0.54 0.168 25);
-  --cut-soft: oklch(0.955 0.022 25);
-  --cut-rule: oklch(0.86 0.06 25);
+  /* Ground and ink. The violet cast (hue 285) is carried at very low chroma
+     so greys read as deliberate rather than muddy. */
+  --paper: oklch(0.165 0.014 285);
+  --surface: oklch(0.213 0.016 285);
+  --surface-sunk: oklch(0.142 0.012 285);
+  --ink: oklch(0.97 0.004 285);
+  --ink-soft: oklch(0.775 0.009 285);
+  /* `.label` is 11px/500 — normal text to WCAG, so it needs 4.5:1. This
+     measures ~7:1 on paper, comfortably clear while still reading quiet. */
+  --ink-faint: oklch(0.635 0.012 285);
+  --rule: oklch(0.295 0.016 285);
+  /* Carries control identity (WCAG 1.4.11): buttons are surface-on-paper,
+     barely a fill difference, so this border is the only thing marking them
+     as interactive and must clear 3:1 against both. */
+  --rule-strong: oklch(0.44 0.022 285);
+
+  /* The one accent: elimination. Nothing else may use it. Lifted in
+     lightness for a dark ground — a dark red on dark violet is invisible. */
+  --cut: oklch(0.715 0.165 22);
+  --cut-soft: oklch(0.265 0.055 22);
+  --cut-rule: oklch(0.44 0.105 22);
 
   /* Survival is carried by ink weight and a check glyph, never by green
-     alone — see better-colors: colour must not be the only carrier. */
-  --keep: oklch(0.42 0.08 155);
-  --keep-soft: oklch(0.962 0.018 155);
+     alone — colour must not be the only carrier. */
+  --keep: oklch(0.80 0.145 158);
+  --keep-soft: oklch(0.255 0.045 158);
 
-  /* Data-ink for the two graveyard buckets. Distinguishable in greyscale.
-     --bucket-never must clear 3:1 on surface because the dot IS the datum —
-     its position on the axis is the entire "never arrived" claim. */
-  --bucket-never: oklch(0.62 0.03 260);
-  --bucket-arrived: oklch(0.32 0.03 260);
+  /* Data-ink for the two graveyard buckets. On a dark ground the mapping
+     inverts: the recessive bucket is the dimmer one. Both clear 3:1 on
+     surface, because these dots ARE the datum — their position on the axis
+     is the entire partition claim — and they stay ~3.4:1 apart from each
+     other so the buckets survive greyscale. */
+  --bucket-never: oklch(0.52 0.035 285);
+  --bucket-arrived: oklch(0.88 0.03 285);
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;

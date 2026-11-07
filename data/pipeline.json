@@ -49,207 +49,1000 @@
   },
   "funnel": [
     { "stage": "universe",       "label": "Approved drugs",           "count": 4805, "eliminated": 0,    "top_reason": null },
-    { "stage": "kg_relevance",   "label": "Linked to ALS biology",    "count": 340,  "eliminated": 4465, "top_reason": "no path to ALS in graph" },
-    { "stage": "bbb",            "label": "Can reach the target",     "count": 71,   "eliminated": 269,  "top_reason": "predicted BBB-negative" },
-    { "stage": "patient_filter", "label": "Safe and usable for Alex", "count": 12,   "eliminated": 59,   "top_reason": "respiratory depressant" },
-    { "stage": "trial_history",  "label": "Not already failed",       "count": 6,    "eliminated": 6,    "top_reason": "failed phase 3" }
+    { "stage": "kg_relevance",   "label": "Linked to ALS biology",    "count": 340,  "eliminated": 4465, "top_reason": "no path to ALS in the graph within 3 hops" },
+    { "stage": "bbb",            "label": "Can reach the target",     "count": 22,   "eliminated": 318,  "top_reason": "predicted BBB-negative or outside the model's domain" },
+    { "stage": "patient_filter", "label": "Safe and usable for Alex", "count": 11,   "eliminated": 11,   "top_reason": "unsafe or unusable given his chart" },
+    { "stage": "trial_history",  "label": "Not already failed",       "count": 6,    "eliminated": 5,    "top_reason": "already failed a human ALS trial" }
   ],
   "candidates": [
     {
-      "id": "DB00230",
-      "inchikey": "KBOPZPXVLCULAV-UHFFFAOYSA-N",
-      "name": "pregabalin",
-      "smiles": "CC(C)CC(CN)CC(=O)O",
-      "kg": { "score": 0.84, "rank": 5 },
+      "id": "DB01043",
+      "inchikey": "BUGYDGFZZOZRHP-UHFFFAOYSA-N",
+      "name": "memantine",
+      "smiles": "CC12CC3CC(C1)(CC(C3)(C2)N)C",
+      "kg": { "score": 0.93, "rank": 1 },
       "path": [
-        { "from": "pregabalin", "rel": "targets",          "to": "CACNA2D1" },
-        { "from": "CACNA2D1",   "rel": "participates_in",  "to": "Calcium signaling" },
-        { "from": "Calcium signaling", "rel": "associated_with", "to": "ALS" }
+        { "from": "memantine", "rel": "antagonizes",      "to": "GRIN2B" },
+        { "from": "GRIN2B",    "rel": "participates_in",  "to": "Glutamate excitotoxicity" },
+        { "from": "Glutamate excitotoxicity", "rel": "associated_with", "to": "ALS" }
       ],
       "bbb": {
-        "prob": 0.93,
+        "prob": 0.88,
         "in_domain": true,
-        "nearest_tanimoto": 0.71,
-        "descriptors": { "mw": 159.2, "logp": -1.3, "tpsa": 63.3, "hbd": 2 }
+        "nearest_tanimoto": 0.77,
+        "descriptors": { "mw": 179.3, "logp": 3.3, "tpsa": 26.0, "hbd": 1 }
       },
       "filters": [
-        { "rule": "cyp1a2",        "passed": true,  "reason": "No CYP1A2 interaction; safe alongside his riluzole" },
-        { "rule": "respiratory",   "passed": true,  "reason": "Not a respiratory depressant" },
-        { "rule": "weight_loss",   "passed": true,  "reason": "Weight gain, not loss, is the reported effect" },
-        { "rule": "myopathy",      "passed": true,  "reason": "No myopathy signal in adverse-event data" },
-        { "rule": "swallow",       "passed": true,  "reason": "Oral solution available" },
-        { "rule": "dexterity",     "passed": true,  "reason": "Oral route; no device to actuate" },
-        { "rule": "bbb_direction", "passed": true,  "reason": "CNS target and predicted BBB-positive" },
-        { "rule": "canada",        "passed": true,  "reason": "Listed in the Health Canada Drug Product Database" }
+        { "rule": "cyp1a2",        "passed": true, "reason": "Renally cleared, no CYP1A2 involvement; his riluzole dose stands" },
+        { "rule": "respiratory",   "passed": true, "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss",   "passed": true, "reason": "Weight loss not a common adverse event" },
+        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",       "passed": true, "reason": "Oral solution licensed; no tablet to swallow" },
+        { "rule": "dexterity",     "passed": true, "reason": "Oral route; no device to actuate" },
+        { "rule": "bbb_direction", "passed": true, "reason": "Cortical NMDA target and predicted BBB-positive" },
+        { "rule": "canada",        "passed": true, "reason": "Listed in the Health Canada Drug Product Database" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "trial_history"
+    },
+    {
+      "id": "DB01202",
+      "inchikey": "HPHUVLMMVZITSG-LURJTMIESA-N",
+      "name": "levetiracetam",
+      "smiles": "CC[C@@H](C(=O)N)N1CCCC1=O",
+      "kg": { "score": 0.91, "rank": 2 },
+      "path": [
+        { "from": "levetiracetam", "rel": "binds",           "to": "SV2A" },
+        { "from": "SV2A",          "rel": "participates_in", "to": "Cortical hyperexcitability" },
+        { "from": "Cortical hyperexcitability", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.84,
+        "in_domain": true,
+        "nearest_tanimoto": 0.68,
+        "descriptors": { "mw": 170.21, "logp": -0.3, "tpsa": 63.4, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",        "passed": true, "reason": "Hydrolysed in plasma, not by CYP; riluzole clearance unchanged" },
+        { "rule": "respiratory",   "passed": true, "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss",   "passed": true, "reason": "Weight loss not a common adverse event" },
+        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",       "passed": true, "reason": "100 mg/mL oral solution licensed in Canada" },
+        { "rule": "dexterity",     "passed": true, "reason": "Oral route; no device to actuate" },
+        { "rule": "bbb_direction", "passed": true, "reason": "Cortical target and predicted BBB-positive" },
+        { "rule": "canada",        "passed": true, "reason": "Listed in the Health Canada Drug Product Database" }
       ],
       "verdict": "survived",
       "eliminated_at": null
     },
     {
-      "id": "DB00836",
-      "inchikey": "JAQUASYNZVUNQP-USXIJHARSA-N",
-      "name": "levorphanol",
-      "smiles": "CN1CC[C@]23CCCC[C@@H]2[C@H]1Cc1ccc(O)cc13",
-      "kg": { "score": 0.61, "rank": 44 },
+      "id": "DB00379",
+      "inchikey": "VLPIATFUUWWMKC-UHFFFAOYSA-N",
+      "name": "mexiletine",
+      "smiles": "CC1=C(C(=CC=C1)C)OCC(C)N",
+      "kg": { "score": 0.89, "rank": 3 },
       "path": [
-        { "from": "levorphanol", "rel": "targets",         "to": "GRIN1" },
-        { "from": "GRIN1",       "rel": "participates_in", "to": "Glutamate signaling" },
-        { "from": "Glutamate signaling", "rel": "associated_with", "to": "ALS" }
+        { "from": "mexiletine", "rel": "blocks",           "to": "SCN4A" },
+        { "from": "SCN4A",      "rel": "participates_in",  "to": "Axonal hyperexcitability" },
+        { "from": "Axonal hyperexcitability", "rel": "associated_with", "to": "ALS" }
       ],
       "bbb": {
-        "prob": 0.88,
+        "prob": 0.90,
         "in_domain": true,
-        "nearest_tanimoto": 0.82,
-        "descriptors": { "mw": 257.4, "logp": 3.1, "tpsa": 23.5, "hbd": 1 }
+        "nearest_tanimoto": 0.72,
+        "descriptors": { "mw": 179.26, "logp": 2.1, "tpsa": 35.3, "hbd": 1 }
       },
       "filters": [
-        { "rule": "cyp1a2",      "passed": true,  "reason": "No CYP1A2 interaction; safe alongside his riluzole" },
-        { "rule": "respiratory", "passed": false, "reason": "Opioid respiratory depressant; his supine breathing capacity is already reduced" }
+        { "rule": "cyp1a2", "passed": false, "reason": "Inhibits CYP1A2; would push his riluzole level up unpredictably" }
       ],
       "verdict": "eliminated",
       "eliminated_at": "patient_filter"
     },
     {
-      "id": "DB00641",
-      "inchikey": "RYMZZMVNJRMUDD-HGQWONQESA-N",
-      "name": "simvastatin",
-      "smiles": "CCC(C)(C)C(=O)O[C@H]1C[C@@H](C)C=C2C=C[C@H](C)[C@H](CC[C@@H]3C[C@@H](O)CC(=O)O3)[C@@H]12",
-      "kg": { "score": 0.72, "rank": 18 },
+      "id": "DB01017",
+      "inchikey": "FFTVPQUHLQBXQZ-KVUCHLLUSA-N",
+      "name": "minocycline",
+      "smiles": "CN(C)[C@H]1[C@@H]2C[C@@H]3CC4=C(C=CC(=C4C(=C3C(=O)[C@@]2(C(=C(C1=O)C(=O)N)O)O)O)O)N(C)C",
+      "kg": { "score": 0.88, "rank": 4 },
       "path": [
-        { "from": "simvastatin", "rel": "targets",         "to": "HMGCR" },
-        { "from": "HMGCR",       "rel": "participates_in", "to": "Cholesterol biosynthesis" },
-        { "from": "Cholesterol biosynthesis", "rel": "associated_with", "to": "ALS" }
+        { "from": "minocycline", "rel": "inhibits",         "to": "MMP9" },
+        { "from": "MMP9",        "rel": "participates_in",  "to": "Microglial neuroinflammation" },
+        { "from": "Microglial neuroinflammation", "rel": "associated_with", "to": "ALS" }
       ],
       "bbb": {
-        "prob": 0.77,
+        "prob": 0.74,
         "in_domain": true,
-        "nearest_tanimoto": 0.64,
-        "descriptors": { "mw": 418.6, "logp": 4.7, "tpsa": 72.8, "hbd": 1 }
+        "nearest_tanimoto": 0.62,
+        "descriptors": { "mw": 457.5, "logp": -0.6, "tpsa": 165.0, "hbd": 5 }
       },
       "filters": [
-        { "rule": "cyp1a2",      "passed": true,  "reason": "No CYP1A2 interaction; safe alongside his riluzole" },
+        { "rule": "cyp1a2",        "passed": true, "reason": "Not a CYP1A2 inhibitor or inducer; riluzole unaffected" },
+        { "rule": "respiratory",   "passed": true, "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss",   "passed": true, "reason": "Weight loss not a common adverse event" },
+        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",       "passed": true, "reason": "Pellet-filled capsule can be opened onto soft food" },
+        { "rule": "dexterity",     "passed": true, "reason": "Oral route; no device to actuate" },
+        { "rule": "bbb_direction", "passed": true, "reason": "Microglial target in cord and predicted BBB-positive" },
+        { "rule": "canada",        "passed": true, "reason": "Listed in the Health Canada Drug Product Database" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "trial_history"
+    },
+    {
+      "id": "DB00230",
+      "inchikey": "AYXYPKUFHZROOJ-ZETCQYMHSA-N",
+      "name": "pregabalin",
+      "smiles": "CC(C)C[C@@H](CC(=O)O)CN",
+      "kg": { "score": 0.86, "rank": 5 },
+      "path": [
+        { "from": "pregabalin", "rel": "binds",           "to": "CACNA2D1" },
+        { "from": "CACNA2D1",   "rel": "participates_in", "to": "Presynaptic glutamate release" },
+        { "from": "Presynaptic glutamate release", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.78,
+        "in_domain": true,
+        "nearest_tanimoto": 0.91,
+        "descriptors": { "mw": 159.23, "logp": -1.6, "tpsa": 63.3, "hbd": 2 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",      "passed": true,  "reason": "Renally excreted unchanged; no CYP1A2 interaction with riluzole" },
+        { "rule": "respiratory", "passed": false, "reason": "Gabapentinoid respiratory-depression warning; supine FVC already 61%" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "patient_filter"
+    },
+    {
+      "id": "DB00268",
+      "inchikey": "UHSKFQJFRQCDBE-UHFFFAOYSA-N",
+      "name": "ropinirole",
+      "smiles": "CCCN(CCC)CCC1=C2CC(=O)NC2=CC=C1",
+      "kg": { "score": 0.85, "rank": 6 },
+      "path": [
+        { "from": "ropinirole", "rel": "agonizes",         "to": "DRD2" },
+        { "from": "DRD2",       "rel": "participates_in",  "to": "Mitochondrial dysfunction" },
+        { "from": "Mitochondrial dysfunction", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.92,
+        "in_domain": true,
+        "nearest_tanimoto": 0.79,
+        "descriptors": { "mw": 260.37, "logp": 2.7, "tpsa": 32.3, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",        "passed": true, "reason": "Shares CYP1A2 clearance but does not inhibit it; no dose change" },
+        { "rule": "respiratory",   "passed": true, "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss",   "passed": true, "reason": "Weight loss not a common adverse event" },
+        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",       "passed": true, "reason": "Small 0.25 mg immediate-release tablet, dispersible in water" },
+        { "rule": "dexterity",     "passed": true, "reason": "Oral route; no device to actuate" },
+        { "rule": "bbb_direction", "passed": true, "reason": "Motor neuron target and predicted BBB-positive" },
+        { "rule": "canada",        "passed": true, "reason": "Listed in the Health Canada Drug Product Database" }
+      ],
+      "verdict": "survived",
+      "eliminated_at": null
+    },
+    {
+      "id": "DB00273",
+      "inchikey": "KJADKKWYZYXHBB-XBWDGYHZSA-N",
+      "name": "topiramate",
+      "smiles": "CC1(O[C@@H]2CO[C@@]3([C@H]([C@@H]2O1)OC(O3)(C)C)COS(=O)(=O)N)C",
+      "kg": { "score": 0.83, "rank": 7 },
+      "path": [
+        { "from": "topiramate", "rel": "blocks",           "to": "GRIA1" },
+        { "from": "GRIA1",      "rel": "participates_in",  "to": "Glutamate excitotoxicity" },
+        { "from": "Glutamate excitotoxicity", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.72,
+        "in_domain": true,
+        "nearest_tanimoto": 0.58,
+        "descriptors": { "mw": 339.36, "logp": -0.8, "tpsa": 124.0, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",      "passed": true,  "reason": "Mostly renally excreted; no meaningful CYP1A2 effect" },
         { "rule": "respiratory", "passed": true,  "reason": "Not a respiratory depressant" },
-        { "rule": "weight_loss", "passed": true,  "reason": "Weight loss not a common adverse event" },
-        { "rule": "myopathy",    "passed": false, "reason": "Statin-class myopathy risk; his creatine kinase is already elevated" }
+        { "rule": "weight_loss", "passed": false, "reason": "Anorexia and weight loss are common; he is already down 8.5 kg" }
       ],
       "verdict": "eliminated",
       "eliminated_at": "patient_filter"
     },
     {
-      "id": "DB01062",
-      "inchikey": "VZXMZMJSGLFKQI-ABVWVHJUSA-N",
-      "name": "oxybutynin",
-      "smiles": "CCN(CC)CC#CCOC(=O)C(O)(C1CCCCC1)c1ccccc1",
-      "kg": { "score": 0.58, "rank": 61 },
+      "id": "DB00313",
+      "inchikey": "NIJJYAXOARWZEE-UHFFFAOYSA-N",
+      "name": "valproic acid",
+      "smiles": "CCCC(CCC)C(=O)O",
+      "kg": { "score": 0.82, "rank": 8 },
       "path": [
-        { "from": "oxybutynin", "rel": "targets",         "to": "CHRM3" },
-        { "from": "CHRM3",      "rel": "participates_in", "to": "Cholinergic synapse" },
-        { "from": "Cholinergic synapse", "rel": "associated_with", "to": "ALS" }
+        { "from": "valproic acid", "rel": "inhibits",       "to": "HDAC1" },
+        { "from": "HDAC1",         "rel": "interacts_with", "to": "FUS" },
+        { "from": "FUS",           "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.87,
+        "in_domain": true,
+        "nearest_tanimoto": 0.44,
+        "descriptors": { "mw": 144.21, "logp": 2.8, "tpsa": 37.3, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",        "passed": true, "reason": "Glucuronidated and CYP2C9-cleared; no CYP1A2 effect on riluzole" },
+        { "rule": "respiratory",   "passed": true, "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss",   "passed": true, "reason": "Weight gain, not loss, is the reported effect" },
+        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal; hepatic monitoring is the known issue" },
+        { "rule": "swallow",       "passed": true, "reason": "250 mg/5 mL oral syrup licensed in Canada" },
+        { "rule": "dexterity",     "passed": true, "reason": "Oral route; no device to actuate" },
+        { "rule": "bbb_direction", "passed": true, "reason": "Nuclear CNS target and predicted BBB-positive" },
+        { "rule": "canada",        "passed": true, "reason": "Listed in the Health Canada Drug Product Database" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "trial_history"
+    },
+    {
+      "id": "DB04953",
+      "inchikey": "PCOBBVZJEWWZFR-UHFFFAOYSA-N",
+      "name": "ezogabine",
+      "smiles": "CCOC(=O)NC1=C(C=C(C=C1)NCC2=CC=C(C=C2)F)N",
+      "kg": { "score": 0.80, "rank": 9 },
+      "path": [
+        { "from": "ezogabine", "rel": "opens",            "to": "KCNQ2" },
+        { "from": "KCNQ2",     "rel": "participates_in",  "to": "Cortical hyperexcitability" },
+        { "from": "Cortical hyperexcitability", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.81,
+        "in_domain": true,
+        "nearest_tanimoto": 0.63,
+        "descriptors": { "mw": 303.33, "logp": 2.8, "tpsa": 76.4, "hbd": 3 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",        "passed": true,  "reason": "Glucuronidated and acetylated; no CYP1A2 interaction" },
+        { "rule": "respiratory",   "passed": true,  "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss",   "passed": true,  "reason": "Weight loss not a common adverse event" },
+        { "rule": "myopathy",      "passed": true,  "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",       "passed": true,  "reason": "Film-coated tablet, small enough to take with puree" },
+        { "rule": "dexterity",     "passed": true,  "reason": "Oral route; no device to actuate" },
+        { "rule": "bbb_direction", "passed": true,  "reason": "Cortical KCNQ target and predicted BBB-positive" },
+        { "rule": "canada",        "passed": false, "reason": "Withdrawn worldwide in 2017; not in the Health Canada database" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "patient_filter"
+    },
+    {
+      "id": "DB00877",
+      "inchikey": "QFJCIRLUMZQUOT-HPLJOQBZSA-N",
+      "name": "sirolimus",
+      "smiles": "C[C@@H]1CC[C@H]2C[C@@H](/C(=C/C=C/C=C/[C@H](C[C@H](C(=O)[C@@H]([C@@H](/C(=C/[C@H](C(=O)C[C@H](OC(=O)[C@@H]3CCCCN3C(=O)C(=O)[C@@]1(O2)O)[C@H](C)C[C@@H]4CC[C@H]([C@@H](C4)OC)O)C)/C)O)OC)C)C)/C)OC",
+      "kg": { "score": 0.79, "rank": 10 },
+      "path": [
+        { "from": "sirolimus", "rel": "inhibits",         "to": "MTOR" },
+        { "from": "MTOR",      "rel": "participates_in",  "to": "Autophagy" },
+        { "from": "Autophagy", "rel": "associated_with",  "to": "ALS" }
       ],
       "bbb": {
         "prob": null,
         "in_domain": false,
-        "nearest_tanimoto": 0.31,
-        "descriptors": { "mw": 357.5, "logp": 4.0, "tpsa": 49.8, "hbd": 1 }
+        "nearest_tanimoto": 0.18,
+        "descriptors": { "mw": 914.2, "logp": 6.0, "tpsa": 195.0, "hbd": 3 }
       },
       "filters": [],
       "verdict": "eliminated",
       "eliminated_at": "bbb"
     },
     {
-      "id": "DB01050",
-      "inchikey": "HEFNNWSXXWATRW-UHFFFAOYSA-N",
-      "name": "ibuprofen",
-      "smiles": "CC(C)Cc1ccc(C(C)C(=O)O)cc1",
-      "kg": { "score": 0.49, "rank": 97 },
+      "id": "DB00176",
+      "inchikey": "CJOFXWAVKWHTFT-XSFVSMFZSA-N",
+      "name": "fluvoxamine",
+      "smiles": "COCCCC/C(=N\\OCCN)/C1=CC=C(C=C1)C(F)(F)F",
+      "kg": { "score": 0.78, "rank": 11 },
       "path": [
-        { "from": "ibuprofen", "rel": "targets",         "to": "PTGS2" },
-        { "from": "PTGS2",     "rel": "participates_in", "to": "Neuroinflammation" },
-        { "from": "Neuroinflammation", "rel": "associated_with", "to": "ALS" }
+        { "from": "fluvoxamine", "rel": "agonizes",         "to": "SIGMAR1" },
+        { "from": "SIGMAR1",     "rel": "participates_in",  "to": "ER–mitochondria calcium transfer" },
+        { "from": "ER–mitochondria calcium transfer", "rel": "associated_with", "to": "ALS" }
       ],
       "bbb": {
-        "prob": 0.52,
+        "prob": 0.89,
         "in_domain": true,
-        "nearest_tanimoto": 0.9,
-        "descriptors": { "mw": 206.3, "logp": 3.5, "tpsa": 37.3, "hbd": 1 }
+        "nearest_tanimoto": 0.76,
+        "descriptors": { "mw": 318.33, "logp": 2.6, "tpsa": 56.8, "hbd": 1 }
       },
       "filters": [
-        { "rule": "cyp1a2",        "passed": true, "reason": "No CYP1A2 interaction; safe alongside his riluzole" },
+        { "rule": "cyp1a2", "passed": false, "reason": "Potent CYP1A2 inhibitor; riluzole levels could double on his dose" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "patient_filter"
+    },
+    {
+      "id": "DB01212",
+      "inchikey": "VAAUVRVFOQPIGI-SPQHTLEESA-N",
+      "name": "ceftriaxone",
+      "smiles": "CN1C(=NC(=O)C(=O)N1)SCC2=C(N3[C@@H]([C@@H](C3=O)NC(=O)/C(=N\\OC)/C4=CSC(=N4)N)SC2)C(=O)O",
+      "kg": { "score": 0.76, "rank": 13 },
+      "path": [
+        { "from": "ceftriaxone", "rel": "induces",          "to": "SLC1A2" },
+        { "from": "SLC1A2",      "rel": "participates_in",  "to": "Glutamate clearance" },
+        { "from": "Glutamate clearance", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.34,
+        "in_domain": true,
+        "nearest_tanimoto": 0.52,
+        "descriptors": { "mw": 554.6, "logp": -1.3, "tpsa": 288.0, "hbd": 4 }
+      },
+      "filters": [],
+      "verdict": "eliminated",
+      "eliminated_at": "bbb"
+    },
+    {
+      "id": "DB08826",
+      "inchikey": "TZXKOCQBRNJULO-UHFFFAOYSA-N",
+      "name": "deferiprone",
+      "smiles": "CC1=C(C(=O)C=CN1C)O",
+      "kg": { "score": 0.75, "rank": 14 },
+      "path": [
+        { "from": "deferiprone",  "rel": "chelates",         "to": "Labile iron" },
+        { "from": "Labile iron",  "rel": "participates_in",  "to": "Oxidative stress" },
+        { "from": "Oxidative stress", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.71,
+        "in_domain": true,
+        "nearest_tanimoto": 0.55,
+        "descriptors": { "mw": 139.15, "logp": 0.5, "tpsa": 40.5, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",        "passed": true, "reason": "Glucuronidated by UGT1A6; no CYP1A2 interaction with riluzole" },
         { "rule": "respiratory",   "passed": true, "reason": "Not a respiratory depressant" },
         { "rule": "weight_loss",   "passed": true, "reason": "Weight loss not a common adverse event" },
-        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal in adverse-event data" },
-        { "rule": "swallow",       "passed": true, "reason": "Liquid suspension available" },
+        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal; neutrophil count is the monitored risk" },
+        { "rule": "swallow",       "passed": true, "reason": "100 mg/mL oral solution licensed in Canada" },
         { "rule": "dexterity",     "passed": true, "reason": "Oral route; no device to actuate" },
-        { "rule": "bbb_direction", "passed": true, "reason": "CNS target and predicted BBB-positive" },
+        { "rule": "bbb_direction", "passed": true, "reason": "Motor cortex iron is the target and it is predicted BBB-positive" },
+        { "rule": "canada",        "passed": true, "reason": "Listed in the Health Canada Drug Product Database" }
+      ],
+      "verdict": "survived",
+      "eliminated_at": null
+    },
+    {
+      "id": "DB01394",
+      "inchikey": "IAKHMKGGTNLKSZ-INIZCTEOSA-N",
+      "name": "colchicine",
+      "smiles": "CC(=O)N[C@H]1CCC2=CC(=C(C(=C2C3=CC=C(C(=O)C=C13)OC)OC)OC)OC",
+      "kg": { "score": 0.74, "rank": 15 },
+      "path": [
+        { "from": "colchicine", "rel": "upregulates",      "to": "HSPB8" },
+        { "from": "HSPB8",      "rel": "participates_in",  "to": "Protein aggregate clearance" },
+        { "from": "Protein aggregate clearance", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.66,
+        "in_domain": true,
+        "nearest_tanimoto": 0.51,
+        "descriptors": { "mw": 399.4, "logp": 1.0, "tpsa": 83.1, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",      "passed": true,  "reason": "CYP3A4 and P-gp substrate; no CYP1A2 effect on riluzole" },
+        { "rule": "respiratory", "passed": true,  "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss", "passed": true,  "reason": "Diarrhoea is dose-limiting but weight loss is not expected" },
+        { "rule": "myopathy",    "passed": false, "reason": "Causes a toxic myopathy with raised CK; his is already 470 U/L" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "patient_filter"
+    },
+    {
+      "id": "DB01132",
+      "inchikey": "HYAFETHFCAUJAY-UHFFFAOYSA-N",
+      "name": "pioglitazone",
+      "smiles": "CCC1=CN=C(C=C1)CCOC2=CC=C(C=C2)CC3C(=O)NC(=O)S3",
+      "kg": { "score": 0.72, "rank": 16 },
+      "path": [
+        { "from": "pioglitazone", "rel": "agonizes",         "to": "PPARG" },
+        { "from": "PPARG",        "rel": "participates_in",  "to": "Mitochondrial biogenesis" },
+        { "from": "Mitochondrial biogenesis", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.56,
+        "in_domain": true,
+        "nearest_tanimoto": 0.66,
+        "descriptors": { "mw": 356.4, "logp": 3.8, "tpsa": 93.6, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",        "passed": true, "reason": "CYP2C8-cleared; no CYP1A2 interaction with his riluzole" },
+        { "rule": "respiratory",   "passed": true, "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss",   "passed": true, "reason": "Weight gain, not loss, is the reported effect" },
+        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",       "passed": true, "reason": "Small 15 mg tablet, disperses in water" },
+        { "rule": "dexterity",     "passed": true, "reason": "Oral route; no device to actuate" },
+        { "rule": "bbb_direction", "passed": true, "reason": "Neuronal PPARG target and predicted BBB-positive" },
         { "rule": "canada",        "passed": true, "reason": "Listed in the Health Canada Drug Product Database" }
       ],
       "verdict": "eliminated",
       "eliminated_at": "trial_history"
+    },
+    {
+      "id": "DB00393",
+      "inchikey": "UIAGMCDKSXEBJQ-UHFFFAOYSA-N",
+      "name": "nimodipine",
+      "smiles": "CC1=C(C(C(=C(N1)C)C(=O)OC(C)C)C2=CC(=CC=C2)[N+](=O)[O-])C(=O)OCCOC",
+      "kg": { "score": 0.71, "rank": 17 },
+      "path": [
+        { "from": "nimodipine", "rel": "inhibits",         "to": "CACNA1C" },
+        { "from": "CACNA1C",    "rel": "participates_in",  "to": "Calcium-mediated excitotoxicity" },
+        { "from": "Calcium-mediated excitotoxicity", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.80,
+        "in_domain": true,
+        "nearest_tanimoto": 0.74,
+        "descriptors": { "mw": 418.4, "logp": 3.1, "tpsa": 120.0, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",        "passed": true, "reason": "CYP3A4 substrate only; his riluzole clearance is untouched" },
+        { "rule": "respiratory",   "passed": true, "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss",   "passed": true, "reason": "Weight loss not a common adverse event" },
+        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",       "passed": true, "reason": "Licensed oral solution; the capsule need not be swallowed" },
+        { "rule": "dexterity",     "passed": true, "reason": "Oral route; no device to actuate" },
+        { "rule": "bbb_direction", "passed": true, "reason": "CNS-selective dihydropyridine and predicted BBB-positive" },
+        { "rule": "canada",        "passed": true, "reason": "Listed in the Health Canada Drug Product Database" }
+      ],
+      "verdict": "survived",
+      "eliminated_at": null
+    },
+    {
+      "id": "DB06616",
+      "inchikey": "UBPYILGKFZZVDX-UHFFFAOYSA-N",
+      "name": "bosutinib",
+      "smiles": "CN1CCN(CC1)CCCOC2=C(C=C3C(=C2)N=CC(=C3NC4=CC(=C(C=C4Cl)Cl)OC)C#N)OC",
+      "kg": { "score": 0.70, "rank": 18 },
+      "path": [
+        { "from": "bosutinib", "rel": "inhibits",         "to": "ABL1" },
+        { "from": "ABL1",      "rel": "participates_in",  "to": "Autophagic clearance of TDP-43" },
+        { "from": "Autophagic clearance of TDP-43", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.33,
+        "in_domain": true,
+        "nearest_tanimoto": 0.64,
+        "descriptors": { "mw": 530.4, "logp": 5.4, "tpsa": 82.9, "hbd": 1 }
+      },
+      "filters": [],
+      "verdict": "eliminated",
+      "eliminated_at": "bbb"
+    },
+    {
+      "id": "DB06819",
+      "inchikey": "OBKXEAXTFZPCHS-UHFFFAOYSA-N",
+      "name": "sodium phenylbutyrate",
+      "smiles": "C1=CC=C(C=C1)CCCC(=O)O",
+      "kg": { "score": 0.69, "rank": 19 },
+      "path": [
+        { "from": "sodium phenylbutyrate", "rel": "inhibits", "to": "HDAC6" },
+        { "from": "HDAC6", "rel": "participates_in", "to": "Axonal transport" },
+        { "from": "Axonal transport", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.44,
+        "in_domain": true,
+        "nearest_tanimoto": 0.57,
+        "descriptors": { "mw": 164.2, "logp": 2.4, "tpsa": 37.3, "hbd": 1 }
+      },
+      "filters": [],
+      "verdict": "eliminated",
+      "eliminated_at": "bbb"
+    },
+    {
+      "id": "DB00482",
+      "inchikey": "RZEKVGVHFLEQIL-UHFFFAOYSA-N",
+      "name": "celecoxib",
+      "smiles": "CC1=CC=C(C=C1)C2=CC(=NN2C3=CC=C(C=C3)S(=O)(=O)N)C(F)(F)F",
+      "kg": { "score": 0.68, "rank": 20 },
+      "path": [
+        { "from": "celecoxib", "rel": "inhibits",         "to": "PTGS2" },
+        { "from": "PTGS2",     "rel": "participates_in",  "to": "Neuroinflammation" },
+        { "from": "Neuroinflammation", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.66,
+        "in_domain": true,
+        "nearest_tanimoto": 0.71,
+        "descriptors": { "mw": 381.4, "logp": 3.4, "tpsa": 86.4, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",        "passed": true, "reason": "CYP2C9 substrate; no CYP1A2 interaction with his riluzole" },
+        { "rule": "respiratory",   "passed": true, "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss",   "passed": true, "reason": "Weight loss not a common adverse event" },
+        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",       "passed": true, "reason": "Capsule can be opened and sprinkled onto apple sauce" },
+        { "rule": "dexterity",     "passed": true, "reason": "Oral route; no device to actuate" },
+        { "rule": "bbb_direction", "passed": true, "reason": "Spinal COX-2 target and predicted BBB-positive" },
+        { "rule": "canada",        "passed": true, "reason": "Listed in the Health Canada Drug Product Database" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "trial_history"
+    },
+    {
+      "id": "DB00091",
+      "inchikey": "PMATZTZNYRCHOR-CGLBZJNRSA-N",
+      "name": "cyclosporine",
+      "smiles": "CC[C@H]1C(=O)N(CC(=O)N([C@H](C(=O)N[C@H](C(=O)N([C@H](C(=O)N[C@H](C(=O)N[C@@H](C(=O)N([C@H](C(=O)N([C@H](C(=O)N([C@H](C(=O)N([C@H](C(=O)N1)[C@@H]([C@H](C)C/C=C/C)O)C)C(C)C)C)CC(C)C)C)CC(C)C)C)C)C)CC(C)C)C)C(C)C)CC(C)C)C)C",
+      "kg": { "score": 0.66, "rank": 22 },
+      "path": [
+        { "from": "cyclosporine", "rel": "inhibits",         "to": "PPIF" },
+        { "from": "PPIF",         "rel": "participates_in",  "to": "Mitochondrial permeability transition" },
+        { "from": "Mitochondrial permeability transition", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": null,
+        "in_domain": false,
+        "nearest_tanimoto": 0.14,
+        "descriptors": { "mw": 1202.6, "logp": 7.5, "tpsa": 279.0, "hbd": 5 }
+      },
+      "filters": [],
+      "verdict": "eliminated",
+      "eliminated_at": "bbb"
+    },
+    {
+      "id": "DB00704",
+      "inchikey": "DQCKKXVULJGBQN-XFWGSAIBSA-N",
+      "name": "naltrexone",
+      "smiles": "C1CC1CN2CC[C@]34[C@@H]5C(=O)CC[C@]3([C@H]2CC6=C4C(=C(C=C6)O)O5)O",
+      "kg": { "score": 0.65, "rank": 23 },
+      "path": [
+        { "from": "naltrexone", "rel": "antagonizes",      "to": "TLR4" },
+        { "from": "TLR4",       "rel": "participates_in",  "to": "Microglial neuroinflammation" },
+        { "from": "Microglial neuroinflammation", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.76,
+        "in_domain": true,
+        "nearest_tanimoto": 0.83,
+        "descriptors": { "mw": 341.4, "logp": 1.9, "tpsa": 70.0, "hbd": 2 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",        "passed": true, "reason": "Reduced by AKR1C4, not CYP; his riluzole level is unaffected" },
+        { "rule": "respiratory",   "passed": true, "reason": "Opioid antagonist, not an agonist; no respiratory depression" },
+        { "rule": "weight_loss",   "passed": true, "reason": "No appetite loss at the 4.5 mg low dose modelled here" },
+        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",       "passed": true, "reason": "Compounded as a 1 mg/mL oral liquid at low dose" },
+        { "rule": "dexterity",     "passed": true, "reason": "Oral route; no device to actuate" },
+        { "rule": "bbb_direction", "passed": true, "reason": "Microglial target in cord and predicted BBB-positive" },
+        { "rule": "canada",        "passed": true, "reason": "Listed in the Health Canada Drug Product Database" }
+      ],
+      "verdict": "survived",
+      "eliminated_at": null
+    },
+    {
+      "id": "DB00641",
+      "inchikey": "RYMZZMVNJRMUDD-HGQWONQESA-N",
+      "name": "simvastatin",
+      "smiles": "CCC(C)(C)C(=O)O[C@H]1C[C@H](C=C2[C@H]1[C@H]([C@H](C=C2)C)CC[C@@H]3C[C@H](CC(=O)O3)O)C",
+      "kg": { "score": 0.64, "rank": 24 },
+      "path": [
+        { "from": "simvastatin", "rel": "inhibits",         "to": "HMGCR" },
+        { "from": "HMGCR",       "rel": "participates_in",  "to": "Protein prenylation" },
+        { "from": "Protein prenylation", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.61,
+        "in_domain": true,
+        "nearest_tanimoto": 0.87,
+        "descriptors": { "mw": 418.6, "logp": 4.7, "tpsa": 72.8, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",      "passed": true,  "reason": "CYP3A4 substrate; no CYP1A2 interaction with his riluzole" },
+        { "rule": "respiratory", "passed": true,  "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss", "passed": true,  "reason": "Weight loss not a common adverse event" },
+        { "rule": "myopathy",    "passed": false, "reason": "Statin-class myopathy risk; his CK is already 470 U/L" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "patient_filter"
+    },
+    {
+      "id": "DB08834",
+      "inchikey": "BHTRKEVKTKCXOH-LBSADWJPSA-N",
+      "name": "tauroursodeoxycholic acid",
+      "smiles": "C[C@H](CCC(=O)NCCS(=O)(=O)O)[C@H]1CC[C@@H]2[C@@]1(CC[C@H]3[C@H]2[C@H](C[C@H]4[C@@]3(CC[C@H](C4)O)C)O)C",
+      "kg": { "score": 0.62, "rank": 26 },
+      "path": [
+        { "from": "tauroursodeoxycholic acid", "rel": "inhibits", "to": "BAX" },
+        { "from": "BAX", "rel": "participates_in", "to": "Mitochondrial apoptosis" },
+        { "from": "Mitochondrial apoptosis", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": null,
+        "in_domain": false,
+        "nearest_tanimoto": 0.29,
+        "descriptors": { "mw": 499.7, "logp": 3.6, "tpsa": 132.0, "hbd": 4 }
+      },
+      "filters": [],
+      "verdict": "eliminated",
+      "eliminated_at": "bbb"
+    },
+    {
+      "id": "DB00471",
+      "inchikey": "UCHDWCPVSPXUMX-TZIWLTJVSA-N",
+      "name": "montelukast",
+      "smiles": "CC(C)(C1=CC=CC=C1CC[C@H](C2=CC=CC(=C2)/C=C/C3=NC4=C(C=CC(=C4)Cl)C=C3)SCC5(CC5)CC(=O)O)O",
+      "kg": { "score": 0.61, "rank": 27 },
+      "path": [
+        { "from": "montelukast", "rel": "antagonizes",      "to": "CYSLTR1" },
+        { "from": "CYSLTR1",     "rel": "participates_in",  "to": "Neuroinflammation" },
+        { "from": "Neuroinflammation", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.58,
+        "in_domain": true,
+        "nearest_tanimoto": 0.49,
+        "descriptors": { "mw": 586.2, "logp": 7.7, "tpsa": 95.7, "hbd": 2 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",        "passed": true, "reason": "CYP2C8-cleared; no CYP1A2 interaction with his riluzole" },
+        { "rule": "respiratory",   "passed": true, "reason": "A bronchodilating asthma drug; no respiratory depression" },
+        { "rule": "weight_loss",   "passed": true, "reason": "Weight loss not a common adverse event" },
+        { "rule": "myopathy",      "passed": true, "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",       "passed": true, "reason": "4 mg oral granules, mixed into soft food" },
+        { "rule": "dexterity",     "passed": true, "reason": "Oral granules; no inhaler to actuate" },
+        { "rule": "bbb_direction", "passed": true, "reason": "Microglial CysLT1 target and predicted BBB-positive" },
+        { "rule": "canada",        "passed": true, "reason": "Listed in the Health Canada Drug Product Database" }
+      ],
+      "verdict": "survived",
+      "eliminated_at": null
+    },
+    {
+      "id": "DB00243",
+      "inchikey": "XKLMZUWKNUAPSZ-UHFFFAOYSA-N",
+      "name": "ranolazine",
+      "smiles": "CC1=C(C(=CC=C1)C)NC(=O)CN2CCN(CC2)CC(COC3=CC=CC=C3OC)O",
+      "kg": { "score": 0.60, "rank": 28 },
+      "path": [
+        { "from": "ranolazine", "rel": "inhibits",         "to": "SCN5A" },
+        { "from": "SCN5A",      "rel": "participates_in",  "to": "Persistent sodium current" },
+        { "from": "Persistent sodium current", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.57,
+        "in_domain": true,
+        "nearest_tanimoto": 0.61,
+        "descriptors": { "mw": 427.5, "logp": 2.7, "tpsa": 74.3, "hbd": 2 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",      "passed": true,  "reason": "CYP3A4 substrate; no CYP1A2 interaction with his riluzole" },
+        { "rule": "respiratory", "passed": true,  "reason": "Not a respiratory depressant" },
+        { "rule": "weight_loss", "passed": true,  "reason": "Weight loss not a common adverse event" },
+        { "rule": "myopathy",    "passed": true,  "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",     "passed": false, "reason": "Extended-release tablet, cannot be crushed; he coughs on thin liquids" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "patient_filter"
+    },
+    {
+      "id": "DB00148",
+      "inchikey": "CVSVTCORWBXHQV-UHFFFAOYSA-N",
+      "name": "creatine",
+      "smiles": "CN(CC(=O)O)C(=N)N",
+      "kg": { "score": 0.58, "rank": 29 },
+      "path": [
+        { "from": "creatine", "rel": "substrate_of",     "to": "CKB" },
+        { "from": "CKB",      "rel": "participates_in",  "to": "Mitochondrial energy buffering" },
+        { "from": "Mitochondrial energy buffering", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.19,
+        "in_domain": true,
+        "nearest_tanimoto": 0.41,
+        "descriptors": { "mw": 131.13, "logp": -1.2, "tpsa": 90.4, "hbd": 3 }
+      },
+      "filters": [],
+      "verdict": "eliminated",
+      "eliminated_at": "bbb"
+    },
+    {
+      "id": "DB00981",
+      "inchikey": "PIJVFDBKTWXHHD-HIFRSBDPSA-N",
+      "name": "physostigmine",
+      "smiles": "C[C@@]12CCN([C@@H]1N(C3=C2C=C(C=C3)OC(=O)NC)C)C",
+      "kg": { "score": 0.54, "rank": 33 },
+      "path": [
+        { "from": "physostigmine", "rel": "inhibits",         "to": "ACHE" },
+        { "from": "ACHE",          "rel": "participates_in",  "to": "Neuromuscular junction transmission" },
+        { "from": "Neuromuscular junction transmission", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.87,
+        "in_domain": true,
+        "nearest_tanimoto": 0.59,
+        "descriptors": { "mw": 275.35, "logp": 0.7, "tpsa": 44.8, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",        "passed": true,  "reason": "Hydrolysed by cholinesterase, not CYP; riluzole unaffected" },
+        { "rule": "respiratory",   "passed": true,  "reason": "Not a respiratory depressant at therapeutic dose" },
+        { "rule": "weight_loss",   "passed": true,  "reason": "Weight loss not a common adverse event" },
+        { "rule": "myopathy",      "passed": true,  "reason": "No myopathy signal in adverse-event data" },
+        { "rule": "swallow",       "passed": true,  "reason": "Available as a solution; no tablet to swallow" },
+        { "rule": "dexterity",     "passed": true,  "reason": "Oral route; no device to actuate" },
+        { "rule": "bbb_direction", "passed": false, "reason": "The target is the neuromuscular junction, but it crosses and is centrally toxic" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "patient_filter"
+    },
+    {
+      "id": "DB00854",
+      "inchikey": "JAQUASYNZVUNQP-USXIJHARSA-N",
+      "name": "levorphanol",
+      "smiles": "CN1CC[C@]23CCCC[C@H]2[C@H]1CC4=C3C=C(C=C4)O",
+      "kg": { "score": 0.51, "rank": 37 },
+      "path": [
+        { "from": "levorphanol", "rel": "antagonizes",      "to": "GRIN1" },
+        { "from": "GRIN1",       "rel": "participates_in",  "to": "Glutamate excitotoxicity" },
+        { "from": "Glutamate excitotoxicity", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.88,
+        "in_domain": true,
+        "nearest_tanimoto": 0.86,
+        "descriptors": { "mw": 257.37, "logp": 3.1, "tpsa": 23.5, "hbd": 1 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",      "passed": true,  "reason": "Glucuronidated by UGT2B7; no CYP1A2 interaction" },
+        { "rule": "respiratory", "passed": false, "reason": "Opioid respiratory depressant; his supine FVC is already 61%" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "patient_filter"
+    },
+    {
+      "id": "DB01001",
+      "inchikey": "NDAUXUAQIAJITI-UHFFFAOYSA-N",
+      "name": "salbutamol",
+      "smiles": "CC(C)(C)NCC(C1=CC(=C(C=C1)O)CO)O",
+      "kg": { "score": 0.46, "rank": 44 },
+      "path": [
+        { "from": "salbutamol", "rel": "agonizes",         "to": "ADRB2" },
+        { "from": "ADRB2",      "rel": "participates_in",  "to": "Neuromuscular junction maintenance" },
+        { "from": "Neuromuscular junction maintenance", "rel": "associated_with", "to": "ALS" }
+      ],
+      "bbb": {
+        "prob": 0.53,
+        "in_domain": true,
+        "nearest_tanimoto": 0.70,
+        "descriptors": { "mw": 239.31, "logp": 0.3, "tpsa": 72.7, "hbd": 4 }
+      },
+      "filters": [
+        { "rule": "cyp1a2",      "passed": true,  "reason": "Sulfated by SULT1A3; no CYP1A2 interaction with riluzole" },
+        { "rule": "respiratory", "passed": true,  "reason": "A bronchodilator; it supports breathing rather than depressing it" },
+        { "rule": "weight_loss", "passed": true,  "reason": "Anabolic in muscle; weight loss is not expected" },
+        { "rule": "myopathy",    "passed": true,  "reason": "Tremor and cramp, but no myopathy with raised CK" },
+        { "rule": "swallow",     "passed": true,  "reason": "Inhaled, so swallowing is not the limiting step" },
+        { "rule": "dexterity",   "passed": false, "reason": "Metered-dose inhaler; his right pinch is 3 kg, too weak to actuate" }
+      ],
+      "verdict": "eliminated",
+      "eliminated_at": "patient_filter"
     }
   ],
   "graveyard": [
     {
-      "name": "ceftriaxone",
-      "year": 2014,
-      "phase": "3",
-      "bbb_prob": 0.41,
-      "bucket": "arrived_failed",
-      "note": "Raised glial glutamate transporter in models; no clinical benefit",
-      "source_url": "https://neals.org/als-researchers/historical-trial-data"
-    },
-    {
-      "name": "minocycline",
-      "year": 2007,
-      "phase": "3",
-      "bbb_prob": 0.79,
-      "bucket": "arrived_failed",
-      "note": "Faster decline in the treated arm",
-      "source_url": "https://neals.org/als-researchers/historical-trial-data"
-    },
-    {
-      "name": "lithium",
-      "year": 2010,
+      "name": "topiramate",
+      "year": 2003,
       "phase": "2",
-      "bbb_prob": 0.86,
+      "bbb_prob": 0.72,
       "bucket": "arrived_failed",
-      "note": "No benefit over placebo",
+      "note": "Faster ALSFRS decline and significant weight loss in the treated arm",
       "source_url": "https://neals.org/als-researchers/historical-trial-data"
     },
     {
       "name": "celecoxib",
       "year": 2006,
       "phase": "2/3",
-      "bbb_prob": 0.68,
+      "bbb_prob": 0.66,
       "bucket": "arrived_failed",
-      "note": "No slowing of decline",
+      "note": "No slowing of decline; COX-2 inhibition reached cord but did nothing",
+      "source_url": "https://neals.org/als-researchers/historical-trial-data"
+    },
+    {
+      "name": "creatine",
+      "year": 2004,
+      "phase": "2",
+      "bbb_prob": 0.19,
+      "bucket": "never_arrived",
+      "note": "No effect on strength or survival; needs a transporter to enter brain",
       "source_url": "https://neals.org/als-researchers/historical-trial-data"
     },
     {
       "name": "coenzyme Q10",
       "year": 2009,
       "phase": "2",
-      "bbb_prob": 0.12,
+      "bbb_prob": 0.08,
       "bucket": "never_arrived",
-      "note": "Insufficient evidence to proceed to phase 3",
+      "note": "Failed the futility criteria for advancing to phase 3",
       "source_url": "https://neals.org/als-researchers/historical-trial-data"
     },
     {
-      "name": "creatine",
+      "name": "lithium",
+      "year": 2010,
+      "phase": "2",
+      "bbb_prob": 0.74,
+      "bucket": "arrived_failed",
+      "note": "Stopped early for futility after the 2008 open-label signal",
+      "source_url": "https://neals.org/als-researchers/historical-trial-data"
+    },
+    {
+      "name": "ceftriaxone",
+      "year": 2014,
+      "phase": "3",
+      "bbb_prob": 0.34,
+      "bucket": "never_arrived",
+      "note": "Raised glial EAAT2 in models; needed high IV doses to reach CSF",
+      "source_url": "https://neals.org/als-researchers/historical-trial-data"
+    },
+    {
+      "name": "minocycline",
+      "year": 2007,
+      "phase": "3",
+      "bbb_prob": 0.74,
+      "bucket": "arrived_failed",
+      "note": "The treated arm declined faster than placebo",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=minocycline+amyotrophic+lateral+sclerosis+trial"
+    },
+    {
+      "name": "memantine",
+      "year": 2010,
+      "phase": "2",
+      "bbb_prob": 0.88,
+      "bucket": "arrived_failed",
+      "note": "NMDA blockade reached the cortex and changed nothing measurable",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=memantine+amyotrophic+lateral+sclerosis+trial"
+    },
+    {
+      "name": "dexpramipexole",
+      "year": 2013,
+      "phase": "3",
+      "bbb_prob": 0.84,
+      "bucket": "arrived_failed",
+      "note": "EMPOWER missed both the function and the survival endpoint",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=dexpramipexole+EMPOWER+amyotrophic+lateral+sclerosis"
+    },
+    {
+      "name": "talampanel",
+      "year": 2010,
+      "phase": "2",
+      "bbb_prob": 0.78,
+      "bucket": "arrived_failed",
+      "note": "AMPA antagonism tolerated but no effect on functional decline",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=talampanel+amyotrophic+lateral+sclerosis"
+    },
+    {
+      "name": "pioglitazone",
+      "year": 2012,
+      "phase": "2",
+      "bbb_prob": 0.56,
+      "bucket": "arrived_failed",
+      "note": "No benefit as riluzole add-on; survival trended worse on treatment",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=pioglitazone+amyotrophic+lateral+sclerosis+trial"
+    },
+    {
+      "name": "gabapentin",
+      "year": 2001,
+      "phase": "3",
+      "bbb_prob": 0.63,
+      "bucket": "arrived_failed",
+      "note": "No effect on arm strength or FVC decline despite CNS exposure",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=gabapentin+amyotrophic+lateral+sclerosis+trial"
+    },
+    {
+      "name": "indinavir",
+      "year": 2005,
+      "phase": "2",
+      "bbb_prob": 0.11,
+      "bucket": "never_arrived",
+      "note": "Tested the retroviral hypothesis; P-glycoprotein keeps it out of CSF",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=indinavir+amyotrophic+lateral+sclerosis"
+    },
+    {
+      "name": "xaliproden",
       "year": 2004,
+      "phase": "3",
+      "bbb_prob": 0.86,
+      "bucket": "arrived_failed",
+      "note": "Two phase 3 trials, alone and with riluzole, missed their endpoints",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=xaliproden+amyotrophic+lateral+sclerosis"
+    },
+    {
+      "name": "ONO-2506",
+      "year": 2006,
+      "phase": "2",
+      "bbb_prob": 0.39,
+      "bucket": "never_arrived",
+      "note": "Astrocyte modulator; ALS development stopped for lack of effect",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=ONO-2506+arundic+acid+amyotrophic+lateral+sclerosis"
+    },
+    {
+      "name": "valproic acid",
+      "year": 2009,
+      "phase": "3",
+      "bbb_prob": 0.87,
+      "bucket": "arrived_failed",
+      "note": "HDAC inhibition clearly reached brain; no survival benefit",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=valproic+acid+amyotrophic+lateral+sclerosis+trial"
+    },
+    {
+      "name": "tirasemtiv",
+      "year": 2017,
+      "phase": "3",
+      "bbb_prob": 0.63,
+      "bucket": "arrived_failed",
+      "note": "VITALITY-ALS missed SVC; CNS side effects capped the dose",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=tirasemtiv+VITALITY-ALS"
+    },
+    {
+      "name": "reldesemtiv",
+      "year": 2023,
       "phase": "3",
       "bbb_prob": 0.22,
       "bucket": "never_arrived",
-      "note": "No effect on survival or function",
-      "source_url": "https://neals.org/als-researchers/historical-trial-data"
+      "note": "Redesigned for low CNS exposure; COURAGE-ALS stopped for futility",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=reldesemtiv+COURAGE-ALS"
     },
     {
-      "name": "ibuprofen",
-      "year": 2012,
-      "phase": "2",
-      "bbb_prob": 0.52,
+      "name": "sodium phenylbutyrate",
+      "year": 2024,
+      "phase": "3",
+      "bbb_prob": 0.44,
+      "bucket": "never_arrived",
+      "note": "PHOENIX was negative; AMX0035 was withdrawn from the market",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+phenylbutyrate+taurursodiol+PHOENIX+ALS"
+    },
+    {
+      "name": "arimoclomol",
+      "year": 2023,
+      "phase": "3",
+      "bbb_prob": 0.58,
       "bucket": "arrived_failed",
-      "note": "Sample entry so one candidate is caught at trial_history",
-      "source_url": "https://neals.org/als-researchers/historical-trial-data"
+      "note": "ORARIALS-01 missed the combined function and survival endpoint",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=arimoclomol+ORARIALS+amyotrophic+lateral+sclerosis"
+    },
+    {
+      "name": "levosimendan",
+      "year": 2021,
+      "phase": "3",
+      "bbb_prob": 0.33,
+      "bucket": "never_arrived",
+      "note": "REFALS; a diaphragm drug that was never meant to enter the CNS",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=levosimendan+REFALS+amyotrophic+lateral+sclerosis"
+    },
+    {
+      "name": "ibudilast",
+      "year": 2023,
+      "phase": "2",
+      "bbb_prob": 0.71,
+      "bucket": "arrived_failed",
+      "note": "Phase 2b showed no slowing of decline on ALSFRS-R",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=ibudilast+MN-166+amyotrophic+lateral+sclerosis"
+    },
+    {
+      "name": "masitinib",
+      "year": 2017,
+      "phase": "2/3",
+      "bbb_prob": 0.26,
+      "bucket": "never_arrived",
+      "note": "Benefit claim not accepted by EMA; CNS penetration questioned",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=masitinib+amyotrophic+lateral+sclerosis"
+    },
+    {
+      "name": "verdiperstat",
+      "year": 2022,
+      "phase": "2/3",
+      "bbb_prob": 0.69,
+      "bucket": "arrived_failed",
+      "note": "HEALEY regimen C; a brain-penetrant MPO inhibitor with no effect",
+      "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11833655/"
+    },
+    {
+      "name": "pridopidine",
+      "year": 2023,
+      "phase": "2/3",
+      "bbb_prob": 0.82,
+      "bucket": "arrived_failed",
+      "note": "HEALEY regimen D missed its primary endpoint; sigma-1 was engaged",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/?term=pridopidine+HEALEY+amyotrophic+lateral+sclerosis"
     }
   ],
   "validation": {
@@ -258,6 +1051,6 @@
     "bbb_roc_auc": 0.89,
     "bbb_roc_auc_published_baseline": 0.91,
     "negatives_in_top_50": 4,
-    "partition": { "never_arrived": 2, "arrived_failed": 5 }
+    "partition": { "never_arrived": 9, "arrived_failed": 16 }
   }
 }

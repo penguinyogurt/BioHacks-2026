@@ -110,10 +110,14 @@ cards below it; a replay control re-runs it in ~3s. Graveyard partition and
 validation sit one scroll down. A judge arriving mid-conversation sees the
 whole argument without anyone touching the laptop.
 
-**Aesthetic: clinical instrument.** Dense, high-contrast, tabular monospace
-numerals, near-neutral palette, **one** accent reserved for elimination. It
-should read as a tool a neurologist would open, because that's the claim.
-No gradients, no glassmorphism, no nested cards, no dark-console look.
+**Aesthetic: dark lab console.** Deep purple-black ground, elevated surfaces,
+luminous data. Dense, tabular monospace numerals, **one** accent reserved for
+elimination. Revised 2026-11-07 from an earlier light "clinical instrument"
+direction — the earlier call optimised for a clinician's trust, this one
+optimises for a judge's attention at an expo table, which is what actually
+decides the outcome. The data discipline did not change: colour still never
+carries meaning alone, numbers are still tabular, nothing is decorative at
+the cost of being readable.
 
 **Candidate volume: top 100 + all late cuts.** `merge.py` emits the top 100 by
 `kg.score` plus **every** drug eliminated at `patient_filter` or
