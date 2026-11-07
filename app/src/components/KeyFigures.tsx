@@ -61,7 +61,7 @@ export function KeyFigures({ data }: { data: Pipeline }) {
   const figures = build(data);
 
   return (
-    <section aria-label="Headline figures" className="hairline-b pb-8">
+    <section aria-label="Headline figures">
       <dl className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
         {figures.map((figure) => (
           <div key={figure.label}>

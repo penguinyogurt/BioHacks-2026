@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import type { FunnelStage } from "@/lib/contract";
 import { logBarWidth } from "@/lib/pipeline";
+import { Button } from "@/components/ui/button";
 import { cn, num } from "@/lib/utils";
 
 type Props = {
@@ -15,7 +16,7 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
   const final = funnel[funnel.length - 1];
 
   return (
-    <section aria-labelledby="funnel-heading" className="hairline-b pb-6">
+    <section aria-labelledby="funnel-heading">
       <header className="mb-4 flex items-end justify-between gap-6">
         <div>
           <h2 id="funnel-heading" className="text-xl leading-tight">
@@ -28,23 +29,17 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
           </p>
         </div>
 
-        <button
+        <Button
           type="button"
+          size="sm"
+          variant="outline"
           onClick={onReplay}
-          className={cn(
-            // min-w so swapping the label doesn't resize the button and nudge
-            // the header. Tailwind v4's hover: already emits
-            // @media (hover: hover) — wrapping it again produces `not all`,
-            // which never matches and silently kills the style.
-            "min-w-[5.5rem] shrink-0 rounded-md border border-rule-strong bg-surface px-3 py-1.5",
-            "text-sm font-medium text-ink-soft",
-            "transition-[transform,color,background-color] duration-150 ease-out",
-            "active:scale-[0.97]",
-            "hover:bg-surface-sunk hover:text-ink",
-          )}
+          // min-w so swapping the label doesn't resize the button and nudge
+          // the header.
+          className="min-w-[5.5rem] bg-surface/60 text-ink-soft active:scale-[0.97] hover:text-ink"
         >
           {isRunning ? "Running…" : "Replay"}
-        </button>
+        </Button>
       </header>
 
       <ol className="space-y-1">

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 /* ───────────────────────────────────────────────────────────────────────────
    Dark lab console.
@@ -80,7 +81,65 @@
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
+/* ───────────────────────────────────────────────────────────────────────────
+   shadcn/ui compatibility.
+
+   shadcn components are written against a fixed set of token names
+   (background, foreground, primary, muted, border, ring…). Rather than let
+   `shadcn init` write its own palette and fight ours, every one of those
+   names is aliased onto a token we already defined above. The result is that
+   any shadcn component dropped into this project inherits the lab-console
+   theme with no per-component overrides.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root {
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--surface-sunk);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface-sunk);
+  --muted-foreground: var(--ink-faint);
+  --accent: var(--surface-sunk);
+  --accent-foreground: var(--ink);
+  --destructive: var(--cut);
+  --destructive-foreground: var(--paper);
+  --border: var(--rule);
+  --input: var(--rule-strong);
+  --ring: var(--ink);
+  --radius: 0.5rem;
+}
+
 @theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
   /* The type scale. Without these every size was an arbitrary literal —
      52 of them across 9 files — and 0.8125rem had already started drifting
      against 0.875rem. Named steps make the drift impossible to write. */

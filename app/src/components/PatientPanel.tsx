@@ -10,7 +10,7 @@ import type { PatientProfile } from "@/lib/contract";
  */
 export function PatientPanel({ profile }: { profile: PatientProfile }) {
   return (
-    <section aria-labelledby="patient-heading" className="hairline-b pb-6">
+    <section aria-labelledby="patient-heading">
       <header className="mb-5">
         <h2 id="patient-heading" className="text-xl leading-tight">
           The constraints are {profile.display_name}&rsquo;s, not the disease&rsquo;s

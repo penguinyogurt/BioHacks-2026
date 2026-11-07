@@ -150,7 +150,7 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
   const active = dots.find((d) => idOf(d.entry) === read) ?? dots[0];
 
   return (
-    <section aria-labelledby="graveyard-heading" className="hairline-b pb-10">
+    <section aria-labelledby="graveyard-heading">
       <header>
         <h2 id="graveyard-heading" className="text-xl leading-tight">
           Why {entries.length} failed ALS trials failed, split two ways

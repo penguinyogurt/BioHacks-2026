@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import type { Candidate } from "@/lib/contract";
 import { CandidateCard } from "./CandidateCard";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type ViewKey = "survived" | "patient_filter" | "trial_history" | "bbb";
@@ -52,7 +53,7 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
   const active = VIEWS.find((v) => v.key === view);
 
   return (
-    <section aria-labelledby="candidates-heading" className="hairline-b pb-10">
+    <section aria-labelledby="candidates-heading">
       <header className="mb-5">
         <h2 id="candidates-heading" className="text-xl leading-tight">
           Every surviving drug carries its receipt
@@ -76,19 +77,16 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
         {VIEWS.map((v) => {
           const isActive = v.key === view;
           return (
-            <button
+            <Button
               key={v.key}
               type="button"
+              size="sm"
+              variant={isActive ? "default" : "outline"}
               aria-pressed={isActive}
               onClick={() => setView(v.key)}
               className={cn(
-                "flex items-baseline gap-2 rounded-md border px-2.5 py-1.5",
-                "text-sm font-medium",
-                "transition-[transform,background-color,border-color,color] duration-150 ease-out",
-                "active:scale-[0.97]",
-                isActive
-                  ? "border-ink bg-ink text-paper"
-                  : "border-rule-strong bg-surface text-ink-soft hover:bg-surface-sunk hover:text-ink",
+                "items-baseline active:scale-[0.97]",
+                !isActive && "bg-surface/60 text-ink-soft hover:text-ink",
               )}
             >
               {v.label}
@@ -100,7 +98,7 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
               >
                 {counts[v.key]}
               </span>
-            </button>
+            </Button>
           );
         })}
       </div>

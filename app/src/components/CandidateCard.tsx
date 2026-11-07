@@ -4,6 +4,25 @@ import { firstFailure, passCount } from "@/lib/contract";
 import { cn, prob } from "@/lib/utils";
 import { MoleculeView } from "./MoleculeView";
 import { PathGraph } from "./PathGraph";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+/**
+ * What the four descriptors mean, in terms of the barrier question.
+ *
+ * These are the features the classifier actually reads, so explaining them
+ * explains the model — a judge who isn't a chemist can otherwise only take
+ * the probability on faith.
+ */
+const DESCRIPTOR_HELP = {
+  MW: "Molecular weight, in daltons. Large molecules cross the blood–brain barrier poorly; above roughly 500 it becomes unlikely.",
+  logP: "Lipophilicity — how much the molecule prefers fat to water. The barrier wants moderately greasy: too polar can't enter the membrane, too greasy never leaves it.",
+  TPSA: "Topological polar surface area, in square ångströms. Polar surface has to shed its water to cross; above roughly 90 Å² is a strong signal against it.",
+  HBD: "Hydrogen-bond donors. Each one holds onto water that must be stripped away before the molecule can pass through the membrane.",
+} as const;
 
 const STAGE_LABEL: Record<string, string> = {
   universe: "the universe",
@@ -187,14 +206,30 @@ export function CandidateCard({ candidate, index }: { candidate: Candidate; inde
       <dl className="grid grid-cols-4 gap-2 rounded-[3px] bg-surface-sunk px-2.5 py-2">
         {(
           [
-            ["MW", candidate.bbb.descriptors.mw],
-            ["logP", candidate.bbb.descriptors.logp],
-            ["TPSA", candidate.bbb.descriptors.tpsa],
-            ["HBD", candidate.bbb.descriptors.hbd],
+            ["MW", candidate.bbb.descriptors.mw, DESCRIPTOR_HELP.MW],
+            ["logP", candidate.bbb.descriptors.logp, DESCRIPTOR_HELP.logP],
+            ["TPSA", candidate.bbb.descriptors.tpsa, DESCRIPTOR_HELP.TPSA],
+            ["HBD", candidate.bbb.descriptors.hbd, DESCRIPTOR_HELP.HBD],
           ] as const
-        ).map(([label, value]) => (
+        ).map(([label, value, help]) => (
           <div key={label}>
-            <dt className="label">{label}</dt>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                {/* A button, not a bare span: the explanation has to be
+                    reachable by keyboard, and these four numbers are
+                    meaningless to a judge who isn't a chemist. */}
+                <button
+                  type="button"
+                  className="label cursor-help decoration-rule-strong decoration-dotted underline-offset-[3px] hover:text-ink-soft focus-visible:text-ink-soft"
+                  style={{ textDecorationLine: "underline" }}
+                >
+                  {label}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-[22rem] text-pretty">
+                {help}
+              </TooltipContent>
+            </Tooltip>
             <dd className="readout mt-0.5 text-sm font-medium">
               {/* Minus sign, not hyphen: logP of −1.3 is a number, not a range. */}
               {String(value).replace("-", "−")}
