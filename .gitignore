@@ -1,0 +1,27 @@
+# Mirror the skills CLI writes for other agent harnesses; .claude/skills is the source of truth
+.agents/
+
+node_modules/
+dist/
+.vite/
+*.local
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Big source data — download it, don't commit it
+data/raw/
+*.tsv
+*.tsv.gz
+*.sql
+*.dump
+*.pkl
+*.npy
+
+# Keep the contract and generated outputs small and committed:
+# data/pipeline.json is committed on purpose.
+!data/pipeline.json
