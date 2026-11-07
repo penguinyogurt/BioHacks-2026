@@ -155,7 +155,7 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
         <h2 id="graveyard-heading" className="text-xl leading-tight">
           Why {entries.length} failed ALS trials failed, split two ways
         </h2>
-        <p className="mt-1 max-w-[70ch] text-[0.8125rem] leading-normal text-ink-soft">
+        <p className="mt-1 max-w-[70ch] text-sm leading-normal text-ink-soft">
           Every drug placed by its predicted barrier permeability. Left of the
           line, the trial may never have delivered the drug to the tissue it was
           testing. Nobody has published this partition for ALS.
@@ -201,12 +201,12 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
                 <span className="readout text-[2rem] leading-none font-medium tracking-[-0.02em]">
                   {n}
                 </span>
-                <span className="readout text-[0.75rem] text-ink-faint">
+                <span className="readout text-xs text-ink-faint">
                   of {entries.length}
                 </span>
               </div>
 
-              <p className="max-w-[46ch] text-[0.8125rem] leading-normal text-ink-soft">
+              <p className="max-w-[46ch] text-sm leading-normal text-ink-soft">
                 {bucket.blurb}
               </p>
             </div>
@@ -263,7 +263,7 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
                     y={axisY + 18}
                     textAnchor={t === 0 ? "start" : t === 1 ? "end" : "middle"}
                     className={cn(
-                      "readout text-[0.6875rem]",
+                      "readout text-label",
                       t === 0.5 ? "fill-ink font-medium" : "fill-ink-faint",
                     )}
                   >
@@ -273,14 +273,14 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
               );
             })}
 
-            <text x={0} y={axisY + 33} className="fill-ink-faint text-[0.625rem] tracking-[0.07em] uppercase">
+            <text x={0} y={axisY + 33} className="fill-ink-faint text-label tracking-[0.07em] uppercase">
               cannot cross
             </text>
             <text
               x={mid}
               y={axisY + 33}
               textAnchor="middle"
-              className="fill-ink-soft text-[0.625rem] tracking-[0.07em] uppercase"
+              className="fill-ink-soft text-label tracking-[0.07em] uppercase"
             >
               model threshold
             </text>
@@ -288,7 +288,7 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
               x={width}
               y={axisY + 33}
               textAnchor="end"
-              className="fill-ink-faint text-[0.625rem] tracking-[0.07em] uppercase"
+              className="fill-ink-faint text-label tracking-[0.07em] uppercase"
             >
               crosses
             </text>
@@ -307,7 +307,7 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
                   x={m.tx}
                   y={LABEL_Y}
                   textAnchor={m.anchor}
-                  className="fill-ink text-[0.6875rem] font-medium capitalize"
+                  className="fill-ink text-label font-medium capitalize"
                 >
                   {m.entry.name}
                 </text>
@@ -376,7 +376,7 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
           blanking, so a presenter can take their hand off the trackpad. */}
       {/* Not a live region: each point's own label already carries the whole
           record, so announcing this too would say everything twice. */}
-      <div className="border-l border-rule pl-5 text-[0.8125rem] leading-normal">
+      <div className="border-l border-rule pl-5 text-sm leading-normal">
         <div className="label">Trial record</div>
         {active && (
           <>
@@ -385,7 +385,7 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
               target="_blank"
               rel="noreferrer"
               className={cn(
-                "mt-2 inline-block text-[0.9375rem] leading-tight font-semibold capitalize",
+                "mt-2 inline-block text-md leading-tight font-semibold capitalize",
                 "underline decoration-rule-strong decoration-1 underline-offset-[3px]",
                 "transition-colors duration-150 ease-out hover:decoration-ink",
               )}
@@ -393,7 +393,7 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
               {active.entry.name}
             </a>
 
-            <p className="readout mt-2 text-[0.75rem] text-ink-faint">
+            <p className="readout mt-2 text-xs text-ink-faint">
               {active.entry.year} · phase {active.entry.phase}
               <span className="text-ink-soft">
                 {" · p "}

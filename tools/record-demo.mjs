@@ -15,10 +15,26 @@ const URL_ = process.argv[2] ?? "http://localhost:5173/";
 const OUT = resolve(process.argv[3] ?? "demo");
 
 const VIEWPORT = { width: 1440, height: 900 };
-/** 5 stages x 620ms dwell, plus the bar's 520ms settle and a beat. */
-const RUN_MS = 5 * 620 + 520 + 600;
 
 const beat = (page, ms) => page.waitForTimeout(ms);
+
+/**
+ * Waits for the funnel run to actually finish, rather than guessing at its
+ * duration. The run is nominally 3.1s, but it only starts once the funnel
+ * scrolls into view and its interval competes with the background shader for
+ * the main thread — a fixed timeout scrolled away mid-run. The Replay button
+ * reads "Running…" until it lands, so that is the signal.
+ */
+async function waitForRun(page, { timeout = 20000 } = {}) {
+  try {
+    await page
+      .getByRole("button", { name: /^replay$/i })
+      .first()
+      .waitFor({ state: "visible", timeout });
+  } catch {
+    console.warn("  (funnel run did not report finishing; carrying on)");
+  }
+}
 
 /**
  * Smooth-scrolls to an element and waits for it to settle.
@@ -62,13 +78,20 @@ async function clickFilter(page, label, pause = 1600) {
 
 /** Parks the pointer over a node so its readout panel fills in on camera. */
 async function hoverFirst(page, selector, pause = 1600) {
-  const target = page.locator(selector).first();
+  const all = page.locator(selector);
+  const n = await all.count();
+  // A hub rather than the first node: hubs are the ones several drugs share,
+  // which is what the readout is for.
+  const target = n > 0 ? all.nth(Math.min(2, n - 1)) : all.first();
   if ((await target.count()) === 0) {
     console.warn(`  (skipped: nothing at ${selector})`);
     return;
   }
   try {
-    await target.hover({ timeout: 2500 });
+    // force: the graph's hit targets sit under their visible marks, so
+    // Playwright's actionability check sees them as covered. We only want the
+    // pointer parked there for the camera, so the check is noise.
+    await target.hover({ timeout: 3000, force: true });
     await beat(page, pause);
   } catch {
     console.warn(`  (could not hover ${selector})`);
@@ -100,14 +123,16 @@ async function main() {
 
   console.log("  headline figures + funnel run");
   await scrollTo(page, "#funnel-heading", { pause: 600 });
-  await beat(page, RUN_MS);
-  await beat(page, 700);
+  await waitForRun(page);
+  await beat(page, 900);
 
   console.log("  replay");
-  const replay = page.getByRole("button", { name: /replay/i });
+  const replay = page.getByRole("button", { name: /^replay$/i });
   if (await replay.count()) {
     await replay.first().click();
-    await beat(page, RUN_MS + 500);
+    await beat(page, 400);
+    await waitForRun(page);
+    await beat(page, 700);
   }
 
   console.log("  patient panel");
@@ -116,7 +141,7 @@ async function main() {
   console.log("  knowledge graph");
   if (await scrollTo(page, "#kg-heading", { pause: 2400, center: true })) {
     // Land on a hub node so the convergence readout is populated on camera.
-    await hoverFirst(page, "#kg-heading ~ * circle", 2200);
+    await hoverFirst(page, "section[aria-labelledby=\"kg-heading\"] circle", 2200);
     await beat(page, 800);
   }
 

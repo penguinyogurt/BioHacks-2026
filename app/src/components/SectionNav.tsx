@@ -83,7 +83,10 @@ export function SectionNav() {
                 />
                 <span
                   className={cn(
-                    "label whitespace-nowrap transition-opacity duration-200 ease-out",
+                    // The label is ~144px wide and the gutter is narrower
+                    // than that, so it overlaps the panel edge. It gets its
+                    // own backing rather than printing onto the content.
+                    "label rounded bg-paper/85 px-1.5 py-0.5 whitespace-nowrap backdrop-blur-sm transition-opacity duration-200 ease-out",
                     // Visible on hover, on keyboard focus, or when current —
                     // a rail you can only read with a mouse is no rail.
                     isActive

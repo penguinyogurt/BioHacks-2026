@@ -1,10 +1,9 @@
 import type { Pipeline } from "@/lib/contract";
 import { pipelineResult } from "@/lib/pipeline";
-import { useFunnelRun } from "@/hooks/useFunnelRun";
 import { STAGES, SOURCES, buildStats } from "@/lib/provenance";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ContractError } from "@/components/ContractError";
-import { AuroraBackground } from "@/components/AuroraBackground";
+import { Suspense, lazy } from "react";
 import { Panel } from "@/components/Panel";
 import { SectionNav } from "@/components/SectionNav";
 import { Reveal } from "@/components/Reveal";
@@ -19,6 +18,17 @@ import { PipelineProvenance } from "@/components/PipelineProvenance";
 import { ValidationPanel } from "@/components/ValidationPanel";
 import { num } from "@/lib/utils";
 
+/**
+ * Split out of the main bundle. three + the r3f runtime is the single
+ * heaviest thing here and it is pure decoration, so loading it inline pushed
+ * everything behind it — the funnel run didn't start until 5.3s after
+ * navigation because the shader was compiling ahead of it. Lazy, the page is
+ * interactive immediately and the texture fades in behind it.
+ */
+const Dither = lazy(() =>
+  import("@/components/Dither").then((m) => ({ default: m.Dither })),
+);
+
 export default function App() {
   if (!pipelineResult.ok) {
     return <ContractError problems={pipelineResult.problems} />;
@@ -31,13 +41,26 @@ export default function App() {
  * own component. That keeps a contract failure a real screen, not a crash.
  */
 function Report({ data }: { data: Pipeline }) {
-  const run = useFunnelRun(data.funnel.length);
   const generated = new Date(data.meta.generated_at);
 
   return (
     <TooltipProvider delayDuration={120}>
       <div className="relative min-h-dvh">
-        <AuroraBackground />
+        {/* Pushed well past the component's own defaults, which are tuned to
+            stay legible under body text. Here it doesn't have to be: every
+            section sits in a glass Panel whose backdrop-blur softens the
+            texture under the words, so the dither can carry real contrast in
+            the gaps between panels — which is where you actually see it. */}
+        <Suspense fallback={null}>
+          <Dither
+            waveColor={[0.052, 0.044, 0.088]}
+            waveAmplitude={0.36}
+            waveFrequency={2.6}
+            waveSpeed={0.016}
+            pixelSize={4}
+            colorNum={4}
+          />
+        </Suspense>
 
         <a
           href="#main"
@@ -59,64 +82,73 @@ function Report({ data }: { data: Pipeline }) {
         {/* Order is load-bearing. The funnel is the argument and it autoplays,
             so it comes first; the patient panel then answers the question it
             raises, and still precedes the ranked list. */}
-        <main id="main" className="mx-auto max-w-[84rem] space-y-6 px-6 pb-20">
-          <Panel className="p-7">
-            <KeyFigures data={data} />
-          </Panel>
+        {/* Three acts, not eight equal boxes. Every panel was the same width,
+            padding and heading size, so the knowledge graph weighed exactly
+            what the metrics list did and the page read as a stack rather than
+            an argument. Grouping also opens real gaps between the acts, which
+            is where the dither is actually visible. */}
+        <main id="main" className="mx-auto max-w-[76rem] space-y-16 px-6 pb-20">
+          {/* The claim: what we did, and to whom. */}
+          <div className="space-y-6">
+            <Panel className="p-7">
+              <KeyFigures data={data} />
+            </Panel>
 
-          <Panel className="p-7">
-            <FunnelRun
-              funnel={data.funnel}
-              revealed={run.revealed}
-              isRunning={run.isRunning}
-              onReplay={run.replay}
-            />
-          </Panel>
+            <Panel className="p-8">
+              <FunnelRun funnel={data.funnel} />
+            </Panel>
 
-          {data.patient_profile && (
+            {data.patient_profile && (
+              <Reveal>
+                <Panel className="p-8">
+                  <PatientPanel profile={data.patient_profile} />
+                </Panel>
+              </Reveal>
+            )}
+          </div>
+
+          {/* The evidence: why these drugs, and what each one carries. */}
+          <div className="space-y-6">
             <Reveal>
-              <Panel className="p-7">
-                <PatientPanel profile={data.patient_profile} />
+              <Panel className="p-8">
+                <KnowledgeGraph candidates={data.candidates} />
               </Panel>
             </Reveal>
-          )}
 
-          <Reveal>
-            <Panel className="p-7">
-              <KnowledgeGraph candidates={data.candidates} />
-            </Panel>
-          </Reveal>
+            <Reveal>
+              <Panel className="p-8">
+                <CandidatesSection candidates={data.candidates} />
+              </Panel>
+            </Reveal>
+          </div>
 
-          <Reveal>
-            <Panel className="p-7">
-              <CandidatesSection candidates={data.candidates} />
-            </Panel>
-          </Reveal>
+          {/* The proof: including the parts that don't flatter us. */}
+          <div className="space-y-6">
+            <Reveal>
+              <Panel className="p-7">
+                <GraveyardPartition entries={data.graveyard} />
+              </Panel>
+            </Reveal>
 
-          <Reveal>
-            <Panel className="p-7">
-              <GraveyardPartition entries={data.graveyard} />
-            </Panel>
-          </Reveal>
+            <Reveal>
+              <Panel className="p-7">
+                <ValidationPanel validation={data.validation} />
+              </Panel>
+            </Reveal>
 
-          <Reveal>
-            <Panel className="p-7">
-              <ValidationPanel validation={data.validation} />
-            </Panel>
-          </Reveal>
-
-          <Reveal>
-            <Panel className="p-7">
-              <PipelineProvenance
-                stages={STAGES}
-                sources={SOURCES}
-                stats={buildStats(data)}
-              />
-            </Panel>
-          </Reveal>
+            <Reveal>
+              <Panel className="p-7">
+                <PipelineProvenance
+                  stages={STAGES}
+                  sources={SOURCES}
+                  stats={buildStats(data)}
+                />
+              </Panel>
+            </Reveal>
+          </div>
         </main>
 
-        <footer className="mx-auto max-w-[84rem] px-6 pb-10">
+        <footer className="mx-auto max-w-[76rem] px-6 pb-10">
           <p className="text-xs leading-normal text-ink-faint">
             {num(data.meta.n_input)} approved substances screened · generated{" "}
             <span className="readout">

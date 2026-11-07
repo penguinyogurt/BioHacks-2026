@@ -55,7 +55,7 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
   return (
     <section aria-labelledby="candidates-heading">
       <header className="mb-5">
-        <h2 id="candidates-heading" className="text-xl leading-tight">
+        <h2 id="candidates-heading" className="text-2xl leading-tight">
           Every surviving drug carries its receipt
         </h2>
         <p className="mt-1 max-w-[66ch] text-sm leading-normal text-ink-soft">
@@ -81,19 +81,25 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
               key={v.key}
               type="button"
               size="sm"
-              variant={isActive ? "default" : "outline"}
+              variant={isActive ? "secondary" : "outline"}
               aria-pressed={isActive}
               onClick={() => setView(v.key)}
               className={cn(
                 "items-baseline active:scale-[0.97]",
-                !isActive && "bg-surface/60 text-ink-soft hover:text-ink",
+                // Not shadcn's `default`: that fills with --primary, which
+                // aliases our brightest ink, making the control louder than
+                // the drug names and the bonds. Selection is carried by ink
+                // weight and a ring here, like every other state on the page.
+                isActive
+                  ? "bg-surface-sunk text-ink ring-1 ring-rule-strong"
+                  : "bg-surface/60 text-ink-soft hover:text-ink",
               )}
             >
               {v.label}
               <span
                 className={cn(
                   "readout text-xs",
-                  isActive ? "text-paper/70" : "text-ink-faint",
+                  isActive ? "text-ink-soft" : "text-ink-faint",
                 )}
               >
                 {counts[v.key]}

@@ -1,25 +1,28 @@
+import { useRef } from "react";
 import { motion } from "motion/react";
 import type { FunnelStage } from "@/lib/contract";
 import { logBarWidth } from "@/lib/pipeline";
+import { useFunnelRun } from "@/hooks/useFunnelRun";
+import { useOnScreen } from "@/hooks/useOnScreen";
 import { Button } from "@/components/ui/button";
 import { cn, num } from "@/lib/utils";
 
-type Props = {
-  funnel: FunnelStage[];
-  revealed: number;
-  isRunning: boolean;
-  onReplay: () => void;
-};
-
-export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
+export function FunnelRun({ funnel }: { funnel: FunnelStage[] }) {
   const max = funnel[0]?.count ?? 1;
   const final = funnel[funnel.length - 1];
 
+  // The run owns its own visibility. A judge must actually be looking at the
+  // bars when they move — triggering on mount meant the whole 3.1s played
+  // below the fold and they arrived at a finished chart.
+  const frame = useRef<HTMLElement>(null);
+  const onScreen = useOnScreen(frame);
+  const { revealed, isRunning, replay } = useFunnelRun(funnel.length, onScreen);
+
   return (
-    <section aria-labelledby="funnel-heading">
+    <section aria-labelledby="funnel-heading" ref={frame}>
       <header className="mb-4 flex items-end justify-between gap-6">
         <div>
-          <h2 id="funnel-heading" className="text-xl leading-tight">
+          <h2 id="funnel-heading" className="text-2xl leading-tight">
             Five stages, each removing candidates for a stated reason
           </h2>
           <p className="mt-1 text-sm leading-normal text-ink-soft">
@@ -33,7 +36,7 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
           type="button"
           size="sm"
           variant="outline"
-          onClick={onReplay}
+          onClick={replay}
           // min-w so swapping the label doesn't resize the button and nudge
           // the header.
           className="min-w-[5.5rem] bg-surface/60 text-ink-soft active:scale-[0.97] hover:text-ink"
@@ -139,20 +142,25 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
         })}
       </ol>
 
-      {final && (
-        <motion.p
-          className="mt-3 text-md leading-normal text-ink-soft"
-          // Nothing else announces that the run finished, so a screen-reader
-          // user who presses Replay otherwise gets no result.
-          aria-live="polite"
-          initial={false}
-          animate={{ opacity: revealed >= funnel.length ? 1 : 0 }}
-          transition={{ duration: 0.28, ease: [0.23, 1, 0.32, 1], delay: 0.1 }}
-        >
-          <span className="readout font-semibold text-ink">{num(final.count)}</span> of{" "}
-          <span className="readout">{num(max)}</span> approved drugs survive every stage.
-        </motion.p>
-      )}
+      {/* A live region observes content, not style. Fading this in with
+          opacity announced nothing when the run finished — which was the
+          whole point — and `opacity: 0` doesn't hide it from a screen
+          reader either, so the answer was read out 3.1s before anyone could
+          see it. It gets mounted when the run lands, not faded. */}
+      <div aria-live="polite" className="mt-3 min-h-6">
+        {final && revealed >= funnel.length && (
+          <motion.p
+            className="text-md leading-normal text-ink-soft"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.28, ease: [0.23, 1, 0.32, 1] }}
+          >
+            <span className="readout font-semibold text-ink">{num(final.count)}</span>{" "}
+            of <span className="readout">{num(max)}</span> approved drugs survive
+            every stage.
+          </motion.p>
+        )}
+      </div>
     </section>
   );
 }

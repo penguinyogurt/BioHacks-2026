@@ -41,8 +41,21 @@ export function Hero({ data }: { data: Pipeline }) {
         };
 
   return (
-    <header className="relative flex min-h-[78svh] flex-col justify-center px-6 py-20">
-      <div className="mx-auto grid w-full max-w-[84rem] items-center gap-12 lg:grid-cols-[minmax(0,1fr)_26rem]">
+    <header className="relative flex min-h-[62svh] flex-col justify-center px-6 py-14">
+      {/* The hero's words are the only text on the page not sitting in a
+          glass panel, so they have nothing softening the dither underneath
+          them. This scrim pulls the ground back toward solid exactly where
+          the sentence is and fades out before the edges, so the texture
+          still reads as full-bleed. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-[1]"
+        style={{
+          background:
+            "radial-gradient(ellipse 66% 72% at 24% 50%, var(--paper) 0%, var(--paper) 38%, color-mix(in oklch, var(--paper) 78%, transparent) 58%, transparent 86%)",
+        }}
+      />
+      <div className="mx-auto grid w-full max-w-[76rem] items-center gap-12 lg:grid-cols-[minmax(0,1fr)_26rem]">
         <div>
         <motion.p className="label" {...rise(0)}>
           BioHacks 2026 · Patient-constrained drug repurposing · ALS
@@ -52,7 +65,11 @@ export function Hero({ data }: { data: Pipeline }) {
           className="mt-5 max-w-[20ch] text-[clamp(2.75rem,6.5vw,5.25rem)] leading-[0.98]"
           {...rise(0.08)}
         >
-          <CountUp value={screened} className="readout" /> approved drugs.
+          {/* Only the second number counts. KeyFigures animates 4,805 too,
+              and both were on screen at once running the same 0→4,805 — the
+              same datum animated twice reads as a glitch, not emphasis. The
+              survivor count is what the sentence turns on. */}
+          <span className="readout">{num(screened)}</span> approved drugs.
           <br />
           One chart.{" "}
           <span className="text-keep">

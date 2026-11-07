@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useReducedMotion } from "motion/react";
+import { useOnScreen } from "@/hooks/useOnScreen";
 import type { Candidate } from "@/lib/contract";
 import { cn } from "@/lib/utils";
 
@@ -243,6 +244,14 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
   const [read, setRead] = useState<string | null>(null);
   const reduce = useReducedMotion();
 
+  // The draw-in has to wait for the graph to be on screen. Mounted-triggered,
+  // all 202 animations reported "finished" by t=3s while this panel was still
+  // 892px below the fold — the best two seconds on the page, played to
+  // nobody. `Reveal` doesn't help: it sets opacity, which hides an animation
+  // rather than pausing it.
+  const onScreen = useOnScreen(frame);
+  const animate = !reduce && onScreen;
+
   useEffect(() => {
     const el = frame.current;
     if (!el) return;
@@ -261,6 +270,11 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
   const byRing = useMemo(() => {
     const out: GNode[][] = [[], [], [], []];
     for (const n of nodes.values()) out[n.ring].push(n);
+    // Sort by angular rank, not insertion order. DOM order is tab order, and
+    // unsorted it jumped across the dial — memantine, levetiracetam,
+    // mexiletine, minocycline — which is disorienting with a focus ring
+    // following it. Sorted, focus sweeps the circle.
+    for (const ring of out) ring.sort((a, b) => a.angle - b.angle);
     return out;
   }, [nodes]);
 
@@ -328,7 +342,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
       <style>{CSS}</style>
 
       <header>
-        <h2 id="kg-heading" className="text-xl leading-tight">
+        <h2 id="kg-heading" className="text-2xl leading-tight">
           {drugs} drugs reach ALS through {pathways} shared mechanisms
         </h2>
         <p className="mt-1 max-w-[70ch] text-sm leading-normal text-ink-soft">
@@ -383,7 +397,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                     r={radius[ring]}
                     fill="none"
                     strokeWidth={1}
-                    className={cn("stroke-rule", !reduce && "kg-fade")}
+                    className={cn("stroke-rule", animate && "kg-fade")}
                     style={delay(NODE_IN[ring], 0)}
                     aria-hidden="true"
                   />
@@ -405,7 +419,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                         strokeLinecap="round"
                         className={cn(
                           "kg-dim",
-                          !reduce && "kg-edge",
+                          animate && "kg-edge",
                           hotPaths && on ? "stroke-ink-soft" : "stroke-rule-strong",
                         )}
                         style={{
@@ -467,7 +481,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                             fill={hollow ? "none" : undefined}
                             strokeWidth={hollow ? 1.5 : 0}
                             className={cn(
-                              !reduce && "kg-node",
+                              animate && "kg-node",
                               hollow
                                 ? "stroke-cut"
                                 : drug
@@ -489,7 +503,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                               dominantBaseline="middle"
                               className={cn(
                                 "text-label",
-                                !reduce && "kg-fade",
+                                animate && "kg-fade",
                                 n.survived
                                   ? "fill-ink font-medium"
                                   : hotPaths && on
@@ -509,7 +523,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                                 dominantBaseline="middle"
                                 className={cn(
                                   "readout text-label font-medium fill-ink",
-                                  !reduce && "kg-fade",
+                                  animate && "kg-fade",
                                 )}
                                 style={delay(NODE_IN[n.ring] + 160, order)}
                               >
@@ -534,7 +548,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                     cy={cy}
                     r={hub}
                     strokeWidth={1.5}
-                    className={cn("fill-surface stroke-rule-strong", !reduce && "kg-node")}
+                    className={cn("fill-surface stroke-rule-strong", animate && "kg-node")}
                     style={delay(0, 0)}
                   />
                   <text
@@ -542,7 +556,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                     y={cy}
                     textAnchor="middle"
                     dominantBaseline="central"
-                    className={cn("font-display text-2xl fill-ink", !reduce && "kg-fade")}
+                    className={cn("font-display text-2xl fill-ink", animate && "kg-fade")}
                     style={delay(80, 0)}
                   >
                     {byRing[0][0]?.label ?? "ALS"}

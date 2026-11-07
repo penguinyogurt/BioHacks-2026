@@ -531,9 +531,15 @@ export function Dither({
   const [hidden, setHidden] = useState(() => document.hidden);
 
   // A backgrounded tab must not keep a full-screen fragment shader warm.
-  // rAF already throttles, but `frameloop="never"` stops the loop outright.
+  //
+  // The resync on the first line is not redundant. `hidden` is seeded during
+  // render, and if the tab's visibility flips between that and this effect
+  // the transition is missed and the pause never lifts. Measured: mounting
+  // in a background tab and then revealing it left the canvas stuck at its
+  // unsized default with no background at all.
   useEffect(() => {
     const onVisibility = () => setHidden(document.hidden);
+    onVisibility();
     document.addEventListener("visibilitychange", onVisibility);
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
@@ -559,14 +565,30 @@ export function Dither({
     >
       <WebGLBoundary>
         <Canvas
-          // Reduced motion gets exactly one frame, so the texture is still
-          // there but nothing moves. `never` parks the loop for a hidden tab.
-          frameloop={reduced ? "demand" : hidden ? "never" : "always"}
+          // "demand" for both the reduced-motion and hidden cases, never
+          // "never". Both park the render loop so a background tab costs no
+          // GPU, but "demand" still honours the invalidate() in
+          // DitheredWaves, so the first frame is drawn and the canvas gets
+          // sized. "never" skips that initial render: mounted while the tab
+          // was hidden, the canvas stuck at its 300x150 default and stayed
+          // blank even after the tab came back — reproducible under
+          // StrictMode, and a blank background is the one outcome a
+          // recording cannot tolerate. The worst case here is a correctly
+          // sized static frame instead of an animated one.
+          frameloop={reduced || hidden ? "demand" : "always"}
           camera={{ position: [0, 0, 6] }}
-          // 2x on a full-screen fragment shader is a frame-rate cliff for no
-          // visible gain at this contrast — the dither cell is quantised to
-          // device pixels either way.
-          dpr={[1, 1.5]}
+          // Half resolution, upscaled by the browser. A full-screen fragment
+          // shader is the entire frame budget and this one is pure
+          // decoration: at 1x it measured 24ms/frame on integrated graphics
+          // and ~1.5s/frame under software GL (any headless capture, and any
+          // machine whose GPU is blocked), which starved the funnel's
+          // interval so badly the 3.1s run took 11s.
+          //
+          // Quartering the fragment count fixes that, and costs nothing you
+          // can see: the output is already quantised into pixelSize-wide
+          // cells and four hard colour levels, so there is no fine detail for
+          // the extra resolution to resolve.
+          dpr={[0.5, 0.5]}
           gl={{
             antialias: false,
             powerPreference: "low-power",

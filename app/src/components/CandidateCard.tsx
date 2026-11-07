@@ -218,10 +218,12 @@ export function CandidateCard({ candidate, index }: { candidate: Candidate; inde
                 {/* A button, not a bare span: the explanation has to be
                     reachable by keyboard, and these four numbers are
                     meaningless to a judge who isn't a chemist. */}
+                {/* min-h-6 with a negative margin: WCAG 2.2 wants a 24px
+                    target and these measured 22.6x13.2. The margin keeps the
+                    row's visual height unchanged. */}
                 <button
                   type="button"
-                  className="label cursor-help decoration-rule-strong decoration-dotted underline-offset-[3px] hover:text-ink-soft focus-visible:text-ink-soft"
-                  style={{ textDecorationLine: "underline" }}
+                  className="label -my-[5px] inline-flex min-h-6 cursor-help items-center underline decoration-rule-strong decoration-dotted underline-offset-[3px] hover:text-ink-soft focus-visible:text-ink-soft"
                 >
                   {label}
                 </button>
