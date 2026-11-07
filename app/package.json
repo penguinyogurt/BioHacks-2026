@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "node --experimental-strip-types --test src/**/*.test.ts",
-    "check": "tsc -b && node --experimental-strip-types --test src/**/*.test.ts"
+    "check": "tsc -b && node --experimental-strip-types --test src/**/*.test.ts",
+    "validate": "node --experimental-strip-types src/lib/validate.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.5",
