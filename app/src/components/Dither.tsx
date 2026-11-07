@@ -127,7 +127,23 @@ float cnoise(vec2 P) {
   return 2.3 * mix(n_x.x, n_x.y, fade_xy.y);
 }
 
-const int OCTAVES = 8;
+// NO BACKTICKS ANYWHERE IN THIS STRING - it is a template literal, and a
+// backtick in a GLSL comment silently ends it and hands the rest of the
+// shader to the JS parser.
+//
+// Upstream runs 8 octaves. Measured on the Intel HD 620 this is being
+// captured on, at 1440x900 and dpr 1.5 (a 2160x1350 buffer), 8 octaves cost
+// 82ms/frame - about 12fps - because pattern() nests fbm() three deep, so
+// every octave is really 3 Perlin evaluations per pixel. Four octaves cost
+// 24ms.
+//
+// Nothing is lost at the default waveAmplitude of 0.3: amplitude decays by
+// that factor per octave, so octaves 5-8 together contribute 0.8% of the
+// field, which is 0.034 of one quantisation step at colorNum = 4 - they
+// cannot flip a single dither cell, and the dither cell is the smallest
+// thing this can show. The tail only becomes visible around waveAmplitude
+// 0.8 (3.6 steps); raise this back toward 8 if you raise it that far.
+const int OCTAVES = 4;
 float fbm(vec2 p) {
   float value = 0.0;
   float amp = 1.0;
