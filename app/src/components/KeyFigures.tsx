@@ -1,5 +1,5 @@
 import type { Pipeline } from "@/lib/contract";
-import { num } from "@/lib/utils";
+import { CountUp } from "./CountUp";
 
 /**
  * The four numbers that carry the whole argument, above the fold.
@@ -10,7 +10,13 @@ import { num } from "@/lib/utils";
  * claim.
  */
 
-type Figure = { value: string; label: string; note: string };
+/** `count` animates from zero; `value` is rendered as-is. */
+type Figure = {
+  count?: number;
+  value?: string;
+  label: string;
+  note: string;
+};
 
 function build(data: Pipeline): Figure[] {
   const first = data.funnel[0];
@@ -20,12 +26,12 @@ function build(data: Pipeline): Figure[] {
 
   const figures: Figure[] = [
     {
-      value: num(first?.count ?? data.meta.n_input),
+      count: first?.count ?? data.meta.n_input,
       label: "Approved drugs screened",
       note: "Every human-approved substance with a structure",
     },
     {
-      value: num(last?.count ?? 0),
+      count: last?.count ?? 0,
       label: "Viable for Alex",
       note: "Survived all five stages, receipts attached",
     },
@@ -33,7 +39,7 @@ function build(data: Pipeline): Figure[] {
 
   if (patientStage && patientStage.eliminated > 0) {
     figures.push({
-      value: num(patientStage.eliminated),
+      count: patientStage.eliminated,
       label: "Removed by his chart alone",
       note: "Would have passed every other stage",
     });
@@ -62,7 +68,11 @@ export function KeyFigures({ data }: { data: Pipeline }) {
             <dt className="label">{figure.label}</dt>
             <dd>
               <p className="readout mt-1.5 text-3xl leading-none font-semibold tracking-[-0.02em]">
-                {figure.value}
+                {figure.count !== undefined ? (
+                  <CountUp value={figure.count} />
+                ) : (
+                  figure.value
+                )}
               </p>
               <p className="mt-2 max-w-[28ch] text-sm leading-snug text-ink-soft">
                 {figure.note}

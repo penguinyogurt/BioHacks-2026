@@ -57,6 +57,13 @@
   --bucket-never: oklch(0.90 0.035 285);
   --bucket-arrived: oklch(0.78 0.03 285);
 
+  /* Ambient background light. Deliberately low-chroma and close in hue to
+     the ground: this is depth, not decoration, and the page has to stay
+     perfectly readable over it. Nothing but AuroraBackground may use these. */
+  --aurora-1: oklch(0.52 0.16 290);
+  --aurora-2: oklch(0.48 0.14 265);
+  --aurora-3: oklch(0.52 0.10 200);
+
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono",

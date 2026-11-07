@@ -2,6 +2,8 @@ import type { Pipeline } from "@/lib/contract";
 import { pipelineResult } from "@/lib/pipeline";
 import { useFunnelRun } from "@/hooks/useFunnelRun";
 import { ContractError } from "@/components/ContractError";
+import { AuroraBackground } from "@/components/AuroraBackground";
+import { Reveal } from "@/components/Reveal";
 import { KeyFigures } from "@/components/KeyFigures";
 import { PatientPanel } from "@/components/PatientPanel";
 import { FunnelRun } from "@/components/FunnelRun";
@@ -27,6 +29,8 @@ function Report({ data }: { data: Pipeline }) {
 
   return (
     <div className="min-h-dvh">
+      <AuroraBackground />
+
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-ink focus:px-3 focus:py-2 focus:text-sm focus:text-paper"
@@ -76,11 +80,26 @@ function Report({ data }: { data: Pipeline }) {
           onReplay={run.replay}
         />
 
-        {data.patient_profile && <PatientPanel profile={data.patient_profile} />}
+        {/* Reveal only below the fold. KeyFigures counts itself up and the
+            funnel runs on its own; wrapping either would stack two entrance
+            animations on the same element. */}
+        {data.patient_profile && (
+          <Reveal>
+            <PatientPanel profile={data.patient_profile} />
+          </Reveal>
+        )}
 
-        <CandidatesSection candidates={data.candidates} />
-        <GraveyardPartition entries={data.graveyard} />
-        <ValidationPanel validation={data.validation} />
+        <Reveal>
+          <CandidatesSection candidates={data.candidates} />
+        </Reveal>
+
+        <Reveal>
+          <GraveyardPartition entries={data.graveyard} />
+        </Reveal>
+
+        <Reveal>
+          <ValidationPanel validation={data.validation} />
+        </Reveal>
       </main>
 
       <footer className="hairline-t">
