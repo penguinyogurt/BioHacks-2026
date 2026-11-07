@@ -320,7 +320,7 @@ function DitheredWaves({
   mouseRadius,
 }: WavesProps) {
   const mesh = useRef<Mesh>(null);
-  const { size, gl } = useThree();
+  const { size, gl, viewport } = useThree();
 
   // A ref, not state: upstream re-rendered the whole subtree on every
   // pointermove, which is a React render per mouse pixel for a value that
@@ -388,12 +388,13 @@ function DitheredWaves({
 
   return (
     <>
-      {/* A screen-filling triangle-pair in clip space. The shader works
-          entirely from gl_FragCoord, so the camera never has to agree with
-          the plane's size — which is what upstream's `viewport`-scaled mesh
-          was for, and what made it wrong for one frame after every resize. */}
-      <mesh ref={mesh} frustumCulled={false}>
-        <planeGeometry args={[2, 2]} />
+      {/* The vertex shader is upstream's and runs the full
+          projection * view * model chain, so this plane lives in world
+          space, not clip space — it has to be scaled to the camera's
+          viewport to fill the screen. A unit plane here renders as a small
+          bright patch in the middle of a black page. */}
+      <mesh ref={mesh} scale={[viewport.width, viewport.height, 1]}>
+        <planeGeometry args={[1, 1]} />
         <shaderMaterial
           vertexShader={waveVertexShader}
           fragmentShader={waveFragmentShader}
@@ -477,7 +478,15 @@ export function Dither({
   waveSpeed = 0.02,
   waveFrequency = 3,
   waveAmplitude = 0.3,
-  waveColor = [0.09, 0.085, 0.13],
+  // Linear-light, and measured rather than guessed — postprocessing encodes
+  // the composer output to sRGB, so these are ~25x smaller than the sRGB
+  // values they produce. With colorNum = 4 the four levels land on sRGB
+  // 0.000 / 0.017 / 0.034 / 0.050, which screen onto `--paper` (0.053) as
+  // 0.053 / 0.069 / 0.085 / 0.100 — four 8-bit-distinct steps that top out
+  // at `--surface` (0.094), so the brightest dot never out-weighs a card.
+  // This is the calibration knob: raise it together and the texture comes
+  // forward, but re-check the `--ink-faint` 11px case in index.css first.
+  waveColor = [0.004, 0.0038, 0.0058],
   colorNum = 4,
   pixelSize = 3,
   disableAnimation = false,

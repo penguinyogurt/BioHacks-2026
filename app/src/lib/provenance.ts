@@ -42,8 +42,9 @@ export const STAGES: Stage[] = [
     module: "kg_rank.py",
     title: "Knowledge-graph ranking",
     writes: "data/kg_scores.json",
-    method:
-      "Scores the missing Compound–treats–ALS edge with a TransE embedding, then walks 2–3 hop paths back to ALS for the receipt.",
+    // Keep these under ~85 characters: past that they wrap to three lines in
+    // the lane cards and the four columns stop scanning as parallel.
+    method: "TransE scores the missing Compound–treats–ALS edge; BFS walks the path back.",
     inputs: ["DRKG"],
   },
   {
@@ -52,7 +53,7 @@ export const STAGES: Stage[] = [
     title: "Blood–brain barrier model",
     writes: "data/bbb_scores.json",
     method:
-      "LightGBM over Morgan fingerprints and physicochemical descriptors, split by Bemis–Murcko scaffold so similar molecules can't leak across train and test.",
+      "LightGBM over Morgan fingerprints, split by Bemis–Murcko scaffold so nothing leaks.",
     inputs: ["B3DB", "DrugCentral"],
   },
   {
@@ -61,7 +62,7 @@ export const STAGES: Stage[] = [
     title: "Patient filter",
     writes: "data/patient_filter.json",
     method:
-      "Deterministic rules read off one chart. Every rule returns a boolean and a reason a clinician would accept. No model, no training data.",
+      "Deterministic rules off one chart. Each returns a boolean and a clinician's reason.",
     inputs: ["DrugCentral", "Health Canada DPD"],
   },
   {
@@ -70,7 +71,7 @@ export const STAGES: Stage[] = [
     title: "Trial history",
     writes: "data/graveyard.json",
     method:
-      "Hand-curated human ALS trial failures with year and phase, flagged rather than silently dropped — and reused as the model's negative controls.",
+      "Curated human ALS failures, flagged not dropped, reused as negative controls.",
     inputs: ["NEALS", "repoDB"],
   },
 ];
@@ -81,6 +82,11 @@ export const SOURCES: Source[] = [
     what: "~97k nodes · 5.8M typed triples",
     role: "Drug, gene, pathway and disease relations, plus pretrained embeddings",
     url: "https://github.com/gnn4dr/DRKG",
+    // Apache-2.0 covers the repository. DRKG aggregates many upstream
+    // sources and carries per-edge licence attributes rather than one
+    // dataset licence, so this is deliberately the repo's and not a claim
+    // about every triple in it.
+    licence: "Apache-2.0 (repo)",
   },
   {
     name: "B3DB",
@@ -113,7 +119,11 @@ export const SOURCES: Source[] = [
     what: "Marketed drug product database",
     role: "Whether a surviving candidate is actually available where the patient lives",
     url: "https://health-products.canada.ca/dpd-bdpp/",
+    licence: "Open Government Licence – Canada",
   },
+  // repoDB and NEALS are left without a licence on purpose. Both are public,
+  // but neither states terms we verified, and a wrong licence on a slide is
+  // worse than an honest blank.
 ];
 
 /** Derived from the run, so these can't disagree with the rest of the page. */
