@@ -747,20 +747,61 @@ def rule_bbb_direction(drug: DrugRecord, chart: Chart = ALEX_CHEN) -> RuleResult
     This rule is signed, and it is the one that looks backwards: crossing the
     blood-brain barrier is a liability when the target is muscle or peripheral.
 
-    The precedent, for whoever presents this: Cytokinetics' fast-skeletal-muscle
-    troponin activator tirasemtiv improved muscle function but was brain-
-    penetrant, and the resulting central side effects - dizziness, fatigue,
-    nausea - drove enough dose reduction and withdrawal in the VITALITY-ALS
-    phase 3 that the programme was stopped. Cytokinetics then deliberately
-    engineered reldesemtiv as a next-generation troponin activator with the
-    same peripheral mechanism and substantially less CNS penetration. The
-    company paid for this lesson in a phase 3: for a muscle target, BBB+ is a
-    defect in the molecule, not a feature. Cite this when a judge asks why the
-    rule has a sign.
+    THE PRECEDENT, for whoever presents this. Cytokinetics' fast skeletal
+    muscle troponin activator programme is a documented case where a drug
+    company treated brain penetration as a defect to engineer out, for a
+    skeletal-muscle target.
 
-    So: CNS target plus predicted BBB-negative fails, because the drug cannot
-    reach the tissue. Muscle or peripheral target plus predicted BBB-positive
-    also fails, because the drug reaches tissue it has no business in.
+    Tirasemtiv, the first-generation activator, had rat brain exposure
+    normalized to blood of 0.27, impaired rat rotarod performance, and produced
+    a dose-limiting clinical syndrome of dizziness, fatigue and nausea that its
+    first-in-human study attributed to "an off-target effect in the central
+    nervous system given the constellation of symptoms observed". That
+    tolerability ceiling cost it roughly threefold excess withdrawal against
+    placebo in BENEFIT-ALS (99 of 605 randomized patients versus 33) and 34.2%
+    versus 12.2% discontinuation by week 24 of the phase 3 VITALITY-ALS.
+
+    The follow-on medicinal chemistry says the goal out loud: "optimizing
+    off-target selectivity and distribution to muscle relative to brain tissue
+    to improve potency and clinical tolerability". Reldesemtiv was selected with
+    normalized rat brain exposure of 0.063 against tirasemtiv's 0.27 - about
+    fourfold lower, attributed to P-glycoprotein efflux - with simultaneously
+    higher skeletal-muscle exposure, no rotarod effect, and the identical fast
+    skeletal troponin mechanism. Cytokinetics' own poster states that
+    "reldesemtiv is optimized to limit crossing the blood-brain barrier". In
+    phase 2b FORTITUDE-ALS the CNS ceiling was gone: dizziness ran 6.0% at the
+    top dose against 9.6% on placebo.
+
+    THREE LIMITS, so this is not overclaimed to a pharmacologist:
+
+    1. VITALITY-ALS was stopped because it missed its primary endpoint - slow
+       vital capacity declined 13.4% on drug versus 14.4% on placebo, p = 0.56 -
+       not because of the central side effects. The CNS burden drove withdrawal
+       and muddied the read; the efficacy miss ended the programme.
+    2. Tirasemtiv's dose-limiting toxicity was CNS-dominated but not purely
+       central. Patients also lost significantly more weight (-1.70 versus
+       -0.79 kg, p = 0.006) with more gastrointestinal events, and the
+       BENEFIT-ALS authors blamed that weight loss, not dizziness, for masking
+       the functional signal.
+    3. Lower brain penetration was one of several stated selection criteria for
+       reldesemtiv, alongside potency, selectivity, drug-drug interaction risk
+       and projected human exposure. Reldesemtiv is also a different scaffold,
+       not a CNS-tuned analogue of tirasemtiv.
+
+    And the honest coda: reldesemtiv itself was stopped for futility in phase 3
+    COURAGE-ALS in 2025. So this precedent supports treating CNS penetration as
+    a de-prioritization signal for a muscle target. It does not show that
+    lowering brain exposure produces efficacy, and we should not claim it does.
+
+    Sources: J Med Chem 2021 (reldesemtiv discovery, doi 10/acs.jmedchem.1c01067);
+    Shefner et al., Amyotroph Lateral Scler Frontotemporal Degener
+    2016;17(5-6):426-435 (BENEFIT-ALS, PMID 26982815); Shefner et al., same
+    journal 2019 (VITALITY-ALS); Cytokinetics MNDA 2018 FORTITUDE-ALS poster.
+
+    So the rule: CNS target plus predicted BBB-negative fails, because the drug
+    cannot reach the tissue. Muscle or peripheral target plus predicted
+    BBB-positive also fails, because the drug reaches tissue it has no business
+    in and pays for it in tolerability.
 
     `in_domain: false` from component B means the probability is suppressed and
     this rule does not fire at all - we do not eliminate a drug on a number the
@@ -804,10 +845,12 @@ def rule_bbb_direction(drug: DrugRecord, chart: Chart = ALEX_CHEN) -> RuleResult
             "bbb_direction",
             False,
             f"Its target is {compartment}, yet it is predicted to cross into the brain "
-            f"(p = {prob:.2f}); here CNS exposure buys nothing and costs tolerability. "
-            f"Cytokinetics stopped brain-penetrant tirasemtiv in phase 3 over central "
-            f"side effects and rebuilt the same muscle mechanism as reldesemtiv to stay "
-            f"out of the CNS.",
+            f"(p = {prob:.2f}); for a {compartment} target, central exposure is a "
+            f"tolerability liability without adding efficacy. Cytokinetics selected "
+            f"reldesemtiv over tirasemtiv partly for lower rat brain exposure "
+            f"(0.063 versus 0.27) while keeping the same fast skeletal troponin "
+            f"mechanism; VITALITY-ALS later missed its primary endpoint on efficacy, "
+            f"not on delivery alone.",
         )
 
     if is_cns:

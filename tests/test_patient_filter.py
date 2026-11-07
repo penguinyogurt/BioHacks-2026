@@ -425,7 +425,8 @@ def test_bbb_direction_docstring_carries_the_tirasemtiv_precedent():
     doc = pf.rule_bbb_direction.__doc__ or ""
     assert "tirasemtiv" in doc
     assert "reldesemtiv" in doc
-    assert "VITALITY-ALS" in doc
+    assert "0.27" in doc
+    assert "0.063" in doc
 
 
 # --------------------------------------------------------------------------
