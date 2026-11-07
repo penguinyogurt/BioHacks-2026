@@ -20,7 +20,7 @@
       "target_compartment": "cns",
       "bbb": { "prob": 0.89, "in_domain": true },
       "in_health_canada_dpd": true,
-      "notes": "NMDA antagonist. Also sits in the graveyard: negative ALS phase 2/3."
+      "notes": "NMDA antagonist. Also sits in the graveyard: MND-SMART phase 3, n=554, reported negative in 2024."
     },
     {
       "id": "DB00181",
@@ -249,7 +249,7 @@
       "target_compartment": "skeletal muscle",
       "bbb": { "prob": 0.88, "in_domain": true },
       "in_health_canada_dpd": false,
-      "notes": "The precedent for the signed barrier rule. Fast skeletal muscle troponin activator with a muscle target that entered the brain; central side effects drove withdrawals in VITALITY-ALS and Cytokinetics rebuilt the mechanism as reldesemtiv to stay out of the CNS."
+      "notes": "The precedent for the signed barrier rule. Fast skeletal muscle troponin activator: a muscle target in a brain-penetrant molecule. VITALITY-ALS (phase 3, reported 2019) missed its slow-vital-capacity endpoint and Cytokinetics rebuilt the mechanism as reldesemtiv."
     },
     {
       "name": "reldesemtiv",
@@ -262,7 +262,7 @@
       "target_compartment": "skeletal muscle",
       "bbb": { "prob": 0.24, "in_domain": true },
       "in_health_canada_dpd": false,
-      "notes": "Tirasemtiv's successor. Same muscle target, engineered to stay peripheral, so it passes the signed barrier rule with the correct sign - and still fails the Canada rule, because it was never approved anywhere."
+      "notes": "Tirasemtiv's successor. Same muscle target, intended to stay peripheral, so it passes the signed barrier rule with the correct sign - and still fails the Canada rule, because it was never approved anywhere. It also failed COURAGE-ALS for futility in 2025, which is the honest footnote: getting the delivery direction right does not rescue a mechanism that does not work."
     },
     {
       "name": "riluzole",
@@ -276,7 +276,22 @@
       "target_compartment": "cns",
       "bbb": { "prob": 0.79, "in_domain": true },
       "in_health_canada_dpd": true,
-      "notes": "His own drug, as a positive control. Note the swallow rule fails it: the only Canadian form is a film-coated tablet, and he coughs on thin liquids. That is the delivery gap, computed rather than asserted."
+      "notes": "His own drug, as a positive control, annotated as the product he can actually get in Hamilton - Rilutek, Apo-Riluzole or Mylan-Riluzole, all 50 mg tablets. Note the swallow rule fails it, and that is the delivery gap: computed from his chart rather than asserted."
+    },
+    {
+      "name": "riluzole oral suspension",
+      "id": "TIGLUTIK",
+      "atc_codes": ["N07XX02"],
+      "cyp1a2": { "inhibitor": false, "inducer": false },
+      "adverse_events": ["asthenia", "nausea", "alanine aminotransferase increased", "dizziness"],
+      "has_ade_data": true,
+      "formulations": ["oral suspension"],
+      "routes": ["oral"],
+      "target_compartment": "cns",
+      "bbb": { "prob": 0.79, "in_domain": true },
+      "in_health_canada_dpd": false,
+      "health_canada_din": null,
+      "notes": "Tiglutik in the US (NDA 209080, approved 2018) and Teglutik in Europe: riluzole as a thickened oral suspension, currently marketed, made for ALS patients who cannot swallow tablets. It clears the swallow rule that his tablet fails, then fails the Canada rule - the Health Canada DPD holds only three riluzole products and all three are 50 mg tablets. Same molecule, same dose, one rule apart. See docs/riluzole-delivery-gap.md."
     },
     {
       "name": "riluzole oral film",
@@ -290,7 +305,8 @@
       "target_compartment": "cns",
       "bbb": { "prob": 0.79, "in_domain": true },
       "in_health_canada_dpd": false,
-      "notes": "Exservan: an FDA-approved riluzole oral film that dissolves on the tongue without water, made for ALS patients who cannot swallow. It clears the swallow rule that his tablet fails, and then fails the Canada rule. Same molecule, same dose, one rule apart - see docs/exservan-health-canada.md."
+      "health_canada_din": null,
+      "notes": "Exservan: a riluzole oral film placed on the tongue, label instruction 'Do not administer with liquids'. FDA-approved 2019-11-22 under NDA 212640, discontinued 2024-09-30, and FDA withdrew the approval on 2025-02-14 (90 FR 3877), so it no longer exists anywhere. It never held a Canadian DIN in any status. Kept in the set as the historical case - the easiest formulation for a patient like Alex was built, then taken off the market. The live comparator is the oral suspension above."
     }
   ]
 }
