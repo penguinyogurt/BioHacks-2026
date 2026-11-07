@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Downloaded source datasets. Every module re-downloads what it needs; see README.
+data/raw/
+
+# Large derived artifacts. Small cached crosswalks and metrics are committed on purpose.
+artifacts/*.npy
+artifacts/*.pkl
+artifacts/*.tar.gz
+
+.DS_Store
+.ipynb_checkpoints/

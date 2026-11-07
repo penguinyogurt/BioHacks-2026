@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "owner": "E2",
+    "description": "Failed/discontinued ALS trial drugs (spec Validation). Supersede with E3 graveyard.json."
+  },
+  "compounds": [
+    {"name": "topiramate", "year": 2003, "phase": "2", "note": "AMPA antagonist; negative.", "smiles": "CC1(O[C@@H]2CO[C@@]3(COS(N)(=O)=O)OC(O)(C)C3O2)CC(O)(C1(C)C)C"},
+    {"name": "creatine", "year": 2004, "phase": "3", "note": "No survival benefit.", "smiles": "CN(CC(=O)O)C(=N)N"},
+    {"name": "celecoxib", "year": 2006, "phase": "2", "note": "COX-2; no benefit.", "smiles": "CC1=CC=C(C=C1)C2=CC(=NN2C3=CC=C(C=C3)S(=O)(=O)N)C(F)(F)F"},
+    {"name": "coenzyme Q10", "year": 2009, "phase": "2", "note": "Futility.", "smiles": "CC1=C(C(=O)C(=C(C1=O)OC)OC)C/C=C(/C)CC/C=C(/C)CC/C=C(/C)C"},
+    {"name": "memantine", "year": 2010, "phase": "2", "note": "NMDA antagonist; no benefit.", "smiles": "CC12CC3CC(C1)(CC(C3)(C2)N)C"},
+    {"name": "lithium carbonate", "year": 2010, "phase": "3", "note": "Futility.", "smiles": "[Li+].[Li+].C(=O)([O-])[O-]"},
+    {"name": "ceftriaxone", "year": 2014, "phase": "3", "note": "EAAT2 upregulation; no clinical benefit.", "smiles": "CN1C(=NC(=O)C(=O)N1)SCC2=C(N3[C@@H]([C@@H](C3=O)NC(=O)[C@H](N)C4=CC=C(C=C4)O)SC2)C(=O)O"},
+    {"name": "minocycline", "year": 2007, "phase": "3", "note": "Faster decline on drug.", "smiles": "CN(C)[C@H]1[C@@H]2C[C@@H]3CC4=C(C=CC(=C4C(=C3C(=O)[C@@]2(C(=O)C(=C1C)O)O)O)N(C)C"},
+    {"name": "dexpramipexole", "year": 2013, "phase": "3", "note": "EMPOWER negative.", "smiles": "CCCN[C@@H]1CCC2=C(C1)SC(=N2)N"},
+    {"name": "tirasemtiv", "year": 2017, "phase": "3", "note": "CNS side effects; muscle target.", "smiles": "CCC(CC)N1C2=NC(=CN=C2NC1=O)C#C"},
+    {"name": "reldesemtiv", "year": 2024, "phase": "3", "note": "Non-CNS redesign; futility.", "smiles": "C1C(CC1(CNC2=NC=C(C=N2)N3C=CC(=C3)C(=O)N)C4=C(C=CC=N4)C#N)N"},
+    {"name": "pridopidine", "year": 2023, "phase": "2/3", "note": "HEALEY D negative.", "smiles": "CCCN1CCC(CC1)C2=CC(=CC=C2)S(=O)(=O)C"},
+    {"name": "ibudilast", "year": 2023, "phase": "2b/3", "note": "Negative.", "smiles": "CC(C)C1=NN2C=CC=CC2=C1C(=O)C(C)C"},
+    {"name": "fasudil", "year": 2024, "phase": "2", "note": "ROCK-ALS negative.", "smiles": "C1CNCCN(C1)S(=O)(=O)C2=CC=CC3=C2C=CN=C3"},
+    {"name": "sodium phenylbutyrate", "year": 2024, "phase": "3", "note": "Relyvrio component; failed.", "smiles": "C1=CC=C(C=C1)CCCC(=O)[O-].[Na+]"},
+    {"name": "tauroursodeoxycholic acid", "year": 2024, "phase": "3", "note": "TUDCA-ALS failed.", "smiles": "C[C@H](CCC(=O)NCCS(=O)(=O)O)[C@H]1CC[C@@H]2[C@@]1(CC[C@H]3[C@H]2[C@@H]([C@@H]([C@]34CC[C@@H](C4)O)O)O)C"},
+    {"name": "BIIB078", "year": 2021, "phase": "1", "note": "C9orf72 ASO; ASO modality.", "smiles": null},
+    {"name": "tofersen", "year": 2023, "phase": "3", "note": "Reference ASO; intrathecal.", "smiles": null}
+  ]
+}
