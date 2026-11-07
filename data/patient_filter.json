@@ -1,0 +1,1082 @@
+{
+  "meta": {
+    "generated_at": "2026-11-07T20:30:18Z",
+    "module": "patient_filter.py",
+    "patient": "alex_chen",
+    "rule_order": [
+      "cyp1a2",
+      "respiratory",
+      "weight_loss",
+      "myopathy",
+      "swallow",
+      "dexterity",
+      "bbb_direction",
+      "canada"
+    ],
+    "n_input": 21,
+    "n_passed": 3,
+    "n_eliminated": 18
+  },
+  "chart": {
+    "patient": "Alex Chen",
+    "age": 47,
+    "city": "Hamilton, Ontario",
+    "current_therapy": "riluzole 50 mg twice daily since July 2026",
+    "fvc_sitting_pct": 76,
+    "fvc_supine_pct": 61,
+    "cough_peak_flow_lpm": 310,
+    "weight_kg": [
+      86.0,
+      77.5
+    ],
+    "meal_duration": "35-40 minutes",
+    "ck_u_per_l": 470,
+    "ck_reference_ceiling": 195,
+    "swallow": "coughs on thin liquids on the timed water swallow",
+    "pinch_kg": 3.0,
+    "grip_kg": 14.0,
+    "grip_typical_kg": 48.0
+  },
+  "eliminated_by_rule": {
+    "cyp1a2": 4,
+    "respiratory": 4,
+    "weight_loss": 2,
+    "myopathy": 2,
+    "swallow": 2,
+    "dexterity": 1,
+    "bbb_direction": 1,
+    "canada": 2
+  },
+  "top_reason": "cyp1a2",
+  "results": [
+    {
+      "id": "DB00740",
+      "name": "memantine",
+      "inchikey": null,
+      "passed": true,
+      "first_failure": null,
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Comes as oral solution, which goes down without a drink of thin liquid - the point being that he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target sits in the cns and it is predicted to cross the blood-brain barrier (p = 0.89), so the drug and its target are on the same side of the barrier."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00181",
+      "name": "baclofen",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "respiratory",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": false,
+          "reason": "Respiratory depressant - GABA-B agonist, respiratory depression at high dose; his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": false,
+          "reason": "'muscular weakness' is a known adverse event; his CK is already 470 U/L against a reference ceiling of 195 U/L, so added muscle toxicity would be both harmful and impossible to tell apart from his disease."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Smallest solid form is a 8 mm tablet, small enough to be given in puree rather than washed down, which it has to be because he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target sits in the cns and it is predicted to cross the blood-brain barrier (p = 0.62), so the drug and its target are on the same side of the barrier."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB01367",
+      "name": "rasagiline",
+      "inchikey": null,
+      "passed": true,
+      "first_failure": null,
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Smallest solid form is a 7 mm tablet, small enough to be given in puree rather than washed down, which it has to be because he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target sits in the cns and it is predicted to cross the blood-brain barrier (p = 0.93), so the drug and its target are on the same side of the barrier."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00545",
+      "name": "pyridostigmine",
+      "inchikey": null,
+      "passed": true,
+      "first_failure": null,
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Comes as oral solution, which goes down without a drink of thin liquid - the point being that he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target is neuromuscular junction and it is predicted to stay out of the brain (p = 0.07), which is the right sign for a peripheral target - the tirasemtiv-to-reldesemtiv redesign is the precedent."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB01212",
+      "name": "ceftriaxone",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "bbb_direction",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Given by the intravenous route, so it bypasses swallowing altogether; he coughs on thin liquids on the timed water swallow, so this rule does not apply."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": false,
+          "reason": "Its target sits in the cns, but it is predicted not to cross the blood-brain barrier (p = 0.41), so it cannot reach the tissue that would have to change for him to benefit."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00176",
+      "name": "fluvoxamine",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "cyp1a2",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": false,
+          "reason": "A strong CYP1A2 inhibitor, and he has been on riluzole 50 mg twice daily since July 2026; riluzole is cleared almost entirely by CYP1A2, so adding this would push his riluzole exposure up."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": false,
+          "reason": "'decreased appetite' is a listed adverse event; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes, so he has no margin to give back."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": false,
+          "reason": "Only available as tablet, film coated - no film, dispersible tablet, liquid or small tablet - and he coughs on thin liquids on the timed water swallow, so he cannot reliably wash a solid dose down."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target sits in the cns and it is predicted to cross the blood-brain barrier (p = 0.95), so the drug and its target are on the same side of the barrier."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00537",
+      "name": "ciprofloxacin",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "cyp1a2",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": false,
+          "reason": "A strong CYP1A2 inhibitor, and he has been on riluzole 50 mg twice daily since July 2026; riluzole is cleared almost entirely by CYP1A2, so adding this would push his riluzole exposure up."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": false,
+          "reason": "'myalgia' is a known adverse event; his CK is already 470 U/L against a reference ceiling of 195 U/L, so added muscle toxicity would be both harmful and impossible to tell apart from his disease."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Comes as oral suspension, which goes down without a drink of thin liquid - the point being that he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target is peripheral and it is predicted to stay out of the brain (p = 0.18), which is the right sign for a peripheral target - the tirasemtiv-to-reldesemtiv redesign is the precedent."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00564",
+      "name": "carbamazepine",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "cyp1a2",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": false,
+          "reason": "A moderate CYP1A2 inducer, and he has been on riluzole 50 mg twice daily since July 2026; riluzole is cleared almost entirely by CYP1A2, so adding this would pull his riluzole exposure down below an already modest therapeutic effect."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Comes as oral suspension, which goes down without a drink of thin liquid - the point being that he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target sits in the cns and it is predicted to cross the blood-brain barrier (p = 0.97), so the drug and its target are on the same side of the barrier."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00599",
+      "name": "mexiletine",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "cyp1a2",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": false,
+          "reason": "A moderate CYP1A2 inhibitor, and he has been on riluzole 50 mg twice daily since July 2026; riluzole is cleared almost entirely by CYP1A2, so adding this would push his riluzole exposure up."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": false,
+          "reason": "Only available as capsule - no film, dispersible tablet, liquid or small tablet - and he coughs on thin liquids on the timed water swallow, so he cannot reliably wash a solid dose down."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": false,
+          "reason": "Its target is muscle, yet it is predicted to cross into the brain (p = 0.84); here CNS exposure buys nothing and costs tolerability. Cytokinetics stopped brain-penetrant tirasemtiv in phase 3 over central side effects and rebuilt the same muscle mechanism as reldesemtiv to stay out of the CNS."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00295",
+      "name": "morphine",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "respiratory",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": false,
+          "reason": "Respiratory depressant - opioid analgesic, ATC N02AA01; his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": false,
+          "reason": "'decreased appetite' is a listed adverse event; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes, so he has no margin to give back."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Comes as oral solution, which goes down without a drink of thin liquid - the point being that he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": false,
+          "reason": "Administration needs fine motor control - subcutaneous injection he would have to give himself - and his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target sits in the cns and it is predicted to cross the blood-brain barrier (p = 0.72), so the drug and its target are on the same side of the barrier."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00829",
+      "name": "diazepam",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "respiratory",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": false,
+          "reason": "Respiratory depressant - benzodiazepine anxiolytic, ATC N05BA01; his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": false,
+          "reason": "'muscular weakness' is a known adverse event; his CK is already 470 U/L against a reference ceiling of 195 U/L, so added muscle toxicity would be both harmful and impossible to tell apart from his disease."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Comes as oral solution, which goes down without a drink of thin liquid - the point being that he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target sits in the cns and it is predicted to cross the blood-brain barrier (p = 1.00), so the drug and its target are on the same side of the barrier."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00273",
+      "name": "topiramate",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "weight_loss",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": false,
+          "reason": "'weight decreased' is a listed adverse event; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes, so he has no margin to give back."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": false,
+          "reason": "Only available as capsule, sprinkle, tablet, film coated - no film, dispersible tablet, liquid or small tablet - and he coughs on thin liquids on the timed water swallow, so he cannot reliably wash a solid dose down."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target sits in the cns and it is predicted to cross the blood-brain barrier (p = 0.66), so the drug and its target are on the same side of the barrier."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00641",
+      "name": "simvastatin",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "myopathy",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": false,
+          "reason": "'myopathy' is a known adverse event; his CK is already 470 U/L against a reference ceiling of 195 U/L, so added muscle toxicity would be both harmful and impossible to tell apart from his disease."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Smallest solid form is a 7 mm tablet, small enough to be given in puree rather than washed down, which it has to be because he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target is liver and it is predicted to stay out of the brain (p = 0.45), which is the right sign for a peripheral target - the tirasemtiv-to-reldesemtiv redesign is the precedent."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00996",
+      "name": "gabapentin",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "respiratory",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": false,
+          "reason": "Respiratory depressant - gabapentinoid, ATC N03AX12; his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Comes as oral solution, which goes down without a drink of thin liquid - the point being that he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": false,
+          "reason": "Its target sits in the cns, but it is predicted not to cross the blood-brain barrier (p = 0.31), so it cannot reach the tissue that would have to change for him to benefit."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB01001",
+      "name": "salbutamol",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "dexterity",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Comes as oral solution, which goes down without a drink of thin liquid - the point being that he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": false,
+          "reason": "Administration needs fine motor control - a grip-actuated metered-dose inhaler - and his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target is peripheral and it is predicted to stay out of the brain (p = 0.22), which is the right sign for a peripheral target - the tirasemtiv-to-reldesemtiv redesign is the precedent."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "DB00060",
+      "name": "interferon beta-1a",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "myopathy",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": false,
+          "reason": "'myalgia' is a known adverse event; his CK is already 470 U/L against a reference ceiling of 195 U/L, so added muscle toxicity would be both harmful and impossible to tell apart from his disease."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Given by the subcutaneous route, so it bypasses swallowing altogether; he coughs on thin liquids on the timed water swallow, so this rule does not apply."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "The barrier model reports this molecule outside its applicability domain, so its probability is suppressed and the signed barrier rule is not enforced - we will not eliminate a drug on a number the model cannot stand behind."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": null,
+      "name": "tirasemtiv",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "weight_loss",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": false,
+          "reason": "'weight decreased' is a listed adverse event; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes, so he has no margin to give back."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": false,
+          "reason": "Only available as tablet - no film, dispersible tablet, liquid or small tablet - and he coughs on thin liquids on the timed water swallow, so he cannot reliably wash a solid dose down."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": false,
+          "reason": "Its target is skeletal muscle, yet it is predicted to cross into the brain (p = 0.88); here CNS exposure buys nothing and costs tolerability. Cytokinetics stopped brain-penetrant tirasemtiv in phase 3 over central side effects and rebuilt the same muscle mechanism as reldesemtiv to stay out of the CNS."
+        },
+        {
+          "rule": "canada",
+          "passed": false,
+          "reason": "Not in the Health Canada Drug Product Database, so it cannot be dispensed to him in Hamilton, Ontario on a normal prescription."
+        }
+      ]
+    },
+    {
+      "id": null,
+      "name": "reldesemtiv",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "swallow",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": false,
+          "reason": "Only available as tablet - no film, dispersible tablet, liquid or small tablet - and he coughs on thin liquids on the timed water swallow, so he cannot reliably wash a solid dose down."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target is skeletal muscle and it is predicted to stay out of the brain (p = 0.24), which is the right sign for a peripheral target - the tirasemtiv-to-reldesemtiv redesign is the precedent."
+        },
+        {
+          "rule": "canada",
+          "passed": false,
+          "reason": "Not in the Health Canada Drug Product Database, so it cannot be dispensed to him in Hamilton, Ontario on a normal prescription."
+        }
+      ]
+    },
+    {
+      "id": "DB00740-RIL",
+      "name": "riluzole",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "swallow",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": false,
+          "reason": "Only available as tablet, film coated - no film, dispersible tablet, liquid or small tablet - and he coughs on thin liquids on the timed water swallow, so he cannot reliably wash a solid dose down."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target sits in the cns and it is predicted to cross the blood-brain barrier (p = 0.79), so the drug and its target are on the same side of the barrier."
+        },
+        {
+          "rule": "canada",
+          "passed": true,
+          "reason": "Authorized in the Health Canada Drug Product Database, so it can be dispensed to him in Hamilton, Ontario."
+        }
+      ]
+    },
+    {
+      "id": "TIGLUTIK",
+      "name": "riluzole oral suspension",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "canada",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Comes as oral suspension, which goes down without a drink of thin liquid - the point being that he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target sits in the cns and it is predicted to cross the blood-brain barrier (p = 0.79), so the drug and its target are on the same side of the barrier."
+        },
+        {
+          "rule": "canada",
+          "passed": false,
+          "reason": "Not in the Health Canada Drug Product Database, so it cannot be dispensed to him in Hamilton, Ontario on a normal prescription."
+        }
+      ]
+    },
+    {
+      "id": "EXSERVAN",
+      "name": "riluzole oral film",
+      "inchikey": null,
+      "passed": false,
+      "first_failure": "canada",
+      "filters": [
+        {
+          "rule": "cyp1a2",
+          "passed": true,
+          "reason": "No CYP1A2 inhibition or induction on record, so it will not disturb the clearance of his riluzole 50 mg twice daily since July 2026."
+        },
+        {
+          "rule": "respiratory",
+          "passed": true,
+          "reason": "Not in a respiratory-depressant class, which is the first thing to check because his supine FVC is already 61% (sitting 76%) and his cough peak flow is 310 L/min."
+        },
+        {
+          "rule": "weight_loss",
+          "passed": true,
+          "reason": "No weight loss, anorexia or appetite suppression on its adverse-event list; he has already lost 8.5 kg unintentionally (86 to 77.5 kg) and his meals take 35-40 minutes."
+        },
+        {
+          "rule": "myopathy",
+          "passed": true,
+          "reason": "No myopathy or rhabdomyolysis signal on its adverse-event list, which matters because his CK is already 470 U/L against a reference ceiling of 195 U/L."
+        },
+        {
+          "rule": "swallow",
+          "passed": true,
+          "reason": "Comes as oral film, which goes down without a drink of thin liquid - the point being that he coughs on thin liquids on the timed water swallow."
+        },
+        {
+          "rule": "dexterity",
+          "passed": true,
+          "reason": "No inhaler, pen, syringe or spray step in its administration, which it cannot have because his right pinch is 3 kg and his grip 14 kg against a typical 48 kg, and he needs help with buttons and zips."
+        },
+        {
+          "rule": "bbb_direction",
+          "passed": true,
+          "reason": "Its target sits in the cns and it is predicted to cross the blood-brain barrier (p = 0.79), so the drug and its target are on the same side of the barrier."
+        },
+        {
+          "rule": "canada",
+          "passed": false,
+          "reason": "Not in the Health Canada Drug Product Database, so it cannot be dispensed to him in Hamilton, Ontario on a normal prescription."
+        }
+      ]
+    }
+  ]
+}
