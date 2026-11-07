@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Passage word check</title>
+<style>*{box-sizing:border-box}body{max-width:790px;margin:auto;padding:32px 20px;background:#f8f6ef;color:#183837;font:16px/1.5 system-ui}h1{font:2.8rem Georgia;margin:0}blockquote{font:1.6rem/1.55 Georgia;margin:20px 0}section{background:white;border:1px solid #c9d6d0;border-radius:12px;padding:20px;margin:14px 0}button,select{font:inherit;padding:8px;border-radius:6px;border:1px solid #78958f;background:white}button{color:white;background:#205952;cursor:pointer}audio{width:100%;margin-top:12px}label{display:inline-block;margin:4px 8px 4px 0}strong{font-size:2.4rem}li{margin:.35rem 0}</style>
+<main><h1>Passage word check</h1><blockquote>__PASSAGE__</blockquote>
+<section><button id="mic">Record reading</button> <label>Upload WAV <input id="upload" type="file" accept=".wav,audio/wav"></label><br>
+<label>Synthetic sample <select id="sample"><option value="">Choose a reading</option><option value="baseline">Standard pace</option><option value="slower">Slower reading</option><option value="edited">Skipped and replaced words</option></select></label>
+<audio id="player" controls></audio><p role="status" id="status">Record or choose audio to score it locally.</p></section>
+<section id="result" hidden aria-live="polite"><strong id="count"></strong><p id="summary"></p><p id="scale"></p><h2>Recognized words</h2><p id="transcript"></p><ul id="events"></ul><small>A recognizer can mishear a word. The score measures transcript differences.</small></section></main>
+<script>
+const $=id=>document.getElementById(id);
+let recorder,ctx,version=0,url,timer;
+function showError(e){$("status").textContent=e.message||String(e)}
+async function analyze(blob,name){
+ const id=++version;$("result").hidden=true;$("status").textContent="Transcribing "+name+" locally…";
+ try{
+ ctx=ctx||new AudioContext();const decoded=await ctx.decodeAudioData(await blob.arrayBuffer());
+ if(decoded.duration>60||decoded.duration<.2)throw Error("Choose 0.2–60 seconds of audio.");
+ const offline=new OfflineAudioContext(1,Math.ceil(decoded.duration*16000),16000),source=offline.createBufferSource();
+ source.buffer=decoded;source.connect(offline.destination);source.start();const samples=(await offline.startRendering()).getChannelData(0);
+ const bytes=new ArrayBuffer(44+2*samples.length),v=new DataView(bytes);
+ function str(i,s){for(let j=0;j<s.length;j++)v.setUint8(i+j,s.charCodeAt(j))}
+ str(0,"RIFF");v.setUint32(4,bytes.byteLength-8,true);str(8,"WAVE");str(12,"fmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,16000,true);v.setUint32(28,32000,true);v.setUint16(32,2,true);v.setUint16(34,16,true);str(36,"data");v.setUint32(40,bytes.byteLength-44,true);
+ samples.forEach((s,i)=>v.setInt16(44+2*i,Math.round(32767*Math.max(-1,Math.min(1,s))),true));
+ if(id!==version)return;if(url)URL.revokeObjectURL(url);url=URL.createObjectURL(new Blob([bytes],{type:"audio/wav"}));$("player").src=url;
+ const r=await fetch("/score",{method:"POST",body:bytes});if(!r.ok)throw Error("Could not score this recording.");const s=await r.json();if(id!==version)return;
+ $("count").textContent=s.score===null?"Unscored":s.errors+" word error"+(s.errors===1?"":"s");
+ $("summary").textContent=s.score===null?"No words recognized. Check the microphone and try again.":s.substitutions+" replaced · "+s.omissions+" skipped · "+s.insertions+" extra";
+ $("scale").textContent=s.score===null?"":"Word-error rate: "+(100*s.wer).toFixed(1)+"% of "+s.words+" passage words · Count-based score: "+s.score.toFixed(1)+" / 100";
+ $("transcript").textContent=s.transcript||"—";$("events").replaceChildren();
+ if(s.score!==null)for(const e of s.events){const li=document.createElement("li");li.textContent=e.kind+" · "+(e.expected||"∅")+" → "+(e.heard||"∅")+" · "+(e.kind==="omission"?"estimated position ":"")+e.start.toFixed(2)+(e.kind==="omission"?"":"–"+e.end.toFixed(2))+" s"+(e.ambiguous?" · ambiguous occurrence":"");$("events").append(li)}
+ $("result").hidden=false;$("status").textContent=name+" · complete";
+ }catch(e){if(id===version)showError(e)}
+}
+$("upload").onchange=e=>{const f=e.target.files[0];if(f)analyze(f,f.name)};
+$("sample").onchange=async e=>{const key=e.target.value;if(key)try{await analyze(await (await fetch("/"+key+".wav")).blob(),"Synthetic sample")}catch(err){showError(err)}};
+$("mic").onclick=async()=>{
+ if(recorder?.state==="recording"){recorder.stop();return}
+ const btn=$("mic");btn.disabled=true;let stream;
+ try{stream=await navigator.mediaDevices.getUserMedia({audio:true});recorder=new MediaRecorder(stream);
+ const chunks=[];recorder.ondataavailable=e=>chunks.push(e.data);
+ recorder.onstop=()=>{clearTimeout(timer);stream.getTracks().forEach(t=>t.stop());btn.textContent="Record reading";$("sample").disabled=$("upload").disabled=false;analyze(new Blob(chunks,{type:recorder.mimeType}),"Your recording")};
+ recorder.start();version++;$("result").hidden=true;$("player").pause();$("sample").disabled=$("upload").disabled=true;btn.textContent="Stop and score";$("status").textContent="Recording…";timer=setTimeout(()=>{if(recorder.state==="recording")recorder.stop()},58000);
+ }catch(e){stream?.getTracks().forEach(t=>t.stop());showError(e)}finally{btn.disabled=false}
+};
+</script></html>
