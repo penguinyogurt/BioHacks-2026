@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FaceCheck — facial expression amplitude prototype</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <p class="label">ALS Motor Tracker · bulbar validation prototype</p>
+        <h1>FaceCheck</h1>
+        <p class="sub">
+          Record a baseline of five facial expressions, then re-run the same
+          protocol later and compare blendshape amplitude against your own
+          baseline. A standalone test of whether MediaPipe-based facial
+          tracking is sensitive enough to be a validation layer for the
+          slurred-speech check.
+        </p>
+      </header>
+
+      <section class="stage">
+        <div class="camera-pane">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
+          <div id="prompt" class="prompt hidden">
+            <span id="prompt-text"></span>
+          </div>
+        </div>
+
+        <div class="controls-pane">
+          <div id="status" class="status">Loading face model…</div>
+
+          <div class="actions">
+            <button id="btn-baseline" disabled>Record baseline</button>
+            <button id="btn-checkin" disabled>Run check-in</button>
+            <button id="btn-reset" class="ghost">Clear stored data</button>
+          </div>
+
+          <div id="results" class="results"></div>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          Everything is stored in this browser only (localStorage). Nothing
+          is uploaded. Not a diagnostic tool — a feasibility prototype.
+        </p>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
