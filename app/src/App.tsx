@@ -42,7 +42,7 @@ function Report({ data }: { data: Pipeline }) {
         <div className="mx-auto flex max-w-[84rem] flex-wrap items-end justify-between gap-4 px-6 pt-6 pb-4">
           <div>
             <p className="label">Patient-constrained drug repurposing · ALS</p>
-            <h1 className="mt-2 max-w-[58ch] text-2xl leading-[1.15] font-semibold">
+            <h1 className="mt-2 max-w-[58ch] text-3xl leading-[1.08]">
               Rank approved drugs against ALS biology, then disqualify what is
               unusable for one person
             </h1>

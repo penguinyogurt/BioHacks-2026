@@ -54,7 +54,7 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
   return (
     <section aria-labelledby="candidates-heading" className="hairline-b pb-10">
       <header className="mb-5">
-        <h2 id="candidates-heading" className="text-lg leading-tight font-semibold">
+        <h2 id="candidates-heading" className="text-xl leading-tight">
           Every surviving drug carries its receipt
         </h2>
         <p className="mt-1 max-w-[66ch] text-sm leading-normal text-ink-soft">

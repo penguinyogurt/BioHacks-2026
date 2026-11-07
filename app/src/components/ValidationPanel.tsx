@@ -70,7 +70,7 @@ export function ValidationPanel({ validation }: { validation: Pipeline["validati
   return (
     <section aria-labelledby="validation-heading">
       <header className="mb-5">
-        <h2 id="validation-heading" className="text-lg leading-tight font-semibold">
+        <h2 id="validation-heading" className="text-xl leading-tight">
           What we measured, including what doesn&rsquo;t flatter us
         </h2>
         <p className="mt-1 max-w-[62ch] text-sm leading-normal text-ink-soft">

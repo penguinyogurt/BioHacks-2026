@@ -8,7 +8,7 @@
 export function ContractError({ problems }: { problems: string[] }) {
   return (
     <main className="mx-auto flex min-h-dvh max-w-[42rem] flex-col justify-center px-6 py-16">
-      <h1 className="text-xl leading-tight font-semibold">
+      <h1 className="text-2xl leading-tight">
         <code className="readout">data/pipeline.json</code> doesn&rsquo;t match the
         contract
       </h1>

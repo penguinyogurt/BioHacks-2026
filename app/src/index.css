@@ -64,8 +64,13 @@
   --aurora-2: oklch(0.48 0.14 265);
   --aurora-3: oklch(0.52 0.10 200);
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  /* Three voices, one job each. The display serif carries the argument, the
+     sans carries the prose, and the mono carries every number — the contrast
+     between a high-contrast serif and tabular mono is what makes this read
+     as a scientific instrument rather than another dark dashboard. */
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono",
     "Roboto Mono", Menlo, Consolas, monospace;
 
@@ -105,6 +110,7 @@
   --color-bucket-never: var(--bucket-never);
   --color-bucket-arrived: var(--bucket-arrived);
 
+  --font-display: var(--font-display);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 }
@@ -124,9 +130,20 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Optical: tighten tracking as type grows, per better-typography. */
+  /* The display serif only ever carries headings. Instrument Serif is a
+     high-contrast face drawn for large sizes — at body size its thin strokes
+     break up, so it must never leak into prose. It's already optically
+     tracked, so the -0.011em correction a grotesk needs would be wrong. */
   h1,
-  h2,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  /* h3 stays in the sans: those are card titles and bucket names — data
+     labels sitting next to mono readouts, not argument. */
   h3 {
     letter-spacing: -0.011em;
     text-wrap: balance;
