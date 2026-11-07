@@ -2,7 +2,7 @@ import "./style.css";
 import { loadFaceLandmarker } from "./landmarker";
 import { runProtocol, type Prompt } from "./capture";
 import { appendSession, clearStore, loadStore, saveBaseline, type Session } from "./storage";
-import { compareSession, type ExpressionComparison } from "./compare";
+import { compareSession, humanize, severityOf, SEVERITY_LABEL, type ExpressionComparison } from "./compare";
 
 const video = document.getElementById("video") as HTMLVideoElement;
 const statusEl = document.getElementById("status") as HTMLDivElement;
@@ -33,15 +33,46 @@ function refreshButtons() {
   btnCheckin.title = store.baseline ? "" : "Record a baseline first";
 }
 
+function pct(x: number): string {
+  return `${(x * 100).toFixed(0)}%`;
+}
+
+function overallBlurb(overall: number): string {
+  const severity = severityOf(overall);
+  if (severity === "normal") {
+    return "Movement across all five expressions is close to your baseline — within normal session-to-session noise.";
+  }
+  if (severity === "mild") {
+    return "Facial movement is somewhat weaker than your baseline on average. Worth tracking over a few more check-ins before reading much into it.";
+  }
+  return "Facial movement is noticeably weaker than your baseline across expressions. One session can be noisy (lighting, distance, fatigue) — repeat before treating this as a trend.";
+}
+
 function renderComparisons(expressions: ExpressionComparison[], overall: number) {
-  const pct = (x: number) => `${(x * 100).toFixed(0)}%`;
+  const overallSeverity = severityOf(overall);
+
   const cards = expressions
     .map((e) => {
-      const bars = e.topBlendshapes
+      const severity = severityOf(e.amplitudeIndex);
+      const lead = e.topBlendshapes[0];
+
+      const leadBar = lead
+        ? `
+        <div class="lead-compare">
+          <span class="lead-name">${humanize(lead.name)}</span>
+          <div class="bshape-bars">
+            <div class="bar baseline" style="width:${lead.baseline * 100}%"></div>
+            <div class="bar current" style="width:${lead.current * 100}%"></div>
+          </div>
+        </div>
+        <p class="legend"><span class="dot baseline"></span> baseline <span class="dot current"></span> this check-in</p>`
+        : "";
+
+      const detailRows = e.topBlendshapes
         .map(
           (b) => `
         <div class="bshape-row">
-          <span class="bshape-name">${b.name}</span>
+          <span class="bshape-name">${humanize(b.name)}</span>
           <div class="bshape-bars">
             <div class="bar baseline" style="width:${b.baseline * 100}%"></div>
             <div class="bar current" style="width:${b.current * 100}%"></div>
@@ -51,27 +82,38 @@ function renderComparisons(expressions: ExpressionComparison[], overall: number)
         )
         .join("");
 
-      const asym = e.asymmetry
+      const asymRows = e.asymmetry
         .filter((a) => Math.abs(a.shift) > 0.08)
         .map(
-          (a) => `<li class="${a.shift > 0 ? "warn" : ""}">${a.pair}: AI ${a.baselineAI.toFixed(2)} → ${a.currentAI.toFixed(2)}</li>`,
+          (a) =>
+            `<li class="${a.shift > 0 ? "warn" : ""}">${humanize(a.pair)}: left/right balance moved from ${a.baselineAI.toFixed(2)} to ${a.currentAI.toFixed(2)}</li>`,
         )
         .join("");
 
       return `
-      <article class="expr-card">
+      <article class="expr-card severity-${severity}">
         <header>
           <h3>${e.label}</h3>
-          <span class="amp ${e.amplitudeIndex > 0.2 ? "warn" : ""}">amplitude index ${pct(e.amplitudeIndex)}</span>
+          <span class="badge badge-${severity}">${SEVERITY_LABEL[severity]}</span>
         </header>
-        <div class="bshape-list">${bars}</div>
-        ${asym ? `<ul class="asym-list">${asym}</ul>` : ""}
+        ${leadBar}
+        <details>
+          <summary>Details (${e.topBlendshapes.length} tracked muscles)</summary>
+          <div class="bshape-list">${detailRows}</div>
+          ${asymRows ? `<p class="legend" style="margin-top:0.5rem">Left/right balance shift</p><ul class="asym-list">${asymRows}</ul>` : ""}
+        </details>
       </article>`;
     })
     .join("");
 
   resultsEl.innerHTML = `
-    <div class="overall ${overall > 0.2 ? "warn" : ""}">Overall amplitude index: ${pct(overall)}</div>
+    <div class="overall-card severity-${overallSeverity}">
+      <div class="overall-top">
+        <span class="badge badge-${overallSeverity} large">${SEVERITY_LABEL[overallSeverity]}</span>
+        <span class="overall-number">${pct(overall)} <span class="overall-number-label">average amplitude drop</span></span>
+      </div>
+      <p class="overall-blurb">${overallBlurb(overall)}</p>
+    </div>
     <div class="expr-grid">${cards}</div>
     ${renderHistory()}
   `;
@@ -79,20 +121,25 @@ function renderComparisons(expressions: ExpressionComparison[], overall: number)
 
 function renderHistory() {
   const store = loadStore();
-  if (!store.baseline) return "";
+  if (!store.baseline || store.sessions.length === 0) return "";
   const rows = store.sessions
     .map((s) => {
       const { overallAmplitudeIndex } = compareSession(store.baseline!.expressions, s.expressions);
-      return `<tr><td>${new Date(s.capturedAt).toLocaleString()}</td><td>${(overallAmplitudeIndex * 100).toFixed(0)}%</td></tr>`;
+      const severity = severityOf(overallAmplitudeIndex);
+      return `<tr>
+        <td>${new Date(s.capturedAt).toLocaleString()}</td>
+        <td>${pct(overallAmplitudeIndex)}</td>
+        <td><span class="badge badge-${severity} small">${SEVERITY_LABEL[severity]}</span></td>
+      </tr>`;
     })
     .join("");
   return `
     <section class="history">
       <h3>Check-in history</h3>
       <table>
-        <thead><tr><th>Date</th><th>Overall amplitude index</th></tr></thead>
+        <thead><tr><th>Date</th><th>Avg. amplitude drop</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>${new Date(store.baseline.capturedAt).toLocaleString()} (baseline)</td><td>0%</td></tr>
+          <tr><td>${new Date(store.baseline.capturedAt).toLocaleString()}</td><td>—</td><td class="baseline-tag">baseline</td></tr>
           ${rows}
         </tbody>
       </table>
@@ -150,18 +197,29 @@ btnReset.addEventListener("click", () => {
   setStatus("Stored data cleared.");
 });
 
+function describeError(err: unknown): string {
+  if (err instanceof Error) return err.message;
+  try {
+    return JSON.stringify(err);
+  } catch {
+    return String(err);
+  }
+}
+
 async function init() {
   try {
     await startCamera();
   } catch (err) {
-    setStatus(`Camera access denied or unavailable: ${(err as Error).message}`);
+    console.error(err);
+    setStatus(`Camera access denied or unavailable: ${describeError(err)}`);
     return;
   }
   setStatus("Loading face model…");
   try {
     await loadFaceLandmarker();
   } catch (err) {
-    setStatus(`Could not load the face model (needs internet on first load): ${(err as Error).message}`);
+    console.error(err);
+    setStatus(`Could not load the face model (needs internet on first load): ${describeError(err)}`);
     return;
   }
   setStatus("Ready.");

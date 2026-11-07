@@ -20,7 +20,7 @@
         </p>
       </header>
 
-      <section class="stage">
+      <section class="camera-section">
         <div class="camera-pane">
           <video id="video" autoplay playsinline muted></video>
           <canvas id="overlay"></canvas>
@@ -29,18 +29,16 @@
           </div>
         </div>
 
-        <div class="controls-pane">
-          <div id="status" class="status">Loading face model…</div>
+        <div id="status" class="status">Loading face model…</div>
 
-          <div class="actions">
-            <button id="btn-baseline" disabled>Record baseline</button>
-            <button id="btn-checkin" disabled>Run check-in</button>
-            <button id="btn-reset" class="ghost">Clear stored data</button>
-          </div>
-
-          <div id="results" class="results"></div>
+        <div class="actions">
+          <button id="btn-baseline" disabled>Record baseline</button>
+          <button id="btn-checkin" disabled>Run check-in</button>
+          <button id="btn-reset" class="ghost">Clear stored data</button>
         </div>
       </section>
+
+      <section id="results" class="results"></section>
 
       <footer>
         <p>

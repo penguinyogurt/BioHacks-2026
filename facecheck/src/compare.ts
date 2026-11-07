@@ -13,6 +13,31 @@ export type BlendshapeDelta = {
   relativeDrop: number;
 };
 
+/** "mouthSmileLeft" -> "Mouth smile (left)" */
+export function humanize(name: string): string {
+  const side = name.endsWith("Left") ? " (left)" : name.endsWith("Right") ? " (right)" : "";
+  const base = side ? name.slice(0, -side.trim().length - 1) : name;
+  const words = base
+    .replace(/^_/, "")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .toLowerCase();
+  return words.charAt(0).toUpperCase() + words.slice(1) + side;
+}
+
+export type Severity = "normal" | "mild" | "reduced";
+
+export function severityOf(amplitudeIndex: number): Severity {
+  if (amplitudeIndex >= 0.2) return "reduced";
+  if (amplitudeIndex >= 0.1) return "mild";
+  return "normal";
+}
+
+export const SEVERITY_LABEL: Record<Severity, string> = {
+  normal: "Normal range",
+  mild: "Mild drop",
+  reduced: "Reduced",
+};
+
 export type AsymmetryReading = {
   pair: string;
   baselineAI: number;

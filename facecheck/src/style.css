@@ -6,7 +6,11 @@
   --surface: #171427;
   --rule: #2a2640;
   --warn: #e0586b;
+  --warn-soft: rgba(224, 88, 107, 0.15);
+  --mild: #e0b35e;
+  --mild-soft: rgba(224, 179, 94, 0.15);
   --ok: #6fd3a0;
+  --ok-soft: rgba(111, 211, 160, 0.15);
   color-scheme: dark;
 }
 
@@ -22,9 +26,13 @@ body {
 }
 
 .shell {
-  max-width: 72rem;
+  max-width: 64rem;
   margin: 0 auto;
   padding: 2rem 1.5rem 4rem;
+}
+
+header {
+  text-align: center;
 }
 
 .label {
@@ -42,24 +50,30 @@ h1 {
 
 .sub {
   color: var(--ink-soft);
-  max-width: 60ch;
+  max-width: 48rem;
+  margin: 0 auto;
   line-height: 1.5;
 }
 
-.stage {
-  display: grid;
-  grid-template-columns: minmax(0, 28rem) minmax(0, 1fr);
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+/* Camera, centered and large */
+
+.camera-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem auto 0;
 }
 
 .camera-pane {
   position: relative;
-  border-radius: 0.5rem;
+  width: min(42rem, 90vw);
+  border-radius: 0.75rem;
   overflow: hidden;
   border: 1px solid var(--rule);
   background: #000;
   aspect-ratio: 4 / 3;
+  box-shadow: 0 1.5rem 3rem -1.5rem rgba(0, 0, 0, 0.6);
 }
 
 video {
@@ -80,10 +94,10 @@ video {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.75rem 1rem;
+  padding: 1rem;
   background: rgba(15, 13, 26, 0.85);
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 600;
 }
 
@@ -91,26 +105,22 @@ video {
   display: none;
 }
 
-.controls-pane {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .status {
   font-size: 0.9rem;
   color: var(--ink-soft);
+  text-align: center;
 }
 
 .actions {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 button {
   font: inherit;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 1.1rem;
   border-radius: 0.4rem;
   border: 1px solid var(--rule);
   background: var(--surface);
@@ -128,42 +138,109 @@ button.ghost {
   color: var(--ink-faint);
 }
 
+/* Results */
+
 .results {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
 }
 
-.overall {
-  font-size: 1.1rem;
+.results:empty {
+  margin-top: 0;
+}
+
+.overall-card {
+  border: 1px solid var(--rule);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+}
+
+.overall-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.overall-number {
+  font-family: ui-monospace, monospace;
+  font-size: 1.6rem;
   font-weight: 600;
 }
 
-.overall.warn,
-.amp.warn,
-.bshape-drop.warn,
-.asym-list li.warn {
+.overall-number-label {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+  margin-left: 0.25rem;
+}
+
+.overall-blurb {
+  margin: 0.75rem 0 0;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge.large {
+  font-size: 0.9rem;
+  padding: 0.4rem 0.9rem;
+}
+
+.badge.small {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+}
+
+.badge-normal {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+.badge-mild {
+  background: var(--mild-soft);
+  color: var(--mild);
+}
+
+.badge-reduced {
+  background: var(--warn-soft);
   color: var(--warn);
 }
 
 .expr-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   gap: 0.75rem;
 }
 
 .expr-card {
   border: 1px solid var(--rule);
   border-radius: 0.5rem;
-  padding: 0.75rem;
+  padding: 1rem;
   background: var(--surface);
+}
+
+.expr-card.severity-reduced {
+  border-color: var(--warn);
 }
 
 .expr-card header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
 }
 
 .expr-card h3 {
@@ -171,18 +248,61 @@ button.ghost {
   font-size: 1rem;
 }
 
-.amp {
-  font-family: ui-monospace, monospace;
-  font-size: 0.85rem;
+.lead-name {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.3rem;
+}
+
+.lead-compare .bshape-bars {
+  height: 1.1rem;
+}
+
+.legend {
+  margin: 0.4rem 0 0;
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+}
+
+.dot {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  margin-right: 0.25rem;
+}
+
+.dot.baseline {
+  background: var(--ink-faint);
+}
+
+.dot.current {
+  background: var(--ok);
+  margin-left: 0.75rem;
+}
+
+details {
+  margin-top: 0.75rem;
+}
+
+summary {
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+}
+
+.bshape-list {
+  margin-top: 0.6rem;
 }
 
 .bshape-row {
   display: grid;
-  grid-template-columns: 8rem 1fr 3rem;
+  grid-template-columns: 9rem 1fr 3rem;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.75rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
 }
 
 .bshape-name {
@@ -194,7 +314,7 @@ button.ghost {
 
 .bshape-bars {
   position: relative;
-  height: 0.9rem;
+  height: 0.8rem;
   background: var(--rule);
   border-radius: 0.2rem;
   overflow: hidden;
@@ -209,44 +329,70 @@ button.ghost {
 
 .bar.baseline {
   background: var(--ink-faint);
-  opacity: 0.6;
+  opacity: 0.55;
 }
 
 .bar.current {
   background: var(--ok);
-  height: 40%;
-  top: 30%;
+  height: 45%;
+  top: 27.5%;
+  border-radius: 0.15rem;
 }
 
 .bshape-drop {
   font-family: ui-monospace, monospace;
   text-align: right;
+  color: var(--ink-soft);
+}
+
+.bshape-drop.warn {
+  color: var(--warn);
 }
 
 .asym-list {
-  margin: 0.5rem 0 0;
+  margin: 0.3rem 0 0;
   padding-left: 1.1rem;
   font-size: 0.75rem;
   color: var(--ink-soft);
+}
+
+.history {
+  border: 1px solid var(--rule);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background: var(--surface);
+}
+
+.history h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
 }
 
 .history table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.85rem;
-  margin-top: 0.5rem;
 }
 
 .history th,
 .history td {
   text-align: left;
-  padding: 0.3rem 0.5rem;
+  padding: 0.4rem 0.5rem;
   border-bottom: 1px solid var(--rule);
+}
+
+.history td:nth-child(2) {
   font-family: ui-monospace, monospace;
 }
 
+.baseline-tag {
+  color: var(--ink-faint);
+  font-size: 0.75rem;
+}
+
 footer {
-  margin-top: 2rem;
+  margin-top: 3rem;
   color: var(--ink-faint);
   font-size: 0.8rem;
+  text-align: center;
 }
