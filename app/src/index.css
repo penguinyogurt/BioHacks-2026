@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Clinical instrument.
+
+   Near-neutral cool greys, one accent reserved for elimination, tabular
+   numerals everywhere a number appears. Light ground: the demo runs on a
+   laptop under conference lighting, where dark UI loses contrast and reads as
+   "hackathon project". System font stacks on purpose — no webfont request can
+   fail at the expo table.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Ground and ink */
+  --paper: oklch(0.988 0.0015 260);
+  --surface: oklch(1 0 0);
+  --surface-sunk: oklch(0.967 0.002 260);
+  --ink: oklch(0.19 0.012 260);
+  --ink-soft: oklch(0.42 0.009 260);
+  --ink-faint: oklch(0.58 0.007 260);
+  --rule: oklch(0.905 0.004 260);
+  --rule-strong: oklch(0.83 0.005 260);
+
+  /* The one accent: elimination. Nothing else may use it. */
+  --cut: oklch(0.54 0.168 25);
+  --cut-soft: oklch(0.955 0.022 25);
+  --cut-rule: oklch(0.86 0.06 25);
+
+  /* Survival is carried by ink weight and a check glyph, never by green
+     alone — see better-colors: colour must not be the only carrier. */
+  --keep: oklch(0.42 0.08 155);
+  --keep-soft: oklch(0.962 0.018 155);
+
+  /* Data-ink for the two graveyard buckets. Distinguishable in greyscale. */
+  --bucket-never: oklch(0.72 0.03 260);
+  --bucket-arrived: oklch(0.32 0.03 260);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", Menlo, Consolas, monospace;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-sunk: var(--surface-sunk);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-cut: var(--cut);
+  --color-cut-soft: var(--cut-soft);
+  --color-cut-rule: var(--cut-rule);
+  --color-keep: var(--keep);
+  --color-keep-soft: var(--keep-soft);
+  --color-bucket-never: var(--bucket-never);
+  --color-bucket-arrived: var(--bucket-arrived);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    /* Instrument readings never reflow as they count: tabular by default. */
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Optical: tighten tracking as type grows, per better-typography. */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.011em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Never remove a focus ring without replacing it. */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+@layer utilities {
+  /* A label in an instrument: small, spaced, quiet, uppercase. */
+  .label {
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+
+  .readout {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "zero" 1;
+  }
+
+  /* Hairline that survives fractional device pixel ratios. */
+  .hairline-t {
+    border-top: 1px solid var(--rule);
+  }
+  .hairline-b {
+    border-bottom: 1px solid var(--rule);
+  }
+}
+
+/* Honour the OS setting. Motion is decoration here; the layout is the message. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
