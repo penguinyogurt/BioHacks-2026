@@ -1,6 +1,204 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-html, body, #root { height: 100%; }
-body { @apply bg-slate-950 text-slate-100 antialiased; }
-.tnum { font-variant-numeric: tabular-nums; }
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Dark lab console.
+
+   Deep violet-black ground, elevated surfaces, luminous data. One accent
+   reserved for elimination, tabular numerals everywhere a number appears.
+
+   Revised from an earlier light direction: this one optimises for attention
+   at an expo table rather than for a clinician's desk. The data discipline
+   is unchanged — colour never carries meaning on its own, and nothing
+   decorative is allowed to cost legibility.
+
+   System font stacks on purpose: no webfont request can fail at the table.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: dark;
+
+  /* Ground and ink. The violet cast (hue 285) is carried at very low chroma
+     so greys read as deliberate rather than muddy. */
+  --paper: oklch(0.165 0.014 285);
+  --surface: oklch(0.213 0.016 285);
+  --surface-sunk: oklch(0.142 0.012 285);
+  --ink: oklch(0.97 0.004 285);
+  --ink-soft: oklch(0.775 0.009 285);
+  /* `.label` is 11px/500 — normal text to WCAG, so it needs 4.5:1. Measured
+     5.62 on paper, 5.15 on surface, 5.80 on the sunk strip. */
+  --ink-faint: oklch(0.635 0.012 285);
+  --rule: oklch(0.295 0.016 285);
+  /* Carries control identity (WCAG 1.4.11): buttons are surface-on-paper,
+     barely a fill difference, so this border is the only thing marking them
+     as interactive and must clear 3:1. Surface is the binding side, not
+     paper — 0.44 measured 2.26 there and failed. */
+  --rule-strong: oklch(0.53 0.024 285);
+
+  /* The one accent: elimination. Nothing else may use it. Lifted in
+     lightness for a dark ground — a dark red on dark violet is invisible. */
+  --cut: oklch(0.715 0.165 22);
+  --cut-soft: oklch(0.265 0.055 22);
+  --cut-rule: oklch(0.44 0.105 22);
+
+  /* Survival is carried by ink weight and a check glyph, never by green
+     alone — colour must not be the only carrier. */
+  --keep: oklch(0.80 0.145 158);
+  --keep-soft: oklch(0.255 0.045 158);
+
+  /* Data-ink for the two graveyard buckets. Both are bright, because both
+     are the datum — their positions on the axis ARE the partition claim, and
+     a dot you can't see is a trial you can't count. The bucket itself is
+     carried by hollow-vs-solid, the side of the threshold, and the sunk
+     field behind the barrier-negative half, so it survives greyscale without
+     leaning on these two values. "Never arrived" takes the slightly brighter
+     one: it's the smaller group and the more surprising half of the finding.
+     An earlier pass dimmed "arrived" to push that contrast further and made
+     the dense pile — the thing you're supposed to see first — recede. */
+  --bucket-never: oklch(0.90 0.035 285);
+  --bucket-arrived: oklch(0.78 0.03 285);
+
+  /* Ambient background light. Deliberately low-chroma and close in hue to
+     the ground: this is depth, not decoration, and the page has to stay
+     perfectly readable over it. Nothing but AuroraBackground may use these. */
+  --aurora-1: oklch(0.52 0.16 290);
+  --aurora-2: oklch(0.48 0.14 265);
+  --aurora-3: oklch(0.52 0.10 200);
+
+  /* Three voices, one job each. The display serif carries the argument, the
+     sans carries the prose, and the mono carries every number — the contrast
+     between a high-contrast serif and tabular mono is what makes this read
+     as a scientific instrument rather than another dark dashboard. */
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", Menlo, Consolas, monospace;
+
+  /* The built-in CSS easings are too weak to read as intentional. Never
+     ease-in on UI: it delays the first frame, exactly when the eye is on it. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+@theme inline {
+  /* The type scale. Without these every size was an arbitrary literal —
+     52 of them across 9 files — and 0.8125rem had already started drifting
+     against 0.875rem. Named steps make the drift impossible to write. */
+  --text-label: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-md: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-sunk: var(--surface-sunk);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-cut: var(--cut);
+  --color-cut-soft: var(--cut-soft);
+  --color-cut-rule: var(--cut-rule);
+  --color-keep: var(--keep);
+  --color-keep-soft: var(--keep-soft);
+  --color-bucket-never: var(--bucket-never);
+  --color-bucket-arrived: var(--bucket-arrived);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    /* Instrument readings never reflow as they count: tabular by default. */
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* The display serif only ever carries headings. Instrument Serif is a
+     high-contrast face drawn for large sizes — at body size its thin strokes
+     break up, so it must never leak into prose. It's already optically
+     tracked, so the -0.011em correction a grotesk needs would be wrong. */
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  /* h3 stays in the sans: those are card titles and bucket names — data
+     labels sitting next to mono readouts, not argument. */
+  h3 {
+    letter-spacing: -0.011em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Never remove a focus ring without replacing it. */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+@layer utilities {
+  /* A label in an instrument: small, spaced, quiet, uppercase. */
+  .label {
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+
+  .readout {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "zero" 1;
+  }
+
+  /* Hairline that survives fractional device pixel ratios. */
+  .hairline-t {
+    border-top: 1px solid var(--rule);
+  }
+  .hairline-b {
+    border-bottom: 1px solid var(--rule);
+  }
+}
+
+/* Honour the OS setting. Motion is decoration here; the layout is the message. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

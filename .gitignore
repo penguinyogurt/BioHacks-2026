@@ -31,3 +31,7 @@ artifacts/*.tar.gz
 # data/pipeline.json is committed on purpose.
 !data/pipeline.json
 data/molblock_cache.json
+
+# Recorded demo videos — large binaries, regenerate with tools/record-demo.mjs
+demo/
+tools/node_modules/
