@@ -1,0 +1,15 @@
+import { chromium } from "playwright";
+const b = await chromium.launch();
+const c = await b.newContext({ viewport:{width:1440,height:900}, deviceScaleFactor:1, reducedMotion:"no-preference" });
+const p = await c.newPage();
+await p.goto(process.argv[2] ?? "http://localhost:5173/", { waitUntil:"networkidle" });
+await p.waitForTimeout(6000);
+await p.screenshot({ path:"demo/frame-top.png" });
+await p.evaluate(()=>document.querySelector("#candidates-heading")?.scrollIntoView());
+await p.waitForTimeout(2500);
+await p.screenshot({ path:"demo/frame-cards.png" });
+await p.evaluate(()=>document.querySelector("#graveyard-heading")?.scrollIntoView());
+await p.waitForTimeout(2500);
+await p.screenshot({ path:"demo/frame-graveyard.png" });
+await b.close();
+console.log("ok");

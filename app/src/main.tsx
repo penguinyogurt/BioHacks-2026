@@ -1,6 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { MotionConfig } from "motion/react";
+// Self-hosted, not a CDN link: a webfont request that fails at the expo
+// table takes the whole look with it. Bundled, these can't fail.
+import "@fontsource-variable/inter";
+import "@fontsource/instrument-serif";
 import "./index.css";
 import App from "./App.tsx";
 

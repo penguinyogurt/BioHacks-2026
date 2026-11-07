@@ -12,7 +12,7 @@ export function PatientPanel({ profile }: { profile: PatientProfile }) {
   return (
     <section aria-labelledby="patient-heading" className="hairline-b pb-6">
       <header className="mb-5">
-        <h2 id="patient-heading" className="text-lg leading-tight font-semibold">
+        <h2 id="patient-heading" className="text-xl leading-tight">
           The constraints are {profile.display_name}&rsquo;s, not the disease&rsquo;s
         </h2>
         <p className="mt-1 max-w-[62ch] text-sm leading-normal text-ink-soft">

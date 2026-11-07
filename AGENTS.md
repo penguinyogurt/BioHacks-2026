@@ -110,6 +110,17 @@ cards below it; a replay control re-runs it in ~3s. Graveyard partition and
 validation sit one scroll down. A judge arriving mid-conversation sees the
 whole argument without anyone touching the laptop.
 
+**Typography: three voices, one job each.** Instrument Serif carries headings
+(h1/h2 only — it's a high-contrast display face whose thin strokes break up
+at body size, and it ships one weight, so never put `font-semibold` on a
+heading). Inter carries prose. System mono carries every number. Both faces
+are self-hosted via `@fontsource` rather than a CDN: a webfont request that
+fails at the expo table takes the whole look with it.
+
+This is the change that bought the most visual ground. Of three
+award-winning reference projects, two shipped no animation library at all —
+each bought its look with a single display typeface.
+
 **Aesthetic: dark lab console.** Deep purple-black ground, elevated surfaces,
 luminous data. Dense, tabular monospace numerals, **one** accent reserved for
 elimination. Revised 2026-11-07 from an earlier light "clinical instrument"

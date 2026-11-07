@@ -152,7 +152,7 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
   return (
     <section aria-labelledby="graveyard-heading" className="hairline-b pb-10">
       <header>
-        <h2 id="graveyard-heading" className="text-[1.0625rem] leading-tight font-semibold">
+        <h2 id="graveyard-heading" className="text-xl leading-tight">
           Why {entries.length} failed ALS trials failed, split two ways
         </h2>
         <p className="mt-1 max-w-[70ch] text-[0.8125rem] leading-normal text-ink-soft">

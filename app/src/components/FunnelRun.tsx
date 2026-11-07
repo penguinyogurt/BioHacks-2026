@@ -18,7 +18,7 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
     <section aria-labelledby="funnel-heading" className="hairline-b pb-6">
       <header className="mb-4 flex items-end justify-between gap-6">
         <div>
-          <h2 id="funnel-heading" className="text-lg leading-tight font-semibold">
+          <h2 id="funnel-heading" className="text-xl leading-tight">
             Five stages, each removing candidates for a stated reason
           </h2>
           <p className="mt-1 text-sm leading-normal text-ink-soft">
