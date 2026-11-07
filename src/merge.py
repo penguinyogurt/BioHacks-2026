@@ -114,32 +114,36 @@ def bbb_block(rec: dict | None) -> dict:
     if not rec:
         return {
             "prob": None,
-            "in_domain": True,
+            "in_domain": False,
             "nearest_tanimoto": None,
             "descriptors": {},
             "scored": False,
+            "refusal": "No BBB prediction",
         }
     in_domain = bool(rec.get("in_domain", True))
     prob = num(rec.get("prob"))
     desc = rec.get("descriptors") if isinstance(rec.get("descriptors"), dict) else {}
+    refusal = rec.get("refusal")
+    if not in_domain and not refusal:
+        refusal = rec.get("domain_reason") or "Outside applicability domain"
     return {
         "prob": prob if in_domain else None,
         "in_domain": in_domain,
         "nearest_tanimoto": num(rec.get("nearest_tanimoto")),
         "descriptors": desc,
         "scored": True,
-        **({"refusal": rec["refusal"]} if rec.get("refusal") else {}),
+        **({"refusal": refusal} if refusal else {}),
     }
 
 
 def bbb_gate(bbb: dict | None, compartment: str | None) -> tuple[bool, str | None]:
-    if not bbb:
-        return True, None
+    if not bbb or bbb.get("scored") is False:
+        return False, (bbb or {}).get("refusal") or "No BBB prediction"
     if not bbb.get("in_domain", True):
         return False, bbb.get("refusal") or "Outside applicability domain"
     prob = bbb.get("prob")
     if prob is None:
-        return True, None
+        return False, bbb.get("refusal") or "No BBB prediction"
     crosses = prob >= BBB_THRESHOLD
     comp = (compartment or "cns").lower()
     if comp in ("cns", "brain", "central") and not crosses:
