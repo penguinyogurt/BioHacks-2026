@@ -20,15 +20,26 @@ class InvalidSmiles(ValueError):
     pass
 
 
+def _unwrap(raw):
+    if raw is None:
+        return {}
+    if hasattr(raw, "to_dict") and callable(raw.to_dict):
+        raw = raw.to_dict()
+    elif hasattr(raw, "to_contract") and callable(raw.to_contract):
+        raw = raw.to_contract()
+    return raw if isinstance(raw, dict) else {}
+
+
 def _model():
-    try:
-        m = importlib.import_module("bbb_model")
-        for n in ("predict", "predict_smiles", "predict_one"):
-            fn = getattr(m, n, None)
-            if callable(fn):
-                return fn
-    except Exception:
-        pass
+    sys.path.insert(0, str(ROOT))
+    for modname in ("bbb", "src.bbb_model", "bbb_model"):
+        try:
+            m = importlib.import_module(modname)
+        except Exception:
+            continue
+        fn = getattr(m, "predict_smiles", None) or getattr(m, "predict", None)
+        if callable(fn):
+            return fn
     return None
 
 
@@ -104,8 +115,8 @@ def predict(smiles: str) -> dict:
     fn = _model()
     if fn:
         try:
-            raw = fn(smiles) or {}
-            src = "bbb_model.py"
+            raw = _unwrap(fn(smiles))
+            src = "bbb.predict_smiles"
         except Exception as e:
             raw = {"prob": mpo["score"] / 4, "in_domain": True, "error": str(e)}
             src = "CNS-MPO-lite fallback (B errored)"

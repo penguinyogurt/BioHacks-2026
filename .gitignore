@@ -30,3 +30,4 @@ artifacts/*.tar.gz
 # Keep the contract and generated outputs small and committed:
 # data/pipeline.json is committed on purpose.
 !data/pipeline.json
+data/molblock_cache.json

@@ -81,10 +81,17 @@ def pf_by_key(payload: dict | None) -> dict[str, dict]:
 
 def bbb_by_key(payload: dict | None) -> dict[str, dict]:
     out = {}
-    for rec in rows(payload, "scores", "predictions"):
-        key = rec.get("inchikey")
+    for rec in rows(payload, "scores", "predictions", "candidates"):
+        block = rec.get("bbb") if isinstance(rec.get("bbb"), dict) else rec
+        key = rec.get("inchikey") or block.get("inchikey") or rec.get("name")
         if key:
-            out[key] = rec
+            merged = dict(block)
+            for k in ("name", "smiles", "inchikey", "id"):
+                if rec.get(k) and k not in merged:
+                    merged[k] = rec[k]
+            out[str(key)] = merged
+            if rec.get("name"):
+                out[str(rec["name"]).lower()] = merged
     return out
 
 
@@ -217,7 +224,7 @@ def merge(in_dir: Path = DATA, out_path: Path = PIPELINE_JSON) -> dict:
     bbb_meta = (bbb_p or {}).get("meta", {}) or {}
     pf_meta = (pf_p or {}).get("meta", {}) or {}
 
-    kg_rows = rows(kg_p, "scores", "ranked", "candidates")
+    kg_rows = rows(kg_p, "compounds", "scores", "ranked", "candidates")
     bbb_map = bbb_by_key(bbb_p)
     pf_map = pf_by_key(pf_p)
     gy_rows = rows(gy_p, "graveyard", "entries", "failures")
@@ -230,10 +237,11 @@ def merge(in_dir: Path = DATA, out_path: Path = PIPELINE_JSON) -> dict:
         key = kg.get("inchikey")
         if not key:
             continue
-        bbb_rec = bbb_map.get(key)
+        name = kg.get("name")
+        bbb_rec = bbb_map.get(key) or (bbb_map.get(str(name).lower()) if name else None)
         bbb = bbb_block(bbb_rec)
         compartment = kg.get("target_compartment") or (bbb_rec or {}).get("target_compartment") or "cns"
-        pf = pf_map.get(key) or pf_map.get(kg.get("id")) or pf_map.get(kg.get("name"))
+        pf = pf_map.get(key) or pf_map.get(kg.get("id") or kg.get("drugbank_id")) or pf_map.get(name)
         filters = normalize_filters(pf.get("filters", []) if pf else [])
 
         verdict, elim_at = "shortlisted", None
@@ -257,7 +265,7 @@ def merge(in_dir: Path = DATA, out_path: Path = PIPELINE_JSON) -> dict:
 
         candidates.append(
             {
-                "id": kg.get("id") or key,
+                "id": kg.get("id") or kg.get("drugbank_id") or key,
                 "inchikey": key,
                 "name": kg.get("name") or key,
                 "smiles": kg.get("smiles") or "",
