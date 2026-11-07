@@ -2,6 +2,8 @@ import { motion } from "motion/react";
 import type { Candidate } from "@/lib/contract";
 import { firstFailure, passCount } from "@/lib/contract";
 import { cn, prob } from "@/lib/utils";
+import { MoleculeView } from "./MoleculeView";
+import { PathGraph } from "./PathGraph";
 
 const STAGE_LABEL: Record<string, string> = {
   universe: "the universe",
@@ -56,37 +58,6 @@ function BbbReadout({ bbb }: { bbb: Candidate["bbb"] }) {
         in domain · nearest Tanimoto{" "}
         <span className="readout">{prob(bbb.nearest_tanimoto)}</span>
       </p>
-    </div>
-  );
-}
-
-function GraphPath({ path }: { path: Candidate["path"] }) {
-  if (path.length === 0) return null;
-
-  return (
-    <div>
-      <span className="label">Path to ALS</span>
-      <ol className="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1">
-        {path.map((hop, i) => (
-          <li key={`${hop.from}-${hop.rel}-${hop.to}`} className="flex items-center gap-1.5">
-            {i === 0 && (
-              <span className="readout rounded-[3px] bg-surface-sunk px-1.5 py-0.5 text-[0.75rem] text-ink">
-                {hop.from}
-              </span>
-            )}
-            <span
-              className="text-[0.6875rem] text-ink-faint"
-              title={hop.rel}
-              aria-label={hop.rel}
-            >
-              →
-            </span>
-            <span className="readout rounded-[3px] bg-surface-sunk px-1.5 py-0.5 text-[0.75rem] text-ink">
-              {hop.to}
-            </span>
-          </li>
-        ))}
-      </ol>
     </div>
   );
 }
@@ -206,6 +177,8 @@ export function CandidateCard({ candidate, index }: { candidate: Candidate; inde
         </p>
       )}
 
+      <MoleculeView smiles={candidate.smiles} name={candidate.name} height={108} />
+
       <BbbReadout bbb={candidate.bbb} />
 
       <dl className="grid grid-cols-4 gap-2 rounded-[3px] bg-surface-sunk px-2.5 py-2">
@@ -227,7 +200,7 @@ export function CandidateCard({ candidate, index }: { candidate: Candidate; inde
         ))}
       </dl>
 
-      <GraphPath path={candidate.path} />
+      <PathGraph path={candidate.path} />
       <RuleList candidate={candidate} />
     </motion.article>
   );
