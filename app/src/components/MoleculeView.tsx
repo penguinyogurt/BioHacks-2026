@@ -15,27 +15,35 @@ import { cn } from "@/lib/utils";
  * malformed SMILES; that's a data problem, not a reason to break the card.
  */
 
-// Monochrome on purpose: colour means elimination in this app, and a
-// CPK-coloured molecule would be the loudest thing on screen for no
-// information gain.
-// smiles-drawer takes literal colours, not CSS variables, so these track
-// --ink / --ink-soft by hand. If the palette moves, move these.
+/**
+ * Restrained CPK.
+ *
+ * The rest of the interface is monochrome and reserves colour for
+ * elimination, but a structure diagram is a figure, not chrome, and CPK is
+ * the convention every chemist already reads — a blue nitrogen carries
+ * information to the audience being pitched. Carbon stays near-white so the
+ * skeleton reads as one shape and only the heteroatoms pick up colour,
+ * which keeps these from becoming the loudest thing on the page.
+ *
+ * smiles-drawer takes literal colours rather than CSS variables, so these are
+ * tuned for the dark ground by hand. If the palette moves, move these.
+ */
 const INK = "#f2f0f7";
 const INK_SOFT = "#a9a6b6";
 
-const CLINICAL_THEME: Record<string, string> = {
+const CPK_THEME: Record<string, string> = {
   C: INK,
-  N: INK,
-  O: INK,
-  F: INK,
-  CL: INK,
-  BR: INK,
-  I: INK,
-  P: INK,
-  S: INK,
-  B: INK,
-  SI: INK,
   H: INK_SOFT,
+  N: "#7aa7ff",
+  O: "#ff7a6b",
+  S: "#f2c75c",
+  P: "#ffa45c",
+  F: "#7fd6a0",
+  CL: "#7fd6a0",
+  BR: "#c98b6b",
+  I: "#b98cd9",
+  B: "#f0a0a0",
+  SI: "#d4b48c",
   BACKGROUND: "#00000000",
 };
 
@@ -98,7 +106,7 @@ export function MoleculeView({ smiles, name, height = 108, className }: Props) {
       padding: 4,
       terminalCarbons: false,
       compactDrawing: false,
-      themes: { clinical: CLINICAL_THEME },
+      themes: { clinical: CPK_THEME },
     });
 
     try {
