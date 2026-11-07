@@ -24,7 +24,10 @@ export function FunnelRun({
   // bars when they move — triggering on mount meant the whole 3.1s played
   // below the fold and they arrived at a finished chart.
   const frame = useRef<HTMLElement>(null);
-  const onScreen = useOnScreen(frame);
+  // -45%: the panel is 423px and only ~133px of it (the heading, no bars)
+  // was on screen when the default -10% margin tripped, so the run still
+  // played to nobody. This waits until most of the bars are visible.
+  const onScreen = useOnScreen(frame, "0px 0px -45% 0px");
   const { revealed, isRunning, replay } = useFunnelRun(funnel.length, onScreen);
 
   return (

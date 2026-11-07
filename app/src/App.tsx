@@ -70,13 +70,28 @@ function Report({ data }: { data: Pipeline }) {
             texture under the words, so the dither can carry real contrast in
             the gaps between panels — which is where you actually see it. */}
         <Suspense fallback={null}>
+          {/* Loud on purpose. The reference projects this is modelled on put
+              a high-contrast texture across the whole screen and let the
+              content float over it; a tasteful whisper reads as a flat page
+              with a gradient. The panels are translucent enough that this is
+              visible through them, so it has to carry real contrast. */}
           <Dither
-            waveColor={[0.052, 0.044, 0.088]}
-            waveAmplitude={0.36}
-            waveFrequency={2.6}
-            waveSpeed={0.016}
+            waveColor={[0.125, 0.108, 0.185]}
+            waveAmplitude={0.44}
+            waveFrequency={2.2}
             pixelSize={4}
-            colorNum={4}
+            // Two levels, not four: measured, the upper two quantiser steps
+            // had 0% coverage, so "4-level dither" was a 1-bit checker that
+            // claimed otherwise.
+            colorNum={2}
+            // Frozen. At any speed slow enough to look like ambient texture
+            // the canvas is bit-identical frame to frame — measured over 10
+            // seconds — while the render loop costs 33.3ms/frame, which
+            // halves the frame rate of the entire page. Every animation that
+            // actually carries meaning here (the funnel bars, the counting
+            // figures, the graph draw-in, the card stagger) was running at
+            // 30fps so a still image could fail to move.
+            disableAnimation
           />
         </Suspense>
 
@@ -88,7 +103,11 @@ function Report({ data }: { data: Pipeline }) {
         </a>
 
         {data.meta.sample && (
-          <p className="fixed top-3 right-3 z-40 rounded-md border border-cut-rule bg-cut-soft/80 px-2.5 py-1.5 text-sm leading-tight font-medium text-ink backdrop-blur-md">
+          // Bottom-left, not top-right: at the scroll position you land on
+          // when talking about the funnel, a top-right fixed badge sits
+          // exactly over the Replay button — the one control a presenter
+          // actually touches — and wins on z-index.
+          <p className="fixed bottom-3 left-3 z-40 rounded-md border border-cut-rule bg-cut-soft/80 px-2.5 py-1.5 text-sm leading-tight font-medium text-ink backdrop-blur-md">
             Sample data — not pipeline output
           </p>
         )}
@@ -170,7 +189,7 @@ function Report({ data }: { data: Pipeline }) {
         </main>
 
         <footer className="mx-auto max-w-[80rem] px-6 pb-10">
-          <p className="text-xs leading-normal text-ink-faint">
+          <p className="text-xs leading-normal text-ink-soft">
             {num(data.meta.n_input)} approved substances screened · generated{" "}
             <span className="readout">
               {generated.toISOString().slice(0, 16).replace("T", " ")} UTC

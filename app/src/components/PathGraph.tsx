@@ -50,10 +50,10 @@ export function PathGraph({ path }: { path: PathHop[] }) {
                 {/* Connector draws downward, so the chain reads as derived
                     rather than as a list that happens to be vertical. */}
                 <motion.span
-                  className="block w-px bg-rule-strong"
+                  className="block h-3.5 w-px bg-rule-strong"
                   style={{ transformOrigin: "top" }}
                   initial={reduceMotion ? false : { scaleY: 0 }}
-                  animate={{ scaleY: 1, height: 14 }}
+                  animate={{ scaleY: 1 }}
                   transition={{
                     duration: 0.18,
                     ease: EASE,

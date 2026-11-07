@@ -575,7 +575,11 @@ export function Dither({
           // StrictMode, and a blank background is the one outcome a
           // recording cannot tolerate. The worst case here is a correctly
           // sized static frame instead of an animated one.
-          frameloop={reduced || hidden ? "demand" : "always"}
+          // `disableAnimation` belongs here, not just on the time uniform:
+          // without it the loop kept rendering at 33.3ms/frame to produce a
+          // pixel-identical image, which halved the frame rate of every
+          // animation on the page. "demand" draws once and then idles.
+          frameloop={reduced || hidden || disableAnimation ? "demand" : "always"}
           camera={{ position: [0, 0, 6] }}
           // Half resolution, upscaled by the browser. A full-screen fragment
           // shader is the entire frame budget and this one is pure

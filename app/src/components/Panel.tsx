@@ -29,9 +29,19 @@ export function Panel({
   return (
     <Tag
       className={cn(
-        "relative isolate overflow-hidden rounded-xl",
-        "border border-white/[0.07] bg-surface/55 backdrop-blur-xl",
-        "shadow-[0_1px_0_0_rgba(255,255,255,0.05)_inset,0_24px_48px_-24px_rgba(0,0,0,0.6)]",
+        "relative isolate overflow-hidden rounded-2xl",
+        // 88%, not 28%. Dropping the opacity to show more texture inverted
+        // the figure/ground: the composited panel measured DARKER than the
+        // dither behind it, so the panes read as holes punched in a busy
+        // field rather than as glass floating over one, and 11px label text
+        // fell to 4.10:1. The texture belongs in the gaps between panels,
+        // which is where it is actually visible — a pane has to be a
+        // definite, quieter surface for the data to sit on.
+        "border border-white/[0.09] bg-surface/[0.88] backdrop-blur-2xl backdrop-saturate-150",
+        // Two edges, not a box: a bright top edge where the pane catches
+        // light, and a dark drop below it so the pane reads as lifted off the
+        // ground rather than drawn onto it.
+        "shadow-[0_1px_0_0_rgba(255,255,255,0.08)_inset,0_1px_40px_-8px_rgba(0,0,0,0.5)_inset,0_32px_64px_-32px_rgba(0,0,0,0.85)]",
         className,
       )}
       {...rest}
