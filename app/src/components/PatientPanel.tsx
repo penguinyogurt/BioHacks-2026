@@ -12,10 +12,10 @@ export function PatientPanel({ profile }: { profile: PatientProfile }) {
   return (
     <section aria-labelledby="patient-heading" className="hairline-b pb-6">
       <header className="mb-5">
-        <h2 id="patient-heading" className="text-[1.0625rem] leading-tight font-semibold">
+        <h2 id="patient-heading" className="text-lg leading-tight font-semibold">
           The constraints are {profile.display_name}&rsquo;s, not the disease&rsquo;s
         </h2>
-        <p className="mt-1 max-w-[62ch] text-[0.8125rem] leading-normal text-ink-soft">
+        <p className="mt-1 max-w-[62ch] text-sm leading-normal text-ink-soft">
           {profile.summary}
         </p>
       </header>
@@ -26,15 +26,15 @@ export function PatientPanel({ profile }: { profile: PatientProfile }) {
             <div className="flex items-baseline justify-between gap-3">
               <span className="label">{finding.label}</span>
               {finding.drives.length > 0 && (
-                <span className="readout shrink-0 text-[0.6875rem] text-ink-faint">
+                <span className="readout shrink-0 text-label text-ink-faint">
                   {finding.drives.join(" ")}
                 </span>
               )}
             </div>
-            <p className="readout mt-1 text-[0.875rem] leading-snug font-medium">
+            <p className="readout mt-1 text-base leading-snug font-medium">
               {finding.value.replace(/(\s)-(\d)/g, "$1−$2")}
             </p>
-            <p className="mt-1 text-[0.8125rem] leading-normal text-ink-soft">
+            <p className="mt-1 text-sm leading-normal text-ink-soft">
               {finding.implication}
             </p>
           </li>

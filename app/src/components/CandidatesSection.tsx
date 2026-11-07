@@ -54,10 +54,10 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
   return (
     <section aria-labelledby="candidates-heading" className="hairline-b pb-10">
       <header className="mb-5">
-        <h2 id="candidates-heading" className="text-[1.0625rem] leading-tight font-semibold">
+        <h2 id="candidates-heading" className="text-lg leading-tight font-semibold">
           Every surviving drug carries its receipt
         </h2>
-        <p className="mt-1 max-w-[66ch] text-[0.8125rem] leading-normal text-ink-soft">
+        <p className="mt-1 max-w-[66ch] text-sm leading-normal text-ink-soft">
           The graph path that connected it to ALS, the barrier prediction with
           its applicability check, and which patient rules it cleared — in rule
           order, first failure highlighted.
@@ -83,7 +83,7 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
               onClick={() => setView(v.key)}
               className={cn(
                 "flex items-baseline gap-2 rounded-md border px-2.5 py-1.5",
-                "text-[0.8125rem] font-medium",
+                "text-sm font-medium",
                 "transition-[transform,background-color,border-color,color] duration-150 ease-out",
                 "active:scale-[0.97]",
                 isActive
@@ -94,7 +94,7 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
               {v.label}
               <span
                 className={cn(
-                  "readout text-[0.75rem]",
+                  "readout text-xs",
                   isActive ? "text-paper/70" : "text-ink-faint",
                 )}
               >
@@ -106,7 +106,7 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
       </div>
 
       {shown.length === 0 ? (
-        <p className="text-[0.875rem] leading-normal text-ink-faint">{active?.empty}</p>
+        <p className="text-base leading-normal text-ink-faint">{active?.empty}</p>
       ) : (
         <motion.div
           layout="position"

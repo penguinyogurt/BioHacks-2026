@@ -62,7 +62,7 @@ export function PathGraph({ path }: { path: PathHop[] }) {
                   aria-hidden="true"
                 />
                 <motion.span
-                  className="readout text-[0.6875rem] leading-none text-ink-faint"
+                  className="readout text-label leading-none text-ink-faint"
                   initial={reduceMotion ? false : { opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{
@@ -95,7 +95,7 @@ export function PathGraph({ path }: { path: PathHop[] }) {
               />
               <span
                 className={cn(
-                  "readout truncate text-[0.75rem] leading-tight",
+                  "readout truncate text-xs leading-tight",
                   node.terminal ? "font-semibold text-ink" : "text-ink-soft",
                 )}
                 title={node.label}

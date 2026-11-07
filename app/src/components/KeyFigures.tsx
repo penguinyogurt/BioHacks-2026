@@ -61,10 +61,10 @@ export function KeyFigures({ data }: { data: Pipeline }) {
           <div key={figure.label}>
             <dt className="label">{figure.label}</dt>
             <dd>
-              <p className="readout mt-1.5 text-[2rem] leading-none font-semibold tracking-[-0.02em]">
+              <p className="readout mt-1.5 text-3xl leading-none font-semibold tracking-[-0.02em]">
                 {figure.value}
               </p>
-              <p className="mt-2 max-w-[28ch] text-[0.8125rem] leading-snug text-ink-soft">
+              <p className="mt-2 max-w-[28ch] text-sm leading-snug text-ink-soft">
                 {figure.note}
               </p>
             </dd>

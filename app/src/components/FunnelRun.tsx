@@ -18,10 +18,10 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
     <section aria-labelledby="funnel-heading" className="hairline-b pb-6">
       <header className="mb-4 flex items-end justify-between gap-6">
         <div>
-          <h2 id="funnel-heading" className="text-[1.0625rem] leading-tight font-semibold">
+          <h2 id="funnel-heading" className="text-lg leading-tight font-semibold">
             Five stages, each removing candidates for a stated reason
           </h2>
-          <p className="mt-1 text-[0.8125rem] leading-normal text-ink-soft">
+          <p className="mt-1 text-sm leading-normal text-ink-soft">
             Bar length is log-scaled so every stage stays legible
             {" · "}
             equal time per stage, not per drug removed
@@ -37,7 +37,7 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
             // @media (hover: hover) — wrapping it again produces `not all`,
             // which never matches and silently kills the style.
             "min-w-[5.5rem] shrink-0 rounded-md border border-rule-strong bg-surface px-3 py-1.5",
-            "text-[0.8125rem] font-medium text-ink-soft",
+            "text-sm font-medium text-ink-soft",
             "transition-[transform,color,background-color] duration-150 ease-out",
             "active:scale-[0.97]",
             "hover:bg-surface-sunk hover:text-ink",
@@ -63,7 +63,7 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
               <div className="pt-0.5 text-right">
                 <div
                   className={cn(
-                    "text-[0.8125rem] leading-tight font-medium transition-colors duration-200 ease-out",
+                    "text-sm leading-tight font-medium transition-colors duration-200 ease-out",
                     isRevealed ? "text-ink" : "text-ink-faint",
                   )}
                 >
@@ -106,7 +106,7 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
                   </div>
 
                   <motion.span
-                    className="readout w-[4.5rem] shrink-0 text-right text-[1.0625rem] leading-none font-semibold"
+                    className="readout w-[4.5rem] shrink-0 text-right text-lg leading-none font-semibold"
                     initial={false}
                     animate={{ opacity: isRevealed ? 1 : 0.25 }}
                     transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
@@ -117,7 +117,7 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
 
                 {stage.eliminated > 0 && (
                   <motion.p
-                    className="mt-1.5 flex items-baseline gap-2 text-[0.8125rem] leading-normal"
+                    className="mt-1.5 flex items-baseline gap-2 text-sm leading-normal"
                     initial={false}
                     animate={{
                       opacity: isRevealed ? 1 : 0,
@@ -146,7 +146,7 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
 
       {final && (
         <motion.p
-          className="mt-3 text-[0.9375rem] leading-normal text-ink-soft"
+          className="mt-3 text-md leading-normal text-ink-soft"
           // Nothing else announces that the run finished, so a screen-reader
           // user who presses Replay otherwise gets no result.
           aria-live="polite"

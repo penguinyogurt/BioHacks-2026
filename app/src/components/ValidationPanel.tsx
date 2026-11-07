@@ -70,10 +70,10 @@ export function ValidationPanel({ validation }: { validation: Pipeline["validati
   return (
     <section aria-labelledby="validation-heading">
       <header className="mb-5">
-        <h2 id="validation-heading" className="text-[1.0625rem] leading-tight font-semibold">
+        <h2 id="validation-heading" className="text-lg leading-tight font-semibold">
           What we measured, including what doesn&rsquo;t flatter us
         </h2>
-        <p className="mt-1 max-w-[62ch] text-[0.8125rem] leading-normal text-ink-soft">
+        <p className="mt-1 max-w-[62ch] text-sm leading-normal text-ink-soft">
           We have labelled positives and labelled negatives, which is rare for
           a repurposing claim.
         </p>
@@ -84,10 +84,10 @@ export function ValidationPanel({ validation }: { validation: Pipeline["validati
           <div key={metric.label} className="hairline-t pt-2.5">
             <dt className="label">{metric.label}</dt>
             <dd>
-              <p className="readout mt-1 text-[0.9375rem] leading-snug font-semibold">
+              <p className="readout mt-1 text-md leading-snug font-semibold">
                 {metric.value}
               </p>
-              <p className="mt-1 text-[0.8125rem] leading-normal text-ink-soft">
+              <p className="mt-1 text-sm leading-normal text-ink-soft">
                 {metric.shows}
               </p>
             </dd>

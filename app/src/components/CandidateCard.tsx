@@ -22,12 +22,12 @@ function BbbReadout({ bbb }: { bbb: Candidate["bbb"] }) {
       <div>
         <div className="flex items-baseline justify-between gap-3">
           <span className="label">Barrier permeability</span>
-          <span className="text-[0.8125rem] font-medium text-ink-faint">
+          <span className="text-sm font-medium text-ink-faint">
             not predicted
           </span>
         </div>
         <div className="mt-2 rounded-[3px] border border-dashed border-rule-strong bg-surface-sunk px-2.5 py-2">
-          <p className="text-[0.8125rem] leading-snug text-ink-soft">
+          <p className="text-sm leading-snug text-ink-soft">
             Outside the model&rsquo;s applicability domain — nearest training
             compound is only{" "}
             <span className="readout font-medium text-ink">
@@ -44,7 +44,7 @@ function BbbReadout({ bbb }: { bbb: Candidate["bbb"] }) {
     <div>
       <div className="flex items-baseline justify-between gap-3">
         <span className="label">Barrier permeability</span>
-        <span className="readout text-[0.9375rem] leading-none font-semibold">
+        <span className="readout text-md leading-none font-semibold">
           {prob(bbb.prob)}
         </span>
       </div>
@@ -54,7 +54,7 @@ function BbbReadout({ bbb }: { bbb: Candidate["bbb"] }) {
           style={{ width: `${bbb.prob * 100}%` }}
         />
       </div>
-      <p className="mt-1.5 text-[0.75rem] leading-normal text-ink-faint">
+      <p className="mt-1.5 text-xs leading-normal text-ink-faint">
         in domain · nearest Tanimoto{" "}
         <span className="readout">{prob(bbb.nearest_tanimoto)}</span>
       </p>
@@ -68,7 +68,7 @@ function RuleList({ candidate }: { candidate: Candidate }) {
 
   if (total === 0) {
     return (
-      <p className="text-[0.8125rem] leading-snug text-ink-faint">
+      <p className="text-sm leading-snug text-ink-faint">
         Cut before the patient filter ran, so no rules were evaluated.
       </p>
     );
@@ -84,7 +84,7 @@ function RuleList({ candidate }: { candidate: Candidate }) {
             <li
               key={f.rule}
               className={cn(
-                "grid grid-cols-[1rem_9rem_1fr] items-baseline gap-2 rounded-[3px] py-0.5 text-[0.8125rem] leading-snug",
+                "grid grid-cols-[1rem_9rem_1fr] items-baseline gap-2 rounded-[3px] py-0.5 text-sm leading-snug",
                 isDecisive && "-mx-1.5 bg-cut-soft px-1.5 py-1",
               )}
             >
@@ -114,7 +114,7 @@ function RuleList({ candidate }: { candidate: Candidate }) {
         <span className="label">Rules cleared</span>
         <span
           className={cn(
-            "readout text-[0.8125rem] font-semibold",
+            "readout text-sm font-semibold",
             passed === total ? "text-keep" : "text-cut",
           )}
         >
@@ -147,26 +147,26 @@ export function CandidateCard({ candidate, index }: { candidate: Candidate; inde
       <header className="hairline-b flex items-start justify-between gap-3 pb-3">
         <div className="min-w-0">
           <h3
-            className="truncate text-[0.9375rem] leading-tight font-semibold capitalize"
+            className="truncate text-md leading-tight font-semibold capitalize"
             title={candidate.name}
           >
             {candidate.name}
           </h3>
-          <p className="readout mt-1 truncate text-[0.75rem] text-ink-faint">
+          <p className="readout mt-1 truncate text-xs text-ink-faint">
             {candidate.id} · {skeleton}
           </p>
         </div>
 
         <div className="shrink-0 text-right">
           <span className="label">Rank</span>
-          <div className="readout text-[0.9375rem] leading-none font-semibold">
+          <div className="readout text-md leading-none font-semibold">
             {candidate.kg.rank}
           </div>
         </div>
       </header>
 
       {eliminated && candidate.eliminated_at && (
-        <p className="-mt-1 flex items-baseline gap-1.5 text-[0.8125rem] leading-snug">
+        <p className="-mt-1 flex items-baseline gap-1.5 text-sm leading-snug">
           <span
             className="mt-[0.3rem] size-1.5 shrink-0 rounded-full bg-cut"
             aria-hidden="true"
@@ -195,7 +195,7 @@ export function CandidateCard({ candidate, index }: { candidate: Candidate; inde
         ).map(([label, value]) => (
           <div key={label}>
             <dt className="label">{label}</dt>
-            <dd className="readout mt-0.5 text-[0.8125rem] font-medium">
+            <dd className="readout mt-0.5 text-sm font-medium">
               {/* Minus sign, not hyphen: logP of −1.3 is a number, not a range. */}
               {String(value).replace("-", "−")}
             </dd>
