@@ -1,0 +1,7 @@
+biceps.zip
+.venv/
+__pycache__/
+patients.csv
+patient-scores.png
+component-weights.png
+conclusion.txt
