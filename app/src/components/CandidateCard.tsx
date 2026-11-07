@@ -67,15 +67,31 @@ function BbbReadout({ bbb }: { bbb: Candidate["bbb"] }) {
           {prob(bbb.prob)}
         </span>
       </div>
-      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-surface-sunk">
+      {/* The threshold is marked because 0.84 means nothing on its own — the
+          classifier's decision is "above or below 0.5", and that is the same
+          line the partition chart divides the failed trials on. Without it
+          the bar is a number with no reference. */}
+      <div className="relative mt-2 h-1.5 rounded-full bg-surface-sunk">
         <div
-          className="h-full rounded-full bg-ink"
+          className={cn(
+            "h-full rounded-full",
+            bbb.prob >= 0.5 ? "bg-ink" : "bg-ink-faint",
+          )}
           style={{ width: `${bbb.prob * 100}%` }}
         />
+        <span
+          className="absolute top-1/2 left-1/2 h-3 w-px -translate-x-1/2 -translate-y-1/2 bg-rule-strong"
+          aria-hidden="true"
+        />
       </div>
-      <p className="mt-1.5 text-xs leading-normal text-ink-faint">
-        in domain · nearest Tanimoto{" "}
-        <span className="readout">{prob(bbb.nearest_tanimoto)}</span>
+      <p className="mt-1.5 flex items-baseline justify-between gap-3 text-xs leading-normal text-ink-faint">
+        <span>
+          in domain · nearest Tanimoto{" "}
+          <span className="readout">{prob(bbb.nearest_tanimoto)}</span>
+        </span>
+        <span className={bbb.prob >= 0.5 ? "text-ink-soft" : "text-cut"}>
+          {bbb.prob >= 0.5 ? "crosses" : "cannot cross"}
+        </span>
       </p>
     </div>
   );

@@ -105,7 +105,7 @@ function Report({ data }: { data: Pipeline }) {
             what the metrics list did and the page read as a stack rather than
             an argument. Grouping also opens real gaps between the acts, which
             is where the dither is actually visible. */}
-        <main id="main" className="mx-auto max-w-[76rem] space-y-16 px-6 pb-20">
+        <main id="main" className="mx-auto max-w-[80rem] space-y-16 px-6 pb-20">
           {/* The claim: what we did, and to whom. */}
           <div className="space-y-6">
             <Panel className="p-7">
@@ -169,7 +169,7 @@ function Report({ data }: { data: Pipeline }) {
           </div>
         </main>
 
-        <footer className="mx-auto max-w-[76rem] px-6 pb-10">
+        <footer className="mx-auto max-w-[80rem] px-6 pb-10">
           <p className="text-xs leading-normal text-ink-faint">
             {num(data.meta.n_input)} approved substances screened · generated{" "}
             <span className="readout">

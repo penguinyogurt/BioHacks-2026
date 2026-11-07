@@ -55,7 +55,7 @@ export function Hero({ data }: { data: Pipeline }) {
             "radial-gradient(ellipse 66% 72% at 24% 50%, var(--paper) 0%, var(--paper) 38%, color-mix(in oklch, var(--paper) 78%, transparent) 58%, transparent 86%)",
         }}
       />
-      <div className="mx-auto grid w-full max-w-[76rem] items-center gap-12 lg:grid-cols-[minmax(0,1fr)_26rem]">
+      <div className="mx-auto grid w-full max-w-[80rem] items-center gap-12 lg:grid-cols-[minmax(0,1fr)_26rem]">
         <div>
         <motion.p className="label" {...rise(0)}>
           BioHacks 2026 · Patient-constrained drug repurposing · ALS
