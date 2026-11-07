@@ -23,6 +23,8 @@ artifacts/       cached intermediates (crosswalk, model pickles, metrics)
 
 | Module | Writes | Owner |
 |--------|--------|-------|
+| `src/drkg.py` | `artifacts/als_node.json` | E1 |
+| `src/crosswalk.py` | `artifacts/crosswalk.csv` | E1 |
 | `src/kg_rank.py` | `data/kg_scores.json` | E1 |
 | `src/bbb_model.py` | `data/bbb_scores.json` | E2 |
 | `src/patient_filter.py` | `data/patient_filter.json` | E3 |
@@ -77,7 +79,31 @@ Shape notes that matter to the frontend:
 Two joins that will cost an hour each if done wrong:
 
 1. **Find the ALS node in DRKG by grepping, not guessing.** Disease nodes use several
-   ontologies, and the `treats` edges only use one of them.
+   ontologies, and the `treats` edges only use one of them. Done:
+   `python -m src.drkg` re-measures it and writes `artifacts/als_node.json`. The answer is
+   `Disease::MESH:D000690` (787 edges, 57 of them `treats`). `Disease::DOID:332` is also
+   ALS but has 5 edges — `DRUGBANK::treats` and `GNBR::T` address diseases by MeSH while
+   `Hetionet::CtD` uses DOID, so the two never merge.
 2. **Join on structure, not names.** DRKG uses DrugBank ids, B3DB uses SMILES,
    DrugCentral uses its own ids. One crosswalk table keyed on an RDKit-computed InChIKey.
-   Name matching silently loses half the drugs.
+   Name matching silently loses half the drugs. Done: `python -m src.crosswalk` writes
+   `artifacts/crosswalk.csv`, which is committed, so nobody else re-downloads anything.
+   Read it with `src.crosswalk.load()`.
+
+## Knowledge-graph ranking
+
+```bash
+python -m src.drkg        # resolve the ALS node (~2 s, downloads DRKG on first run)
+python -m src.crosswalk   # build the InChIKey crosswalk (~40 s)
+python -m src.kg_rank     # score every compound, emit data/kg_scores.json (~9 s)
+```
+
+Score is the TransE function on the missing `(compound, treats, ALS)` edge,
+`gamma - ||h + r - t||₂` with gamma = 12.0, over the pretrained DRKG TransE_l2
+embeddings. We do not train our own model.
+
+Each of the top 100 carries a 2–3 hop typed path to ALS as the receipt the UI shows.
+**The spec's drug → gene → pathway → ALS shape does not exist in DRKG**: there are 84,372
+`Gene:Pathway` edges and zero `Pathway:Disease` edges, so a pathway can never be the last
+hop. The reachable shapes are drug → gene → ALS and drug → gene → gene → ALS, preferring
+curated gene–disease edges over literature co-occurrence.
