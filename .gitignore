@@ -6,12 +6,14 @@ dist/
 .vite/
 *.local
 .DS_Store
+.ipynb_checkpoints/
 
 # Python
 __pycache__/
 *.py[cod]
 .venv/
 venv/
+.env
 
 # Big source data — download it, don't commit it
 data/raw/
@@ -19,8 +21,11 @@ data/raw/
 *.tsv.gz
 *.sql
 *.dump
-*.pkl
-*.npy
+
+# Large derived artifacts. Small cached crosswalks, metrics, and the joblib are committed on purpose.
+artifacts/*.npy
+artifacts/*.pkl
+artifacts/*.tar.gz
 
 # Keep the contract and generated outputs small and committed:
 # data/pipeline.json is committed on purpose.
