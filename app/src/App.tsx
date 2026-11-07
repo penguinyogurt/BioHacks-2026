@@ -41,7 +41,8 @@ function Molecule3D({ molblock }: { molblock: string }) {
 }
 
 function BbbPanel({ bbb }: { bbb: any }) {
-  if (!bbb) return <p className="text-sm text-slate-500">No BBB score yet.</p>;
+  if (!bbb || bbb.scored === false || (bbb.prob == null && bbb.in_domain && !bbb.refusal))
+    return <p className="text-sm text-slate-500">No BBB score yet.</p>;
   if (!bbb.in_domain)
     return (
       <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-4">

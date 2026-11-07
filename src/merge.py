@@ -110,9 +110,15 @@ def normalize_filters(raw: list[dict]) -> list[dict]:
     return known + extra
 
 
-def bbb_block(rec: dict | None) -> dict | None:
+def bbb_block(rec: dict | None) -> dict:
     if not rec:
-        return None
+        return {
+            "prob": None,
+            "in_domain": True,
+            "nearest_tanimoto": None,
+            "descriptors": {},
+            "scored": False,
+        }
     in_domain = bool(rec.get("in_domain", True))
     prob = num(rec.get("prob"))
     desc = rec.get("descriptors") if isinstance(rec.get("descriptors"), dict) else {}
@@ -121,6 +127,7 @@ def bbb_block(rec: dict | None) -> dict | None:
         "in_domain": in_domain,
         "nearest_tanimoto": num(rec.get("nearest_tanimoto")),
         "descriptors": desc,
+        "scored": True,
         **({"refusal": rec["refusal"]} if rec.get("refusal") else {}),
     }
 
@@ -279,11 +286,24 @@ def merge(in_dir: Path = DATA, out_path: Path = PIPELINE_JSON) -> dict:
             }
         )
 
-    n_input = kg_meta.get("n_input") if isinstance(kg_meta.get("n_input"), int) else DEFAULT_N_INPUT
+    n_input = next(
+        (
+            n
+            for n in (
+                kg_meta.get("n_input"),
+                kg_meta.get("universe_size"),
+                len(kg_rows) if kg_rows else None,
+            )
+            if isinstance(n, int) and n > 0
+        ),
+        DEFAULT_N_INPUT,
+    )
+    # Funnel counts come from this join, not from subset n_pass on the 21-drug
+    # patient-filter sample or the handful of BBB demo candidates.
     reported = {
-        "kg_relevance": kg_meta.get("n_pass") or kg_meta.get("n_relevant"),
-        "bbb": bbb_meta.get("n_pass"),
-        "patient_filter": pf_meta.get("n_pass") or pf_meta.get("n_passed"),
+        "kg_relevance": None,
+        "bbb": None,
+        "patient_filter": None,
         "trial_history": None,
     }
 
@@ -291,7 +311,7 @@ def merge(in_dir: Path = DATA, out_path: Path = PIPELINE_JSON) -> dict:
     part = {"never_arrived": 0, "arrived_failed": 0}
     for g in gy_rows:
         inchi = g.get("inchikey")
-        bbb_rec = bbb_map.get(inchi) if inchi else None
+        bbb_rec = (bbb_map.get(inchi) if inchi else None) or bbb_map.get(str(g.get("name") or "").lower())
         bucket, prob = graveyard_bucket(g, bbb_rec)
         if not bucket:
             continue
@@ -308,11 +328,24 @@ def merge(in_dir: Path = DATA, out_path: Path = PIPELINE_JSON) -> dict:
             }
         )
 
-    sample = any(
-        str((kg_p or {}).get("meta", {}).get("source", "")).upper().startswith("SAMPLE")
-        for _ in [0]
-    ) or not kg_p
-    mode = "sample" if sample or missing else "real"
+    sample = (not kg_p) or str(kg_meta.get("source", "")).upper().startswith("SAMPLE")
+    mode = "sample" if sample else "real"
+    kg_val = (kg_p or {}).get("validation") or {}
+    pos = kg_val.get("positive_controls") or {}
+    riluzole_rank = (pos.get("riluzole") or {}).get("rank")
+    edaravone_rank = (pos.get("edaravone") or {}).get("rank")
+    if riluzole_rank is None:
+        hit = next((c for c in candidates if (c.get("name") or "").lower() == "riluzole"), None)
+        riluzole_rank = (hit or {}).get("kg", {}).get("rank")
+    if edaravone_rank is None:
+        hit = next((c for c in candidates if (c.get("name") or "").lower() == "edaravone"), None)
+        edaravone_rank = (hit or {}).get("kg", {}).get("rank")
+    bbb_matched = sum(1 for c in candidates if (c.get("bbb") or {}).get("scored"))
+    pf_matched = sum(1 for c in candidates if c.get("filters"))
+    bbb_auc = None
+    split = ((bbb_p or {}).get("model") or {}).get("scaffold_split") or {}
+    auc_block = split.get("roc_auc") if isinstance(split.get("roc_auc"), dict) else {}
+    bbb_auc = num(auc_block.get("mean")) or num(bbb_meta.get("roc_auc"))
 
     doc = {
         "meta": {
@@ -322,6 +355,12 @@ def merge(in_dir: Path = DATA, out_path: Path = PIPELINE_JSON) -> dict:
             "data_mode": mode,
             "is_sample": mode == "sample",
             "inputs": inputs,
+            "coverage": {
+                "kg": len(candidates),
+                "bbb": bbb_matched,
+                "patient_filter": pf_matched,
+                "graveyard": len(graveyard or gy_rows),
+            },
             "rule_order": pf_meta.get("rule_order") or RULE_ORDER,
             "chart": pf_meta.get("chart") or {},
         },
@@ -329,14 +368,27 @@ def merge(in_dir: Path = DATA, out_path: Path = PIPELINE_JSON) -> dict:
         "candidates": candidates,
         "graveyard": graveyard or rows(gy_p, "graveyard"),
         "validation": {
-            "riluzole_rank": kg_meta.get("riluzole_rank"),
-            "edaravone_rank": kg_meta.get("edaravone_rank"),
-            "bbb_roc_auc": num(bbb_meta.get("roc_auc")),
-            "bbb_roc_auc_published_baseline": num(bbb_meta.get("roc_auc_published_baseline") or bbb_meta.get("baseline_auc")),
-            "negatives_in_top_50": kg_meta.get("negatives_in_top_50"),
+            "riluzole_rank": riluzole_rank,
+            "edaravone_rank": edaravone_rank,
+            "bbb_roc_auc": bbb_auc,
+            "bbb_roc_auc_published_baseline": num(
+                bbb_meta.get("roc_auc_published_baseline") or bbb_meta.get("baseline_auc")
+            ),
+            "negatives_in_top_50": kg_val.get("negatives_in_top_50") or kg_meta.get("negatives_in_top_50"),
             "partition": part,
         },
     }
+
+    if bbb_matched < n_input:
+        for stage in doc["funnel"]:
+            if stage["stage"] == "bbb":
+                stage["degraded"] = True
+                stage["scored"] = bbb_matched
+    if pf_matched < n_input:
+        for stage in doc["funnel"]:
+            if stage["stage"] == "patient_filter":
+                stage["degraded"] = True
+                stage["scored"] = pf_matched
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with out_path.open("w") as fh:
