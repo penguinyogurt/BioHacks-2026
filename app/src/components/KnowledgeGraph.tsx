@@ -591,7 +591,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                                   ? "fill-keep"
                                   : hotPaths && on
                                     ? "fill-ink"
-                                    : "fill-bucket-arrived",
+                                    : "fill-ink-soft",
                             )}
                             style={delay(NODE_IN[n.ring], order)}
                           />

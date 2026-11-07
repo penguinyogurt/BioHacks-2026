@@ -35,28 +35,49 @@
      paper — 0.44 measured 2.26 there and failed. */
   --rule-strong: oklch(0.53 0.024 285);
 
-  /* The one accent: elimination. Nothing else may use it. Lifted in
-     lightness for a dark ground — a dark red on dark violet is invisible. */
-  --cut: oklch(0.715 0.165 22);
-  --cut-soft: oklch(0.265 0.055 22);
-  --cut-rule: oklch(0.44 0.105 22);
+  /* ── The data pair: elimination and survival ───────────────────────────
+     Amber fault lamp and cold cyan readout, not red and green. Three
+     reasons, in order of how much they mattered:
 
-  /* Survival is carried by ink weight and a check glyph, never by green
-     alone — colour must not be the only carrier. */
-  --keep: oklch(0.80 0.145 158);
-  --keep-soft: oklch(0.255 0.045 158);
+     1. Red/green is the one pair every generated dashboard reaches for, and
+        it was the main thing making this look machine-made.
+     2. It is the worst pair to reach for. Deuteranopia is the most common
+        deficiency and it collapses exactly that axis: the old #f97373 and
+        #5dda99 measured ΔE 7.9 under simulated deutan, inside the 6–8 "legal
+        only with secondary encoding" band. Amber↔cyan separates on the
+        blue–yellow axis, which every deficiency type keeps: ΔE 17.0.
+     3. A sodium fault lamp and a cold instrument readout are what a lab
+        console actually looks like.
 
-  /* Data-ink for the two graveyard buckets. Both are bright, because both
-     are the datum — their positions on the axis ARE the partition claim, and
-     a dot you can't see is a trial you can't count. The bucket itself is
-     carried by hollow-vs-solid, the side of the threshold, and the sunk
-     field behind the barrier-negative half, so it survives greyscale without
-     leaning on these two values. "Never arrived" takes the slightly brighter
-     one: it's the smaller group and the more surprising half of the finding.
-     An earlier pass dimmed "arrived" to push that contrast further and made
-     the dense pile — the thing you're supposed to see first — recede. */
-  --bucket-never: oklch(0.90 0.035 285);
-  --bucket-arrived: oklch(0.78 0.03 285);
+     Both now sit inside the dark-mode series band (L 0.48–0.67) at equal
+     lightness, so neither verdict outranks the other by brightness — the
+     distinction is hue, the glyph, and the sr-only prefix. */
+  --cut: oklch(0.665 0.135 70);
+  --cut-soft: oklch(0.265 0.05 70);
+  --cut-rule: oklch(0.455 0.09 70);
+
+  --keep: oklch(0.66 0.11 200);
+  --keep-soft: oklch(0.255 0.04 200);
+
+  /* Data-ink for the two graveyard buckets. These were two near-identical
+     low-chroma greys — ΔE 12.0 apart, below the 15 floor a full-colour
+     reader needs, and both under the 0.10 chroma floor at which a hue stops
+     reading as a hue at all. They weren't a palette; they were one grey
+     twice.
+
+     The buckets are not two unrelated categories. They are the two sides of
+     one threshold on one continuous axis, so they take an ordered ramp —
+     ONE hue, two lightness steps — rather than two hues. Orchid: 33° off the
+     285 ground, so it belongs to the violet family the page is built on
+     instead of arriving as a fifth unrelated colour, and far enough from
+     both amber and cyan to never be mistaken for a verdict.
+
+     "Never arrived" keeps the brighter step, as before. It is also the
+     hollow mark, and a 1.75px ring needs the lightness that a filled disc
+     doesn't. The bucket is still carried by hollow-vs-solid, the side of the
+     divider, and the sunk field, so it survives greyscale on its own. */
+  --bucket-never: oklch(0.67 0.105 318);
+  --bucket-arrived: oklch(0.525 0.16 318);
 
 
   /* Three voices, one job each. The display serif carries the argument, the

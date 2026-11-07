@@ -55,6 +55,12 @@
       "skillPath": "skills/better-ui/SKILL.md",
       "computedHash": "4d6e56d526c674b1f21a5acfab1599627e9d829d225e728e52b5bd9fb1005b9d"
     },
+    "color-expert": {
+      "source": "meodai/skill.color-expert",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "a1bc609b9fe499c521a8fc5e821f98d7d90923ef018d97625503f629882f9cb9"
+    },
     "emil-design-eng": {
       "source": "emilkowalski/skills",
       "sourceType": "github",

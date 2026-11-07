@@ -140,8 +140,14 @@ export function FunnelRun({
                       delay: isRevealed ? 0.16 : 0,
                     }}
                   >
-                    <span className="readout font-medium text-cut">
-                      −{num(stage.eliminated)}
+                    {/* The number stays ink and the colour moves onto the
+                        sign. A coloured numeral was the only one on the page,
+                        which broke the tabular column and is a generated-
+                        dashboard tell — colour belongs on a mark, not on a
+                        value. */}
+                    <span className="readout font-medium text-ink">
+                      <span className="text-cut">−</span>
+                      {num(stage.eliminated)}
                     </span>
                     {stage.top_reason && (
                       <span className="text-ink-soft">{stage.top_reason}</span>

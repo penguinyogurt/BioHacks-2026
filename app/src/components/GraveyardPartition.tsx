@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import type { GraveyardEntry } from "@/lib/contract";
 import { cn, prob } from "@/lib/utils";
@@ -118,8 +118,13 @@ function callouts(dots: Dot[], width: number): Callout[] {
   return out;
 }
 
+/** Keys the swarm claims. Everything else bubbles — Tab still leaves. */
+const NAV = new Set(["ArrowLeft", "ArrowRight", "Home", "End"]);
+
 export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
   const frame = useRef<HTMLDivElement>(null);
+  const group = useRef<SVGGElement>(null);
+  const dotEls = useRef(new Map<string, HTMLAnchorElement>());
   const [width, setWidth] = useState(0);
   /** The last reading stays on screen — an instrument doesn't blank when you
       take your hand off it, and the presenter needs it to survive a gesture. */
@@ -148,6 +153,39 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
   /** Opens on the strongest case for the finding — the lowest predicted
       permeability in the set — so the readout is never empty at the table. */
   const active = dots.find((d) => idOf(d.entry) === read) ?? dots[0];
+
+  /** One move: light the readout and take the focus ring with us. Every dot
+      is already in the DOM at tabIndex -1, so this is a plain focus call. */
+  const land = (dot: Dot | undefined) => {
+    if (!dot) return;
+    setRead(idOf(dot.entry));
+    dotEls.current.get(idOf(dot.entry))?.focus();
+  };
+
+  /** 25 dots were 25 tab stops, which is the knowledge graph's old problem
+      answered the opposite way on the same page. One stop for the swarm,
+      Left/Right along the axis inside it — `dots` is already sorted by
+      predicted permeability, so arrowing walks the finding in order. */
+  const onKey = (e: KeyboardEvent<SVGGElement>) => {
+    if (e.key === "Escape") return group.current?.focus();
+    if (!active || !NAV.has(e.key)) return;
+    e.preventDefault();
+    // First arrow after tabbing into the group: step onto a dot, not past it.
+    if (e.target === e.currentTarget) return land(active);
+
+    const i = dots.indexOf(active);
+    const last = dots.length - 1;
+    switch (e.key) {
+      case "ArrowRight":
+        return land(dots[i === last ? 0 : i + 1]);
+      case "ArrowLeft":
+        return land(dots[i <= 0 ? last : i - 1]);
+      case "Home":
+        return land(dots[0]);
+      default:
+        return land(dots[last]);
+    }
+  };
 
   return (
     <section aria-labelledby="graveyard-heading">
@@ -198,7 +236,7 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
               </div>
 
               <div className="flex items-baseline gap-2">
-                <span className="readout text-[2rem] leading-none font-medium tracking-[-0.02em]">
+                <span className="readout text-3xl leading-none font-medium tracking-[-0.02em]">
                   {n}
                 </span>
                 <span className="readout text-xs text-ink-faint">
@@ -315,8 +353,11 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
             ))}
 
             <g
+              ref={group}
               role="group"
-              aria-label={`${entries.length} failed ALS trial drugs by predicted permeability`}
+              tabIndex={0}
+              onKeyDown={onKey}
+              aria-label={`${entries.length} failed ALS trial drugs by predicted permeability. Left and right arrow keys to move along the axis, Enter to open the trial record, Escape to leave.`}
             >
               {dots.map((d) => {
                 const e = d.entry;
@@ -324,16 +365,25 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
                 return (
                   <a
                     key={idOf(e)}
+                    ref={(el) => {
+                      if (el) dotEls.current.set(idOf(e), el);
+                      else dotEls.current.delete(idOf(e));
+                    }}
                     href={e.source_url}
                     target="_blank"
                     rel="noreferrer"
-                    tabIndex={0}
+                    tabIndex={active && idOf(active.entry) === idOf(e) ? 0 : -1}
                     aria-label={`${e.name}, ${e.year}, phase ${e.phase}, predicted permeability ${prob(e.bbb_prob)}, ${never ? "never arrived" : "arrived and still failed"}. ${e.note}. Opens the trial record in a new tab.`}
                     onPointerEnter={() => setRead(idOf(e))}
                     onFocus={() => setRead(idOf(e))}
                   >
                     {/* Comfortable target without inflating the mark. */}
                     <circle cx={d.x} cy={cy(d.row)} r={9} fill="transparent" />
+                    {/* whileInView, not animate: this panel mounts ~5,000px
+                        below the fold, so an on-mount stagger plays to nobody
+                        and the dots are already settled by the time anyone
+                        scrolls here. The parent Reveal only sets opacity,
+                        which hides the animation rather than holding it. */}
                     <motion.circle
                       cx={d.x}
                       cy={cy(d.row)}
@@ -343,7 +393,8 @@ export function GraveyardPartition({ entries }: { entries: GraveyardEntry[] }) {
                       className={never ? "stroke-bucket-never" : "fill-bucket-arrived"}
                       style={{ transformBox: "fill-box", transformOrigin: "center" }}
                       initial={reduce ? false : { opacity: 0, scale: 0.6, y: 8 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
                       transition={{
                         duration: 0.4,
                         ease: [0.23, 1, 0.32, 1],
