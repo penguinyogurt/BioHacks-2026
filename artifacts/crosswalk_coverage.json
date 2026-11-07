@@ -1,0 +1,15 @@
+{
+  "rows": 10618,
+  "drugcentral_structures": 4380,
+  "drugcentral_unparseable_smiles": 4,
+  "b3db_unique_structures": 7802,
+  "drkg_compound_nodes": 24313,
+  "drkg_drugbank_nodes": 10551,
+  "drkg_nodes_mapped_to_a_structure": 3791,
+  "in_all_three": 1424,
+  "in_drkg_and_drugcentral": 3510,
+  "in_drugcentral_and_b3db": 1560,
+  "in_drkg_and_drugcentral_not_b3db": 2086,
+  "in_b3db_only": 6242,
+  "skeletons_with_multiple_full_keys": 1781
+}

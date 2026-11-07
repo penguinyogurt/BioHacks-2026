@@ -1,0 +1,99 @@
+{
+  "resolved_als_node": "Disease::MESH:D000690",
+  "scoring_relation": "GNBR::T::Compound:Disease",
+  "candidates": [
+    {
+      "node": "Disease::MESH:D000690",
+      "in_entity_index": true,
+      "embedding_row": 25880,
+      "total_edges": 787,
+      "treats_edges": 57,
+      "edges_by_relation": {
+        "Hetionet::DdG::Disease:Gene": 250,
+        "Hetionet::DuG::Disease:Gene": 190,
+        "Hetionet::DaG::Disease:Gene": 114,
+        "GNBR::T::Compound:Disease": 55,
+        "Hetionet::DpS::Disease:Symptom": 40,
+        "Hetionet::DlA::Disease:Anatomy": 39,
+        "GNBR::U::Gene:Disease": 29,
+        "GNBR::J::Gene:Disease": 28,
+        "GNBR::L::Gene:Disease": 18,
+        "GNBR::Te::Gene:Disease": 6,
+        "GNBR::J::Compound:Disease": 5,
+        "GNBR::Sa::Compound:Disease": 3,
+        "GNBR::Md::Gene:Disease": 3,
+        "DRUGBANK::treats::Compound:Disease": 2,
+        "GNBR::Y::Gene:Disease": 2,
+        "GNBR::X::Gene:Disease": 2,
+        "Hetionet::DrD::Disease:Disease": 1
+      },
+      "treats_edge_examples": [
+        "Compound::DB00740 -[DRUGBANK::treats::Compound:Disease]-> Disease::MESH:D000690",
+        "Compound::DB12243 -[DRUGBANK::treats::Compound:Disease]-> Disease::MESH:D000690",
+        "Compound::DB00156 -[GNBR::T::Compound:Disease]-> Disease::MESH:D000690",
+        "Compound::CHEBI:18186 -[GNBR::T::Compound:Disease]-> Disease::MESH:D000690",
+        "Compound::CHEBI:29987 -[GNBR::T::Compound:Disease]-> Disease::MESH:D000690"
+      ]
+    },
+    {
+      "node": "Disease::DOID:332",
+      "in_entity_index": true,
+      "embedding_row": 83501,
+      "total_edges": 5,
+      "treats_edges": 1,
+      "edges_by_relation": {
+        "Hetionet::DrD::Disease:Disease": 3,
+        "Hetionet::CtD::Compound:Disease": 1,
+        "Hetionet::CpD::Compound:Disease": 1
+      },
+      "treats_edge_examples": [
+        "Compound::DB00740 -[Hetionet::CtD::Compound:Disease]-> Disease::DOID:332"
+      ]
+    },
+    {
+      "node": "Disease::OMIM:105400",
+      "in_entity_index": false,
+      "embedding_row": null,
+      "total_edges": 0,
+      "treats_edges": 0,
+      "edges_by_relation": {},
+      "treats_edge_examples": []
+    },
+    {
+      "node": "Disease::MESH:D016472",
+      "in_entity_index": true,
+      "embedding_row": 43984,
+      "total_edges": 30,
+      "treats_edges": 6,
+      "edges_by_relation": {
+        "GNBR::U::Gene:Disease": 10,
+        "GNBR::T::Compound:Disease": 6,
+        "GNBR::L::Gene:Disease": 4,
+        "GNBR::Sa::Compound:Disease": 3,
+        "GNBR::J::Gene:Disease": 3,
+        "GNBR::J::Compound:Disease": 2,
+        "GNBR::Pa::Compound:Disease": 1,
+        "GNBR::Te::Gene:Disease": 1
+      },
+      "treats_edge_examples": [
+        "Compound::CHEBI:17514 -[GNBR::T::Compound:Disease]-> Disease::MESH:D016472",
+        "Compound::CHEBI:33704 -[GNBR::T::Compound:Disease]-> Disease::MESH:D016472",
+        "Compound::MESH:C027979 -[GNBR::T::Compound:Disease]-> Disease::MESH:D016472",
+        "Compound::DB00988 -[GNBR::T::Compound:Disease]-> Disease::MESH:D016472",
+        "Compound::DB00382 -[GNBR::T::Compound:Disease]-> Disease::MESH:D016472"
+      ]
+    }
+  ],
+  "treats_relation_disease_namespaces": {
+    "DRUGBANK::treats::Compound:Disease": {
+      "MESH": 4968
+    },
+    "GNBR::T::Compound:Disease": {
+      "MESH": 53820,
+      "OMIM": 200
+    },
+    "Hetionet::CtD::Compound:Disease": {
+      "DOID": 755
+    }
+  }
+}
