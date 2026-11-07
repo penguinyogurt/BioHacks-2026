@@ -84,7 +84,7 @@ function RuleList({ candidate }: { candidate: Candidate }) {
             <li
               key={f.rule}
               className={cn(
-                "grid grid-cols-[1rem_6.5rem_1fr] items-baseline gap-2 rounded-[3px] py-0.5 text-[0.8125rem] leading-snug",
+                "grid grid-cols-[1rem_9rem_1fr] items-baseline gap-2 rounded-[3px] py-0.5 text-[0.8125rem] leading-snug",
                 isDecisive && "-mx-1.5 bg-cut-soft px-1.5 py-1",
               )}
             >
@@ -146,7 +146,10 @@ export function CandidateCard({ candidate, index }: { candidate: Candidate; inde
     >
       <header className="hairline-b flex items-start justify-between gap-3 pb-3">
         <div className="min-w-0">
-          <h3 className="truncate text-[0.9375rem] leading-tight font-semibold capitalize">
+          <h3
+            className="truncate text-[0.9375rem] leading-tight font-semibold capitalize"
+            title={candidate.name}
+          >
             {candidate.name}
           </h3>
           <p className="readout mt-1 truncate text-[0.75rem] text-ink-faint">

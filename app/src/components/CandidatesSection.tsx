@@ -64,8 +64,12 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
         </p>
       </header>
 
+      {/* These are filters, not tabs: there is one list, not four panels.
+          role="tab" without a tabpanel promises arrow-key navigation that
+          doesn't exist and makes aria-selected invalid. Native buttons with
+          aria-pressed say exactly what these do, and need no keyboard code. */}
       <div
-        role="tablist"
+        role="group"
         aria-label="Filter candidates by outcome"
         className="mb-5 flex flex-wrap gap-1.5"
       >
@@ -75,8 +79,7 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
             <button
               key={v.key}
               type="button"
-              role="tab"
-              aria-selected={isActive}
+              aria-pressed={isActive}
               onClick={() => setView(v.key)}
               className={cn(
                 "flex items-baseline gap-2 rounded-md border px-2.5 py-1.5",
@@ -85,11 +88,7 @@ export function CandidatesSection({ candidates }: { candidates: Candidate[] }) {
                 "active:scale-[0.97]",
                 isActive
                   ? "border-ink bg-ink text-paper"
-                  : cn(
-                      "border-rule-strong bg-surface text-ink-soft",
-                      "hover:[@media(hover:hover)and(pointer:fine)]:bg-surface-sunk",
-                      "hover:[@media(hover:hover)and(pointer:fine)]:text-ink",
-                    ),
+                  : "border-rule-strong bg-surface text-ink-soft hover:bg-surface-sunk hover:text-ink",
               )}
             >
               {v.label}

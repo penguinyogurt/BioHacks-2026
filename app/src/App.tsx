@@ -1,6 +1,8 @@
+import type { Pipeline } from "@/lib/contract";
 import { pipelineResult } from "@/lib/pipeline";
 import { useFunnelRun } from "@/hooks/useFunnelRun";
 import { ContractError } from "@/components/ContractError";
+import { KeyFigures } from "@/components/KeyFigures";
 import { PatientPanel } from "@/components/PatientPanel";
 import { FunnelRun } from "@/components/FunnelRun";
 import { CandidatesSection } from "@/components/CandidatesSection";
@@ -12,36 +14,16 @@ export default function App() {
   if (!pipelineResult.ok) {
     return <ContractError problems={pipelineResult.problems} />;
   }
-
-  const { meta, patient_profile, funnel, candidates, graveyard, validation } =
-    pipelineResult.data;
-
-  return <Report
-    meta={meta}
-    profile={patient_profile}
-    funnel={funnel}
-    candidates={candidates}
-    graveyard={graveyard}
-    validation={validation}
-  />;
+  return <Report data={pipelineResult.data} />;
 }
-
-type ReportProps = {
-  meta: Extract<typeof pipelineResult, { ok: true }>["data"]["meta"];
-  profile: Extract<typeof pipelineResult, { ok: true }>["data"]["patient_profile"];
-  funnel: Extract<typeof pipelineResult, { ok: true }>["data"]["funnel"];
-  candidates: Extract<typeof pipelineResult, { ok: true }>["data"]["candidates"];
-  graveyard: Extract<typeof pipelineResult, { ok: true }>["data"]["graveyard"];
-  validation: Extract<typeof pipelineResult, { ok: true }>["data"]["validation"];
-};
 
 /**
  * Hooks can't live behind the early return in App, so the report body is its
- * own component. Keeps the contract failure a real screen instead of a crash.
+ * own component. That keeps a contract failure a real screen, not a crash.
  */
-function Report({ meta, profile, funnel, candidates, graveyard, validation }: ReportProps) {
-  const run = useFunnelRun(funnel.length);
-  const generated = new Date(meta.generated_at);
+function Report({ data }: { data: Pipeline }) {
+  const run = useFunnelRun(data.funnel.length);
+  const generated = new Date(data.meta.generated_at);
 
   return (
     <div className="min-h-dvh">
@@ -53,21 +35,18 @@ function Report({ meta, profile, funnel, candidates, graveyard, validation }: Re
       </a>
 
       <header className="hairline-b">
-        <div className="mx-auto flex max-w-[84rem] flex-wrap items-end justify-between gap-4 px-6 pt-10 pb-6">
+        <div className="mx-auto flex max-w-[84rem] flex-wrap items-end justify-between gap-4 px-6 pt-6 pb-4">
           <div>
             <p className="label">Patient-constrained drug repurposing · ALS</p>
-            <h1 className="mt-2 max-w-[34ch] text-[1.5rem] leading-[1.15] font-semibold">
+            <h1 className="mt-2 max-w-[58ch] text-[1.5rem] leading-[1.15] font-semibold">
               Rank approved drugs against ALS biology, then disqualify what is
               unusable for one person
             </h1>
           </div>
 
           <div className="flex items-center gap-3">
-            {meta.sample && (
-              <p
-                className="rounded-md border border-cut-rule bg-cut-soft px-2.5 py-1.5 text-[0.8125rem] leading-tight font-medium text-ink"
-                role="status"
-              >
+            {data.meta.sample && (
+              <p className="rounded-md border border-cut-rule bg-cut-soft px-2.5 py-1.5 text-[0.8125rem] leading-tight font-medium text-ink">
                 Sample data — not pipeline output
               </p>
             )}
@@ -82,26 +61,33 @@ function Report({ meta, profile, funnel, candidates, graveyard, validation }: Re
         </div>
       </header>
 
-      <main id="main" className="mx-auto max-w-[84rem] space-y-10 px-6 py-10">
-        {profile && <PatientPanel profile={profile} />}
+      {/* Order is load-bearing. The funnel is the argument and it autoplays,
+          so it has to finish above the fold at 1440×900 — which it only does
+          with the patient panel below it. "Alex before the drugs" is still
+          honoured: he precedes the ranked list, and the funnel raises the
+          question his panel immediately answers. */}
+      <main id="main" className="mx-auto max-w-[84rem] space-y-8 px-6 py-6">
+        <KeyFigures data={data} />
 
         <FunnelRun
-          funnel={funnel}
+          funnel={data.funnel}
           revealed={run.revealed}
           isRunning={run.isRunning}
           onReplay={run.replay}
         />
 
-        <CandidatesSection candidates={candidates} />
-        <GraveyardPartition entries={graveyard} />
-        <ValidationPanel validation={validation} />
+        {data.patient_profile && <PatientPanel profile={data.patient_profile} />}
+
+        <CandidatesSection candidates={data.candidates} />
+        <GraveyardPartition entries={data.graveyard} />
+        <ValidationPanel validation={data.validation} />
       </main>
 
       <footer className="hairline-t">
         <div className="mx-auto max-w-[84rem] px-6 py-6">
           <p className="text-[0.75rem] leading-normal text-ink-faint">
-            {num(meta.n_input)} approved substances screened · knowledge graph
-            DRKG · barrier labels B3DB · formulations, targets and adverse
+            {num(data.meta.n_input)} approved substances screened · knowledge
+            graph DRKG · barrier labels B3DB · formulations, targets and adverse
             events DrugCentral · availability Health Canada DPD. Research
             prototype, not clinical advice.
           </p>

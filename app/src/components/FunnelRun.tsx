@@ -15,8 +15,8 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
   const final = funnel[funnel.length - 1];
 
   return (
-    <section aria-labelledby="funnel-heading" className="hairline-b pb-10">
-      <header className="mb-6 flex items-end justify-between gap-6">
+    <section aria-labelledby="funnel-heading" className="hairline-b pb-6">
+      <header className="mb-4 flex items-end justify-between gap-6">
         <div>
           <h2 id="funnel-heading" className="text-[1.0625rem] leading-tight font-semibold">
             Five stages, each removing candidates for a stated reason
@@ -32,12 +32,15 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
           type="button"
           onClick={onReplay}
           className={cn(
-            "shrink-0 rounded-md border border-rule-strong bg-surface px-3 py-1.5",
+            // min-w so swapping the label doesn't resize the button and nudge
+            // the header. Tailwind v4's hover: already emits
+            // @media (hover: hover) — wrapping it again produces `not all`,
+            // which never matches and silently kills the style.
+            "min-w-[5.5rem] shrink-0 rounded-md border border-rule-strong bg-surface px-3 py-1.5",
             "text-[0.8125rem] font-medium text-ink-soft",
             "transition-[transform,color,background-color] duration-150 ease-out",
             "active:scale-[0.97]",
-            "hover:[@media(hover:hover)and(pointer:fine)]:bg-surface-sunk",
-            "hover:[@media(hover:hover)and(pointer:fine)]:text-ink",
+            "hover:bg-surface-sunk hover:text-ink",
           )}
         >
           {isRunning ? "Running…" : "Replay"}
@@ -51,7 +54,7 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
           const isLast = i === funnel.length - 1;
 
           return (
-            <li key={stage.stage} className="grid grid-cols-[13rem_1fr] items-start gap-4 py-2">
+            <li key={stage.stage} className="grid grid-cols-[13rem_1fr] items-start gap-4 py-1">
               <div className="pt-0.5 text-right">
                 <div
                   className={cn(
@@ -121,7 +124,10 @@ export function FunnelRun({ funnel, revealed, isRunning, onReplay }: Props) {
 
       {final && (
         <motion.p
-          className="mt-6 text-[0.9375rem] leading-normal text-ink-soft"
+          className="mt-3 text-[0.9375rem] leading-normal text-ink-soft"
+          // Nothing else announces that the run finished, so a screen-reader
+          // user who presses Replay otherwise gets no result.
+          aria-live="polite"
           initial={false}
           animate={{ opacity: revealed >= funnel.length ? 1 : 0 }}
           transition={{ duration: 0.28, ease: [0.23, 1, 0.32, 1], delay: 0.1 }}
