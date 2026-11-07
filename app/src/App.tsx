@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ContractError } from "@/components/ContractError";
 import { AuroraBackground } from "@/components/AuroraBackground";
 import { Panel } from "@/components/Panel";
+import { SectionNav } from "@/components/SectionNav";
 import { Reveal } from "@/components/Reveal";
 import { Hero } from "@/components/Hero";
 import { KeyFigures } from "@/components/KeyFigures";
@@ -50,6 +51,8 @@ function Report({ data }: { data: Pipeline }) {
             Sample data — not pipeline output
           </p>
         )}
+
+        <SectionNav />
 
         <Hero data={data} />
 

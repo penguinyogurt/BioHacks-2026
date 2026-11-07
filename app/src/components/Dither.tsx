@@ -320,7 +320,7 @@ function DitheredWaves({
   mouseRadius,
 }: WavesProps) {
   const mesh = useRef<Mesh>(null);
-  const { size, gl, viewport } = useThree();
+  const { size, gl, viewport, invalidate } = useThree();
 
   // A ref, not state: upstream re-rendered the whole subtree on every
   // pointermove, which is a React render per mouse pixel for a value that
@@ -345,6 +345,15 @@ function DitheredWaves({
       Math.floor(size.height * dpr),
     );
   }, [size, gl]);
+
+  // Under reduced motion the Canvas runs `frameloop="demand"`, which renders
+  // only when asked. It does NOT reliably paint an initial frame: the canvas
+  // is still unsized on the first commit, so a mount with no explicit
+  // request leaves a blank background rather than the required static frame.
+  // No dependency array on purpose — this runs after every commit, and since
+  // it is declared after the resolution effect above, the uniforms are
+  // already current. Under `always` it is a harmless no-op.
+  useEffect(invalidate);
 
   // The container is `pointer-events-none`, so upstream's invisible
   // raycast-catching mesh can never be hit. A window listener reads the

@@ -20,16 +20,28 @@ const RUN_MS = 5 * 620 + 520 + 600;
 
 const beat = (page, ms) => page.waitForTimeout(ms);
 
-/** Smooth-scrolls to an element and waits for it to settle. */
-async function scrollTo(page, selector, { pause = 1200 } = {}) {
-  const found = await page.evaluate((sel) => {
-    const el = document.querySelector(sel);
-    if (!el) return false;
-    // Leave the panel's heading clear of the viewport edge.
-    const y = el.getBoundingClientRect().top + window.scrollY - 72;
-    window.scrollTo({ top: y, behavior: "smooth" });
-    return true;
-  }, selector);
+/**
+ * Smooth-scrolls to an element and waits for it to settle.
+ *
+ * `center` is for sections taller than the viewport — the knowledge graph is
+ * ~840px plus its heading, so top-aligning it cuts the bottom of the circle
+ * off camera.
+ */
+async function scrollTo(page, selector, { pause = 1200, center = false } = {}) {
+  const found = await page.evaluate(
+    ([sel, centre]) => {
+      const el = document.querySelector(sel);
+      if (!el) return false;
+      const panel = el.closest("section") ?? el;
+      const box = (centre ? panel : el).getBoundingClientRect();
+      const y = centre
+        ? box.top + window.scrollY - Math.max(0, (window.innerHeight - box.height) / 2)
+        : box.top + window.scrollY - 72;
+      window.scrollTo({ top: y, behavior: "smooth" });
+      return true;
+    },
+    [selector, center],
+  );
   if (!found) {
     console.warn(`  (skipped: no ${selector})`);
     return false;
@@ -102,7 +114,7 @@ async function main() {
   await scrollTo(page, "#patient-heading", { pause: 2600 });
 
   console.log("  knowledge graph");
-  if (await scrollTo(page, "#kg-heading", { pause: 2000 })) {
+  if (await scrollTo(page, "#kg-heading", { pause: 2400, center: true })) {
     // Land on a hub node so the convergence readout is populated on camera.
     await hoverFirst(page, "#kg-heading ~ * circle", 2200);
     await beat(page, 800);
