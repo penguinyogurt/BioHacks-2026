@@ -1,4 +1,11 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent,
+} from "react";
 import { useReducedMotion } from "motion/react";
 import { useOnScreen } from "@/hooks/useOnScreen";
 import type { Candidate } from "@/lib/contract";
@@ -36,6 +43,16 @@ const BEND = 0.09;
 /** Pulls each control point toward the centre: curves, not spokes. */
 const INWARD = 0.82;
 const TRUNCATE = 18;
+
+/** Keys the graph claims. Everything else bubbles — Tab still leaves. */
+const NAV = new Set([
+  "ArrowLeft",
+  "ArrowRight",
+  "ArrowUp",
+  "ArrowDown",
+  "Home",
+  "End",
+]);
 
 /** Ring index → what lives on it. Ring 0 is the disease, at the centre. */
 const KINDS = ["disease", "pathway", "target", "drug"] as const;
@@ -242,6 +259,14 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
   const [hot, setHot] = useState<string | null>(null);
   /** Sticky. The readout holds its last value so a presenter can gesture. */
   const [read, setRead] = useState<string | null>(null);
+  /**
+   * Roving tabindex. 82 nodes were 82 tab stops — over half the page's
+   * focusable elements, and ~85 presses to reach the next section. The graph
+   * is now one stop plus the node focus sits on, and arrows move inside it.
+   */
+  const [roving, setRoving] = useState<string | null>(null);
+  const group = useRef<SVGGElement>(null);
+  const marks = useRef(new Map<string, SVGGElement>());
   const reduce = useReducedMotion();
 
   // The draw-in has to wait for the graph to be on screen. Mounted-triggered,
@@ -335,6 +360,63 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
   const touch = (id: string) => {
     setHot(id);
     setRead(id);
+  };
+
+  /** The node focus rests on. Opens on the busiest junction, so tabbing in
+      lands on the finding rather than on whichever drug is first. */
+  const active = (roving ? nodes.get(roving) : null) ?? busiest ?? byRing[3][0];
+
+  /** One move: remember it, light the readout, and take the focus ring with
+      us. The node is already in the DOM with tabIndex -1, so this is just a
+      programmatic focus — no re-render needed before it lands. */
+  const land = (id: string | undefined) => {
+    if (!id) return;
+    setRoving(id);
+    touch(id);
+    marks.current.get(id)?.focus();
+  };
+
+  /** Up/Down walk the provenance chain itself, not the nearest node by
+      angle: a drug's parent IS the target it binds. ALS is not in the group,
+      so inward stops at the pathway ring. */
+  const inward = (n: GNode) => {
+    const up = n.parent ? nodes.get(n.parent) : null;
+    return up && up.ring > 0 ? up.id : undefined;
+  };
+  const outward = (n: GNode) =>
+    n.kids
+      .map((k) => nodes.get(k))
+      .filter((k): k is GNode => !!k)
+      .sort(
+        (a, b) => Math.abs(a.angle - n.angle) - Math.abs(b.angle - n.angle),
+      )[0]?.id;
+
+  const onKey = (e: KeyboardEvent<SVGGElement>) => {
+    // Out of the nodes without arrowing through the remaining 81.
+    if (e.key === "Escape") return group.current?.focus();
+    if (!active || !NAV.has(e.key)) return;
+    e.preventDefault();
+    // First arrow after tabbing into the group: step onto the hub, not off it.
+    if (e.target === e.currentTarget) return land(active.id);
+
+    const ring = byRing[active.ring];
+    const i = ring.indexOf(active);
+    const last = ring.length - 1;
+
+    switch (e.key) {
+      case "ArrowRight":
+        return land(ring[i === last ? 0 : i + 1].id);
+      case "ArrowLeft":
+        return land(ring[i <= 0 ? last : i - 1].id);
+      case "ArrowUp":
+        return land(inward(active));
+      case "ArrowDown":
+        return land(outward(active));
+      case "Home":
+        return land(ring[0].id);
+      default:
+        return land(ring[last].id);
+    }
   };
 
   return (
@@ -432,8 +514,11 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                 </g>
 
                 <g
+                  ref={group}
                   role="group"
-                  aria-label={`${drugs} drugs, ${targets} targets and ${pathways} pathways converging on ALS`}
+                  tabIndex={0}
+                  onKeyDown={onKey}
+                  aria-label={`Knowledge graph: ${drugs} drugs, ${targets} targets and ${pathways} pathways converging on ALS. Arrow keys to move between nodes, Escape to leave.`}
                 >
                   {[3, 2, 1].flatMap((ring) =>
                     byRing[ring].map((n) => {
@@ -458,7 +543,11 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                       return (
                         <g
                           key={n.id}
-                          tabIndex={0}
+                          ref={(el) => {
+                            if (el) marks.current.set(n.id, el);
+                            else marks.current.delete(n.id);
+                          }}
+                          tabIndex={n.id === active?.id ? 0 : -1}
                           role="graphics-symbol"
                           aria-label={`${n.label}, ${RING_NAME[n.kind]}${
                             drug
@@ -468,7 +557,7 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
                           className="kg-dim"
                           style={{ opacity: hotPaths && !on ? 0.14 : 1 }}
                           onPointerEnter={() => touch(n.id)}
-                          onFocus={() => touch(n.id)}
+                          onFocus={() => land(n.id)}
                           onBlur={() => setHot(null)}
                         >
                           {/* A target you can actually hit, without inflating
@@ -658,7 +747,10 @@ export function KnowledgeGraph({ candidates }: { candidates: Candidate[] }) {
             </div>
           </div>
 
-          <p className="label mt-4">Point at any node, or tab through them</p>
+          <p className="label mt-4">
+            Point at any node, or tab in and arrow around: &larr;&rarr; along a
+            ring, &uarr;&darr; between rings, Esc to leave
+          </p>
         </div>
       </div>
     </section>
