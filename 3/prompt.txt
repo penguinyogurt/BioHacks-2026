@@ -1,0 +1,29 @@
+what font is being used in the frontend currently? What are some other alternatives that can make it better?
+
+---
+
+is that the same font used in callio labs? https://github.com/JeremySiu/Callio-Labs
+
+---
+
+what are some unique fonts we could change it to that reflects the current style and project goals
+
+---
+
+Change it to Fraunces and Martian Mono
+
+---
+
+why am i getting merge conflicts it should've already resolved
+
+---
+
+go with option 1
+
+---
+
+check my branch why is my local main ahead of remote main?
+
+---
+
+if i were to host the backend for this would 1GB VCPU and 2GB of RAM and 4TB of storage be sufficient?
