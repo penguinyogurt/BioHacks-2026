@@ -2,14 +2,14 @@
   "synthetic": true,
   "note": "Fictional patient for the BioHacks demo. Clinical values mirror patient_profile in data/pipeline.json. Never put real PHI here.",
   "identifiers": {
-    "full_name": "Alex Moreau",
+    "full_name": "Alex Chen",
     "date_of_birth": "1979-04-12",
     "mrn": "HHS-0048213",
     "health_card": "4532-281-904-AB",
     "city": "Hamilton",
     "province": "Ontario",
     "phone": "905-555-0142",
-    "email": "alex.moreau@example.com",
+    "email": "alex.chen@example.com",
     "neurologist": "Dr. Priya Raman"
   },
   "diagnosis": {

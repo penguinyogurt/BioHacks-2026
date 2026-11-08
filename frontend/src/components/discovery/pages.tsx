@@ -387,7 +387,7 @@ export function CandidatesPage() {
   // The agent's report, as a PDF for the browser's own viewer (same as the case file in step 0).
   const [url, setUrl] = useState<string | null>(null)
   const [pdfError, setPdfError] = useState<string | null>(null)
-  // Live: the backend names the file ("Alex Moreau (alex).pdf") and we read it off the response.
+  // Live: the backend names the file ("Alex Chen (alex).pdf") and we read it off the response.
   const [liveName, setLiveName] = useState<string | null>(null)
   // Each URL is created and revoked by the same effect run, so StrictMode's
   // mount → unmount → mount can't revoke the one the viewer is still showing.

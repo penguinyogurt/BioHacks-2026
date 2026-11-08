@@ -1,10 +1,19 @@
-# Motus — early ALS detection, from how you move
+# Addo Labs — ALS drug repurposing for a blood–brain barrier you can open
 
-**BioHacks 2026.** ALS is usually caught late. The signal that something is
-changing shows up in movement — how you speak, how you type, how you write —
-months before a clinic visit scores it.
+**BioHacks 2026.** MR-guided focused ultrasound (MRgFUS) can temporarily open
+the blood–brain barrier, which reopens drugs that were written off because they
+couldn't reach the brain. Addo Labs starts from one patient's case: research
+agents describe what an ideal drug would do for this patient (target profiles,
+never drug names), the DRKG knowledge graph finds the compounds that fit, and
+an assessment agent ranks them for MRgFUS delivery in a cited report.
 
-Motus measures those three channels at home, against **your own baseline**,
+The monitoring dashboard below, originally built as **Motus**, survives as the
+app's "Patient monitoring" view, along with an at-home take-home test (facial,
+speech, tracing). Deploy: [`docs/DEPLOY.md`](docs/DEPLOY.md).
+
+## Patient monitoring (formerly Motus)
+
+Motus measures movement at home, against **your own baseline**,
 and shows the drift. Not "you look like an ALS patient" — "this is slower
 than you were in August, and it has been for 66 sessions."
 
