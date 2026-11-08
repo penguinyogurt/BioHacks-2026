@@ -15,7 +15,7 @@ Last updated: **2026-11-07**
 | Person | Track | Branch | What they're on | Blocked on |
 |---|---|---|---|---|
 | Henri | repo / frontend | `main` | Repo cleanup: scrapped the dead frontends, extracted `contract/`, rewrote the process docs | — |
-| Jeremy | frontend | `main` (merged) | **Motus** dashboard — overview landed, 15 views still placeholders | Supabase keys; real capture to replace `sample-data.ts` |
+| Jeremy | frontend | `main` (merged) | **Discovery pipeline** — FUS-enabled repurposing, scripted end to end. See `DISCOVERY_SPEC.md`. Also the Motus dashboard: overview landed, 15 views still placeholders | Supabase keys; a live backend behind `runDemoPipeline` |
 | Neo | pipeline | `cursor/pipeline-graph-ui` | Drug-repurposing pipeline — BBB + patient filter scored across 3,791 compounds | — |
 | Neo | facecheck | `cursor/facial-als-validation` | FaceCheck MediaPipe prototype | See `FACECHECK_SPEC.md` §2 gaps |
 | Levi | speech | `Master-UI-Neo-Face-Integration` | Speech + diagnostic test apps | Unrelated git history — merge is a decision, not a chore |
@@ -35,8 +35,15 @@ Last updated: **2026-11-07**
 
 These need a person, not an agent:
 
-- **Is the drug-repurposing funnel in the submission, alongside Motus?** Both
-  are live. One demo, 90 seconds — what does a judge actually see?
+- **Is the product the discovery pipeline or Motus?** `main` ships both, in
+  one sidebar, sharing nothing else. One demo, 90 seconds — a judge can
+  follow one argument. **Decide this first; everything else depends on it.**
+  (`DISCOVERY_SPEC.md` §4.)
+- **What is it called?** The code says *Addo Labs*; the landing page says
+  *motus*. Pick one.
+- **Does the old elimination funnel feed the new pipeline?** The graveyard's
+  `never_arrived` bucket is exactly the FUS-unlocked candidate pool — wire it
+  in, or retire the contract and say so.
 - **Does `Master-UI-Neo-Face-Integration` get merged into `main`?** It has an
   unrelated git history. Decide before Saturday evening or it stays separate.
 - **Does FaceCheck ship as its own page or as a tab in Motus?**
