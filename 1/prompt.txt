@@ -1,0 +1,1 @@
+Yes instead of pipeline for the sidebar it should be Discovery, make sure to update all other uses of Pipeline that were used in the same way

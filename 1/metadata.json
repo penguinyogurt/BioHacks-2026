@@ -1,0 +1,48 @@
+{
+  "cli_version": "0.13.1",
+  "checkpoint_id": "01M6X8SAEP1YGS9J173NSBJV35",
+  "session_id": "11fa14e9-70a3-4684-bb07-c5bd1826a1e3",
+  "strategy": "manual-commit",
+  "created_at": "2026-11-08T09:45:44.5485729Z",
+  "branch": "frontend/live-agent",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "docs/STATUS.md",
+    "frontend/src/components/app-sidebar.tsx",
+    "frontend/src/components/discovery/drkg-legend.tsx",
+    "frontend/src/components/discovery/pages.tsx",
+    "frontend/src/components/discovery/pieces.tsx",
+    "frontend/src/pages/Home.tsx"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5-5",
+  "turn_id": "8b40f89371ec",
+  "checkpoint_transcript_start": 60,
+  "transcript_lines_at_start": 60,
+  "compact_transcript_start": 6,
+  "token_usage": {
+    "input_tokens": 8,
+    "cache_creation_tokens": 37408,
+    "cache_read_tokens": 181961,
+    "output_tokens": 971,
+    "api_call_count": 3
+  },
+  "redaction": {
+    "replacements": 0,
+    "layers": {
+      "betterleaks": 0,
+      "connection_string": 0,
+      "credential_key": 0,
+      "credential_value": 0,
+      "credentialed_uri": 0,
+      "entropy": 0,
+      "key_context": 0,
+      "provider_token": 0,
+      "shell_stdin": 0
+    }
+  },
+  "session_metrics": {
+    "turn_count": 2
+  }
+}
