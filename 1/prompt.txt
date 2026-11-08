@@ -1,0 +1,16 @@
+For the final report format, I want to update it so that it reflects a real scientific paper format. This means having an abstract, clear title with author (addo labs NOT claude sonnet or claude haiku), introduction, background, material and methods (this could just be a quick summary of the pipeline), results (top drugs), dicussion (limitations), and references. Make sure to follow standard scientific writing formatting and let me know if a sample template it required
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-90a97c070ac5b39bac87f51fb6f0992b" from-name="biohacks-2026-28" from-mode="prompting">
+report_pdf.py: I fixed one line. from_graph only matched drugs_source ending ".drugs.json", but agent/drkg.py has written <run>.candidates.json since the merge, because main's api._assessment() treats <id>.drugs.json and any report with a "drugs" key as a finished assessment. So live runs, including Jeremy's a20261108-043009 and a20261108-044253, would have left out the DRKG retrieval section. Line 187 now checks endswith((".candidates.json", ".drugs.json")). All 4 recorded a-runs render (105–127 KB), and the 11 backend tests pass.
+STATUS: there's no merge in progress. HEAD is 5a78e6d and docs/STATUS.md has no conflict markers. I added the report_pdf.py/schemas.py line you asked for under the live-pipeline section.
+</cross-session-message>
+
+---
+
+I want to add a chat bot for the research bot. The endpoint has already been created where the AI has research abilities, open search, and context of the Patient and results pdf returned. Now create me a simple chat that allows the user to ask further questions while still being able to see the tool calls the AI uses and it's thought process
+
+---
+
+do page numbers go at the top or the bottom for scientific papers?
