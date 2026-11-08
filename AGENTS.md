@@ -57,17 +57,17 @@ someone else, stop and tell your human rather than doing it anyway.
 
 | Directory | What it is | Stack |
 |---|---|---|
-| `frontend/` | **Motus** — the product. Longitudinal at-home ALS monitoring: speech, typing and handwriting tracked against a personal baseline. Landing + dashboard. | Vite · React 19 · TS · Tailwind v4 · shadcn/ui · Supabase · three |
-| `backend/` | **Everything that isn't the Motus UI.** One subdirectory per module, listed below. | Python · TS |
-| `backend/agent/` | Neo's research agent: Claude orchestrator + sub-agents, FastAPI on :8001. Run from `backend/` (`python -m agent.api`). | Python · LangGraph |
-| `backend/query-generation/` | Levi's five DRKG agents + ranking. | Python |
-| `backend/validation/` | Blinded top-five candidate validation. | Python |
+| `frontend/` | The product UI. Ships as **Addo Labs** — an ALS drug-discovery pipeline (patient case → profile agents → DRKG embedding → ranking → report), a scripted run against a sample patient labelled "Simulated". Stage 3 shows real DRKG TransE scores, precomputed into `frontend/public/drkg/`; no backend is wired in live yet (#7). The earlier **Motus** at-home monitoring dashboard survives as its "Patient monitoring" view. **Name and product are still open: #5, #6** — don't treat either as settled. | Vite · React 19 · TS · Tailwind v4 · shadcn/ui · Supabase · three |
+| `backend/` | **Everything that isn't the frontend.** One subdirectory per module, listed below. | Python · TS |
+| `backend/agent/` | Neo's research agent. An orchestrator reads the patient record and fans out one sub-agent per ALS criterion; each returns **target profiles, never drug names** (see `docs/DECISIONS.md`). FastAPI + SSE on :8001. Run from `backend/` (`python -m agent.api`). | Python · LangGraph · Anthropic · FastAPI |
+| `backend/query-generation/` | Levi's five fixed-category research agents: turn a case into signed DRKG TransE queries and rank every DrugBank compound. Its README calls it an adaptation of the coordinator in `backend/agent/` — **two agent backends now sit on main; #7.** | Python 3.11+ · LangGraph · numpy |
+| `backend/validation/` | Blinded top-five check: two reviewers independently judge a ranking backend's picks against a baseline from exported CSVs. Reads exports only, imports no backend. Real patient exports stay outside the checkout. | Python 3.9+ stdlib |
 | `backend/diagnostics/` | Standalone facial, speech and tracing assessment (`master-app/`, `facial-test/`, `speech-test-good/`, `line-test/`) plus research scripts (`SVD-diagnostic/`, `speech-tests-backup/`). Kept as siblings — they reference each other by relative path. See the root README for setup. | Local Python servers and browser UI |
 | `backend/contract/` | The `backend/data/pipeline.json` schema, its tests, and the CLI validator. Owned by nobody, depended on by everybody. | zod · node:test |
 | `backend/data/` | `pipeline.json` — the frozen contract plus a hand-written sample — and patient fixtures. | — |
 | `docs/` | Specs, research, decisions, status. **See "Documentation" below.** | — |
 | `.claude/skills/` | 21 pinned design/frontend skills. See `CLAUDE.md`. | — |
-| `.workspace/` | Your personal scratch, gitignored. See its README. | — |
+| `.workspace/` | Your personal scratch, gitignored. | — |
 
 ### Work that lives on branches, not on main
 
@@ -196,7 +196,7 @@ rather than editing history.
 
 ```bash
 npm install --prefix frontend          # once
-npm run dev --prefix frontend          # Motus on :5173
+npm run dev --prefix frontend          # the frontend on :5173 (next free port if taken)
 
 npm test     --prefix backend/contract # contract tests
 npm run validate --prefix backend/contract -- <file>   # validate any pipeline JSON
