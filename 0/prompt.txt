@@ -1,0 +1,23 @@
+The backend has now been updated with the latest changes. Any updates that need to be made on the integration side?
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-6d1d531979e58ef26b4158ae9a03f8ab" from-name="biohacks-2026-e0" from-mode="prompting">
+FYI, at Jeremy's request I edited frontend/src/components/discovery/pages.tsx (useFollow + one call site). Re-read the file before your next edit to it.
+
+Bug: in useFollow the timer sat inside the same effect that tracks `status`. Live DRKG goes running → done in about 2 s, shorter than ProfilesPage's 2500 ms delay. So the effect re-ran on 'done', its cleanup cleared the pending timeout, `was` was no longer 'pending', and the step-3 → step-4 move never happened.
+
+Fix: a `due` state set on the pending→started transition, with the timeout in its own effect keyed on `due`, so the stage finishing no longer cancels the move. ProfilesPage now calls `useFollow('embedding', 'embedding')` with no delay, so the traversal plays from its first frame (EmbeddingPage's `fresh` logic already replays it when you arrive mid-stage). tsc -b passes. I touched nothing else.
+</cross-session-message>
+
+---
+
+patient monitoring should be empty unless i already uploaded a patient file
+
+---
+
+Is there a way to see exactly what was returned for the Evidence returned section of the Profile agents?
+
+---
+
+yes

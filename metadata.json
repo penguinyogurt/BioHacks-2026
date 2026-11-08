@@ -1,0 +1,51 @@
+{
+  "cli_version": "0.13.1",
+  "checkpoint_id": "01M6X8SAEP1YGS9J173NSBJV35",
+  "strategy": "manual-commit",
+  "branch": "frontend/live-agent",
+  "checkpoints_count": 6,
+  "files_touched": [
+    "backend/agent/subagent.py",
+    "docs/STATUS.md",
+    "frontend/src/components/app-sidebar.tsx",
+    "frontend/src/components/discovery/drkg-legend.tsx",
+    "frontend/src/components/discovery/pages.tsx",
+    "frontend/src/components/discovery/pieces.tsx",
+    "frontend/src/components/graph/graph-canvas.tsx",
+    "frontend/src/components/graph/graph-explorer.tsx",
+    "frontend/src/components/graph/graph-search.tsx",
+    "frontend/src/components/overview-dashboard.tsx",
+    "frontend/src/lib/agent-api.ts",
+    "frontend/src/pages/Home.tsx"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 64,
+    "cache_creation_tokens": 25735,
+    "cache_read_tokens": 10680209,
+    "output_tokens": 17250,
+    "api_call_count": 27
+  },
+  "redaction": {
+    "replacements": 35,
+    "layers": {
+      "betterleaks": 0,
+      "connection_string": 0,
+      "credential_key": 0,
+      "credential_value": 4,
+      "credentialed_uri": 0,
+      "entropy": 31,
+      "key_context": 0,
+      "provider_token": 0,
+      "shell_stdin": 0
+    }
+  }
+}
