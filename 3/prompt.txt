@@ -1,0 +1,67 @@
+remove all subtext in the landing page that lead to links
+
+---
+
+change the colour of the beam from orange to a lighter yellow
+
+---
+
+reduce the gradient on the white. it should be white near the text and start the gradient after
+
+---
+
+start the gradient earlier, closer to the bottom of the screen
+
+---
+
+can you move it any lower
+
+---
+
+what's wrong with my local main?
+
+---
+
+now the home page. keep the background consistent with the home page
+
+---
+
+Change the name of http://localhost:5173/home/case. Instead of Start with the Patient it should be focused to uploading the patient profile. Remove the Patient A-0417 card, that should only show up after the user has uploaded the pdf. Then it should parse the data from the pdf. Here is the pdf that will be used: c:\Users\jerem\Downloads\BioHacks-2026-Hacker-Package.pdf
+
+Remove the goal card too. There should just be the patient analysis button
+
+---
+
+use a proper pdf renderer to show the actual pdf uploaded instead of parsing the text only
+
+---
+
+this doesn't actually render the pdf
+
+---
+
+have it fill the card too and stretch it vertically so a page fits properly
+
+---
+
+use the chrome pdf viewer so that we can scroll through the pdf and it has the zoom features etc.
+
+---
+
+remove the patient analysis arrow it should just be the run patient analysis button
+
+---
+
+For http://localhost:5173/home/candidates, this page is similar to the Reports page since the research agent will output a report and that can then get parsed. Instead we can move the research agent card to the left, open a similar pdf editor used in step 0, and render the report that the agent returns. Remove the rankings too and the 5th step
+
+---
+
+pdf isn't downloadable
+
+---
+
+some of the tabs no longer open (the ones that i havent worked on) why?
+
+---
+
+patient monitoring cards look ugly with the lines. The whole page looks messy and has too much information presented poorly. Reference shadcn dashboard for this and also there should be cards first to select the user you want to view before seeing that patient's profile

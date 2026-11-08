@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6WY3FCMC4FR2VSDH93N71WE",
   "strategy": "manual-commit",
   "branch": "frontend/diagnosis",
-  "checkpoints_count": 21,
+  "checkpoints_count": 31,
   "files_touched": [
     "frontend/package-lock.json",
     "frontend/package.json",
@@ -22,6 +22,8 @@
     "frontend/src/components/page-header.tsx",
     "frontend/src/index.css",
     "frontend/src/lib/alex-case.ts",
+    "frontend/src/lib/case-patient.test.ts",
+    "frontend/src/lib/case-patient.ts",
     "frontend/src/lib/case-pdf.ts",
     "frontend/src/lib/pipeline.ts",
     "frontend/src/lib/report-pdf.ts",
@@ -50,14 +52,21 @@
       "compact_transcript": "/2/transcript.jsonl",
       "content_hash": "/2/content_hash.txt",
       "prompt": "/2/prompt.txt"
+    },
+    {
+      "metadata": "/3/metadata.json",
+      "transcript": "/3/full.jsonl",
+      "compact_transcript": "/3/transcript.jsonl",
+      "content_hash": "/3/content_hash.txt",
+      "prompt": "/3/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 236,
-    "cache_creation_tokens": 1045043,
-    "cache_read_tokens": 53910627,
-    "output_tokens": 79412,
-    "api_call_count": 98
+    "input_tokens": 440,
+    "cache_creation_tokens": 1306587,
+    "cache_read_tokens": 67943996,
+    "output_tokens": 145142,
+    "api_call_count": 187
   },
   "redaction": {
     "replacements": 22,
