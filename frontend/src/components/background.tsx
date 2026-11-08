@@ -6,7 +6,7 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matc
  * React Bits Gradient ASCII, in the Addo palette: a teal-to-ink gradient drawn
  * as monospace glyphs on paper. Shared by the landing page and the workspace.
  */
-export function AsciiBackground({ quiet = false }: { quiet?: boolean }) {
+export function AsciiBackground() {
   return (
     <div className="absolute inset-0 bg-background" aria-hidden>
       <GradientASCII
@@ -17,8 +17,8 @@ export function AsciiBackground({ quiet = false }: { quiet?: boolean }) {
         fontFamily='"Geist Mono Variable", ui-monospace, monospace'
         cellSize={14}
         density={0.85}
-        glyphOpacity={quiet ? 0.55 : 0.8}
-        gradientOpacity={quiet ? 0.35 : 0.6}
+        glyphOpacity={0.8}
+        gradientOpacity={0.6}
         glow={0.15}
         flicker={0.15}
         flow={0.5}
