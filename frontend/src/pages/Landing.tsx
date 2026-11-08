@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import Dither from '@/components/react-bits/Dither'
+import { AsciiBackground } from '@/components/background'
 import NeuronViewer from '@/components/neuron-viewer'
 import { AFTER_SIGN_IN, useAuth } from '@/lib/auth'
-import { DITHER_INK, DITHER_PAPER } from '@/lib/theme'
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -38,27 +37,16 @@ export default function Landing() {
   return (
     <div className="relative h-dvh w-screen overflow-hidden bg-background text-foreground">
       <div className="absolute inset-0 z-0">
-        <Dither
-          waveSpeed={0.02}
-          waveFrequency={3}
-          waveAmplitude={0.3}
-          backgroundColor={DITHER_PAPER}
-          waveColor={DITHER_INK}
-          colorNum={4}
-          pixelSize={2}
-          disableAnimation={reducedMotion}
-          enableMouseInteraction
-          mouseRadius={1.2}
-        />
+        <AsciiBackground />
       </div>
 
       {/* The neuron stands in the right half and spins about its own long axis. */}
       <NeuronViewer reducedMotion={reducedMotion} className="absolute inset-y-0 right-0 z-0 w-full md:w-[62%]" />
 
       <main className="pointer-events-none absolute bottom-0 left-0 z-10 flex flex-col items-start pb-12 pl-10 md:pb-16 md:pl-16 lg:pb-20 lg:pl-20">
-        <h1 className="font-brand text-6xl leading-none tracking-tight md:text-7xl lg:text-8xl">motus</h1>
+        <h1 className="font-brand text-6xl leading-none tracking-tight md:text-7xl lg:text-8xl">addo labs</h1>
         <p className="font-serif-display mt-1 text-2xl leading-tight text-foreground/75 italic md:text-3xl lg:text-[2.1rem]">
-          early ALS detection, from how you move
+          ALS drug discovery optimization
         </p>
         <button
           type="button"

@@ -2,7 +2,7 @@
 
 One file. The frontend reads it and nothing else. `merge.py` writes it.
 
-The **executable** definition is [`app/src/lib/contract.ts`](../app/src/lib/contract.ts)
+The **executable** definition is [`contract/contract.ts`](../contract/contract.ts)
 — a zod schema. This document is the prose version with the reasoning. Where
 they disagree, the schema wins; fix this file.
 
@@ -166,7 +166,7 @@ failure reads better than a flattering metric a judge pokes a hole in.
 
 ## Changing the contract
 
-1. Update `app/src/lib/contract.ts`.
+1. Update `contract/contract.ts`.
 2. Update the sample in `data/pipeline.json` so it still validates.
 3. Update this file.
 4. `npm run check --prefix app`.

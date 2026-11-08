@@ -4,8 +4,9 @@
 
 # Claude-specific notes
 
-Everything about the project itself is in `AGENTS.md`, imported above. This
-file only covers what's specific to working here as Claude.
+Everything about the project and how we work is in `AGENTS.md`, imported
+above — including the session ritual (read `docs/STATUS.md`, update it before
+you stop). This file only covers what's specific to working here as Claude.
 
 ## Skills
 
@@ -20,8 +21,7 @@ install: none declare hooks, the only bundled script is a Tailwind docs sync.
 - `baseline-ui` — ~40 MUST/NEVER Tailwind rules. Run as a linter pass.
 - `emil-design-eng` — the motion decision framework. Durations by element
   type, stagger 30–80ms, custom easing curves, never `ease-in` on UI.
-- `better-ui` — exact radius/shadow/press values. Its exit recipe is this
-  app's card elimination: opacity + 4px blur + −12px translateY, 150ms.
+- `better-ui` — exact radius/shadow/press values.
 - `better-typography` — `tabular-nums` on every readout, line-height
   1.1 / 1.2–1.3 / 1.5, −0.01em tracking above 24px.
 - `better-colors` — semantic tokens, OKLCH ramps, and the rule that matters
@@ -43,7 +43,7 @@ gives blanket `will-change` advice. Rely on the above.
 - `tailwind-4-docs` — **check before writing config or `@theme`.** v4 differs
   sharply from the v3 that dominates training data.
 - `tailwind-v4-shadcn` — the Vite + Tailwind v4 setup and its CSS-variable
-  gotchas. (We use the setup half, not the shadcn half.)
+  gotchas. `frontend/` uses exactly this stack, shadcn half included.
 - `tailwind-design-system` — tokens and component structure.
 - `vercel-react-best-practices` — perf review before the demo.
 
@@ -65,10 +65,18 @@ Chrome, failed a third-party trust audit) · `ui-ux-pro-max` and `ui-taste`
 dependency, silent on exit animation) · `knowledge-work-plugins@data-visualization`
 (matplotlib, not React).
 
-One-off slop check needing no install: `npx impeccable detect app/src/` — 62
-deterministic rules, no LLM.
+One-off slop check needing no install: `npx impeccable detect frontend/src/`
+— 62 deterministic rules, no LLM.
 
 Maintenance: `npx skills update` · `npx skills add owner/repo@skill -y`.
+
+## shadcn/ui in `frontend/`
+
+Components live in `frontend/src/components/ui/`. Add more with
+`npx shadcn@latest add <name>` — but the CLI resolves `@` as a literal
+directory here and writes `cn` imports as `from "cn"`, so after adding, move
+`frontend/@/components/ui/*` into `src/components/ui/` and fix that import.
+The hand-written `components.json` is correct; don't run `init` over it.
 
 ## Also available from Henri's global plugins
 

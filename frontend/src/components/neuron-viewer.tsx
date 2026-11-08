@@ -173,7 +173,7 @@ function Neuron({ onLoaded, firing }: { onLoaded: () => void; firing: boolean })
             .replace('#include <color_fragment>', `#include <color_fragment>${pulseApply}`)
             .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>${pulseEmissive}`)
         }
-        m.customProgramCacheKey = () => 'motus-pulse'
+        m.customProgramCacheKey = () => 'addo-pulse'
         return m
       })
       mesh.material = Array.isArray(mesh.material) ? mats : mats[0]

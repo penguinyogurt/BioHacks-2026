@@ -1,88 +1,61 @@
-# Patient-constrained drug repurposing for ALS
+# Motus — early ALS detection, from how you move
 
-**BioHacks 2026.** Rank approved drugs against ALS biology, then disqualify
-the ones that are unsafe or unusable for one specific patient.
+**BioHacks 2026.** ALS is usually caught late. The signal that something is
+changing shows up in movement — how you speak, how you type, how you write —
+months before a clinic visit scores it.
 
-Most repurposing work stops at "this drug plausibly treats this disease". This
-asks the next question: *can this person actually take it?* The constraints
-come from a chart — what he can swallow, what his breathing tolerates, what
-collides with his current prescription — not from a biobank genotype.
-
-The second output is the one we care about most: every drug that failed a
-human ALS trial, split into **never reached the target tissue** versus
-**reached it and still failed**. That partition hasn't been published for ALS.
+Motus measures those three channels at home, against **your own baseline**,
+and shows the drift. Not "you look like an ALS patient" — "this is slower
+than you were in August, and it has been for 66 sessions."
 
 ---
 
 ## Run it
 
 ```bash
-cd app && npm install && npm run dev
+npm install --prefix frontend && npm run dev --prefix frontend
 ```
 
-Opens on <http://localhost:5173>. It renders immediately against the
-hand-written sample in `data/pipeline.json` — no Python, no models, no data
-download needed. The UI shows a **"Sample data"** badge until `merge.py`
-produces a real file with `meta.sample: false`.
+Opens on <http://localhost:5173>. The dashboard at `/home` renders
+immediately against deterministic sample data — no Supabase, no backend, no
+keys needed. It shows a **"Sample data"** badge while that's the source.
 
-Before pushing:
+Sign-in needs Supabase keys; copy `frontend/.env.example` to `frontend/.env`
+and fill them in.
 
-```bash
-npm run check --prefix app     # typecheck + contract tests
-```
+## What it shows
 
-## How it fits together
-
-Five stages, each removing candidates for a stated reason:
+180 days of at-home sessions across three domains:
 
 ```
-4,805 approved drugs
-  → linked to ALS biology       (knowledge graph)
-  → can reach the target        (blood–brain barrier model)
-  → safe and usable for Alex    (patient filter)  ← the contribution
-  → not already failed          (trial history)
+Speech       (bulbar)       rate · DDK · pause ratio · phonation · HNR
+Typing       (fine motor)   speed · inter-key interval · hold · corrections
+Handwriting  (fine motor)   stroke velocity · jerk · pressure · spiral
 ```
 
-Four Python modules each write one JSON file to `data/`. Nobody imports
-anybody else's code — integration happens through files, so all four can be
-built at once and a broken module doesn't block the rest. `merge.py` joins
-them on InChIKey into `data/pipeline.json`, and the frontend reads that file
-and nothing else.
+Each feature is z-scored against the person's own first 28 days. A domain
+goes **Watch** at −1σ and **Flagged** at −2σ, and only when the change
+persists — not on one bad day. The sample tells a bulbar-onset story: speech
+drifts first, then typing, then handwriting.
 
-**[`docs/CONTRACT.md`](docs/CONTRACT.md)** is what you need if you're writing
-one of those modules. Validate your output without running the frontend:
+Nothing here is a diagnosis, and every screen says so.
 
-```bash
-npm run validate --prefix app -- data/pipeline.json
-```
+## Also in this repo
 
-## Repo layout
-
-| Path | What |
+| | |
 |---|---|
-| [`AGENTS.md`](AGENTS.md) | Working agreement for humans and agents. Read this first. |
-| [`docs/CONTRACT.md`](docs/CONTRACT.md) | The `pipeline.json` contract, annotated. |
-| `data/pipeline.json` | The frozen contract + a sample that exercises every UI edge case. |
-| `app/` | Frontend — Vite, React 19, TypeScript, Tailwind v4. |
-| `app/src/lib/contract.ts` | zod schema. The only place the UI learns the data shape. |
-| `.claude/skills/` | 21 pinned design/frontend skills, shared via `skills-lock.json`. |
+| `contract/` | Schema + validator for `data/pipeline.json` |
+| `docs/` | Specs, research, decisions, status |
 
-## Data sources
+Three more tracks live on branches — the drug-repurposing pipeline,
+FaceCheck, and the speech test apps. See [`AGENTS.md`](AGENTS.md) for the map.
 
-[DRKG](https://github.com/gnn4dr/DRKG) knowledge graph ·
-[B3DB](https://github.com/theochem/B3DB) barrier permeability labels ·
-[DrugCentral](https://drugcentral.org) targets, formulations and adverse
-events · [repoDB](https://unmtid-shinyapps.net/shiny/repodb/) approved and
-failed indications · [Health Canada DPD](https://health-products.canada.ca/dpd-bdpp/)
-availability · [NEALS](https://neals.org/als-researchers/historical-trial-data)
-historical trial data.
+## Working here
 
-## A caveat we say out loud
+**Read [`AGENTS.md`](AGENTS.md) first**, then
+[`docs/STATUS.md`](docs/STATUS.md). Four people are working in parallel; those
+two files are how we avoid building the same thing twice.
 
-Knowledge-graph repurposing is established work — TxGNN does disease-level
-contraindications, repoDB has used failed trials as negatives since 2017, and
-patient-level KG repurposing was published in 2025 using biobank genotypes.
-Our difference is the *axis* of personalization: those use molecular data
-because that's what biobanks hold. We use what's in a chart.
-
-Research prototype. Not clinical advice.
+```bash
+npm test --prefix contract     # before you push anything touching the contract
+```

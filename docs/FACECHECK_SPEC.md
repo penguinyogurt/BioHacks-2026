@@ -253,7 +253,7 @@ Owns `capture.ts`, `landmarker.ts`, `render.ts`.
 
 ### P2 — Analytics & stats
 Owns `compare.ts`, `storage.ts`, a new `features.ts`, and a node test file
-(`compare.test.ts`, same pattern as `app/src/lib/contract.test.ts`).
+(`compare.test.ts`, same pattern as `contract/contract.test.ts`).
 - Run-in baseline (median/MAD across N sessions), spread floor
 - Feature-level z-scores, lower-face composite vs brow control, flag logic
 - Confounder exclusion from trend stats
@@ -277,7 +277,7 @@ Owns `main.ts`, `style.css`, `index.html`.
 - Demo mode: seeded history (clearly labelled synthetic) so judges see a
   trend without five real sessions
 - Speech + face side by side (R14) if P1 delivers synced capture
-- Visual consistency with `app/` (dark lab console, mono numerals, colour
+- Visual consistency with `frontend/` (Motus — see its index.css; colour
   never the only signal; see `CLAUDE.md` skills)
 - Research: **R14, R15**
 
@@ -304,7 +304,7 @@ Owns `main.ts`, `style.css`, `index.html`.
 
 ## 6. Constraints carried from the repo
 
-- FaceCheck is **standalone**. It doesn't import from `app/` or the Python
+- FaceCheck is **standalone**. It does not import from `frontend/` or the Python
   modules, and they don't import from it (AGENTS.md architecture rule).
 - `data/pipeline.json` and its contract stay untouched unless the whole team
   agrees (§3.5).
@@ -318,6 +318,6 @@ Owns `main.ts`, `style.css`, `index.html`.
 - Do we show emotional expressions at all in the final demo, or only
   oral-motor tasks? (Depends on R4.)
 - Is a 3-session run-in honest enough to call "baseline"?
-- Does FaceCheck ship as its own page, or as a tab in `app/`? (It's a
+- Does FaceCheck ship as its own page, or as a tab in Motus (`frontend/`)? (It's a
   separate Vite project today. Merging costs P4 time; keeping it separate
   costs nothing.)

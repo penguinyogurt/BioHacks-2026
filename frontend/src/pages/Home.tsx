@@ -1,114 +1,95 @@
-import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
-import Dither from '@/components/react-bits/Dither'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { AsciiBackground } from '@/components/background'
 import OverviewDashboard from '@/components/overview-dashboard'
-import { AppSidebar, ALL_NAV, NAV_GROUPS, NAV_SECONDARY, type Profile } from '@/components/app-sidebar'
+import Runs from '@/components/discovery/runs'
+import { GoContext } from '@/components/discovery/pieces'
+import { AnalysisPage, CandidatesPage, CasePage, EmbeddingPage, ProfilesPage, ReportPage } from '@/components/discovery/pages'
+import { AppSidebar, ALL_NAV, NAV_GROUPS, NAV_PIPELINE, NAV_SECONDARY, type Profile, type StepStatus } from '@/components/app-sidebar'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { useAuth } from '@/lib/auth'
-import { DITHER_INK, DITHER_PAPER } from '@/lib/theme'
+import { SAMPLE_PATIENT, type StageId } from '@/lib/pipeline'
+import { RunProvider, useRun } from '@/lib/run-store'
 
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /** Placeholder copy for views that aren't built yet. */
 const VIEWS: Record<string, { title: string; description: string; placeholder: string }> = {
-  assessment: {
-    title: 'Ten minutes, three tasks.',
-    description: 'A short typing passage, a sustained “ahh” and pa-ta-ka, and an Archimedes spiral.',
-    placeholder: 'Guided capture is coming soon. Each session will record keystroke timing, voice, and pen kinematics on this device.',
+  graph: {
+    title: 'The map behind the matches.',
+    description: 'Browse DRKG: genes, compounds, diseases and the relations the embeddings are trained on.',
+    placeholder: 'The knowledge-graph explorer is coming soon. Discovery runs already search its compound embeddings.',
   },
-  trends: {
-    title: 'See the slow drift.',
-    description: 'Every feature, plotted against your own baseline.',
-    placeholder: 'Per-feature trend views are coming soon. The overview already shows domain-level change from baseline.',
+  genetics: {
+    title: 'What the genes rule in, and out.',
+    description: 'Panel results that decide which targeted therapies apply, like SOD1-directed tofersen.',
+    placeholder: 'Genetics import is coming soon. The sample patient is panel-negative.',
   },
-  alerts: {
-    title: 'Only what persists.',
-    description: 'Alerts fire on sustained change, not a single bad day.',
-    placeholder: 'Alert history and thresholds are coming soon.',
-  },
-  typing: {
-    title: 'How you type.',
-    description: 'Dwell, flight and inter-key timing from everyday typing, never the content.',
-    placeholder: 'The typing assessment is coming soon.',
-  },
-  speech: {
-    title: 'How you speak.',
-    description: 'Articulation rate, diadochokinesis, phonation time and voice quality.',
-    placeholder: 'Speech tasks are coming soon.',
-  },
-  handwriting: {
-    title: 'How you write.',
-    description: 'Stroke velocity, jerk, pressure and spiral accuracy.',
-    placeholder: 'Handwriting and spiral capture are coming soon.',
-  },
-  'self-report': {
-    title: 'In your own words.',
-    description: 'The 12-item ALSFRS-R, self-administered between visits.',
-    placeholder: 'The self-report questionnaire is coming soon.',
-  },
-  reports: {
-    title: 'Bring the evidence to the visit.',
-    description: 'A summary your neurologist can read in two minutes.',
-    placeholder: 'Shareable reports are coming soon.',
-  },
-  forecast: {
-    title: 'Where this is heading.',
-    description: 'Projected ALSFRS-R and domain trajectories, with honest uncertainty.',
-    placeholder: 'Detailed forecasts are coming soon. The overview shows the six-month ALSFRS-R projection.',
-  },
-  diary: {
-    title: 'What the numbers miss.',
-    description: 'Cramps, fatigue, swallowing, falls — logged in a few taps.',
-    placeholder: 'The symptom diary is coming soon. Entries will appear alongside your measurements.',
-  },
-  tapping: {
-    title: 'How fast, how steady.',
-    description: 'Alternating finger taps on screen: rate, rhythm and fatigue across a 10-second trial.',
-    placeholder: 'The finger-tapping task is coming soon.',
+  medications: {
+    title: 'What the patient already takes.',
+    description: 'Current therapy, so candidates never duplicate it or interact with it.',
+    placeholder: 'Medication management is coming soon. The research agent checks interactions against the current list.',
   },
   visits: {
     title: 'Every visit, in one place.',
     description: 'Clinician-rated ALSFRS-R, FVC, and notes from each appointment.',
     placeholder: 'Clinic visit records are coming soon.',
   },
-  medications: {
-    title: 'What you’re taking, and when.',
-    description: 'Track riluzole, edaravone and other treatments against your trends.',
-    placeholder: 'Medication tracking is coming soon.',
+  diary: {
+    title: 'What the numbers miss.',
+    description: 'Cramps, fatigue, swallowing, falls — logged in a few taps.',
+    placeholder: 'The symptom diary is coming soon.',
+  },
+  fus: {
+    title: 'Opening the barrier, on purpose.',
+    description: 'MR-guided focused ultrasound briefly opens the blood–brain barrier over motor cortex so large drugs can reach it.',
+    placeholder: 'Delivery planning (target region, session schedule, site availability) is coming soon.',
   },
   trials: {
-    title: 'Studies you may qualify for.',
-    description: 'Open ALS trials matched to your progression and location.',
+    title: 'Studies the patient may qualify for.',
+    description: 'Open ALS and focused-ultrasound trials matched to the patient and the run’s candidates.',
     placeholder: 'Trial matching is coming soon.',
   },
-  devices: {
-    title: 'Where your data comes from.',
-    description: 'Keyboards, microphones and styluses connected to Motus.',
-    placeholder: 'Device management is coming soon.',
+  'care-team': {
+    title: 'Who sees the results.',
+    description: 'Share reports with the neurologist, clinic nurse, or carer.',
+    placeholder: 'Care-team access is coming soon.',
+  },
+  sources: {
+    title: 'Where the evidence comes from.',
+    description: 'NCBI, ClinVar, Open Targets, DRKG and open web search, with their versions.',
+    placeholder: 'Data-source settings are coming soon.',
   },
   privacy: {
-    title: 'Your data, your call.',
+    title: 'The patient’s data, the patient’s call.',
     description: 'What is stored, who can see it, and how to export or delete it.',
     placeholder: 'Privacy controls are coming soon.',
   },
   settings: {
-    title: 'Make it fit your routine.',
-    description: 'Reminders, session length, units and accessibility.',
+    title: 'Make it fit your lab.',
+    description: 'Models, agent count, ranking defaults and report format.',
     placeholder: 'Settings are coming soon.',
   },
-  'care-team': {
-    title: 'Who sees your data.',
-    description: 'Invite your neurologist, clinic nurse, or carer.',
-    placeholder: 'Care-team access is coming soon.',
-  },
+}
+
+/** Which page shows each pipeline stage. */
+const STAGE_VIEW: Record<StageId, string> = {
+  analysis: 'analysis',
+  profiles: 'profiles',
+  embedding: 'embedding',
+  research: 'candidates',
+  report: 'report',
 }
 
 export default function Home() {
   const { user, loading, configured, signOut } = useAuth()
-  const [view, setView] = useState('overview')
+  // Each step has its own URL (/home/profiles …), so browser back/forward walks the workflow.
+  const { view = 'case' } = useParams()
+  const navigate = useNavigate()
+  const setView = (v: string) => {
+    if (v !== view) navigate(`/home/${v}`)
+  }
 
   if (configured && loading) return null
   if (configured && !user) return <Navigate to="/" replace />
@@ -117,31 +98,44 @@ export default function Home() {
   const meta = user?.user_metadata ?? {}
   const profile: Profile = user
     ? { name: meta.full_name ?? meta.name ?? user.email ?? 'You', email: user.email ?? '', avatar: meta.avatar_url ?? meta.picture }
-    : { name: 'Demo patient', email: 'Sign-in not configured' }
-  const firstName = profile.name.split(/\s+/)[0]
+    : { name: 'Demo researcher', email: 'Sign-in not configured' }
 
-  const label = ALL_NAV.find((n) => n.value === view)?.label ?? 'Overview'
+  return (
+    // The pipeline never changes page by itself; the user moves between steps.
+    <RunProvider>
+      <GoContext.Provider value={setView}>
+        <Workspace view={view} setView={setView} profile={profile} onSignOut={user ? signOut : undefined} />
+      </GoContext.Provider>
+    </RunProvider>
+  )
+}
+
+function Workspace({ view, setView, profile, onSignOut }: { view: string; setView: (v: string) => void; profile: Profile; onSignOut?: () => void }) {
+  const { state, reset } = useRun()
+
+  const select = (v: string) => {
+    if (v === 'new-run') {
+      reset()
+      setView('case')
+    } else setView(v)
+  }
+
+  const steps: Record<string, StepStatus> = {
+    case: state.phase === 'idle' ? 'pending' : 'done',
+    ...Object.fromEntries(Object.entries(STAGE_VIEW).map(([stage, v]) => [v, state.stages[stage as StageId]])),
+  }
+  const label = ALL_NAV.find((n) => n.value === view)?.label ?? 'Patient case'
   const section =
     NAV_GROUPS.find((g) => g.items.some((i) => i.value === view))?.label ??
-    (NAV_SECONDARY.some((i) => i.value === view) ? 'Account' : view === 'assessment' ? 'Assessments' : 'Monitoring')
+    (NAV_SECONDARY.some((i) => i.value === view) ? 'Account' : 'Pipeline')
   const page = VIEWS[view]
+  const isPipeline = NAV_PIPELINE.some((n) => n.value === view)
 
   return (
     <div className="relative h-dvh w-full overflow-hidden text-foreground">
-      {/* The landing's dither field runs behind the whole workspace. */}
+      {/* The landing's Gradient ASCII field runs behind the whole workspace, quieter. */}
       <div className="fixed inset-0 z-0" aria-hidden>
-        <Dither
-          waveSpeed={0.02}
-          waveFrequency={3}
-          waveAmplitude={0.3}
-          backgroundColor={DITHER_PAPER}
-          waveColor={DITHER_INK}
-          colorNum={4}
-          pixelSize={2}
-          disableAnimation={reducedMotion}
-          enableMouseInteraction
-          mouseRadius={1.2}
-        />
+        <AsciiBackground quiet />
       </div>
 
       <TooltipProvider delayDuration={0}>
@@ -149,7 +143,7 @@ export default function Home() {
           className="relative z-10 h-dvh min-h-0 !bg-transparent"
           style={{ '--sidebar-width': 'calc(var(--spacing) * 72)', '--header-height': 'calc(var(--spacing) * 12)' } as React.CSSProperties}
         >
-          <AppSidebar active={view} onSelect={setView} profile={profile} onSignOut={user ? signOut : undefined} />
+          <AppSidebar active={view} onSelect={select} profile={profile} onSignOut={onSignOut} steps={steps} />
           <SidebarInset className="min-h-0 overflow-y-auto !bg-transparent">
             <header className="sticky top-0 z-10 flex h-(--header-height) shrink-0 items-center gap-2 border-b border-border bg-background/60 backdrop-blur-md">
               <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -159,9 +153,23 @@ export default function Home() {
               </div>
             </header>
             <div className="px-4 pt-6 pb-16 lg:px-6">
-              {view === 'overview' ? (
-                <OverviewDashboard firstName={firstName} />
-              ) : (
+              {view === 'case' ? (
+                <CasePage go={setView} />
+              ) : view === 'analysis' ? (
+                <AnalysisPage />
+              ) : view === 'profiles' ? (
+                <ProfilesPage />
+              ) : view === 'embedding' ? (
+                <EmbeddingPage />
+              ) : view === 'candidates' ? (
+                <CandidatesPage />
+              ) : view === 'report' ? (
+                <ReportPage />
+              ) : view === 'runs' ? (
+                <Runs onNewRun={() => select('new-run')} />
+              ) : view === 'patient' ? (
+                <OverviewDashboard title={SAMPLE_PATIENT.label} />
+              ) : page && !isPipeline ? (
                 <div className="pt-8 lg:pt-12">
                   <p className="eyebrow mb-8">{section} / {label}</p>
                   <div aria-live="polite">
@@ -176,7 +184,7 @@ export default function Home() {
                     </div>
                   </Card>
                 </div>
-              )}
+              ) : null}
             </div>
           </SidebarInset>
         </SidebarProvider>

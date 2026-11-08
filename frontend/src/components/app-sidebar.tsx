@@ -1,7 +1,6 @@
 import {
-  Activity, AlarmClock, Bell, BookOpen, CalendarDays, CirclePlus, ClipboardCheck, FileText, FlaskConical, Hand,
-  HardDrive, Keyboard, LayoutDashboard, LogOut, Mic, MoreVertical, NotebookPen, PenLine, Pill, Settings, Shield,
-  TrendingUp, UserCircle, Users,
+  AlarmClock, BookOpen, Check, Circle, CirclePlus, Database, FileText, FlaskConical, Library, Loader2, LogOut,
+  MoreVertical, Network, Activity, Settings, Shield, UserCircle, Users, Waves,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -15,33 +14,31 @@ import {
 } from '@/components/ui/sidebar'
 
 type NavItem = { value: string; label: string; icon: LucideIcon }
+export type StepStatus = 'pending' | 'running' | 'done'
 
-/** Callio Labs' sidebar shape: primary action, main nav, labelled groups, secondary links pinned low. */
-export const NAV_MAIN: NavItem[] = [
-  { value: 'overview', label: 'Overview', icon: LayoutDashboard },
-  { value: 'trends', label: 'Trends', icon: TrendingUp },
-  { value: 'forecast', label: 'Progression forecast', icon: Activity },
-  { value: 'alerts', label: 'Alerts', icon: Bell },
-  { value: 'diary', label: 'Symptom diary', icon: NotebookPen },
+/** The flow, one page per step (Callio Labs: one sidebar entry per page). */
+export const NAV_PIPELINE: { value: string; label: string; n: string }[] = [
+  { value: 'case', label: 'Patient case', n: '00' },
+  { value: 'analysis', label: 'Patient analysis', n: '01' },
+  { value: 'profiles', label: 'Profile agents', n: '02' },
+  { value: 'embedding', label: 'DRKG embedding', n: '03' },
+  { value: 'candidates', label: 'Research & ranking', n: '04' },
+  { value: 'report', label: 'Report', n: '05' },
 ]
 
 export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
-    label: 'Assessments',
+    label: 'Library',
     items: [
-      { value: 'typing', label: 'Typing', icon: Keyboard },
-      { value: 'speech', label: 'Speech tasks', icon: Mic },
-      { value: 'handwriting', label: 'Handwriting & spiral', icon: PenLine },
-      { value: 'tapping', label: 'Finger tapping', icon: Hand },
-      { value: 'self-report', label: 'ALSFRS-R self-report', icon: ClipboardCheck },
+      { value: 'runs', label: 'Runs & reports', icon: FileText },
+      { value: 'patient', label: 'Patient monitoring', icon: Activity },
+      { value: 'graph', label: 'Knowledge graph', icon: Network },
     ],
   },
   {
-    label: 'Clinical',
+    label: 'Delivery & access',
     items: [
-      { value: 'reports', label: 'Reports & sharing', icon: FileText },
-      { value: 'visits', label: 'Clinic visits', icon: CalendarDays },
-      { value: 'medications', label: 'Medications', icon: Pill },
+      { value: 'fus', label: 'Focused ultrasound', icon: Waves },
       { value: 'trials', label: 'Clinical trials', icon: FlaskConical },
       { value: 'care-team', label: 'Care team', icon: Users },
     ],
@@ -49,14 +46,13 @@ export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
 ]
 
 export const NAV_SECONDARY: NavItem[] = [
-  { value: 'devices', label: 'Devices & capture', icon: HardDrive },
+  { value: 'sources', label: 'Data sources', icon: Database },
   { value: 'privacy', label: 'Data & privacy', icon: Shield },
   { value: 'settings', label: 'Settings', icon: Settings },
 ]
 
-export const ALL_NAV: NavItem[] = [
-  { value: 'assessment', label: 'New assessment', icon: CirclePlus },
-  ...NAV_MAIN,
+export const ALL_NAV: { value: string; label: string }[] = [
+  ...NAV_PIPELINE,
   ...NAV_GROUPS.flatMap((g) => g.items),
   ...NAV_SECONDARY,
 ]
@@ -81,16 +77,25 @@ function NavList({ items, active, select }: { items: NavItem[]; active: string; 
   )
 }
 
+function StepIcon({ status }: { status?: StepStatus }) {
+  if (status === 'done') return <Check className="ml-auto !size-3.5" aria-label="done" />
+  if (status === 'running') return <Loader2 className="ml-auto !size-3.5 animate-spin text-[#c9732a]" aria-label="running" />
+  return <Circle className="ml-auto !size-2.5 opacity-30" aria-label="pending" />
+}
+
 export function AppSidebar({
   active,
   onSelect,
   profile,
   onSignOut,
+  steps,
 }: {
   active: string
   onSelect: (view: string) => void
   profile: Profile
   onSignOut?: () => void
+  /** Status per pipeline view id. */
+  steps: Record<string, StepStatus>
 }) {
   const { isMobile, setOpenMobile } = useSidebar()
   const select = (value: string) => {
@@ -103,8 +108,8 @@ export function AppSidebar({
       <SidebarHeader className="pt-4">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton className="h-auto !p-2 !pt-3 hover:bg-transparent active:bg-transparent" onClick={() => select('overview')}>
-              <span className="font-brand text-3xl leading-none">motus</span>
+            <SidebarMenuButton className="h-auto !p-2 !pt-3 hover:bg-transparent active:bg-transparent" onClick={() => select('case')}>
+              <span className="font-brand text-3xl leading-none">addo labs</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -116,17 +121,31 @@ export function AppSidebar({
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  tooltip="New assessment"
-                  onClick={() => select('assessment')}
+                  tooltip="New discovery run"
+                  onClick={() => select('new-run')}
                   className="min-w-8 bg-primary/80 text-primary-foreground duration-200 ease-linear hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground"
                 >
                   <CirclePlus />
-                  <span>New assessment</span>
+                  <span>New discovery run</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
-            <NavList items={NAV_MAIN} active={active} select={select} />
           </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Pipeline</SidebarGroupLabel>
+          <SidebarMenu>
+            {NAV_PIPELINE.map((item) => (
+              <SidebarMenuItem key={item.value}>
+                <SidebarMenuButton tooltip={item.label} isActive={active === item.value} onClick={() => select(item.value)}>
+                  <span className="w-4 shrink-0 text-[0.6875rem] text-muted-foreground tabular-nums">{item.n}</span>
+                  <span>{item.label}</span>
+                  <StepIcon status={steps[item.value]} />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
         </SidebarGroup>
 
         {NAV_GROUPS.map((group) => (
@@ -183,11 +202,14 @@ export function AppSidebar({
                   <DropdownMenuItem onSelect={() => select('settings')}>
                     <UserCircle /> Account
                   </DropdownMenuItem>
-                  <DropdownMenuItem onSelect={() => select('alerts')}>
-                    <AlarmClock /> Notifications
+                  <DropdownMenuItem onSelect={() => select('runs')}>
+                    <Library /> Runs & reports
                   </DropdownMenuItem>
                   <DropdownMenuItem onSelect={() => select('privacy')}>
                     <BookOpen /> Data & privacy
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => select('settings')}>
+                    <AlarmClock /> Notifications
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
