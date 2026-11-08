@@ -50,6 +50,7 @@ A board full of "fixed a typo" is a board nobody reads.
 | Neo | pipeline | `cursor/pipeline-graph-ui` | Drug pipeline — BBB + patient filter scored over 3,791 compounds | — |
 | Neo | facecheck | `cursor/facial-als-validation` | FaceCheck MediaPipe prototype | `FACECHECK_SPEC.md` §2 gaps |
 | Levi | speech | `Master-UI-Neo-Face-Integration` | Speech + diagnostic test apps | No spec in `docs/` yet |
+| Levi | discovery | `agentic-query-generation` | **Five real DRKG query agents + rank intersection** (`backend/query-generation/`). Overlaps Jeremy — see the warning below | No merge base with `main` |
 | Henri | repo | `main` | Cleanup, specs, this board | — |
 
 > Names are from git history. Fix them if they're wrong.
@@ -69,6 +70,25 @@ Ordered roughly by what hurts most if it's still open on Sunday morning.
 | frontend | Decide demo mode: signed-in or sample data | Sample works today with no keys |
 | facecheck | Decide: own page, or a tab in the app | `FACECHECK_SPEC.md` §7 |
 | discovery | A real backend behind `runDemoPipeline` — stretch | The seam is clean; don't collapse it under time pressure |
+
+## ⚠ Two people are building the same pipeline right now
+
+**Jeremy** has the five-stage discovery pipeline in `frontend/` — scripted
+TypeScript, `MATCHES` hand-written, labelled "Simulated".
+
+**Levi** has `backend/query-generation/` on `agentic-query-generation` —
+**five real Python agents** (`disease-indications`, `genes-targets`,
+`pathways-processes`, `safety-interactions-class`, `symptoms-function`)
+plus `ranking/intersection.py` and `ranking/fallback.py`, grounded in DRKG
+and gated on human ALS exposure.
+
+That is the same five agents, twice. One is the demo, one is the engine,
+and **they share no git history** — `agentic-query-generation` has no merge
+base with `main`.
+
+Whoever picks this up: the cheapest win in the repo is making Jeremy's
+`PipelineEvent` stream come from Levi's agents instead of a timer. The seam
+already exists. Talk before either of you builds further.
 
 ## Found while auditing — read before you pitch
 
