@@ -2,6 +2,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { AsciiBackground } from '@/components/background'
 import OverviewDashboard from '@/components/overview-dashboard'
 import Runs from '@/components/discovery/runs'
+import GraphExplorer from '@/components/graph/graph-explorer'
 import { GoContext } from '@/components/discovery/pieces'
 import { AnalysisPage, CandidatesPage, CasePage, EmbeddingPage, ProfilesPage, ReportPage } from '@/components/discovery/pages'
 import { AppSidebar, ALL_NAV, NAV_GROUPS, NAV_PIPELINE, NAV_SECONDARY, type Profile, type StepStatus } from '@/components/app-sidebar'
@@ -167,6 +168,8 @@ function Workspace({ view, setView, profile, onSignOut }: { view: string; setVie
                 <ReportPage />
               ) : view === 'runs' ? (
                 <Runs onNewRun={() => select('new-run')} />
+              ) : view === 'graph' ? (
+                <GraphExplorer />
               ) : view === 'patient' ? (
                 <OverviewDashboard title={SAMPLE_PATIENT.label} />
               ) : page && !isPipeline ? (
