@@ -1,0 +1,5 @@
+"Neuron Cell Low-poly Simple" by vitalik.kucha
+https://sketchfab.com/3d-models/neuron-cell-low-poly-simple-3a09438daf364c3bbd3cce76f1c7afaa
+Author: https://sketchfab.com/vitalik.kucha
+Licensed under CC BY 4.0: http://creativecommons.org/licenses/by/4.0/
+Changes: materials replaced with a custom fluorescence shader; geometry re-centred and scaled.

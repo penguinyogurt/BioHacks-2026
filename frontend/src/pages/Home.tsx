@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import Grainient from '@/components/Grainient'
+import Dither from '@/components/react-bits/Dither'
 import OverviewDashboard from '@/components/overview-dashboard'
-import { AppSidebar, NAVIGATION, type Profile } from '@/components/app-sidebar'
+import { AppSidebar, ALL_NAV, NAV_GROUPS, NAV_SECONDARY, type Profile } from '@/components/app-sidebar'
 import { Card } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { useAuth } from '@/lib/auth'
+import { DITHER_INK, DITHER_PAPER } from '@/lib/theme'
 
-/** Landing's fully "stained" palette, run slow: calhacks keeps the same background, quieter, once signed in. */
-const GRAIN_LIVE: [string, string, string] = ['#0d6c86', '#142450', '#060a14']
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-/** calhacks-style placeholder copy for views that aren't built yet. */
+/** Placeholder copy for views that aren't built yet. */
 const VIEWS: Record<string, { title: string; description: string; placeholder: string }> = {
   assessment: {
     title: 'Ten minutes, three tasks.',
@@ -119,38 +120,58 @@ export default function Home() {
     : { name: 'Demo patient', email: 'Sign-in not configured' }
   const firstName = profile.name.split(/\s+/)[0]
 
-  const section = NAVIGATION.find((g) => g.children.some((c) => c.value === view))
-  const label = section?.children.find((c) => c.value === view)?.label ?? 'New assessment'
+  const label = ALL_NAV.find((n) => n.value === view)?.label ?? 'Overview'
+  const section =
+    NAV_GROUPS.find((g) => g.items.some((i) => i.value === view))?.label ??
+    (NAV_SECONDARY.some((i) => i.value === view) ? 'Account' : view === 'assessment' ? 'Assessments' : 'Monitoring')
   const page = VIEWS[view]
 
   return (
-    <div className="relative h-dvh overflow-hidden">
-      <div className="pointer-events-none fixed inset-0" aria-hidden>
-        <Grainient colors={GRAIN_LIVE} timeSpeed={0.08} grainAmount={0.06} />
-        <div className="absolute inset-0 bg-background/60" />
+    <div className="relative h-dvh w-full overflow-hidden text-foreground">
+      {/* The landing's dither field runs behind the whole workspace. */}
+      <div className="fixed inset-0 z-0" aria-hidden>
+        <Dither
+          waveSpeed={0.02}
+          waveFrequency={3}
+          waveAmplitude={0.3}
+          backgroundColor={DITHER_PAPER}
+          waveColor={DITHER_INK}
+          colorNum={4}
+          pixelSize={2}
+          disableAnimation={reducedMotion}
+          enableMouseInteraction
+          mouseRadius={1.2}
+        />
       </div>
 
       <TooltipProvider delayDuration={0}>
-        <SidebarProvider className="relative h-dvh min-h-0" style={{ '--sidebar-width': '17.5rem' } as React.CSSProperties}>
+        <SidebarProvider
+          className="relative z-10 h-dvh min-h-0 !bg-transparent"
+          style={{ '--sidebar-width': 'calc(var(--spacing) * 72)', '--header-height': 'calc(var(--spacing) * 12)' } as React.CSSProperties}
+        >
           <AppSidebar active={view} onSelect={setView} profile={profile} onSignOut={user ? signOut : undefined} />
-          <SidebarInset className="min-h-0 overflow-y-auto bg-transparent">
-            <div className="sticky top-0 z-10 flex h-14 items-center px-3">
-              <SidebarTrigger aria-label="Toggle sidebar" />
-            </div>
-            <div className="px-4 pb-16 sm:px-8">
+          <SidebarInset className="min-h-0 overflow-y-auto !bg-transparent">
+            <header className="sticky top-0 z-10 flex h-(--header-height) shrink-0 items-center gap-2 border-b border-border bg-background/60 backdrop-blur-md">
+              <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
+                <SidebarTrigger className="-ml-1" />
+                <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
+                <h1 className="text-base font-medium">{label}</h1>
+              </div>
+            </header>
+            <div className="px-4 pt-6 pb-16 lg:px-6">
               {view === 'overview' ? (
                 <OverviewDashboard firstName={firstName} />
               ) : (
                 <div className="pt-8 lg:pt-12">
-                  <p className="eyebrow mb-8">{section?.label ?? 'Assessments'} / {label}</p>
+                  <p className="eyebrow mb-8">{section} / {label}</p>
                   <div aria-live="polite">
-                    <h1 className="text-[clamp(2.75rem,8vw,4.5rem)] leading-none font-normal tracking-tight">{page.title}</h1>
+                    <h2 className="font-brand text-[clamp(2.75rem,7vw,4.5rem)] leading-none">{page.title}</h2>
                     <p className="mt-6 max-w-xl text-lg text-muted-foreground">{page.description}</p>
                   </div>
                   <Card className="mt-12 max-w-2xl gap-4 [--card-spacing:--spacing(8)]">
                     <div className="px-8">
                       <p className="eyebrow">Coming soon</p>
-                      <h2 className="mt-4 text-2xl font-normal">{label}</h2>
+                      <h3 className="mt-4 text-2xl font-medium">{label}</h3>
                       <p className="mt-4 text-muted-foreground">{page.placeholder}</p>
                     </div>
                   </Card>

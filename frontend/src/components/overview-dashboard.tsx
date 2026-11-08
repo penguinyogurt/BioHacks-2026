@@ -19,7 +19,7 @@ const ICONS: Record<Modality, typeof Keyboard> = { speech: AudioLines, typing: K
 const STATUS_CLASS: Record<Status, string> = {
   flag: 'border-flag/40 bg-flag/10 text-flag',
   watch: 'border-watch/40 bg-watch/10 text-watch',
-  stable: 'border-stable/30 bg-stable/10 text-stable',
+  stable: 'border-border bg-foreground/5 text-stable',
 }
 
 const fmt = (v: number, d: number) => v.toFixed(d)
@@ -35,7 +35,7 @@ function Spark({ values, className }: { values: number[]; className?: string }) 
   const max = Math.max(...values)
   const pts = values.map((v, i) => `${(i / Math.max(1, values.length - 1)) * 120},${28 - ((v - min) / (max - min || 1)) * 24}`).join(' ')
   return (
-    <svg viewBox="0 0 120 30" preserveAspectRatio="none" className={cn('h-7 w-[35%] shrink-0 text-chart-1', className)} aria-hidden>
+    <svg viewBox="0 0 120 30" preserveAspectRatio="none" className={cn('h-7 w-[35%] shrink-0 text-chart-3', className)} aria-hidden>
       <polyline points={pts} fill="none" stroke="currentColor" strokeWidth={1.75} vectorEffect="non-scaling-stroke" strokeLinejoin="round" strokeLinecap="round" />
     </svg>
   )
@@ -60,16 +60,16 @@ function Metric({ label, value, unit, detail, values }: { label: string; value: 
 }
 
 const projectionConfig = {
-  alsfrs: { label: 'Estimated (model)', color: 'var(--chart-1)' },
-  forecast: { label: 'Forecast', color: 'var(--chart-1)' },
-  band: { label: '80% interval', color: 'var(--chart-1)' },
-  clinician: { label: 'Clinician-rated', color: 'var(--chart-3)' },
+  alsfrs: { label: 'Estimated (model)', color: 'var(--chart-3)' },
+  forecast: { label: 'Forecast', color: 'var(--chart-3)' },
+  band: { label: '80% interval', color: 'var(--chart-2)' },
+  clinician: { label: 'Clinician-rated', color: 'var(--foreground)' },
 } satisfies ChartConfig
 
 const domainConfig = {
-  speech: { label: 'Speech · bulbar', color: 'var(--chart-3)' },
-  typing: { label: 'Typing · fine motor', color: 'var(--chart-1)' },
-  handwriting: { label: 'Handwriting · fine motor', color: 'var(--chart-2)' },
+  speech: { label: 'Speech · bulbar', color: 'var(--chart-4)' },
+  typing: { label: 'Typing · fine motor', color: 'var(--chart-2)' },
+  handwriting: { label: 'Handwriting · fine motor', color: 'var(--chart-1)' },
 } satisfies ChartConfig
 
 const tooltipDate = (_: unknown, payload: readonly { payload?: { t?: number } }[]) =>
@@ -115,10 +115,11 @@ export default function OverviewDashboard({ firstName }: { firstName: string }) 
 
   return (
     <div className="mx-auto max-w-[1440px] text-sm tabular-nums">
-      <header className="mb-6 flex flex-wrap items-end justify-between gap-6">
+      <div className="mb-3 rounded-xl bg-card px-5 pt-5 pb-3 ring-1 ring-border backdrop-blur-md">
+      <header className="mb-5 flex flex-wrap items-end justify-between gap-6">
         <div>
           <p className="eyebrow">Monitoring / Overview</p>
-          <h1 className="mt-3 text-[clamp(2.5rem,4vw,3.75rem)] leading-none font-normal tracking-tight">Welcome back, {firstName}.</h1>
+          <h2 className="font-brand mt-3 text-[clamp(2.5rem,4vw,3.75rem)] leading-none">Welcome back, {firstName}.</h2>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           {IS_SAMPLE ? (
@@ -142,9 +143,10 @@ export default function OverviewDashboard({ firstName }: { firstName: string }) 
         </div>
       </header>
 
-      <div className="mb-3 flex flex-wrap justify-between gap-3 text-[0.6875rem] text-muted-foreground">
+      <div className="flex flex-wrap justify-between gap-3 text-[0.6875rem] text-muted-foreground">
         <span>{fmtDate(first.t)} — {fmtDate(latest.t)}</span>
         <span>{period.length} at-home sessions · baseline = first 28 days</span>
+      </div>
       </div>
 
       <div className="grid grid-cols-12 gap-3" aria-live="polite">
@@ -201,8 +203,8 @@ export default function OverviewDashboard({ firstName }: { firstName: string }) 
             </ChartContainer>
           </CardContent>
           <CardFooter className="flex-wrap gap-4 border-t text-[0.6875rem] text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5"><i className="size-1.5 rounded-full bg-chart-1" /> Estimated from at-home sessions</span>
-            <span className="inline-flex items-center gap-1.5"><i className="size-1.5 rounded-full bg-chart-3" /> Clinician-rated</span>
+            <span className="inline-flex items-center gap-1.5"><i className="size-1.5 rounded-full bg-chart-3" /> Estimated from at-home sessions</span>
+            <span className="inline-flex items-center gap-1.5"><i className="size-1.5 rounded-full bg-foreground" /> Clinician-rated</span>
             <span className="ml-auto">Model output · not a diagnosis</span>
           </CardFooter>
         </Card>

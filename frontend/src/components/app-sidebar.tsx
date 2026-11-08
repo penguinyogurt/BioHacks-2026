@@ -1,65 +1,85 @@
-import { Activity, ChevronRight, CirclePlus, ClipboardList, LogOut, MoreVertical, Settings2, Stethoscope } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
+  Activity, AlarmClock, Bell, BookOpen, CalendarDays, CirclePlus, ClipboardCheck, FileText, FlaskConical, Hand,
+  HardDrive, Keyboard, LayoutDashboard, LogOut, Mic, MoreVertical, NotebookPen, PenLine, Pill, Settings, Shield,
+  TrendingUp, UserCircle, Users,
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
-  Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuButton,
-  SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, useSidebar,
+  Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader,
+  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
 } from '@/components/ui/sidebar'
 
-/** Same shape as calhacks' BranchedMenu navigation: groups with child views. */
-export const NAVIGATION = [
-  {
-    label: 'Monitoring',
-    icon: Activity,
-    children: [
-      { value: 'overview', label: 'Overview' },
-      { value: 'trends', label: 'Trends' },
-      { value: 'forecast', label: 'Progression forecast' },
-      { value: 'alerts', label: 'Alerts' },
-      { value: 'diary', label: 'Symptom diary' },
-    ],
-  },
+type NavItem = { value: string; label: string; icon: LucideIcon }
+
+/** Callio Labs' sidebar shape: primary action, main nav, labelled groups, secondary links pinned low. */
+export const NAV_MAIN: NavItem[] = [
+  { value: 'overview', label: 'Overview', icon: LayoutDashboard },
+  { value: 'trends', label: 'Trends', icon: TrendingUp },
+  { value: 'forecast', label: 'Progression forecast', icon: Activity },
+  { value: 'alerts', label: 'Alerts', icon: Bell },
+  { value: 'diary', label: 'Symptom diary', icon: NotebookPen },
+]
+
+export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
     label: 'Assessments',
-    icon: ClipboardList,
-    children: [
-      { value: 'typing', label: 'Typing' },
-      { value: 'speech', label: 'Speech tasks' },
-      { value: 'handwriting', label: 'Handwriting & spiral' },
-      { value: 'tapping', label: 'Finger tapping' },
-      { value: 'self-report', label: 'ALSFRS-R self-report' },
+    items: [
+      { value: 'typing', label: 'Typing', icon: Keyboard },
+      { value: 'speech', label: 'Speech tasks', icon: Mic },
+      { value: 'handwriting', label: 'Handwriting & spiral', icon: PenLine },
+      { value: 'tapping', label: 'Finger tapping', icon: Hand },
+      { value: 'self-report', label: 'ALSFRS-R self-report', icon: ClipboardCheck },
     ],
   },
   {
     label: 'Clinical',
-    icon: Stethoscope,
-    children: [
-      { value: 'reports', label: 'Reports & sharing' },
-      { value: 'visits', label: 'Clinic visits' },
-      { value: 'medications', label: 'Medications' },
-      { value: 'trials', label: 'Clinical trials' },
-      { value: 'care-team', label: 'Care team' },
+    items: [
+      { value: 'reports', label: 'Reports & sharing', icon: FileText },
+      { value: 'visits', label: 'Clinic visits', icon: CalendarDays },
+      { value: 'medications', label: 'Medications', icon: Pill },
+      { value: 'trials', label: 'Clinical trials', icon: FlaskConical },
+      { value: 'care-team', label: 'Care team', icon: Users },
     ],
   },
-  {
-    label: 'Account',
-    icon: Settings2,
-    children: [
-      { value: 'devices', label: 'Devices & capture' },
-      { value: 'privacy', label: 'Data & privacy' },
-      { value: 'settings', label: 'Settings' },
-    ],
-  },
+]
+
+export const NAV_SECONDARY: NavItem[] = [
+  { value: 'devices', label: 'Devices & capture', icon: HardDrive },
+  { value: 'privacy', label: 'Data & privacy', icon: Shield },
+  { value: 'settings', label: 'Settings', icon: Settings },
+]
+
+export const ALL_NAV: NavItem[] = [
+  { value: 'assessment', label: 'New assessment', icon: CirclePlus },
+  ...NAV_MAIN,
+  ...NAV_GROUPS.flatMap((g) => g.items),
+  ...NAV_SECONDARY,
 ]
 
 export type Profile = { name: string; email: string; avatar?: string }
 
 const initials = (name: string) =>
   name.trim().split(/\s+/).map((p) => p[0]).slice(0, 2).join('').toUpperCase() || '?'
+
+function NavList({ items, active, select }: { items: NavItem[]; active: string; select: (v: string) => void }) {
+  return (
+    <SidebarMenu>
+      {items.map((item) => (
+        <SidebarMenuItem key={item.value}>
+          <SidebarMenuButton tooltip={item.label} isActive={active === item.value} onClick={() => select(item.value)}>
+            <item.icon />
+            <span>{item.label}</span>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      ))}
+    </SidebarMenu>
+  )
+}
 
 export function AppSidebar({
   active,
@@ -79,81 +99,100 @@ export function AppSidebar({
   }
 
   return (
-    <Sidebar variant="floating" collapsible="offcanvas">
-      <SidebarHeader className="gap-3 px-4 pt-5">
-        <p className="font-heading text-4xl font-semibold tracking-tight">Motus</p>
-        <Button
-          variant="outline"
-          className="h-10 w-full justify-start gap-2 border-foreground/70 bg-transparent"
-          aria-current={active === 'assessment' ? 'page' : undefined}
-          onClick={() => select('assessment')}
-        >
-          <CirclePlus aria-hidden /> Start today’s assessment
-        </Button>
+    <Sidebar variant="inset" collapsible="offcanvas">
+      <SidebarHeader className="pt-4">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton className="h-auto !p-2 !pt-3 hover:bg-transparent active:bg-transparent" onClick={() => select('overview')}>
+              <span className="font-brand text-3xl leading-none">motus</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent className="px-2">
+      <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu>
-            {NAVIGATION.map((group, i) => (
-              <Collapsible key={group.label} defaultOpen={i === 0} className="group/collapsible" asChild>
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="h-9 font-medium">
-                      <group.icon aria-hidden />
-                      <span>{group.label}</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" aria-hidden />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {group.children.map((child) => (
-                        <SidebarMenuSubItem key={child.value}>
-                          <SidebarMenuSubButton
-                            asChild
-                            isActive={active === child.value}
-                            className="data-[active=true]:text-primary"
-                          >
-                            <button type="button" className="w-full" onClick={() => select(child.value)}>
-                              {child.label}
-                            </button>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
-            ))}
-          </SidebarMenu>
+          <SidebarGroupContent className="flex flex-col gap-2">
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  tooltip="New assessment"
+                  onClick={() => select('assessment')}
+                  className="min-w-8 bg-primary/80 text-primary-foreground duration-200 ease-linear hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground"
+                >
+                  <CirclePlus />
+                  <span>New assessment</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+            <NavList items={NAV_MAIN} active={active} select={select} />
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {NAV_GROUPS.map((group) => (
+          <SidebarGroup key={group.label} className="group-data-[collapsible=icon]:hidden">
+            <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+            <NavList items={group.items} active={active} select={select} />
+          </SidebarGroup>
+        ))}
+
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupContent>
+            <NavList items={NAV_SECONDARY} active={active} select={select} />
+          </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t p-3">
+      <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent">
-                  <Avatar className="size-8">
+                <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                  <Avatar className="size-8 rounded-lg grayscale">
                     {profile.avatar ? <AvatarImage src={profile.avatar} alt="" referrerPolicy="no-referrer" /> : null}
-                    <AvatarFallback className="text-xs">{initials(profile.name)}</AvatarFallback>
+                    <AvatarFallback className="rounded-lg">{initials(profile.name)}</AvatarFallback>
                   </Avatar>
-                  <span className="grid min-w-0 flex-1 text-left leading-tight">
+                  <span className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-medium">{profile.name}</span>
                     <span className="truncate text-xs text-muted-foreground">{profile.email}</span>
                   </span>
-                  <MoreVertical className="ml-auto size-4 text-muted-foreground" aria-hidden />
+                  <MoreVertical className="ml-auto size-4" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side={isMobile ? 'top' : 'right'} align="end" sideOffset={12} className="w-60">
-                <DropdownMenuLabel className="font-normal">
-                  <span className="block truncate font-medium">{profile.name}</span>
-                  <span className="block truncate text-xs text-muted-foreground">{profile.email}</span>
+              <DropdownMenuContent
+                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                side={isMobile ? 'bottom' : 'right'}
+                align="end"
+                sideOffset={4}
+              >
+                <DropdownMenuLabel className="p-0 font-normal">
+                  <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                    <Avatar className="size-8 rounded-lg">
+                      {profile.avatar ? <AvatarImage src={profile.avatar} alt="" referrerPolicy="no-referrer" /> : null}
+                      <AvatarFallback className="rounded-lg">{initials(profile.name)}</AvatarFallback>
+                    </Avatar>
+                    <div className="grid flex-1 text-left text-sm leading-tight">
+                      <span className="truncate font-medium">{profile.name}</span>
+                      <span className="truncate text-xs text-muted-foreground">{profile.email}</span>
+                    </div>
+                  </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem variant="destructive" disabled={!onSignOut} onSelect={() => onSignOut?.()}>
-                  <LogOut aria-hidden /> Sign out
+                <DropdownMenuGroup>
+                  <DropdownMenuItem onSelect={() => select('settings')}>
+                    <UserCircle /> Account
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => select('alerts')}>
+                    <AlarmClock /> Notifications
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => select('privacy')}>
+                    <BookOpen /> Data & privacy
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem disabled={!onSignOut} onSelect={() => onSignOut?.()}>
+                  <LogOut /> Log out
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
