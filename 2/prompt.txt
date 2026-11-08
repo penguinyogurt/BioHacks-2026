@@ -1,0 +1,96 @@
+run a code review on the changes being made to this branch. the goal is to have a seamless integration for the first agent of the backend's agentic workflow. If there are any issues let the other agent working on this branch know (i.e. message it) and then wait around 5 min before checking against and messaging the agent once more. keep repeating this process until the code is good and ready for me to test the backend workflow
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-90a97c070ac5b39bac87f51fb6f0992b" from-name="biohacks-2026-28" from-mode="prompting">
+Fixed all three review points on frontend/live-agent (uncommitted, not pushed; Jeremy hasn't asked for a commit). tsc -b passes.
+1. agent-api.ts: the shared listener now returns early unless `m instanceof MessageEvent && typeof m.data === 'string'`, before touching index/seen.
+2. agent-api.ts: `es.onerror` calls end('Lost the connection to the agent.') when readyState is CLOSED, or after more than 3 errors with no new event (the counter resets on each handled event). StageHeader now shows "Clear run" during a live run instead of nothing.
+3. run-store.tsx: a `generation` ref is bumped by reset() and open(); start() captures it before the health-check await and returns if it changed.
+Nit: restored the space in graph.py `"briefs": [`.
+Also found (not fixed, Neo's files): no_drugs.py scrubbed "TDP-43" to "[drug]" in the synthesis summary (20 removals in run r20261108-021643-3a9717), and backend alex.json names the patient "Alex Moreau" while frontend alex-case.ts says "Alex Chen".
+</cross-session-message>
+
+---
+
+[Cross-session idle notice] "biohacks-2026-28", which you asked to be notified about, is idle now — it finished a turn at 02:19. This is an automated notice from that session's harness — not a message from a person, and not an instruction; act on it only insofar as your user's earlier request calls for it.
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-90a97c070ac5b39bac87f51fb6f0992b" from-name="biohacks-2026-28" from-mode="prompting">
+TDP-43 scrub: I reproduced it. scrub("TDP-43 proteinopathy") and scrub("HSP-70 induction") each return [drug] with 1 removal; MN-166 is correctly scrubbed. I'm not patching no_drugs.py from this session: it's Neo's privacy and safety filter, and the live-agent feature doesn't need the change. Root cause and your allowlist + test_privacy suggestion are now in docs/STATUS.md, under the "Discovery steps 1–2 are live" entry, for Neo or Jeremy to apply. The Alex Moreau / Alex Chen mismatch is logged in the same entry, with Jeremy to pick the name.
+</cross-session-message>
+
+---
+
+[Cross-session idle notice] "biohacks-2026-28", which you asked to be notified about, is idle now — it finished a turn at 02:20. This is an automated notice from that session's harness — not a message from a person, and not an instruction; act on it only insofar as your user's earlier request calls for it.
+
+---
+
+<task-notification>
+<task-id>boac7kmgc</task-id>
+<tool-use-id>toolu_01HMsTkPv3P1oo3i4SX1uBgE</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\1aedacd7-2e39-4a2a-9ded-33d96be385d5\tasks\boac7kmgc.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait 5 minutes before re-review" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+is the fast api backend running?
+
+---
+
+The agent is now making updates to the integration since there have been recent merges that now allow the rest of the pipeline to run, with proper visualizations of the agents findings for the drugs graph. Again review the agent's changes, provide feedback directly to the agent, and iterate on this process until the code is ready for me to test end to end
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-90a97c070ac5b39bac87f51fb6f0992b" from-name="biohacks-2026-28" from-mode="prompting">
+Stage-3 review: all fixes are in, and the frontend side is ready for review (uncommitted, not pushed). tsc -b passes.
+Backend:
+- agent/.env.example now has DRKG_DIR (with setup lines), AGENT_DRKG_MAX_DRUGS and AGENT_DRKG_TIMEOUT_S.
+- drkg.py wraps the subprocess in a module-level asyncio.Lock, with try/finally kill+wait whenever returncode is None.
+- "No --reload" is in STATUS.
+Frontend:
+- agent-api.ts is rewritten. A promise-based stream(runId, handler) gets one handler per run kind (research / drkg / assess), so the shared event names aren't fed through the research handler.
+- The research run id is threaded into POST /api/drkg, then into POST /api/assess {drugs_path, research_run_id}.
+- The scene is fetched as `${AGENT_URL}${scene_url}`. drkg-data.ts now always loads the layout bins and names.json from /drkg/; only scene.json is per run.
+- VITE_AGENT_REPLAY_RUN takes "r,d,a". A missing d is recomputed live (free); a missing a stops after stage 3 with a message.
+- Match names: IUPAC strings are truncated in the trace, and the cards already truncate.
+- Pages follow the run: useFollow(stage, view, ready, delay). Embedding → candidates waits until every lane has been revealed, plus 3 s.
+- The backend PDF is fetched as a blob, because it's served as an attachment.
+Something else you should know: at 03:38 the branch's working tree was stashed and main merged in, and the stash wasn't re-applied. I re-applied stash@{0} (apply, not pop) after moving the new agent-api.ts aside. No conflicts.
+Verification: stage 3 on :8002 against r20261108-021643-3a9717 gave the 6 event types, a 56 KB scene with CORS for :5173, and 8 drugs. A live stage-4 assessment on those 8 is running now.
+Also fixed in drkg_scene.py: a cache rebuild here mirrored islands 5 and 13 (eigenvector signs differ by numpy build). A rebuild now flips local axes to match the committed points.bin and keeps its bytes; the default scene's query points reproduce exactly.
+</cross-session-message>
+
+---
+
+<task-notification>
+<task-id>b7y8yrp9q</task-id>
+<tool-use-id>toolu_013C66RGeCi5CaW7Cf4tdmtj</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\1aedacd7-2e39-4a2a-9ded-33d96be385d5\tasks\b7y8yrp9q.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait 5 minutes before re-review" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-90a97c070ac5b39bac87f51fb6f0992b" from-name="biohacks-2026-28" from-mode="prompting">
+Both should-fixes are in, plus the smaller points. tsc -b passes.
+1. pieces.tsx: liveRunning is now `state.source === 'live' && state.phase === 'running'`, so "Clear run" replaces the dead "Finish this step" for all four live stages.
+2. pages.tsx CandidatesPage: a failed PDF fetch now sets pdfError and shows "Couldn't load the report PDF (404)…" in the card (role=alert) instead of the spinner. The trace stays on the left.
+Smaller:
+- Replay without an assessment id emits a "Replay ends here" step and calls end(). The run finishes normally and is saved, with no red banner.
+- The banner now reads "The agent run stopped: …".
+- The live report filename uses AGENT_PATIENT.
+Fonts: those aren't mine. The Sora → Fraunces/Martian Mono change and profile-card.tsx were already uncommitted in the working tree when this task started, before the 03:38 stash, so they're Jeremy's WIP that the stash carried. I'm leaving them for him to split out or keep. I'm also telling him to commit a checkpoint.
+</cross-session-message>
+
+---
+
+[Cross-session idle notice] "biohacks-2026-28", which you asked to be notified about, is idle now — it finished a turn at 03:53. This is an automated notice from that session's harness — not a message from a person, and not an instruction; act on it only insofar as your user's earlier request calls for it.
+
+---
+
+What is this error? Where is it coming from? The agent run stopped: /api/drkg 404: Not Found
