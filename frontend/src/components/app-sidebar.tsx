@@ -1,7 +1,6 @@
 import {
-  Activity, AlarmClock, Bell, BookOpen, CalendarDays, CirclePlus, ClipboardCheck, FileText, FlaskConical, Hand,
-  HardDrive, Keyboard, LayoutDashboard, LogOut, Mic, MoreVertical, NotebookPen, PenLine, Pill, Settings, Shield,
-  TrendingUp, UserCircle, Users,
+  Activity, AlarmClock, BookOpen, CalendarDays, CirclePlus, Database, Dna, FileText, FlaskConical, LogOut, MoreVertical,
+  Network, NotebookPen, Pill, Settings, Shield, UserCircle, Users, Waves,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -18,30 +17,26 @@ type NavItem = { value: string; label: string; icon: LucideIcon }
 
 /** Callio Labs' sidebar shape: primary action, main nav, labelled groups, secondary links pinned low. */
 export const NAV_MAIN: NavItem[] = [
-  { value: 'overview', label: 'Overview', icon: LayoutDashboard },
-  { value: 'trends', label: 'Trends', icon: TrendingUp },
-  { value: 'forecast', label: 'Progression forecast', icon: Activity },
-  { value: 'alerts', label: 'Alerts', icon: Bell },
-  { value: 'diary', label: 'Symptom diary', icon: NotebookPen },
+  { value: 'discovery', label: 'Discovery', icon: FlaskConical },
+  { value: 'runs', label: 'Runs & reports', icon: FileText },
+  { value: 'patient', label: 'Patient overview', icon: Activity },
+  { value: 'graph', label: 'Knowledge graph', icon: Network },
 ]
 
 export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
-    label: 'Assessments',
+    label: 'Patient data',
     items: [
-      { value: 'typing', label: 'Typing', icon: Keyboard },
-      { value: 'speech', label: 'Speech tasks', icon: Mic },
-      { value: 'handwriting', label: 'Handwriting & spiral', icon: PenLine },
-      { value: 'tapping', label: 'Finger tapping', icon: Hand },
-      { value: 'self-report', label: 'ALSFRS-R self-report', icon: ClipboardCheck },
+      { value: 'genetics', label: 'Genetics', icon: Dna },
+      { value: 'medications', label: 'Medications', icon: Pill },
+      { value: 'visits', label: 'Clinic visits', icon: CalendarDays },
+      { value: 'diary', label: 'Symptom diary', icon: NotebookPen },
     ],
   },
   {
-    label: 'Clinical',
+    label: 'Delivery & access',
     items: [
-      { value: 'reports', label: 'Reports & sharing', icon: FileText },
-      { value: 'visits', label: 'Clinic visits', icon: CalendarDays },
-      { value: 'medications', label: 'Medications', icon: Pill },
+      { value: 'fus', label: 'Focused ultrasound', icon: Waves },
       { value: 'trials', label: 'Clinical trials', icon: FlaskConical },
       { value: 'care-team', label: 'Care team', icon: Users },
     ],
@@ -49,17 +44,12 @@ export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
 ]
 
 export const NAV_SECONDARY: NavItem[] = [
-  { value: 'devices', label: 'Devices & capture', icon: HardDrive },
+  { value: 'sources', label: 'Data sources', icon: Database },
   { value: 'privacy', label: 'Data & privacy', icon: Shield },
   { value: 'settings', label: 'Settings', icon: Settings },
 ]
 
-export const ALL_NAV: NavItem[] = [
-  { value: 'assessment', label: 'New assessment', icon: CirclePlus },
-  ...NAV_MAIN,
-  ...NAV_GROUPS.flatMap((g) => g.items),
-  ...NAV_SECONDARY,
-]
+export const ALL_NAV: NavItem[] = [...NAV_MAIN, ...NAV_GROUPS.flatMap((g) => g.items), ...NAV_SECONDARY]
 
 export type Profile = { name: string; email: string; avatar?: string }
 
@@ -103,8 +93,8 @@ export function AppSidebar({
       <SidebarHeader className="pt-4">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton className="h-auto !p-2 !pt-3 hover:bg-transparent active:bg-transparent" onClick={() => select('overview')}>
-              <span className="font-brand text-3xl leading-none">motus</span>
+            <SidebarMenuButton className="h-auto !p-2 !pt-3 hover:bg-transparent active:bg-transparent" onClick={() => select('discovery')}>
+              <span className="font-brand text-3xl leading-none">addo labs</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -116,12 +106,12 @@ export function AppSidebar({
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  tooltip="New assessment"
-                  onClick={() => select('assessment')}
+                  tooltip="New discovery run"
+                  onClick={() => select('new-run')}
                   className="min-w-8 bg-primary/80 text-primary-foreground duration-200 ease-linear hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground"
                 >
                   <CirclePlus />
-                  <span>New assessment</span>
+                  <span>New discovery run</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -183,7 +173,7 @@ export function AppSidebar({
                   <DropdownMenuItem onSelect={() => select('settings')}>
                     <UserCircle /> Account
                   </DropdownMenuItem>
-                  <DropdownMenuItem onSelect={() => select('alerts')}>
+                  <DropdownMenuItem onSelect={() => select('settings')}>
                     <AlarmClock /> Notifications
                   </DropdownMenuItem>
                   <DropdownMenuItem onSelect={() => select('privacy')}>

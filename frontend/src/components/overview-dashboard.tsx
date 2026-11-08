@@ -75,7 +75,7 @@ const domainConfig = {
 const tooltipDate = (_: unknown, payload: readonly { payload?: { t?: number } }[]) =>
   payload?.[0]?.payload?.t ? fmtDate(payload[0].payload.t) : ''
 
-export default function OverviewDashboard({ firstName }: { firstName: string }) {
+export default function OverviewDashboard({ title }: { title: string }) {
   const [range, setRange] = useState<(typeof RANGES)[number]>(90)
   const data = useMemo(() => summarize(range), [range])
   const { period, first, latest, modalities } = data
@@ -118,8 +118,8 @@ export default function OverviewDashboard({ firstName }: { firstName: string }) 
       <div className="mb-3 rounded-xl bg-card px-5 pt-5 pb-3 ring-1 ring-border backdrop-blur-md">
       <header className="mb-5 flex flex-wrap items-end justify-between gap-6">
         <div>
-          <p className="eyebrow">Monitoring / Overview</p>
-          <h2 className="font-brand mt-3 text-[clamp(2.5rem,4vw,3.75rem)] leading-none">Welcome back, {firstName}.</h2>
+          <p className="eyebrow">Patient / Motor-function monitoring</p>
+          <h2 className="font-brand mt-3 text-[clamp(2.5rem,4vw,3.75rem)] leading-none">{title}</h2>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           {IS_SAMPLE ? (
