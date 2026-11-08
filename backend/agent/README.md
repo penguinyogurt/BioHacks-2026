@@ -1,5 +1,8 @@
 # Research agent backend
 
+> **Paths:** since the 2026-11-08 reorg this lives in `backend/`. Paths below
+> (`agent/…`, `data/…`) are relative to `backend/`; run commands from there.
+
 The orchestrator (Claude Opus 5.5) reads the patient record and picks the ALS
 criteria that matter for this patient: disease mechanisms (`M*`) and
 symptoms (`S*`, see `criteria.py`). It sends one parallel sub-agent (Claude
@@ -26,6 +29,38 @@ POST /api/research ─► load_patient ─► plan ──Send()──► researc
 ```
 
 A run with 7 sub-agents takes about 100 seconds.
+
+## Drug assessment (`assess.py`): the last step
+
+After the drug pipeline (Levi's DRKG matcher or `data/pipeline.json`) has
+named drugs, this step turns them into a ranked report for the patient:
+
+```
+POST /api/assess ─► load (record + drug list + latest research run's target profiles)
+                    ─Send()─► researcher ×N, one per drug: Sonnet + Claude web search, sees ONE DRUG NAME only
+                              → DrugDossier (mechanism, ALS trials, side effects, CYP/interactions, formulations, availability, cost)
+                    ─► assess: Opus with the record + profiles + dossiers; may ask `web_research` follow-ups
+                              (patient identifiers are stripped from the question first)
+                    ─► DrugReport: drugs ranked with verdict, fit, pros, cons, patient-specific risks, monitoring, sources
+```
+
+```bash
+agent/.venv/Scripts/python -m agent.assess --patient alex --drugs path/to/drugs.json [--research <run_id>]
+# → agent/runs/a<time>.drugs.json (data) + .drugs.pdf (the report)
+```
+
+The input can be the coordinated `backend/query-generation/reports/<case>-coordinated.json`
+(advanced drugs, unresolved tested drugs, then its discovery leads; unnamed DrugBank ids are
+named via PubChem), an older query-generation report, `data/pipeline.json`
+(the drugs that survived), `{"drugs": [...]}`, or a plain list of names. Over the API:
+`POST /api/assess {"patient_id": "alex", "drugs_path": "data/pipeline.json"}` or
+`{"drugs": ["memantine", "riluzole"]}`, then the same events/report URLs as research runs, plus
+`GET /api/research/{run_id}/report.pdf` for the PDF.
+
+Cited URLs must have come back from a real search; any others are dropped
+and counted in `report.web.dropped_urls`. Searches use Claude's
+`web_search` server tool, not Google, and need web search enabled for the
+API key's organization.
 
 ## Setup (once)
 

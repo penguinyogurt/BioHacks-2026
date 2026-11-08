@@ -1,0 +1,13 @@
+*
+!.gitignore
+!validate.py
+!README.md
+!test_validation.py
+!synthetic/
+!synthetic/backend.csv
+!synthetic/baseline.csv
+!synthetic/evidence.csv
+!synthetic/pool.csv
+!synthetic/review-1.csv
+!synthetic/review-2.csv
+!synthetic/case.txt

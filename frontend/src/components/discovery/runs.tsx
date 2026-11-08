@@ -1,5 +1,6 @@
 import { FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { PageHeader } from '@/components/page-header'
 import { SAMPLE_PATIENT, rank, CANDIDATES } from '@/lib/pipeline'
 import { useRun } from '@/lib/run-store'
 import { useGo } from './pieces'
@@ -11,10 +12,7 @@ export default function Runs({ onNewRun }: { onNewRun: () => void }) {
 
   return (
     <div className="mx-auto max-w-[1440px]">
-      <div className="mb-4 rounded-xl bg-card px-5 pt-5 pb-4 ring-1 ring-border backdrop-blur-md">
-        <p className="eyebrow">Library / Runs & reports</p>
-        <h2 className="font-brand mt-3 text-[clamp(2.25rem,3.6vw,3.25rem)] leading-none">Every run, with its evidence.</h2>
-      </div>
+      <PageHeader className="mb-3" eyebrow="Library / Runs & reports" title="Every run, with its evidence." />
       {runs.length === 0 ? (
         <div className="rounded-xl bg-card p-8 ring-1 ring-border backdrop-blur-md">
           <p className="text-muted-foreground">No runs yet in this session.</p>
@@ -30,14 +28,14 @@ export default function Runs({ onNewRun }: { onNewRun: () => void }) {
                 type="button"
                 onClick={() => {
                   open(r)
-                  go('report')
+                  go('candidates')
                 }}
                 className="group overflow-hidden rounded-xl bg-card text-left ring-1 ring-border backdrop-blur-md transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.98]"
               >
                 <div className="relative mx-3 mt-3 h-36 overflow-hidden rounded-t-md bg-white shadow-[0_-4px_12px_rgb(0_0_0/0.06)]">
                   <div className="absolute top-0 right-0 size-5" style={{ background: 'linear-gradient(225deg, #e7e2d8 50%, #f6f3ed 50%)' }} />
                   <p className="px-3 pt-3 text-[11px] leading-snug font-semibold text-foreground/80">
-                    Alternative therapeutic candidates for {SAMPLE_PATIENT.label}
+                    Alternative therapeutic candidates for {(r.caseFile?.patient ?? SAMPLE_PATIENT).label}
                   </p>
                   <div className="mt-2 flex flex-col gap-1.5 px-3">
                     {[90, 70, 82, 55, 75].map((w, i) => (

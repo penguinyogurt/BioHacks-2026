@@ -1,6 +1,8 @@
 """HTTP API for the research agent. The frontend connects here.
 
   POST /api/research                 {question?, patient_id?}  → {run_id, events_url, report_url}
+  POST /api/assess                   {patient_id?, drugs_path? | drugs?, research_run_id?} → same + pdf_url; ranks pipeline drugs
+  GET  /api/research/{run_id}/report.pdf   the finished drug assessment as a PDF
   GET  /api/research/{run_id}/events SSE: every event so far, then live ones
   GET  /api/research/{run_id}        {status, report, error}
   GET  /api/research                 recent runs
@@ -21,12 +23,13 @@ import uuid
 from dataclasses import dataclass, field
 
 import uvicorn
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sse_starlette.sse import EventSourceResponse
 
-from agent.config import ANTHROPIC_API_KEY, DEFAULT_PATIENT, PATIENT_DIR, LANGSMITH_PROJECT, MAX_CONCURRENCY, ORCHESTRATOR_MODEL, RUN_TIMEOUT_S, RUNS_DIR, SUBAGENT_MODEL, tracing_enabled
+from agent.config import ANTHROPIC_API_KEY, DEFAULT_PATIENT, PATIENT_DIR, LANGSMITH_PROJECT, ROOT, MAX_CONCURRENCY, ORCHESTRATOR_MODEL, RUN_TIMEOUT_S, RUNS_DIR, SUBAGENT_MODEL, tracing_enabled
+from agent import assess
 from agent.graph import DEFAULT_QUESTION, graph
 from agent.ingest import PATIENT_ID, IngestError, parse_pdf, save, summary
 
@@ -58,22 +61,24 @@ class Run:
 RUNS: dict[str, Run] = {}
 
 
-async def execute(run: Run) -> None:
-    await run.push({"type": "run_started", "data": {"question": run.question, "models": {"orchestrator": ORCHESTRATOR_MODEL, "subagent": SUBAGENT_MODEL}}})
+async def execute(run: Run, g=graph, inputs: dict | None = None, name: str = "research run", timeout: float = RUN_TIMEOUT_S) -> None:
+    await run.push({"type": "run_started", "data": {"kind": name, "question": run.question, "models": {"orchestrator": ORCHESTRATOR_MODEL, "subagent": SUBAGENT_MODEL}}})
     config = {
         "max_concurrency": MAX_CONCURRENCY,
-        "run_name": "research run",
-        "tags": ["research_run"],
+        "run_name": name,
+        "tags": [name.replace(" ", "_")],
         "metadata": {"run_id": run.run_id, "question": run.question, "patient_id": run.patient_id},
     }
+    inputs = {"run_id": run.run_id, "patient_id": run.patient_id, **(inputs or {"question": run.question})}
     try:
-        async with asyncio.timeout(RUN_TIMEOUT_S):
-            async for event in graph.astream({"run_id": run.run_id, "question": run.question, "patient_id": run.patient_id}, config=config, stream_mode="custom"):
+        async with asyncio.timeout(timeout):
+            async for event in g.astream(inputs, config=config, stream_mode="custom"):
                 if event.get("type") == "report":
                     run.report = event["data"]
                 await run.push(event)
         run.status = "done"
-        await run.push({"type": "run_finished", "data": {"profiles": len((run.report or {}).get("profiles", []))}})
+        r = run.report or {}
+        await run.push({"type": "run_finished", "data": {"profiles": len(r.get("profiles", []))} if "profiles" in r else {"drugs": len(r.get("drugs", []))}})
     except Exception as e:
         run.status, run.error = "error", f"{type(e).__name__}: {e}"[:500]
         await run.push({"type": "error", "data": {"message": run.error}})
@@ -116,6 +121,42 @@ async def start_research(body: ResearchRequest):
     run = RUNS[run_id] = Run(run_id=run_id, question=(body.question or DEFAULT_QUESTION).strip(), patient_id=body.patient_id)
     asyncio.create_task(execute(run))
     return {"run_id": run_id, "events_url": f"/api/research/{run_id}/events", "report_url": f"/api/research/{run_id}"}
+
+
+class AssessRequest(BaseModel):
+    patient_id: str = DEFAULT_PATIENT
+    drugs_path: str | None = None      # a drug-pipeline output file inside the repo
+    drugs: list[str] | None = None     # or just names
+    research_run_id: str = ""          # whose target profiles to compare against; default latest for the patient
+
+
+@app.post("/api/assess")
+async def start_assess(body: AssessRequest):
+    """Research each drug on the web (no patient data), then the orchestrator ranks them for the patient."""
+    if not ANTHROPIC_API_KEY:
+        raise HTTPException(503, "ANTHROPIC_API_KEY is not set (agent/.env)")
+    if not PATIENT_ID.match(body.patient_id) or not (PATIENT_DIR / f"{body.patient_id}.json").exists():
+        raise HTTPException(404, f"unknown patient '{body.patient_id}'")
+    if body.drugs:
+        inputs = {"drugs": [{"name": n.strip(), "id": "", "notes": ""} for n in body.drugs[: assess.MAX_DRUGS] if n.strip()], "drugs_path": "inline"}
+    elif body.drugs_path:
+        path = (ROOT / body.drugs_path).resolve()
+        if not path.is_relative_to(ROOT.resolve()) or not path.is_file():
+            raise HTTPException(404, "drugs_path must be a file inside the repo")
+        try:
+            found = assess.load_drugs(path)
+        except (ValueError, UnicodeDecodeError, KeyError, TypeError, AttributeError):
+            found = []
+        if not found:
+            raise HTTPException(422, "no drugs found in that file (expects a drug-pipeline JSON)")
+        inputs = {"drugs_path": str(path)}
+    else:
+        raise HTTPException(422, "give drugs_path or drugs")
+    RUNS_DIR.mkdir(parents=True, exist_ok=True)
+    run_id = time.strftime("a%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6]
+    run = RUNS[run_id] = Run(run_id=run_id, question="drug assessment", patient_id=body.patient_id)
+    asyncio.create_task(execute(run, assess.graph, {**inputs, "research_run_id": body.research_run_id}, "drug assessment", assess.TIMEOUT_S))
+    return {"run_id": run_id, "events_url": f"/api/research/{run_id}/events", "report_url": f"/api/research/{run_id}", "pdf_url": f"/api/research/{run_id}/report.pdf"}
 
 
 def _from_disk(run_id: str) -> list[dict] | None:
@@ -168,6 +209,16 @@ async def get_run(run_id: str):
         raise HTTPException(404, "unknown run")
     report = next((e["data"] for e in recorded if e["type"] == "report"), None)
     return {"run_id": run_id, "status": "done" if report else "error", "report": report, "error": None}
+
+
+@app.get("/api/research/{run_id}/report.pdf")
+async def report_pdf(run_id: str):
+    """The drug assessment as a PDF (assessment runs only)."""
+    report = (await get_run(run_id))["report"]
+    if not report or "drugs" not in report:
+        raise HTTPException(404, "no finished drug assessment for this run")
+    return Response(assess.render_pdf(report), media_type="application/pdf",
+                    headers={"Content-Disposition": f'attachment; filename="drug-assessment-{report["patient_id"]}-{run_id}.pdf"'})
 
 
 @app.get("/api/research")
