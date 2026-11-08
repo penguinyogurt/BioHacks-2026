@@ -61,12 +61,14 @@ function Answer({ text }: { text: string }) {
   )
 }
 
+/** Tool calls and what they returned. The agent's thinking is streamed too, but not shown. */
 function Steps({ steps, working }: { steps: AgentStep[]; working: boolean }) {
   const [open, setOpen] = useState(true)
   const box = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (working) box.current?.scrollTo({ top: box.current.scrollHeight })
   }, [steps.length, working])
+  const calls = steps.filter((s) => s.type === 'tool_call').length
   if (!steps.length) return null
   return (
     <div className="rounded-lg ring-1 ring-border">
@@ -77,7 +79,7 @@ function Steps({ steps, working }: { steps: AgentStep[]; working: boolean }) {
         className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs text-muted-foreground hover:bg-foreground/[0.03]"
       >
         <ChevronRight className={cn('size-3 shrink-0 transition-transform', open && 'rotate-90')} aria-hidden />
-        <span className="tabular-nums">{steps.length} step{steps.length === 1 ? '' : 's'}</span> · thinking and tool calls
+        <span className="tabular-nums">{calls}</span> tool call{calls === 1 ? '' : 's'}
       </button>
       {open ? (
         <div ref={box} className="max-h-56 overflow-y-auto border-t [scrollbar-gutter:stable]">
@@ -91,15 +93,46 @@ function Steps({ steps, working }: { steps: AgentStep[]; working: boolean }) {
 /** While streaming, citations are raw markers; the final answer replaces them with checked, numbered ones. */
 const draftText = (s: string) => s.replace(/\[PMID:\s*(\d+)\]/g, '[PMID $1]')
 
+const REDUCED = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+
+/**
+ * Paced reveal. After a tool call the API sends the whole answer in one burst (measured: ~100
+ * chunks within 0.1 s), which reads as "appears at once". This shows the text that has arrived at
+ * a steady rate: each frame reveals 1/24 of the backlog (minimum 10 characters), so a burst
+ * catches up in ~0.5–1.5 s (300–4,000 chars), and genuinely streaming text keeps its pace. Never shows
+ * text that hasn't arrived; when the text is replaced (a draft reset, or the final answer with
+ * renumbered citations) it continues from the same length.
+ */
+function useReveal(text: string, instant: boolean) {
+  // `instant`: an answer that was already finished when this mounted (a saved conversation) shows whole.
+  const [n, setN] = useState(REDUCED || instant ? Infinity : 0)
+  const target = useRef(text)
+  target.current = text
+  useEffect(() => {
+    if (REDUCED) return
+    if (n > text.length) return setN(text.length)
+    if (n === text.length) return
+    const id = requestAnimationFrame(() =>
+      setN((k) => Math.min(target.current.length, k + Math.max(10, Math.ceil((target.current.length - k) / 24)))),
+    )
+    return () => cancelAnimationFrame(id)
+  }, [n, text])
+  return text.slice(0, n)
+}
+
 function AssistantTurn({ turn, working }: { turn: AssistantTurnT; working: boolean }) {
-  const last = turn.steps[turn.steps.length - 1]
+  const tools = turn.steps.filter((s) => s.type !== 'thinking')
+  const last = tools[tools.length - 1]
   const status = turn.draft ? 'Writing the answer…' : last ? last.label : 'Reading the patient record and the report…'
+  const [saved] = useState(!!turn.answer || !!turn.error)
+  const shown = useReveal(turn.answer ? turn.answer.answer : draftText(turn.draft), saved)
+  const revealed = !!turn.answer && shown.length === turn.answer.answer.length
   return (
     <div className="space-y-2">
       <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
         <span className="font-medium text-foreground">Orchestrator agent</span> · patient record, report and research tools
       </p>
-      <Steps steps={turn.steps} working={working} />
+      <Steps steps={tools} working={working} />
       {working ? (
         <p className="flex h-5 items-center gap-2 text-xs text-muted-foreground" role="status">
           <Loader2 className="size-3.5 shrink-0 animate-spin" aria-hidden />
@@ -107,10 +140,9 @@ function AssistantTurn({ turn, working }: { turn: AssistantTurnT; working: boole
         </p>
       ) : null}
       {turn.error ? <p role="alert" className="text-sm text-destructive">{turn.error}</p> : null}
-      {!turn.answer && turn.draft ? <Answer text={draftText(turn.draft)} /> : null}
-      {turn.answer ? (
+      {shown ? <Answer text={shown} /> : null}
+      {turn.answer && revealed ? (
         <>
-          <Answer text={turn.answer.answer} />
           {turn.answer.references.length ? (
             <ol className="space-y-1 border-t pt-2 text-xs text-muted-foreground">
               {turn.answer.references.map((r) => (
@@ -133,13 +165,19 @@ export function ResearchChat({ runId }: { runId: string }) {
   const [busy, setBusy] = useState(false)
   const abort = useRef<AbortController | null>(null)
   const list = useRef<HTMLDivElement>(null)
-  // Follow new content only while the reader is at the bottom; scrolling up to read stops it.
-  const pinned = useRef(true)
+  const content = useRef<HTMLDivElement>(null)
 
   useEffect(() => () => abort.current?.abort(), [])
+  // Always keep the newest content in view: tool calls, the answer as it's revealed, its
+  // references. Watching the content's size catches all of them, including the reveal, which
+  // happens inside AssistantTurn without changing `turns`.
   useEffect(() => {
-    if (pinned.current) list.current?.scrollTo({ top: list.current.scrollHeight })
-  }, [turns])
+    const el = content.current
+    if (!el) return
+    const follow = new ResizeObserver(() => list.current?.scrollTo({ top: list.current.scrollHeight }))
+    follow.observe(el)
+    return () => follow.disconnect()
+  }, [turns.length > 0])
 
   // The conversation is saved with its report in Supabase (lib/reports-db.ts): bring it back
   // on open, and save it whenever an answer finishes. Signed out, both are no-ops.
@@ -178,7 +216,6 @@ export function ResearchChat({ runId }: { runId: string }) {
       if (t.role === 'user' && next?.role === 'assistant' && next.answer) history.push(t, { role: 'assistant', content: next.answer.answer })
     })
     history.push({ role: 'user', content: q })
-    pinned.current = true
     setTurns((ts) => [...ts, { role: 'user', content: q }, { role: 'assistant', steps: [], draft: '' }])
     setDraft('')
     setBusy(true)
@@ -228,10 +265,6 @@ export function ResearchChat({ runId }: { runId: string }) {
       <CardContent className="space-y-3">
         <div
           ref={list}
-          onScroll={(e) => {
-            const el = e.currentTarget
-            pinned.current = el.scrollHeight - el.scrollTop - el.clientHeight < 48
-          }}
           className="h-[32rem] overflow-y-auto rounded-lg bg-muted/30 p-3 ring-1 ring-border [scrollbar-gutter:stable]"
           aria-live="polite"
         >
@@ -247,7 +280,7 @@ export function ResearchChat({ runId }: { runId: string }) {
               </div>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div ref={content} className="space-y-4">
               {turns.map((t, i) =>
                 t.role === 'user' ? (
                   <p key={i} className="ml-auto w-fit max-w-[85%] rounded-lg bg-background px-3 py-2 text-sm whitespace-pre-wrap text-pretty ring-1 ring-border">{t.content}</p>

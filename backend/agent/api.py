@@ -36,11 +36,16 @@ from agent.config import ANTHROPIC_API_KEY, DEFAULT_PATIENT, PATIENT_DIR, LANGSM
 from agent import assess, chat, drkg
 from agent.graph import DEFAULT_QUESTION, graph
 from agent.ingest import PATIENT_ID, IngestError, parse_pdf, save, summary
+from diagnostics.api import router as diagnostics_router  # backend/diagnostics/api.py; heavy engines load lazily
 
 app = FastAPI(title="ALS research agent")
+# Local dev origins always; deployed frontends (e.g. https://addo-labs.vercel.app) from AGENT_CORS_ORIGINS.
 # expose_headers: the frontend reads the PDF's file name from Content-Disposition.
-app.add_middleware(CORSMiddleware, allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?", allow_methods=["*"], allow_headers=["*"],
-                   expose_headers=["Content-Disposition"])
+app.add_middleware(CORSMiddleware, allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
+                   allow_origins=[o.strip().rstrip("/") for o in os.getenv("AGENT_CORS_ORIGINS", "").split(",") if o.strip()],
+                   allow_methods=["*"], allow_headers=["*"], expose_headers=["Content-Disposition"])
+# Take-home test scoring (facial + speech) for the deployed /take-home/ pages; see diagnostics/api.py.
+app.include_router(diagnostics_router, prefix="/api/diagnostics")
 
 
 @dataclass

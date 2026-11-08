@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sync:take-home": "node scripts/sync-take-home.mjs"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.3.0",

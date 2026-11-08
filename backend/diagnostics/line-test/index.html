@@ -16,6 +16,8 @@ button[data-proceed]:not(:disabled)::after{animation-delay:-.5s}
 <footer><button data-proceed id="advance">Start round</button><p id="status" role="status"></p></footer></div></div>
 <section id="summary" hidden><h2>Tracing results</h2><div id="gallery" class="ghosts"></div><p id="average"></p></section>
 </main><script>
+// The suite passes ?suite= (its origin) when deployed under /take-home/; standalone it defaults to the local launcher.
+const SUITE=new URLSearchParams(location.search).get("suite")||"http://127.0.0.1:8772";
 "use strict";
 const $=id=>document.getElementById(id), svg=$("stage"), NS=svg.namespaceURI;
 const radius=11, dot=12, distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -116,14 +118,14 @@ function finish(now){
  overlay.setAttribute("role","img");overlay.setAttribute("aria-label",sketches[index][0]+" guide and your trace");
  for(const id of ["band","guide","ink"]){const copy=$(id).cloneNode(true);copy.removeAttribute("id");overlay.append(copy)}
  figure.append(overlay,caption);$("gallery").append(figure);
- results.push({seconds,acc});$("clock").textContent=seconds.toFixed(1)+" s";
+ results.push({shape:sketches[index][0],seconds,acc});$("clock").textContent=seconds.toFixed(1)+" s";
  $("status").textContent=sketches[index][0]+" · "+acc.toFixed(1)+"% accuracy · "+seconds.toFixed(1)+" seconds";
  banner(index===4);
  if(index===4){
   const avg=k=>results.reduce((sum,v)=>sum+v[k],0)/results.length;
   $("average").textContent="Average time: "+avg("seconds").toFixed(1)+" seconds · Average accuracy: "+avg("acc").toFixed(1)+"%";
   $("roundPage").hidden=true;$("summary").hidden=false;window.scrollTo(0,0);
-  if(parent!==window)parent.postMessage({suite:"line",complete:true,summary:avg("acc").toFixed(1)+"% mean accuracy · "+avg("seconds").toFixed(1)+" s per sketch"},"http://127.0.0.1:8772")
+  if(parent!==window)parent.postMessage({suite:"line",complete:true,summary:avg("acc").toFixed(1)+"% mean accuracy · "+avg("seconds").toFixed(1)+" s per sketch",results:{shapes:results.map(r=>({shape:r.shape,accuracy:+r.acc.toFixed(1),seconds:+r.seconds.toFixed(1)}))}},SUITE)
  }
 }
 function coords(e){return new DOMPoint(e.clientX,e.clientY).matrixTransform(svg.getScreenCTM().inverse())}
@@ -136,6 +138,6 @@ function gap(){cursor=null;last=null;highlight();if(phase==="running"){$("start"
 svg.addEventListener("pointerenter",eventMove);svg.addEventListener("pointermove",eventMove);
 svg.addEventListener("pointerleave",gap);svg.addEventListener("pointercancel",gap);window.addEventListener("blur",gap);
 $("advance").onclick=()=>{if(phase==="done"){index++;prepared()}if(phase==="preview")countdown()};
-function reset(){if(parent!==window)parent.postMessage({suite:"line",complete:false},"http://127.0.0.1:8772");index=0;results=[];$("gallery").replaceChildren();$("summary").hidden=true;prepared()}
+function reset(){if(parent!==window)parent.postMessage({suite:"line",complete:false},SUITE);index=0;results=[];$("gallery").replaceChildren();$("summary").hidden=true;prepared()}
 reset();
 </script></body></html>

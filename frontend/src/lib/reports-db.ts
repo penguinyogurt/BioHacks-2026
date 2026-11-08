@@ -11,8 +11,11 @@
 import { supabase } from './supabase'
 import { AGENT_URL, type LiveIds } from './agent-api'
 
+export type ReportKind = 'assessment' | 'take_home_test'
+
 export type SavedReport = {
   id: string
+  kind: ReportKind
   assess_run_id: string
   research_run_id: string | null
   drkg_run_id: string | null
@@ -24,7 +27,11 @@ export type SavedReport = {
   created_at: string
   /** report.patient: name and headline, for the card's paper title and the download name. */
   patient: { name?: string; headline?: string } | null
+  /** Take-home test rows: the stored results, from which the card and PDF are drawn. */
+  report?: unknown
 }
+
+const LIST_COLUMNS = 'id, kind, assess_run_id, research_run_id, drkg_run_id, patient_id, title, summary, drugs, pdf_path, created_at, patient:report->patient'
 
 async function userId(): Promise<string | null> {
   if (!supabase) return null
@@ -73,14 +80,59 @@ export async function saveReport(ids: LiveIds): Promise<{ status: 'saved' | 'off
   }
 }
 
-/** The signed-in user's saved reports, newest first ([] when signed out). */
-export async function listReports(): Promise<SavedReport[]> {
+/** The signed-in user's saved reports of one kind, newest first ([] when signed out). */
+export async function listReports(kind: ReportKind = 'assessment'): Promise<SavedReport[]> {
   if (!supabase || !(await userId())) return []
   const { data } = await supabase
     .from('reports')
-    .select('id, assess_run_id, research_run_id, drkg_run_id, patient_id, title, summary, drugs, pdf_path, created_at, patient:report->patient')
+    // Test rows are small, and their results are what the card and PDF are built from.
+    .select(kind === 'take_home_test' ? LIST_COLUMNS + ', report' : LIST_COLUMNS)
+    .eq('kind', kind)
     .order('created_at', { ascending: false })
   return (data as SavedReport[] | null) ?? []
+}
+
+/*
+ * Take-home test results. The test app saves them itself: the link it's opened with carries a
+ * one-time invite code, and it calls submit_take_home() with it (no user session needed). Only
+ * the results JSON is stored; the PDF is built from it whenever it's viewed (lib/take-home.ts).
+ * Schema: frontend/supabase/migrations/20261108122113_take_home_invites_and_submit.sql.
+ */
+
+/** A new single-use, 7-day invite for the take-home test, filed under the signed-in user. */
+export async function createInvite(participantName: string): Promise<string | null> {
+  if (!supabase || !(await userId())) return null
+  const { data, error } = await supabase.from('take_home_invites').insert({ participant_name: participantName.slice(0, 120) }).select('code').single()
+  return error ? null : (data.code as string)
+}
+
+/** The report an invite produced, once the test has submitted it (else null). */
+export async function inviteReport(code: string): Promise<SavedReport | null> {
+  if (!supabase) return null
+  const { data } = await supabase.from('take_home_invites').select('report_id').eq('code', code).maybeSingle()
+  if (!data?.report_id) return null
+  const { data: row } = await supabase.from('reports').select(LIST_COLUMNS + ', report').eq('id', data.report_id).maybeSingle()
+  return (row as unknown as SavedReport | null) ?? null
+}
+
+/** The fallback for a test opened without a link: import the results file it offered. */
+export async function importTestReport(id: string, name: string, payload: object, completedAt: string): Promise<
+  { status: 'saved' | 'off' } | { status: 'error'; message: string }
+> {
+  const uid = await userId()
+  if (!supabase || !uid) return { status: 'off' }
+  const { error } = await supabase.from('reports').upsert(
+    {
+      user_id: uid,
+      kind: 'take_home_test',
+      assess_run_id: id,
+      title: `Take-home test results · ${name}`,
+      report: { ...payload, patient: { name } },
+      created_at: completedAt,
+    },
+    { onConflict: 'user_id,assess_run_id' },
+  )
+  return error ? { status: 'error', message: `Results not saved: ${error.message}` } : { status: 'saved' }
 }
 
 /** A short-lived link to a saved PDF (the bucket is private). With `download`, it saves under that name. */

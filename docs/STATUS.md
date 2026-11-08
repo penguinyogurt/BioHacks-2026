@@ -58,6 +58,24 @@ takes an optional `emit`, tool calls are emitted after redaction (what actually 
 `llm.claude(..., show_thinking=True)` sets `thinking.display: "summarized"` for the streamed
 chat only. Opus 5.5 returns empty thinking text by default, so without it there's no visible reasoning.
 
+- **Take-home test → report (sidebar → Take-home test).** The test is now the app's own
+  child route, `/take-home/index.html` (pages synced from `backend/diagnostics` into
+  `frontend/public/take-home/`; run `npm run sync:take-home` after editing them), and
+  facial + speech scoring run on the agent backend at `/api/diagnostics`
+  (`backend/diagnostics/api.py`; 503 until the models are installed). Deploy steps for
+  Vercel + Vultr: [`DEPLOY.md`](DEPLOY.md). The tab gives a one-time link:
+  **Open** or **Copy test link** (to send a patient; works on any device). Each link carries a single-use, 7-day invite code from
+  `public.take_home_invites`; when the three tests finish, **the suite saves the results
+  itself** via `submit_take_home(code, results)` (security definer; the code is the
+  credential, so no sign-in is needed in the test and no Addo tab has to stay open).
+  Stored as `reports.kind = 'take_home_test'`, results JSON only; the PDF is drawn from
+  it on view (`frontend/src/lib/take-home.ts`). Shown under Reports → **Test results**.
+  The database advisor flags that function as anon-callable: intentional, see the
+  migration. Fallback: a test opened without a link offers a results file to import.
+  Pass rules: facial = the test's own (top prediction is the target, ≥ 80%); **speech ≥
+  90% words correct per passage and tracing ≥ 80% inside the guide per shape are
+  screening defaults we chose** (`SPEECH_PASS`/`LINE_PASS`). The launcher now works on
+  Windows; the facial and speech tests still need their `setup.sh` on each machine.
 - **Finished live reports are saved to Supabase** (signed-in users only): table
   `public.reports` (ids, ranking, full report JSON, **chat history**) and private bucket
   `reports/<user_id>/<run>.pdf`, both owner-only by RLS. Schema:

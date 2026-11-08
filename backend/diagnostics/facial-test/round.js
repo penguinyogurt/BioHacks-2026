@@ -1,3 +1,6 @@
+// Deployed (/take-home/) the suite passes ?api= (the backend's diagnostics endpoint) and ?suite= (its own origin);
+// run standalone, both default to the local servers, so the local apps work unchanged.
+const Q=new URLSearchParams(location.search),API=Q.get("api")||"",SUITE=Q.get("suite")||"http://127.0.0.1:8772";
 "use strict";
 const $=id=>document.getElementById(id);
 const rounds=[
@@ -10,10 +13,12 @@ let index=0, phase="off", stream=null, epoch=0, timeout, request;
 const PASS_THRESHOLD = 80;
 const snapshots=new Array(rounds.length);
 const outcomes=new Array(rounds.length).fill(null);
+// Per round, for the suite's results report: requested expression, its confidence, the top prediction, pass.
+const scores=new Array(rounds.length).fill(null);
 function state(value){
  $("challenge").classList.toggle("scored",value==="result");
  phase=value;
- if(parent!==window)parent.postMessage({suite:"facial",complete:false},"http://127.0.0.1:8772");
+ if(parent!==window)parent.postMessage({suite:"facial",complete:false},SUITE);
  $("start").hidden=value!=="off"; $("stop").hidden=value==="off";
  $("ready").hidden=value!=="prompt"; $("next").hidden=value!=="result";
 
@@ -57,7 +62,7 @@ async function capture(id){
   const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/png"));
   if(id!==epoch)return;
   request=new AbortController();
-  const response=await fetch("/photo",{method:"POST",body:blob,signal:request.signal});
+  const response=await fetch(API+"/photo",{method:"POST",body:blob,signal:request.signal});
   const data=await response.json();if(id!==epoch)return;
   if(!response.ok)throw Error(data.error||"Inference failed");
   $("prompt").textContent=rounds[index][0]+" — captured photo";
@@ -71,6 +76,7 @@ async function capture(id){
  if(snapshots[index])URL.revokeObjectURL(snapshots[index]);
  snapshots[index]=URL.createObjectURL(blob);
  outcomes[index]=passed;
+ scores[index]={expression:target,confidence:+conf.toFixed(1),top,passed};
  finish(passed?"PASS":"FAIL",info);
  if(index===rounds.length-1){
   const total=outcomes.filter(Boolean).length+" of "+rounds.length+" expressions correct";
@@ -82,7 +88,7 @@ async function capture(id){
    caption.append(badge);card.append(img,caption);return card
   }));
   $("reviewTitle").focus();
-  if(parent!==window)parent.postMessage({suite:"facial",complete:true,summary:total},"http://127.0.0.1:8772");
+  if(parent!==window)parent.postMessage({suite:"facial",complete:true,summary:total,results:{threshold:PASS_THRESHOLD,rounds:scores}},SUITE);
  }
  }catch(e){if(id===epoch){prompt();$("prompt").textContent="Photo could not be scored. Press Ready when you are in view."}}
 }
