@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6WVSSN2RYKVFW7V72BKFCVE",
   "strategy": "manual-commit",
   "branch": "claude/angry-newton-9ffe84",
-  "checkpoints_count": 3,
+  "checkpoints_count": 4,
   "files_touched": [
     ".env.example",
     "bbb/__init__.py",
@@ -52,14 +52,21 @@
       "compact_transcript": "/0/transcript.jsonl",
       "content_hash": "/0/content_hash.txt",
       "prompt": ""
+    },
+    {
+      "metadata": "/1/metadata.json",
+      "transcript": "/1/full.jsonl",
+      "compact_transcript": "/1/transcript.jsonl",
+      "content_hash": "/1/content_hash.txt",
+      "prompt": "/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 0,
-    "cache_creation_tokens": 0,
-    "cache_read_tokens": 0,
-    "output_tokens": 0,
-    "api_call_count": 0,
+    "input_tokens": 86,
+    "cache_creation_tokens": 101458,
+    "cache_read_tokens": 4346004,
+    "output_tokens": 24507,
+    "api_call_count": 36,
     "subagent_tokens": {
       "input_tokens": 8,
       "cache_creation_tokens": 29564,
@@ -69,15 +76,15 @@
     }
   },
   "redaction": {
-    "replacements": 293,
+    "replacements": 590,
     "layers": {
       "betterleaks": 0,
       "connection_string": 0,
       "credential_key": 0,
       "credential_value": 0,
       "credentialed_uri": 0,
-      "entropy": 353,
-      "key_context": 4,
+      "entropy": 646,
+      "key_context": 8,
       "provider_token": 0,
       "shell_stdin": 0
     }

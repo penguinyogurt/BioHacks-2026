@@ -1,0 +1,1 @@
+we need to iterate on 02 here, I dont like the current frontend design. is there a way to incorporate something from this repo or a library to make better cards?  https://github.com/MarcDasilva/GenaiGenesis2026
