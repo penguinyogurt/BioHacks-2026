@@ -32,7 +32,8 @@ it belongs in the repo instead:
 | How the project works, for everyone's AI | root `AGENTS.md` |
 | A design, spec, or research finding | `docs/` |
 | Why a decision was made | `docs/DECISIONS.md` |
-| Status, blockers, what you're on | `docs/STATUS.md` |
+| What you're working on | a GitHub issue, assigned to you |
+| A trap or wrong number you found | `docs/STATUS.md` |
 | A rule your AI keeps getting wrong | root `AGENTS.md` |
 
 A note in `.workspace/` is invisible to the other three people and to their
