@@ -1,0 +1,15 @@
+{
+  "tool_use_id": "toolu_0187Khvx2uQ7r5eysRZj5eVx",
+  "agent_id": "a90dccecd467e17e6",
+  "subagent_type": "fork",
+  "task_description": "Clustered DRKG layout data",
+  "token_usage": {
+    "input_tokens": 37,
+    "cache_creation_tokens": 231100,
+    "cache_read_tokens": 3482168,
+    "output_tokens": 19724,
+    "api_call_count": 15
+  },
+  "started_at": "2026-11-08T01:11:21.311049-05:00",
+  "completed_at": "2026-11-08T01:39:43.5956973-05:00"
+}
