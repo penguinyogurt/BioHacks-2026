@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6X2T0DGSTGRG3GGEWC0ZENR",
   "strategy": "manual-commit",
   "branch": "pipeline/validate-paths",
-  "checkpoints_count": 2,
+  "checkpoints_count": 5,
   "files_touched": [
     "backend/contract/validate.ts"
   ],
@@ -21,14 +21,21 @@
       "compact_transcript": "/1/transcript.jsonl",
       "content_hash": "/1/content_hash.txt",
       "prompt": "/1/prompt.txt"
+    },
+    {
+      "metadata": "/2/metadata.json",
+      "transcript": "/2/full.jsonl",
+      "compact_transcript": "/2/transcript.jsonl",
+      "content_hash": "/2/content_hash.txt",
+      "prompt": "/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 52,
-    "cache_creation_tokens": 21621,
-    "cache_read_tokens": 8089599,
-    "output_tokens": 10785,
-    "api_call_count": 21,
+    "input_tokens": 60,
+    "cache_creation_tokens": 26389,
+    "cache_read_tokens": 9182889,
+    "output_tokens": 14042,
+    "api_call_count": 25,
     "subagent_tokens": {
       "input_tokens": 0,
       "cache_creation_tokens": 0,
@@ -38,15 +45,15 @@
     }
   },
   "redaction": {
-    "replacements": 638,
+    "replacements": 1034,
     "layers": {
       "betterleaks": 0,
       "connection_string": 0,
       "credential_key": 0,
-      "credential_value": 0,
+      "credential_value": 23,
       "credentialed_uri": 0,
-      "entropy": 785,
-      "key_context": 19,
+      "entropy": 1341,
+      "key_context": 27,
       "provider_token": 0,
       "shell_stdin": 0
     }
