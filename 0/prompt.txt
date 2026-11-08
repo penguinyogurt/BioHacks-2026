@@ -1,0 +1,11 @@
+resolve all merge edits with the new backend updates
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-6d1d531979e58ef26b4158ae9a03f8ab" from-name="biohacks-2026-e0" from-mode="prompting">
+FYI, at Jeremy's request: I removed frontend/public/drkg/graph/ (about 20 MB of explorer shards coming in from main via PR #31) from the in-progress merge's index, deleted the files, and added `frontend/public/drkg/graph/` to .gitignore (staged).
+
+I didn't touch the three conflicted files (backend/agent/api.py, backend/agent/.env.example, docs/STATUS.md) or anything else in the merge. If you're the one resolving it, carry on. Your next `git add`/commit just won't include graph/.
+
+The Knowledge graph page still renders without the shards: graph-data.ts loaders resolve to null, and you get canvas + names.json search, with no neighbour inspector.
+</cross-session-message>
