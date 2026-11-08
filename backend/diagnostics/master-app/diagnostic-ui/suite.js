@@ -72,7 +72,11 @@ function opening(){
 // own server (/begin). Deployed: the page is static under the web app (/take-home/), each test
 // sits in a sibling folder, and facial/speech scoring comes from the backend in the link (#backend=).
 const local=location.origin==="http://127.0.0.1:8772";
-const backend=(()=>{try{return new URL(link.get("backend")).origin}catch{return null}})();
+const backend=(()=>{
+ const configured=link.get("backend");
+ if(!configured && ["localhost","127.0.0.1"].includes(location.hostname))return "http://127.0.0.1:8001";
+ try{return new URL(configured).origin}catch{return null}
+})();
 async function testUrl(key){
  if(local){
   const response=await fetch("/begin/"+key,{method:"POST"});
@@ -114,11 +118,16 @@ $("next").onclick=()=>{
  $("final").hidden=false;$("thanks").focus();
  const payload={kind:"addo-take-home-v1",completedAt:new Date().toISOString(),tests:results};
  $("download").href=URL.createObjectURL(new Blob([JSON.stringify(payload,null,1)],{type:"application/json"}));
- if(!save){$("sent").textContent="This test wasn’t opened from an Addo Labs link, so the results weren’t saved. Download the file and import it on the Take-home test page.";return}
+ try{
+  $("pdf").href=URL.createObjectURL(TakeHomePdf.create(payload));
+ }catch{
+  $("pdf").replaceWith("PDF export is unavailable. You can still save the import file below.");
+ }
+ if(!save){$("sent").textContent="This test wasn’t opened from an Addo Labs link, so the results weren’t saved. Save the JSON copy and import it on the Take-home test page.";return}
  $("sent").textContent="Saving your results…";
  submit(payload).then(
   ()=>{$("sent").textContent="Your results were saved to Addo Labs. You can close this window."},
-  e=>{$("sent").textContent=e.message+" Download the file and import it on the Take-home test page."}
+  e=>{$("sent").textContent=e.message+" Save the JSON copy and import it on the Take-home test page."}
  );
 };
 opening();

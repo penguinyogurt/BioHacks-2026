@@ -69,6 +69,8 @@ cd ~/Documents/BioHacks && python3 backend/diagnostics/master-app/diagnostic_com
 
 The master app opens at http://127.0.0.1:8772. Select **Begin** on each animated introduction, then complete the facial expression challenge, passage reading, and line tracing in order. Review each test’s results and select **Proceed To Next Test**. The speech test includes three passages with word-level playback. After all five tracing overlays, **Complete Diagnostic** opens the thank-you screen. Camera and microphone access are requested by the individual tests.
 
+The local website serves the same suite at `http://127.0.0.1:5173/take-home/index.html`. For website scoring, start the shared API with `cd backend && .venv/bin/python -m agent.api` after installing the [scoring dependencies and model assets](backend/diagnostics/facial-test/README.md). Speech needs the Vosk model and generated reference files under `backend/diagnostics/speech-test-good/private/speech_demo/`. When upgrading an older Mac checkout, the existing model and samples from `speech-test-good/private/speech_demo/` can be copied or linked there. Line tracing runs in the browser. The standalone launcher starts the facial and speech services itself and uses the backend Python environment if a test-specific environment is absent.
+
 On a fresh checkout, run `bash backend/diagnostics/facial-test/setup.sh` and `bash backend/diagnostics/speech-test-good/setup.sh` first. The launcher reuses running local test servers or starts them as needed. Control-C stops the launcher and the servers it started.
 
 | Directory | Contents |

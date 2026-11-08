@@ -1,14 +1,20 @@
 """Browser integration check. Requires Playwright, local Chrome, assets/smoke.png and running app."""
+import argparse
 import base64
 import hashlib
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--url", default="http://127.0.0.1:8771",
+                    help="Standalone page or website facial page including its api query parameter")
+url = parser.parse_args().url
+
 with sync_playwright() as pw:
     browser=pw.chromium.launch(executable_path="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
                                args=["--autoplay-policy=no-user-gesture-required"])
     p=browser.new_page()
-    p.goto("http://127.0.0.1:8771")
+    p.goto(url)
     p.evaluate("""async url=>{
       window.testImage=new Image(); testImage.src=url; await testImage.decode();
       window.sourceCanvas=document.createElement('canvas'); sourceCanvas.width=sourceCanvas.height=512;
@@ -37,6 +43,10 @@ with sync_playwright() as pw:
     assert len(sent)==0 and p.evaluate("document.querySelector('#live').srcObject===null")
     print("PASS: wrong top label fails, retry preserves target, Stop cancels before capture.")
     p.locator("#start").dispatch_event("click");step(100);p.locator("#ready").wait_for()
+    p.route("**/photo", lambda route: route.abort())
+    ready();step(6000);p.locator("#ready").wait_for()
+    assert "Cannot reach the facial scoring server" in p.locator("#prompt").inner_text()
+    p.unroute("**/photo")
     ready();step(3100);p.evaluate("blank()");p.wait_for_timeout(300)
     step(2900);p.locator("#ready").wait_for()
     assert "one face" in p.locator("#prompt").inner_text()

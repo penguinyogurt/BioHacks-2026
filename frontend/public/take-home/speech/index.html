@@ -16,7 +16,9 @@ button[data-proceed]:not(:disabled)::after{animation-delay:-.5s}
 const $=id=>document.getElementById(id);
 // Deployed (/take-home/) the suite passes ?api= (the backend's diagnostics endpoint) and ?suite= (its own origin);
 // run standalone, both default to the local servers, so the local apps work unchanged.
-const Q=new URLSearchParams(location.search),API=Q.get("api")||"",SUITE=Q.get("suite")||"http://127.0.0.1:8772";
+const Q=new URLSearchParams(location.search),SUITE=Q.get("suite")||"http://127.0.0.1:8772";
+const localWebPage=location.pathname.startsWith("/take-home/") && ["127.0.0.1","localhost"].includes(location.hostname);
+const API=Q.get("api")||(localWebPage?"http://127.0.0.1:8001/api/diagnostics/speech":"");
 let recorder,ctx,version=0,timer;
 const passages=[["Morning light", "The morning light filled the room. We opened the window and watched the birds."], ["At the market", "We carried a basket to the market. The baker gave us a warm loaf of bread."], ["Along the river", "A small boat crossed the river. Two children waved from the bridge."]], readings=new Map(), references=new Map();
 let current=0,playing=[],playVersion=0;
@@ -84,7 +86,10 @@ async function analyze(blob,name){
  str(0,"RIFF");v.setUint32(4,bytes.byteLength-8,true);str(8,"WAVE");str(12,"fmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,16000,true);v.setUint32(28,32000,true);v.setUint16(32,2,true);v.setUint16(34,16,true);str(36,"data");v.setUint32(40,bytes.byteLength-44,true);
  samples.forEach((s,i)=>v.setInt16(44+2*i,Math.round(32767*Math.max(-1,Math.min(1,s))),true));
  if(id!==version)return;
- const r=await fetch(API+"/score",{method:"POST",headers:{"X-Passage":String(current)},body:bytes});if(!r.ok)throw Error("Could not score this recording.");const s=await r.json();if(id!==version)return;
+ let r;
+ try{r=await fetch(API+"/score",{method:"POST",headers:{"X-Passage":String(current)},body:bytes})}
+ catch{throw Error("Cannot reach the speech scoring server. Check that it is running, then retry.")}
+ if(!r.ok){const reason=await r.json().catch(()=>({}));throw Error(reason.detail||reason.error||"Speech scoring failed (HTTP "+r.status+").")}const s=await r.json();if(id!==version)return;
  const entry={s,audio:decoded,name};if(s.score!==null)readings.set(current,entry);
  if(s.score===null){$("status").textContent="No words recognized. Record the passage again.";return}
 

@@ -3,14 +3,25 @@
 On this Mac, run setup once:
 
 ```sh
-cd ~/Documents/BioHacks/facial-test && ./setup.sh
+cd ~/Documents/BioHacks/backend/diagnostics/facial-test && bash setup.sh
 ```
 
 Launch the loopback server and open the browser:
 
 ```sh
-cd ~/Documents/BioHacks/facial-test && .venv/bin/python app.py
+cd ~/Documents/BioHacks/backend/diagnostics/facial-test && .venv/bin/python app.py
 ```
+
+For the website at port 5173, start the shared scoring API in a separate terminal. The standalone server on port 8771 serves its own page. From the repository root, after the model setup above:
+
+```sh
+cd backend
+python3.11 -m venv .venv
+.venv/bin/python -m pip install -r agent/requirements.txt -r diagnostics/requirements.txt
+.venv/bin/python -m agent.api
+```
+
+On subsequent launches, only the last command is needed from the backend directory. A photo posted to `http://127.0.0.1:8001/api/diagnostics/facial/photo` is scored using the checkpoint in `backend/diagnostics/facial-test/assets`. If upgrading an older checkout, you can reuse its complete facial-test assets directory at this path.
 
 The four challenges are Happy, Sad, Disgusted, and Neutral. Ready starts a three-second countdown, followed by three seconds to hold the expression. A single captured photo passes when the requested class ranks first at 80% confidence or higher. If the detector cannot find exactly one face, the round returns to Ready without scoring it. Each scored round advances using Next expression. Stop releases the camera during a live round.
 

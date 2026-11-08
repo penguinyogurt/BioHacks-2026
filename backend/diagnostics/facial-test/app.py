@@ -12,7 +12,7 @@ from urllib.request import urlopen
 from inference import ROOT,Predictor,cv2,np,Image
 
 URL="http://127.0.0.1:8771"
-HEALTH=b"poster-expression-challenge-v1"
+HEALTH=b"poster-expression-challenge-v2"
 LOCK=threading.Lock()
 
 class Handler(BaseHTTPRequestHandler):

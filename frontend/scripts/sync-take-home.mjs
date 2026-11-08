@@ -59,3 +59,17 @@ for (const [src, dest] of FILES) {
   writeFileSync(join(OUT, dest), text)
   console.log(`${src} -> public/take-home/${dest}`)
 }
+
+// Both the static website and the standalone Python server use this self-contained PDF exporter.
+const { build } = await import('vite')
+await build({
+  root: FRONTEND,
+  configFile: false,
+  publicDir: false,
+  build: {
+    outDir: OUT, emptyOutDir: false, copyPublicDir: false,
+    lib: { entry: join(FRONTEND, 'scripts/take-home-pdf.ts'), name: 'TakeHomePdf',
+           formats: ['iife'], fileName: () => 'report-pdf.js' },
+    rolldownOptions: { external: ['html2canvas', 'dompurify', 'canvg'] },
+  },
+})
