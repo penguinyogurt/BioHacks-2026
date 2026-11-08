@@ -11,6 +11,7 @@ import { MATCHES, PROFILE_POINTS, PROFILES, SAMPLE_PATIENT } from '@/lib/pipelin
 import { useRun } from '@/lib/run-store'
 import { LANE_COLORS } from './lanes'
 import { EmptyStage, PatientCard, STEPS, StageHeader, StepNav, Trace } from './pieces'
+import { ProfileGrid } from './profile-card'
 
 type Go = (view: string) => void
 
@@ -196,38 +197,7 @@ export function ProfilesPage() {
         title="Five therapeutic hypotheses"
         description="Five agents run in parallel, each defining the drug that would test one disease mechanism in this patient."
       />
-      {state.stages.profiles === 'pending' ? (
-        <EmptyStage view="profiles" />
-      ) : (
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-          {PROFILES.map((p) => {
-            const ready = state.profiles.find((x) => x.lane === p.lane)
-            return (
-              <div key={p.lane} className="flex flex-col gap-3">
-                <div className="rounded-lg border-t-4 bg-card px-4 py-3 ring-1 ring-border backdrop-blur-md" style={{ borderTopColor: LANE_COLORS[p.lane] }}>
-                  <p className="text-xs text-muted-foreground">Agent {p.lane + 1}</p>
-                  <p className="font-medium">{p.name}</p>
-                </div>
-                <Trace stage="profiles" lane={p.lane} title="Trace" maxH="max-h-48" />
-                <div className={cn('rounded-lg bg-card p-4 ring-1 ring-border backdrop-blur-md transition-opacity', !ready && 'opacity-50')}>
-                  {ready ? (
-                    <>
-                      <p className="text-sm">{ready.hypothesis}</p>
-                      <dl className="mt-3 space-y-2 text-xs">
-                        <div><dt className="text-muted-foreground">Targets</dt><dd>{ready.targets.join(', ')}</dd></div>
-                        <div><dt className="text-muted-foreground">Modality</dt><dd>{ready.modality}</dd></div>
-                        <div><dt className="text-muted-foreground">Constraints</dt><dd>{ready.constraints.join('; ')}</dd></div>
-                      </dl>
-                    </>
-                  ) : (
-                    <p className="flex items-center gap-2 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" aria-hidden /> Writing profile…</p>
-                  )}
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      )}
+      {state.stages.profiles === 'pending' ? <EmptyStage view="profiles" /> : <ProfileGrid />}
       <StepNav view="profiles" />
     </div>
   )
