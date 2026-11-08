@@ -43,13 +43,20 @@ from agent.config import CACHE_DIR, DEFAULT_PATIENT, LANGSMITH_PROJECT, MAX_CONC
 from agent.llm import claude, structured
 from agent.privacy import identifier_terms, load_record, redact
 from agent.report_pdf import render as render_pdf
-from agent.schemas import DrugDossier, DrugReport, FinalAssessment, ReportDrug, Source
+from agent import pubmed
+from agent.schemas import DrugDossier, DrugReport, FinalAssessment, Paper, Reference, ReportDrug, Source
 
 MAX_DRUGS = int(os.getenv("AGENT_ASSESS_MAX_DRUGS", "12"))
 SEARCHES_PER_DRUG = int(os.getenv("AGENT_ASSESS_SEARCHES_PER_DRUG", "4"))
 ORCHESTRATOR_SEARCHES = int(os.getenv("AGENT_ASSESS_FOLLOWUPS", "6"))
+PUBMED_SEARCHES = int(os.getenv("AGENT_ASSESS_PUBMED_SEARCHES", "12"))  # orchestrator pubmed_search calls
 TIMEOUT_S = float(os.getenv("AGENT_ASSESS_TIMEOUT_S", "1500"))  # ~20 drugs at 8 in parallel
-WEB_SEARCH = "web_search_20260209"
+
+
+def web_search_tool(model: str) -> str:
+    # Dynamic filtering (20260209) is Opus/Sonnet only; Haiku accepts that version
+    # but runs no searches, so it gets the basic tool.
+    return "web_search_20250305" if "haiku" in model else "web_search_20260209"
 
 
 def _emit(event: dict) -> None:
@@ -172,7 +179,7 @@ def latest_research(patient_id: str) -> str:
 # ── web search (Claude's server tool) ───────────────────────────────────────
 async def web_search(prompt: str, max_uses: int, run_name: str) -> tuple[str, list[dict], list[str]]:
     """One Sonnet turn with web search. Returns (answer text, sources, queries)."""
-    model = claude(SUBAGENT_MODEL, "low").bind_tools([{"type": WEB_SEARCH, "name": "web_search", "max_uses": max_uses}])
+    model = claude(SUBAGENT_MODEL, "low").bind_tools([{"type": web_search_tool(SUBAGENT_MODEL), "name": "web_search", "max_uses": max_uses}])
     messages = [HumanMessage(prompt)]
     text, sources, queries = [], {}, []
     for _ in range(3):  # pause_turn: send the turn back and the server resumes
@@ -198,10 +205,12 @@ async def web_search(prompt: str, max_uses: int, run_name: str) -> tuple[str, li
 
 
 DOSSIER_PROMPT = """Research the drug "{name}"{id_note} for a clinical team assessing it for ALS (amyotrophic lateral sclerosis).
-Use web search. Prefer FDA/Health Canada labels, DailyMed, DrugBank, PubMed, ClinicalTrials.gov, and peer-reviewed reviews.
+Use web search. Prefer PubMed (pubmed.ncbi.nlm.nih.gov) records for every scientific claim, then FDA/Health Canada labels,
+DailyMed, DrugBank and ClinicalTrials.gov.
 Find: mechanism of action and main molecular targets; approved indications; every human ALS trial you can find
 (NCT id or name, phase, size, outcome) and notable preclinical ALS evidence; formulations (tablet, liquid, IV,
-intrathecal...); CNS penetration; common adverse effects; serious risks (respiratory depression, QT prolongation,
+intrathecal...); CNS penetration in detail (brain/plasma or CSF/plasma ratio, P-glycoprotein/BCRP efflux, molecular
+weight, polarity, any focused-ultrasound or BBB-opening delivery studies); common adverse effects; serious risks (respiratory depression, QT prolongation,
 hepatotoxicity, boxed warnings); CYP metabolism and major interactions; contraindications; approval and availability
 in Canada and the US; rough cost or coverage.
 Write a dense factual brief. Say plainly when something wasn't found. Don't make recommendations."""
@@ -222,15 +231,129 @@ async def dossier(payload: dict) -> dict:
              HumanMessage(f"Drug: {drug['name']}\n\nNotes:\n{text}\n\nSearch result URLs:\n{listing}")],
             config={"run_name": f"drug researcher: {drug['name']} (structure)"},
         )
+        d.papers = await asyncio.to_thread(drug_papers, drug["name"], [s["url"] for s in sources])
         known = {s["url"] for s in sources}
         d.sources = [s for s in d.sources if s.url in known] or [Source(**s) for s in sources[:5]]
         d.name = drug["name"]
-        _emit({"type": "drug_research_finished", "criterion": drug["name"], "data": {"index": i, "searches": len(queries), "sources": len(d.sources), "seconds": round(time.monotonic() - t0, 1)}})
+        _emit({"type": "drug_research_finished", "criterion": drug["name"], "data": {"index": i, "searches": len(queries), "sources": len(d.sources), "papers": len(d.papers), "seconds": round(time.monotonic() - t0, 1)}})
         return {"dossiers": [(i, d.model_dump())], "searches": len(queries)}
     except Exception as e:
         msg = f"{type(e).__name__}: {e}"[:300]
         _emit({"type": "drug_research_failed", "criterion": drug["name"], "data": {"index": i, "error": msg}})
         return {"dossiers": [(i, DrugDossier(name=drug["name"], mechanism="", als_evidence=f"Research failed: {msg}").model_dump())], "failures": [drug["name"]]}
+
+
+def drug_papers(name: str, urls: list[str]) -> list[Paper]:
+    """PubMed records for one drug: ALS, CNS-exposure and safety papers, and any PubMed
+    pages the web search hit. Queries hold the drug name only."""
+    found: dict[str, dict] = {}
+    queries = [f"{name}[tiab] AND (amyotrophic lateral sclerosis[tiab] OR motor neuron disease[tiab])",
+               f"{name}[tiab] AND (blood-brain barrier[tiab] OR cerebrospinal fluid[tiab] OR brain penetration[tiab] OR focused ultrasound[tiab])",
+               f"{name}[tiab] AND (adverse effects[sh] OR toxicity[tiab] OR drug interactions[mh] OR safety[tiab])"]
+    try:
+        for q, n in zip(queries, (6, 3, 3)):
+            for r in pubmed.search(q, n):
+                found.setdefault(r["pmid"], r)
+        for pmid, r in pubmed.summaries(pubmed.pmids_in_urls(urls)).items():
+            found.setdefault(pmid, r)
+    except httpx.HTTPError:
+        pass  # citations are best-effort; the report says when a claim has none
+    return [Paper(**r) for r in found.values()]
+
+
+# Background the summary needs whatever the drug list is; seeded into the citable set.
+BACKGROUND_QUERIES = [
+    "focused ultrasound blood-brain barrier opening amyotrophic lateral sclerosis motor cortex first-in-human",
+    "Pardridge blood-brain barrier bottleneck brain drug development",
+    "focused ultrasound blood-brain barrier opening drug delivery clinical review",
+]
+STATIC_REFS = {"DRKG": {"citation": "Ioannidis VN, et al. DRKG - Drug Repurposing Knowledge Graph for COVID-19. 2020.", "url": "https://github.com/gnn4dr/DRKG"}}
+_CITE = re.compile(r"\[((?:\s*(?:PMID|REF)\s*:?\s*[\w-]+\s*[,;]?)+)\]", re.I)
+
+
+def resolve_citations(texts: list[str], papers: dict[str, dict]) -> tuple[list[str], list[Reference], int]:
+    """[PMID:123][PMID:456] → [1, 2] in order of first use. PMIDs the agent never saw
+    in a fact sheet or a pubmed_search result are dropped, not trusted."""
+    refs: dict[str, Reference] = {}
+    dropped = 0
+
+    def num(key: str) -> int | None:
+        if key not in refs:
+            if key.startswith("REF:") and key[4:] in STATIC_REFS:
+                info = STATIC_REFS[key[4:]]
+                refs[key] = Reference(n=len(refs) + 1, **info)
+            elif key in papers:
+                refs[key] = Reference(n=len(refs) + 1, citation=papers[key]["citation"], url=papers[key]["url"], pmid=key)
+            else:
+                return None
+        return refs[key].n
+
+    def sub(m: re.Match) -> str:
+        nonlocal dropped
+        keys = []
+        for kind, val in re.findall(r"(PMID|REF)\s*:?\s*([\w-]+)", m.group(1), re.I):
+            keys.append(f"REF:{val.upper()}" if kind.upper() == "REF" else val)
+        ns = []
+        for k in keys:
+            n = num(k)
+            if n is None:
+                dropped += 1
+            elif n not in ns:
+                ns.append(n)
+        return f"[{', '.join(map(str, sorted(ns)))}]" if ns else ""
+
+    def clean(t: str) -> str:
+        t = _CITE.sub(lambda m: " " + sub(m), t)
+        t = re.sub(r"\s+\[", " [", t)  # one space before a marker
+        t = re.sub(r"\s+([.,;:])", r"\1", t)  # no space before punctuation left by a dropped marker
+        t = re.sub(r"\]\s*\[", ", ", t)  # [1] [2] -> [1, 2]
+        return re.sub(r"  +", " ", t).strip()
+
+    out = [clean(t) if t else t for t in texts]
+    return out, sorted(refs.values(), key=lambda r: r.n), dropped
+
+
+WEIGHTS = {"mechanistic_fit": 2, "delivery_gain": 3, "safety": 1, "cost": 0.5, "availability": 0.5, "acceptance": 1}
+NOVEL_BONUS = 5  # the point of MRgFUS is reaching drugs nobody could test in the CNS before
+
+
+def score(c: dict, novelty: str = "") -> int:
+    """0-100. Delivery gain outweighs everything: a cheap oral drug that already crosses
+    the BBB shouldn't outrank one that only MRgFUS can get to the motor neurons."""
+    base = sum(w * c[k] for k, w in WEIGHTS.items()) / (10 * sum(WEIGHTS.values())) * 100
+    return min(100, round(base + (NOVEL_BONUS if novelty == "novel" else 0)))
+
+
+def patient_context(record: dict, now: datetime) -> dict:
+    """Header facts for the clinician-facing report (the report is the clinician's; the
+    record never leaves this process except here)."""
+    ident, dx, f = record.get("identifiers", {}), record.get("diagnosis", {}), record.get("function", {})
+    def months(ym: str) -> str:
+        try:
+            y, m = map(int, ym[:7].split("-"))
+            return str((now.year - y) * 12 + now.month - m)
+        except ValueError:
+            return "?"
+    age = ""
+    if ident.get("date_of_birth"):
+        y, m, d = map(int, ident["date_of_birth"].split("-"))
+        age = f"{now.year - y - ((now.month, now.day) < (m, d))} y, "
+    alsfrs = (f.get("ALSFRS_R") or {}).get("total")
+    lines = [
+        f"{age}{dx.get('onset_site', '?')} onset, {months(dx.get('diagnosed', ''))} months since diagnosis "
+        f"({months(dx.get('symptom_onset', ''))} since symptom onset); ALSFRS-R {alsfrs}/48, slope {f.get('ALSFRS_R_slope_per_month')} pts/month; "
+        f"FVC {f.get('FVC_sitting_pct')}% sitting / {f.get('FVC_supine_pct')}% supine.",
+        "Genetics: " + ", ".join(f"{k} {v}" for k, v in record.get("genetics", {}).items()) + ".",
+        "Current medication: " + "; ".join(f"{m['name']} {m.get('dose', '')}".strip() for m in record.get("medications", [])) +
+        ". Allergies: " + ("; ".join(record.get("allergies", [])) or "none recorded") + ".",
+        "Labs: " + "; ".join(f"{l['test']} {l['value']} {l['unit']}" for l in record.get("labs", [])) + ".",
+        "Symptoms: " + "; ".join(f"{s['name']} {s['severity']}/5" for s in record.get("symptoms", [])) +
+        (f". Weight {f['weight_kg']['baseline']} -> {f['weight_kg']['current']} kg" if f.get("weight_kg") else "") +
+        (f"; swallowing: {f['swallowing']}" if f.get("swallowing") else "") + ".",
+        " · ".join(x for x in (", ".join(v for v in (ident.get("city"), ident.get("province")) if v), f"Goals: {record['goals']}" if record.get("goals") else "") if x),
+    ]
+    return {"name": ident.get("full_name", ""), "headline": f"{dx.get('onset_site', '').split(' (')[0].capitalize()} onset, ALSFRS-R {alsfrs}/48",
+            "context": [l for l in lines if l.strip(". ")]}
 
 
 # ── graph ───────────────────────────────────────────────────────────────────
@@ -266,23 +389,44 @@ def fan_out(state: State) -> list[Send]:
 
 
 ASSESS = """You are the lead clinician-scientist on an ALS drug-repurposing team. You can see the patient's record.
-A drug pipeline proposed the drugs below; researchers wrote a fact sheet for each from web search (they never saw the patient).
-An earlier research step described target profiles: what an ideal drug should do for this patient's ALS mechanisms and symptoms.
+A discovery pipeline proposed the drugs below; researchers wrote a fact sheet for each from web search and PubMed
+(they never saw the patient). An earlier research step described target profiles: what an ideal drug should do.
 
-Your job: compare each drug against THIS patient and rank them, best fit first. For each drug:
-- matched_profiles: which target profiles it fits ("M3: SOD1 reduce_expression"); empty if none.
-- symptoms_addressed: this patient's actual symptoms/problems it could help, from the record.
-- pros and cons, concrete and specific to this patient.
-- patient_specific_risks: interactions with their current medications (check CYP and pharmacodynamic overlap),
-  their pharmacogenomics, labs (QTc, liver, kidney), and function (swallowing → formulation; breathing → sedation/respiratory depression).
-- verdict, fit_score, evidence_strength, monitoring, rationale.
-- source_urls: URLs from the fact sheets or your web_research results only.
+THE DELIVERY STRATEGY DRIVES THE RANKING. This team pairs the drug with MRI-guided focused ultrasound (MRgFUS), which
+opens the blood-brain barrier transiently at a chosen site (motor cortex, brainstem, spinal cord). Rank by what the
+combination unlocks, not by what the drug does alone:
+- Prioritise drugs with a CNS-relevant mechanism for this patient's ALS that are POORLY BBB-penetrant on their own
+  (efflux substrates, large or polar molecules, peptides, biologics): that's where MRgFUS adds value (high delivery_gain).
+- Give extra weight to NOVEL leads with a plausible mechanism. novel means NO human ALS trial of this exact drug, in
+  any phase or status; a registered or completed trial with unreported results is tested_in_als, and trials of a related
+  drug (gabapentin for GABA) don't count against it. a drug that already failed in
+  ALS at full CNS exposure is a weak bet, one that never reached the motor neurons is an open question.
+- A drug that crosses the BBB well gains little (low delivery_gain). Purely peripheral symptomatic drugs can stay but
+  say they're adjuncts outside the delivery strategy.
+- Safety still vetoes: opening the BBB raises CNS exposure, so weigh CNS toxicity, seizure risk, narrow therapeutic windows.
+- Mark not_recommended any drug that doesn't fit this patient (wrong genotype, already prescribed, failed in ALS with
+  adequate exposure, unsafe here); its headline is the one-line exclusion reason.
 
-You have a `web_research` tool for follow-up questions the fact sheets don't answer (e.g. a specific interaction).
-Ask about drugs and conditions only; patient identifiers are removed before searching anyway. Use it at most {n} times.
-Rank every drug. Treat the pipeline notes as hints, not verdicts. Be honest about weak evidence:
-a drug that failed ALS trials should say so in cons. Refer to the patient by name or as they/them unless the record
-states their pronouns. This is a research aid for a clinician, not medical advice."""
+CITATIONS ARE REQUIRED. Every factual claim in summary, headline, rationale, evidence, safety and limitations ends with
+[PMID:12345678] markers. Use only PMIDs that appear in the fact sheets' "papers", the background papers, or your
+pubmed_search results; anything else is deleted from the report. Before answering, use pubmed_search (NCBI PubMed)
+for the top candidates' claims the fact sheets' papers don't back: the ALS trial behind an evidence line, a serious
+risk or interaction in a safety line, a CNS-exposure or BBB measurement. An evidence or safety line for a ranked
+candidate should not go uncited when PubMed has a paper for it; the fact sheets' papers include safety and
+CNS-exposure records for exactly this, so cite them in rationale and safety lines too.
+At most {p} pubmed_search calls and {n} web_research calls; query drugs and conditions only, never the patient.
+In summary, cite the MRgFUS-in-ALS and BBB background papers and refer to the knowledge graph as [REF:DRKG].
+
+Per drug: criteria (0-10 each; the report score is computed from them: delivery gain x3, mechanistic fit x2, safety x1,
+acceptance x1, cost and availability x0.5, novel leads +5; make your summary's top picks agree with that),
+drug_class, molecular_size, bbb_penetration, fus_delivery, novelty, matched_profiles (profile labels), headline, rationale,
+and one line each for evidence, safety (include interactions with current meds, pharmacogenomics, labs, and function:
+swallowing -> formulation, breathing -> sedation), cost, availability (Canada first), acceptance (route/schedule vs the
+patient's goals and preferences). Rank every drug. Treat pipeline notes as hints, not verdicts. Refer to the patient by
+name or as they/them unless the record states their pronouns. This is a research aid for a clinician, not medical advice."""
+
+CRITERIA_TEXT = ("MRgFUS delivery gain (x3), Mechanistic fit (x2), Safety & interactions, Patient acceptance, "
+                 "Cost (x0.5), Availability & regulation (x0.5); novel leads +5")
 
 
 async def assess(state: State) -> State:
@@ -290,46 +434,116 @@ async def assess(state: State) -> State:
     dossiers = [d for _, d in sorted(state.get("dossiers", []), key=lambda x: x[0])]
     terms = identifier_terms(record)
     seen_urls = {s["url"] for d in dossiers for s in d.get("sources", [])}
-    budget = {"left": ORCHESTRATOR_SEARCHES, "searches": 0, "redactions": 0}
+    papers: dict[str, dict] = {p["pmid"]: p for d in dossiers for p in d.get("papers", [])}  # the citable set
+    budget = {"left": ORCHESTRATOR_SEARCHES, "pubmed_left": PUBMED_SEARCHES, "searches": 0, "pubmed": 0, "redactions": 0}
+
+    background: list[dict] = []
+    for q in BACKGROUND_QUERIES:
+        try:
+            background += await asyncio.to_thread(pubmed.search, q, 3)
+        except httpx.HTTPError:
+            pass
+    background = list({p["pmid"]: p for p in background}.values())
+    papers.update({p["pmid"]: p for p in background})
 
     @tool
     async def web_research(question: str) -> str:
         """Search the web to answer one specific question about a drug, an interaction, or ALS evidence.
         Returns a short answer with source URLs."""
         if budget["left"] <= 0:
-            return "Search budget used up. Answer from what you have."
+            return "Web search budget used up. Answer from what you have."
         budget["left"] -= 1
         safe, n = redact(question, terms)
         budget["redactions"] += n
         _emit({"type": "web_research", "data": {"question": safe, "redactions": n}})
-        text, sources, queries = await web_search(f"Answer concisely with facts and sources: {safe}", 3, "orchestrator: web_research")
+        text, sources, queries = await web_search(f"Answer concisely with facts and sources, preferring PubMed records: {safe}", 3, "orchestrator: web_research")
         budget["searches"] += len(queries)
         seen_urls.update(s["url"] for s in sources)
-        return text + "\n\nSources:\n" + "\n".join(s["url"] for s in sources[:8])
+        found = await asyncio.to_thread(pubmed.summaries, pubmed.pmids_in_urls([s["url"] for s in sources]))
+        papers.update(found)
+        cites = "\n".join(f"PMID:{p['pmid']} {p['citation']}" for p in found.values())
+        return text + "\n\nSources:\n" + "\n".join(s["url"] for s in sources[:8]) + (f"\n\nCitable PubMed records:\n{cites}" if cites else "")
+
+    @tool
+    async def pubmed_search(query: str) -> str:
+        """Search NCBI PubMed. Returns up to 6 papers as 'PMID:<id> <citation>'; cite them as [PMID:<id>].
+        Use PubMed syntax, e.g. 'tocilizumab AND amyotrophic lateral sclerosis'."""
+        if budget["pubmed_left"] <= 0:
+            return "PubMed budget used up. Cite what you already have."
+        budget["pubmed_left"] -= 1
+        safe, n = redact(query, terms)
+        budget["redactions"] += n
+        _emit({"type": "pubmed_search", "data": {"query": safe, "redactions": n}})
+        try:
+            found = await asyncio.to_thread(pubmed.search, safe, 6)
+        except httpx.HTTPError as e:
+            return f"PubMed error: {e}"
+        budget["pubmed"] += 1
+        papers.update({p["pmid"]: p for p in found})
+        return "\n".join(f"PMID:{p['pmid']} {p['citation']}" for p in found) or "No PubMed results; try broader terms."
 
     research = state.get("research") or {}
     profiles = [{"criterion": p["criterion"], "label": p["criterion_label"], "goal": p["therapeutic_goal"],
                  "targets": [f"{t['symbol']}:{t['desired_action']}" for t in p["molecular_targets"]],
                  "constraints": p.get("constraints_text", "")} for p in research.get("profiles", [])]
-    listing = [{"index": i, "pipeline_notes": drugs[i].get("notes", ""), "fact_sheet": d} for i, d in enumerate(dossiers)]
-    agent = create_agent(claude(ORCHESTRATOR_MODEL), [web_research], system_prompt=ASSESS.format(n=ORCHESTRATOR_SEARCHES),
+    listing = [{"index": i, "pipeline_notes": drugs[i].get("notes", ""),
+                "fact_sheet": {**{k: v for k, v in d.items() if k != "papers"},
+                               "papers": [f"PMID:{p['pmid']} {p['citation']}" for p in d.get("papers", [])]}}
+               for i, d in enumerate(dossiers)]
+    bg = "\n".join(f"PMID:{p['pmid']} {p['citation']}" for p in background) or "(none found)"
+    agent = create_agent(claude(ORCHESTRATOR_MODEL), [web_research, pubmed_search],
+                         system_prompt=ASSESS.format(n=ORCHESTRATOR_SEARCHES, p=PUBMED_SEARCHES),
                          response_format=ProviderStrategy(FinalAssessment), name="orchestrator_assess")
     out = await agent.ainvoke(
-        {"messages": [HumanMessage(f"Patient record:\n{json.dumps(record, indent=1)}\n\nTarget profiles:\n{json.dumps(profiles, indent=1)}\n\nDrugs:\n{json.dumps(listing, indent=1)}")]},
-        config={"run_name": "orchestrator: assess", "recursion_limit": 4 * ORCHESTRATOR_SEARCHES + 10},
+        {"messages": [HumanMessage(f"Patient record:\n{json.dumps(record, indent=1)}\n\nTarget profiles:\n{json.dumps(profiles, indent=1)}\n\n"
+                                   f"Background papers:\n{bg}\n\nDrugs:\n{json.dumps(listing, indent=1)}")]},
+        config={"run_name": "orchestrator: assess", "recursion_limit": 4 * (ORCHESTRATOR_SEARCHES + PUBMED_SEARCHES) + 10},
     )
     final: FinalAssessment = out["structured_response"]
 
-    order = [r for r in final.ranked if 0 <= r.index < len(dossiers)]
-    order = list({r.index: r for r in order}.values())
+    # One revision pass: candidate lines that state facts with no citation go back once.
+    uncited = [f"index {r.index} {f}: {getattr(r, f)}" for r in final.ranked if r.verdict != "not_recommended"
+               for f in ("rationale", "evidence", "safety") if getattr(r, f) and "[PMID" not in getattr(r, f).upper()]
+    if uncited:
+        _emit({"type": "citation_revision", "data": {"uncited_lines": len(uncited)}})
+        out = await agent.ainvoke(
+            {"messages": out["messages"] + [HumanMessage(
+                "These lines have no [PMID:n] citation:\n" + "\n".join(uncited) +
+                "\n\nReturn the full assessment again with the same ranking and scores. For each line, cite PMIDs from the "
+                "fact sheets' papers (they include safety and CNS-exposure records) or your pubmed_search results; "
+                "if no paper supports a claim, cut the claim or say it is unreferenced.")]},
+            config={"run_name": "orchestrator: citation revision", "recursion_limit": 4 * PUBMED_SEARCHES + 10},
+        )
+        final = out["structured_response"]
+
+    order = list({r.index: r for r in final.ranked if 0 <= r.index < len(dossiers)}.values())
+    # Candidates by computed score, then exclusions; the printed score always matches the order.
+    order.sort(key=lambda r: (r.verdict == "not_recommended", -score(r.criteria.model_dump(), r.novelty)))
     dropped_urls = 0
     ranked = []
     for rank, r in enumerate(order, 1):
         urls = [u for u in r.source_urls if u in seen_urls]
         dropped_urls += len(r.source_urls) - len(urls)
-        ranked.append(ReportDrug(**{**r.model_dump(), "source_urls": urls}, rank=rank, name=drugs[r.index]["name"],
-                                 drug_id=drugs[r.index].get("id", ""), pipeline_notes=drugs[r.index].get("notes", ""),
-                                 dossier=DrugDossier(**dossiers[r.index])))
+        ranked.append(ReportDrug(**{**r.model_dump(), "source_urls": urls}, rank=rank, score=score(r.criteria.model_dump(), r.novelty),
+                                 name=drugs[r.index]["name"], drug_id=drugs[r.index].get("id", ""),
+                                 pipeline_notes=drugs[r.index].get("notes", ""), dossier=DrugDossier(**dossiers[r.index])))
+
+    labels = list(dict.fromkeys(p["criterion_label"] for p in research.get("profiles", [])))
+    from_graph = any('"pipeline"' in d.get("notes", "") for d in drugs)
+    method = ((f"Profiles: {' · '.join(labels)}. " if labels else "") +
+              (f"Candidates came from the discovery pipeline's matches in the DRKG knowledge graph [REF:DRKG]; " if from_graph else "Candidates came from the supplied drug list; ") +
+              "each was researched on the web and in PubMed by a separate agent that never saw the patient, then scored for this patient. "
+              f"Ranking criteria: {CRITERIA_TEXT}.")
+
+    # One pass over every text field so reference numbers follow reading order.
+    fields = ("headline", "rationale", "evidence", "safety", "cost", "availability", "acceptance")
+    texts = [final.summary, method] + [getattr(d, f) for d in ranked for f in fields] + [final.limitations]
+    texts, references, dropped_cites = resolve_citations(texts, papers)
+    summary, method, limitations = texts[0], texts[1], texts[-1]
+    for i, d in enumerate(ranked):
+        for j, f in enumerate(fields):
+            setattr(d, f, texts[2 + i * len(fields) + j])
+
     missing = [drugs[i]["name"] for i in range(len(dossiers)) if i not in {r.index for r in order}]
     warnings = ["Research aid for a clinician, not medical advice."]
     if missing:
@@ -338,15 +552,20 @@ async def assess(state: State) -> State:
         warnings.append(f"Web research failed for: {', '.join(state['failures'])}")
     if dropped_urls:
         warnings.append(f"{dropped_urls} cited URL(s) dropped: not in any search result")
+    if dropped_cites:
+        warnings.append(f"{dropped_cites} citation(s) dropped: PMID not seen in any PubMed result")
+    now = datetime.now(timezone.utc)
     report = DrugReport(
-        run_id=state["run_id"], created_at=datetime.now(timezone.utc).isoformat(),
-        patient_id=state.get("patient_id") or DEFAULT_PATIENT, drugs_source=state.get("drugs_path", "inline"),
-        research_run_id=state.get("research_run_id", ""),
+        run_id=state["run_id"], created_at=now.isoformat(),
+        patient_id=state.get("patient_id") or DEFAULT_PATIENT, patient=patient_context(record, now), method=method,
+        drugs_source=state.get("drugs_path", "inline"), research_run_id=state.get("research_run_id", ""),
         models={"orchestrator": ORCHESTRATOR_MODEL, "researcher": SUBAGENT_MODEL},
         langsmith_project=LANGSMITH_PROJECT if tracing_enabled() else None,
-        summary=final.summary, drugs=ranked, comparison_notes=final.comparison_notes, open_questions=final.open_questions,
+        summary=summary, drugs=ranked, limitations=limitations, references=references,
         web={"researcher_searches": state.get("searches", 0), "followup_questions": ORCHESTRATOR_SEARCHES - budget["left"],
-             "followup_searches": budget["searches"], "query_redactions": budget["redactions"], "dropped_urls": dropped_urls},
+             "followup_searches": budget["searches"], "pubmed_searches": budget["pubmed"], "papers_seen": len(papers),
+             "references": len(references), "dropped_citations": dropped_cites, "query_redactions": budget["redactions"],
+             "dropped_urls": dropped_urls},
         warnings=warnings,
     ).model_dump()
     _emit({"type": "report", "data": report})
@@ -392,7 +611,7 @@ async def main(argv: list[str]) -> None:
             pdf.write_bytes(render_pdf(e["data"]))
             print(f"\n=== report -> {pdf}")
             for d in e["data"]["drugs"]:
-                print(f"  {d['rank']}. {d['name']:<16} {VERDICT[d['verdict']]:<18} fit {d['fit_score']:.2f}")
+                print(f"  {d['rank']}. {d['name']:<22} {VERDICT[d['verdict']]:<18} {d['score']}/100  BBB {d['bbb_penetration']}")
         else:
             print(f"[{e['type']}] {e.get('criterion', '')} {json.dumps(e.get('data'))[:160]}")
 

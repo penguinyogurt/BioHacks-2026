@@ -2,6 +2,7 @@
 from typing import Literal
 
 from pydantic import BaseModel, Field
+from pydantic.json_schema import SkipJsonSchema
 
 
 # ── patient record (parsed from a chart PDF; orchestrator-only) ─────────────
@@ -192,32 +193,67 @@ class DrugDossier(BaseModel):
     availability: str = Field("", description="Approval status and availability in Canada and the US")
     cost: str = Field("", description="Rough cost / coverage, if found")
     sources: list[Source] = Field(default_factory=list, description="Only URLs that appeared in the search results")
+    papers: SkipJsonSchema[list["Paper"]] = Field(default_factory=list)  # filled by code from PubMed, hidden from the model
+
+
+CITE = "Back factual claims with [PMID:12345678] markers, only for PMIDs listed in the fact sheets' papers or returned by pubmed_search."
+
+
+class Criteria(BaseModel):
+    """0-10 each; the report score is computed from these (assess.WEIGHTS)."""
+    mechanistic_fit: int = Field(ge=0, le=10, description="Fit to this patient's ALS mechanisms / target profiles")
+    delivery_gain: int = Field(ge=0, le=10, description="How much MRgFUS BBB opening adds: 10 = CNS mechanism but excluded from the CNS unaided; 0 = crosses freely or no CNS role")
+    safety: int = Field(ge=0, le=10, description="Safety and interactions for THIS patient (10 = safest)")
+    cost: int = Field(ge=0, le=10, description="10 = cheap / covered")
+    availability: int = Field(ge=0, le=10, description="10 = marketed in Canada, easy access")
+    acceptance: int = Field(ge=0, le=10, description="Fits the patient's goals, function (swallowing, breathing) and stated preferences")
 
 
 class AssessedDrug(BaseModel):
     index: int = Field(description="Index into the dossiers list")
     verdict: Literal["strong_candidate", "worth_discussing", "use_with_caution", "not_recommended"]
-    fit_score: float = Field(ge=0, le=1, description="How well it fits THIS patient, 0-1")
+    criteria: Criteria
+    drug_class: str = Field(description="Short class/modality, e.g. 'IL-1 receptor antagonist (recombinant protein)'")
+    molecular_size: str = Field(description="Molecular weight, e.g. '17 kDa' or '914 Da'; 'unknown' if not found")
     evidence_strength: Literal["approved_for_als", "human_als_positive", "human_als_mixed_or_negative", "preclinical_als", "mechanistic_only"]
-    matched_profiles: list[str] = Field(default_factory=list, description="Target profiles it matches, as 'criterion id: target action'")
-    symptoms_addressed: list[str] = Field(default_factory=list, description="This patient's symptoms or problems it could help")
-    pros: list[str]
-    cons: list[str]
-    patient_specific_risks: list[str] = Field(default_factory=list, description="Interactions with current meds, genetics, labs, function (e.g. swallowing, breathing)")
-    monitoring: list[str] = Field(default_factory=list, description="What a clinician would monitor if tried")
-    rationale: str = Field(description="2-4 sentences: why this rank for this patient")
-    source_urls: list[str] = Field(default_factory=list, description="URLs from the dossiers or web_research results backing this assessment")
+    bbb_penetration: Literal["very_low", "low", "moderate", "high", "unknown"] = Field(description="How well it crosses the blood-brain barrier unaided")
+    fus_delivery: str = Field(description="Few words on MRgFUS, e.g. 'Requires BBB opening', 'Motor-cortex delivery plausible', 'Adds little: crosses unaided'")
+    novelty: Literal["novel", "tested_in_als", "established_als_care"] = Field(description="novel = no human ALS trial of this exact drug in any phase or status; a completed trial with unreported results is tested_in_als")
+    matched_profiles: list[str] = Field(default_factory=list, description="Target-profile labels it matches, e.g. 'Cytokine neuroinflammation'")
+    headline: str = Field(description="One sentence; for not_recommended drugs this is the exclusion reason. " + CITE)
+    rationale: str = Field(description="2-3 sentences: mechanism, why it fits this patient, and what MRgFUS delivery would add. " + CITE)
+    evidence: str = Field(description="One line on the ALS evidence. " + CITE)
+    safety: str = Field(description="One-two lines: key risks, interactions with current meds, labs/function to monitor for this patient. " + CITE)
+    cost: str = Field(description="One line")
+    availability: str = Field(description="One line, Canada first")
+    acceptance: str = Field(description="One line: route/schedule vs this patient's goals, swallowing and preferences")
+    source_urls: list[str] = Field(default_factory=list, description="Non-PubMed URLs from the fact sheets or web_research backing this assessment")
 
 
 class FinalAssessment(BaseModel):
-    summary: str = Field(description="4-6 sentence overview for the clinician")
-    ranked: list[AssessedDrug] = Field(description="Every drug, best fit first")
-    comparison_notes: str = Field(description="How the top options compare and combine, including overlaps and conflicts")
-    open_questions: list[str] = Field(default_factory=list, description="What a clinician should check before acting")
+    summary: str = Field(description="4-6 sentences: the delivery rationale (why poorly BBB-penetrant drugs + MRgFUS), how candidates were found, and the top candidates. " + CITE)
+    ranked: list[AssessedDrug] = Field(description="Every drug, best first")
+    limitations: str = Field(description="2-4 sentences specific to this run's evidence gaps. " + CITE)
+
+
+class Paper(BaseModel):
+    pmid: str
+    title: str = ""
+    year: str = ""
+    citation: str = ""
+    url: str = ""
+
+
+class Reference(BaseModel):
+    n: int
+    citation: str
+    url: str
+    pmid: str = ""
 
 
 class ReportDrug(AssessedDrug):
     rank: int
+    score: int = Field(description="0-100, computed from criteria")
     name: str
     drug_id: str = ""
     pipeline_notes: str = ""
@@ -228,13 +264,18 @@ class DrugReport(BaseModel):
     run_id: str
     created_at: str
     patient_id: str
+    patient: dict = Field(default_factory=dict, description="name, headline, context lines for the report header")
+    method: str = ""
     drugs_source: str
     research_run_id: str
     models: dict[str, str]
     langsmith_project: str | None
     summary: str
     drugs: list[ReportDrug]
-    comparison_notes: str
-    open_questions: list[str]
+    limitations: str = ""
+    references: list[Reference] = Field(default_factory=list)
     web: dict[str, int]
     warnings: list[str]
+
+
+DrugDossier.model_rebuild()

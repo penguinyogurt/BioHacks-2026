@@ -1,4 +1,4 @@
-"""DrugReport → PDF, the final deliverable for the clinician.
+"""DrugReport → PDF discovery report (layout follows the Addo Labs research-agent template).
 
   python -m agent.report_pdf agent/runs/<run_id>.drugs.json   # → same name, .pdf
 
@@ -7,16 +7,18 @@ letters render. If none is found, it falls back to core Helvetica and replaces
 those characters with ASCII.
 """
 import json
+import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 
 from fpdf import FPDF
-from fpdf.fonts import FontFace
+
+logging.getLogger("fontTools").setLevel(logging.WARNING)  # subsetting chatter
 
 VERDICT = {"strong_candidate": "Strong candidate", "worth_discussing": "Worth discussing", "use_with_caution": "Use with caution", "not_recommended": "Not recommended"}
-# Colour backs up the verdict word and never replaces it.
-TONE = {"strong_candidate": (22, 120, 70), "worth_discussing": (30, 90, 160), "use_with_caution": (170, 110, 0), "not_recommended": (170, 40, 40)}
-INK, MUTED, RULE = (25, 25, 30), (95, 95, 105), (210, 210, 215)
+INK, MUTED, RULE = (25, 25, 30), (110, 110, 118), (215, 215, 220)
+BRAND = "Addo Labs"
 
 _FONTS = [  # (regular, bold, italic)
     ("C:/Windows/Fonts/arial.ttf", "C:/Windows/Fonts/arialbd.ttf", "C:/Windows/Fonts/ariali.ttf"),
@@ -58,8 +60,7 @@ class _PDF(FPDF):
     def footer(self):
         self.set_y(-12)
         self.font(7.5, "", MUTED)
-        self.cell(0, 5, self.t(self.footer_text), align="L")
-        self.cell(0, 5, f"{self.page_no()}/{{nb}}", align="R")
+        self.cell(0, 5, self.t(f"{self.footer_text} · page {self.page_no()} of {{nb}}"), align="C")
 
     def heading(self, text: str, size: float = 13):
         if self.get_y() > self.h - 45:
@@ -87,121 +88,120 @@ class _PDF(FPDF):
             self.multi_cell(self.epw - 6, 4.9, self.t(it))  # wrapped lines hang under the text, not the bullet
         self.ln(1.5)
 
+    def dashes(self, items: list[str]):
+        self.font(9.5)
+        for it in items:
+            self.set_x(self.l_margin)
+            self.cell(4, 4.9, "-")
+            self.multi_cell(self.epw - 4, 4.9, self.t(it))
+        self.ln(1.5)
+
     def rule(self):
         self.set_draw_color(*RULE)
         self.line(self.l_margin, self.get_y(), self.w - self.r_margin, self.get_y())
         self.ln(3)
 
 
-def _pipeline_line(notes: str) -> str:
-    """What the upstream drug pipeline said about this drug, in one line."""
+def _when(iso: str) -> str:
+    """'2026-11-08T07:36:22+00:00' → 'Nov 8, 2026, 2:36 a.m.' in local time."""
     try:
-        n = json.loads(notes) if notes else {}
+        t = datetime.fromisoformat(iso).astimezone()
     except ValueError:
-        return ""
-    if not isinstance(n, dict):
-        return ""
-    parts = [n.get("pipeline", "")]
-    if "rank" in n:
-        parts[0] += f" #{n['rank']}"
-    if n.get("disposition"):
-        parts.append(n["disposition"])
-    score = n.get("internal_ranking_score", n.get("score"))
-    if isinstance(score, (int, float)):
-        parts.append(f"graph score {score:.3f}")
-    return " · ".join(p for p in parts if p)
+        return iso[:16]
+    return f"{t:%b} {t.day}, {t.year}, {t.hour % 12 or 12}:{t:%M} {'a.m.' if t.hour < 12 else 'p.m.'}"
+
+
+BBB = {"very_low": "Very low", "low": "Low", "moderate": "Moderate", "high": "High", "unknown": "Unknown"}
+LINK = (40, 80, 160)
 
 
 def render(report: dict) -> bytes:
-    pid = report["patient_id"]
-    pdf = _PDF(f"Drug assessment · {pid} · run {report['run_id']} · research aid for a clinician, not medical advice")
+    pt = report.get("patient") or {}
+    name = pt.get("name") or report["patient_id"]
+    pdf = _PDF(f"{BRAND} · {name}")
     pdf.alias_nb_pages()
     pdf.add_page()
 
-    pdf.font(20, "B")
-    pdf.multi_cell(0, 9, pdf.t(f"Drug assessment: {pid}"))
-    pdf.font(8.5, "", MUTED)
-    pdf.multi_cell(0, 4.5, pdf.t(f"{report['created_at'][:16].replace('T', ' ')} UTC  ·  run {report['run_id']}  ·  target profiles from {report['research_run_id'] or 'none'}  ·  "
+    pdf.font(8, "B", MUTED)
+    pdf.multi_cell(0, 4.5, pdf.t(f"{BRAND.upper()} · DISCOVERY REPORT"))
+    pdf.ln(1.5)
+    pdf.font(19, "B")
+    pdf.multi_cell(0, 8.5, pdf.t(f"Alternative therapeutic candidates for {name}"))
+    pdf.ln(1)
+    pdf.font(9, "", MUTED)
+    meta = [_when(report["created_at"]), pt.get("headline", ""), "Delivery assumption: MRgFUS blood-brain barrier opening"]
+    pdf.multi_cell(0, 4.6, pdf.t(" · ".join(m for m in meta if m)))
+    src = "inline list" if report["drugs_source"] == "inline" else Path(report["drugs_source"]).name
+    pdf.multi_cell(0, 4.6, pdf.t(f"Case source: {report['patient_id']} record · Drug list: {src} · Run {report['run_id']} · "
                                  f"{report['models'].get('orchestrator', '')} + {report['models'].get('researcher', '')}"))
-    pdf.ln(3)
-
-    pdf.set_fill_color(248, 240, 222)
-    pdf.font(9, "B")
-    pdf.multi_cell(0, 6, pdf.t("Research aid for a clinician, not medical advice. Every drug here needs clinical review before use."), fill=True, padding=(1.5, 3))
-    pdf.ln(3)
+    pdf.ln(2)
+    pdf.rule()
 
     pdf.heading("Summary")
     pdf.para(report["summary"])
 
-    pdf.heading("Ranking")
-    pdf.font(8.5)
-    pdf.set_fill_color(247, 247, 250)  # zebra rows use the current fill colour
-    head = FontFace(emphasis="BOLD", fill_color=(236, 236, 240))
-    with pdf.table(col_widths=(7, 30, 30, 10, 35, 60), text_align=("RIGHT", "LEFT", "LEFT", "RIGHT", "LEFT", "LEFT"),
-                   headings_style=head, line_height=4.6, padding=1.2, borders_layout="HORIZONTAL_LINES",
-                   cell_fill_color=(247, 247, 250), cell_fill_mode="ROWS") as table:
-        table.row([pdf.t(x) for x in ("#", "Drug", "Verdict", "Fit", "Evidence", "Matches target profiles")])
-        for d in report["drugs"]:
-            row = table.row()
-            row.cell(str(d["rank"]))
-            row.cell(pdf.t(d["name"]), style=FontFace(emphasis="BOLD"))
-            row.cell(pdf.t(VERDICT[d["verdict"]]), style=FontFace(color=TONE[d["verdict"]], emphasis="BOLD"))
-            row.cell(f"{d['fit_score']:.2f}")
-            row.cell(pdf.t(d["evidence_strength"].replace("_", " ")))
-            row.cell(pdf.t("; ".join(d["matched_profiles"]) or "-"))
-    pdf.ln(2)
+    if pt.get("context"):
+        pdf.heading("Patient context")
+        pdf.dashes(pt["context"])
 
-    pdf.heading("How they compare")
-    pdf.para(report["comparison_notes"])
+    if report.get("method"):
+        pdf.heading("Method")
+        pdf.para(report["method"])
 
-    for d in report["drugs"]:
-        dz = d["dossier"]
-        pdf.add_page() if pdf.get_y() > pdf.h - 80 else pdf.rule()
-        pdf.font(15, "B")
-        pdf.multi_cell(0, 7, pdf.t(f"{d['rank']}. {d['name']}"))
-        pdf.font(10, "B", TONE[d["verdict"]])
-        pdf.multi_cell(0, 5.5, pdf.t(f"{VERDICT[d['verdict']]}  ·  fit {d['fit_score']:.2f}  ·  evidence: {d['evidence_strength'].replace('_', ' ')}"))
-        pdf.ln(1.5)
-        origin = _pipeline_line(d.get("pipeline_notes", ""))
-        if origin:
-            pdf.para(f"Discovery pipeline: {origin}", 8.5, "I", MUTED)
-        pdf.para(d["rationale"])
-        if dz.get("mechanism"):
-            pdf.para(f"Mechanism: {dz['mechanism']}", 9, "", MUTED)
-        pdf.bullets("Helps with", d["symptoms_addressed"])
-        pdf.bullets("Pros", d["pros"])
-        pdf.bullets("Cons", d["cons"])
-        pdf.bullets("Risks for this patient", d["patient_specific_risks"])
-        pdf.bullets("Monitor", d["monitoring"])
-        pdf.bullets("ALS trials", dz.get("als_trials", []))
-        facts = [f"{k}: {v}" for k, v in (("Formulations", ", ".join(dz.get("formulations", []))), ("CNS penetration", dz.get("cns_penetration")),
-                                           ("Availability", dz.get("availability")), ("Cost", dz.get("cost"))) if v]
-        pdf.bullets("Practicalities", facts)
-        urls = list(dict.fromkeys(d["source_urls"] + [s["url"] for s in dz.get("sources", [])]))[:8]
-        if urls:
-            pdf.font(8.5, "B")
-            pdf.multi_cell(0, 4.5, "Sources")
-            pdf.font(7.5, "", (30, 80, 160))
-            for u in urls:
-                pdf.multi_cell(0, 3.9, pdf.t(u), link=u)
-            pdf.ln(1.5)
+    candidates = [d for d in report["drugs"] if d["verdict"] != "not_recommended"]
+    excluded = [d for d in report["drugs"] if d["verdict"] == "not_recommended"]
+    pdf.heading("Ranked candidates")
+    for i, d in enumerate(candidates, 1):
+        if pdf.get_y() > pdf.h - 60:
+            pdf.add_page()
+        pdf.font(11, "B")
+        title = f"{i}. {d['name']} - {d['drug_class']}" if d.get("drug_class") else f"{i}. {d['name']}"
+        pdf.multi_cell(0, 5.6, pdf.t(f"{title}    {d['score']}/100"))
+        profiles = " · ".join(f"{p} profile" for p in d.get("matched_profiles", [])[:2])
+        bits = [profiles, d.get("molecular_size", ""), f"BBB alone: {BBB.get(d.get('bbb_penetration'), 'Unknown')}",
+                f"With MRgFUS: {d.get('fus_delivery', '')}" if d.get("fus_delivery") else "",
+                "Novel lead" if d.get("novelty") == "novel" else "", VERDICT[d["verdict"]]]
+        pdf.font(8, "", MUTED)
+        pdf.multi_cell(0, 4.2, pdf.t(" · ".join(b for b in bits if b and b != "unknown")))
+        pdf.ln(0.8)
+        pdf.para(d["rationale"], 9.5)
+        for label in ("evidence", "safety", "cost", "availability", "acceptance"):
+            if d.get(label):
+                pdf.set_x(pdf.l_margin + 4)
+                pdf.font(8.8)
+                pdf.multi_cell(pdf.epw - 4, 4.4, pdf.t(f"{label.capitalize()}: {d[label]}"))
+        pdf.ln(2.5)
 
-    if report["open_questions"]:
-        pdf.rule()
-        pdf.heading("Open questions for the clinician")
-        pdf.bullets("", report["open_questions"])
+    if excluded:
+        pdf.heading("Excluded for this patient")
+        pdf.dashes([f"{d['name']} - {d['headline']}" for d in excluded])
 
-    pdf.heading("About this report", 10)
+    pdf.heading("Limitations")
+    pdf.para((report.get("limitations", "") + " " if report.get("limitations") else "") +
+             "Hypothesis-generating output for discussion with the care team, not a treatment recommendation. Knowledge-graph "
+             "similarity reflects graph structure, not demonstrated efficacy. CNS exposure after focused-ultrasound opening has not "
+             "been measured for these drugs, and any use would need a trial or physician-led protocol.")
     web = report.get("web", {})
-    notes = list(report["warnings"]) + [
-        f"Drugs came from: {Path(report['drugs_source']).name if report['drugs_source'] != 'inline' else 'a list given directly'}.",
-        "Each drug was researched on the web by a separate agent that never saw the patient's record; "
-        f"{web.get('researcher_searches', 0)} searches, {web.get('followup_questions', 0)} follow-up questions "
-        f"({web.get('query_redactions', 0)} identifiers removed from them), {web.get('dropped_urls', 0)} unsupported citations dropped.",
-    ]
-    pdf.font(8.5, "", MUTED)
+    notes = [w for w in report["warnings"] if not w.startswith("Research aid")] + [
+        f"Per-drug researchers never saw the patient record: {web.get('researcher_searches', 0)} web searches. "
+        f"Orchestrator: {web.get('pubmed_searches', 0)} PubMed searches, {web.get('followup_questions', 0)} web questions "
+        f"({web.get('query_redactions', 0)} identifiers removed). {web.get('papers_seen', 0)} PubMed records considered; "
+        f"{web.get('dropped_citations', 0)} unverifiable citations removed."]
+    pdf.font(7.8, "", MUTED)
     for n in notes:
-        pdf.multi_cell(0, 4.4, pdf.t(n))
+        pdf.multi_cell(0, 4, pdf.t(n))
+
+    if report.get("references"):
+        pdf.heading("References")
+        for r in report["references"]:
+            if pdf.get_y() > pdf.h - 30:
+                pdf.add_page()
+            pdf.font(8.8)
+            pdf.multi_cell(0, 4.4, pdf.t(f"[{r['n']}] {r['citation']}"))
+            pdf.set_x(pdf.l_margin + 4)
+            pdf.font(7.8, "", LINK)
+            pdf.multi_cell(pdf.epw - 4, 3.9, pdf.t(r["url"]), link=r["url"])
+            pdf.ln(1.6)
     return bytes(pdf.output())
 
 

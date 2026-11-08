@@ -241,6 +241,42 @@ Found while checking (owner: Levi, not changed here):
    ("graph-only supported counts": 29 / 0 / 1 / 0 / 5). The target-profile
    half of the design isn't reaching the ranking yet.
 
+**Status of the five (2026-11-08, Neo):**
+
+1. **Fixed.** Every text-mode `read_text` / `write_text` / `open` /
+   `NamedTemporaryFile` in `query-generation/` and `validation/validate.py`
+   now passes `encoding="utf-8"`. The replay runs on Windows with no
+   `PYTHONUTF8`, and still reproduces the snapshot exactly.
+2. **Fixed by configuration.** `backend/agent/.env` now uses Sonnet 5.5 for the
+   orchestrator and Haiku 5.5 for the sub-agents, so `--agent-env ../agent/.env`
+   finds the replay.
+3. **Kept on purpose.** Non-drug compounds stay in the pool, because the plan
+   is to extend the search to peptides.
+4. **Fixed.** Mecobalamin (DB03614) was added to `als-study-cache.json` and
+   `clinical-reassessment.json` with **both** trials, verified against
+   PubMed: E0302 (PMID 30636701, negative primary endpoints) and JETALS (PMID
+   35532908, positive in early-stage patients). Under the conflict policy it
+   is now `unresolved` and no longer a discovery lead (18 leads).
+5. **Partly fixed. The rest is DRKG coverage.**
+   - `shared/retrieval.py`: `modulate` now maps to unsigned DGIdb
+     modulator / DrugBank target / Hetionet binding relations. It was being
+     dropped as "no signed predicate".
+   - Signed actions are unchanged.
+   - Both sub-agent prompts now require a PubMed paper naming the gene with
+     the action for every target. Before, TARDBP/SQSTM1/VCP were cited only
+     to Open Targets, so the direction gate correctly rejected them.
+   - After a live re-run, the genes agent produces new paper-backed
+     hypotheses (CSNK1E inhibit). Supported counts are still 0 because DRKG
+     has no in-pool drug edge for those targets:
+     - TARDBP has no compound edges at all.
+     - SLC1A2 has no "increases expression" edge.
+     - CSNK1E's 3 inhibitors are outside the pool.
+   - Next step: steer agents toward druggable targets with the
+     `target_profile` tool's `druggable_by`.
+
+Also in `agent/assess.py`: Haiku accepts `web_search_20260209` but runs no
+searches, so Haiku researchers get `web_search_20250305`.
+
 **Integration:** `assess.load_drugs` reads the coordinated report directly
 (`reports/<case>-coordinated.json`). It takes, in order:
 1. `advanced`

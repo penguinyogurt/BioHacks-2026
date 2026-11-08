@@ -122,17 +122,35 @@ class DrugAssessment(unittest.TestCase):
         self.assertEqual([d["name"] for d in drugs], ["Melatonin", "Creatinine", "Testosterone"])  # comparator dropped
         self.assertEqual(json.loads(drugs[1]["notes"])["pipeline"], "discovery lead")
 
+    def test_citations_keep_only_seen_pmids(self):
+        from agent import assess
+        papers = {"111": {"citation": "A", "url": "u1"}, "222": {"citation": "B", "url": "u2"}}
+        texts, refs, dropped = assess.resolve_citations(
+            ["Opened [PMID:111]. Graph [REF:DRKG], invented [PMID:999].", "x [PMID: 222, PMID:111][PMID:999] end."], papers)
+        self.assertEqual(texts, ["Opened [1]. Graph [2], invented.", "x [1, 3] end."])
+        self.assertEqual([r.pmid for r in refs], ["111", "", "222"])
+        self.assertEqual(dropped, 2)
+
     def test_report_renders_as_pdf(self):
         from agent.report_pdf import render
         from agent.schemas import DrugDossier, DrugReport, ReportDrug
 
-        drug = ReportDrug(index=0, rank=1, name="memantine", verdict="use_with_caution", fit_score=0.4,
-                          evidence_strength="human_als_mixed_or_negative", pros=["oral solution → easy to swallow"],
-                          cons=["MEDALS trial negative"], rationale="Weak evidence; tolerable.", source_urls=["https://example.org/a"],
-                          dossier=DrugDossier(name="memantine", mechanism="NMDA receptor antagonist (GRIN1/GRIN2B)", als_evidence="negative"))
-        report = DrugReport(run_id="t", created_at="2026-11-08T00:00:00", patient_id="alex", drugs_source="inline", research_run_id="",
-                            models={"orchestrator": "o", "researcher": "r"}, langsmith_project=None, summary="One drug — μ and ≥ render.",
-                            drugs=[drug], comparison_notes="n/a", open_questions=["check QTc"], web={}, warnings=["Research aid."]).model_dump()
+        crit = dict(mechanistic_fit=4, delivery_gain=2, safety=6, cost=8, availability=8, acceptance=7)
+        common = dict(criteria=crit, drug_class="NMDA receptor antagonist", molecular_size="179 Da", evidence_strength="human_als_mixed_or_negative",
+                      bbb_penetration="high", fus_delivery="Adds little: crosses unaided", novelty="tested_in_als", matched_profiles=["Excitotoxicity"],
+                      rationale="Weak evidence; tolerable [1].", evidence="MEDALS trial negative [1].", safety="Dizziness.", cost="Low.",
+                      availability="Marketed in Canada.", acceptance="Oral solution suits swallowing.", source_urls=["https://example.org/a"])
+        drugs = [ReportDrug(index=0, rank=1, score=50, name="memantine", verdict="use_with_caution", headline="Tolerable.", **common,
+                            dossier=DrugDossier(name="memantine", mechanism="NMDA receptor antagonist (GRIN1/GRIN2B)", als_evidence="negative")),
+                 ReportDrug(index=1, rank=2, score=10, name="tofersen", verdict="not_recommended", headline="SOD1-negative patient.", **common,
+                            dossier=DrugDossier(name="tofersen", mechanism="SOD1 ASO", als_evidence="approved for SOD1-ALS"))]
+        report = DrugReport(run_id="t", created_at="2026-11-08T07:36:00+00:00", patient_id="alex", drugs_source="inline", research_run_id="",
+                            patient={"name": "Test Patient", "headline": "Limb onset, ALSFRS-R 39/48", "context": ["Genetics: negative."]},
+                            method="Profiles: X. Ranking criteria: Y [2].", models={"orchestrator": "o", "researcher": "r"}, langsmith_project=None,
+                            summary="One drug — μ and ≥ render [1, 2].", drugs=drugs, limitations="Small n.",
+                            references=[{"n": 1, "citation": "A, et al. T. J. 2019;1:2.", "url": "https://pubmed.ncbi.nlm.nih.gov/1/", "pmid": "1"},
+                                        {"n": 2, "citation": "DRKG.", "url": "https://github.com/gnn4dr/DRKG"}],
+                            web={}, warnings=["Research aid."]).model_dump()
         pdf = render(report)
         self.assertTrue(pdf.startswith(b"%PDF-"))
         self.assertGreater(len(pdf), 2000)
