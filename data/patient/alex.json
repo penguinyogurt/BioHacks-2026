@@ -1,0 +1,64 @@
+{
+  "synthetic": true,
+  "note": "Fictional patient for the BioHacks demo. Clinical values mirror patient_profile in data/pipeline.json. Never put real PHI here.",
+  "identifiers": {
+    "full_name": "Alex Moreau",
+    "date_of_birth": "1979-04-12",
+    "mrn": "HHS-0048213",
+    "health_card": "4532-281-904-AB",
+    "city": "Hamilton",
+    "province": "Ontario",
+    "phone": "905-555-0142",
+    "email": "alex.moreau@example.com",
+    "neurologist": "Dr. Priya Raman"
+  },
+  "diagnosis": {
+    "condition": "Amyotrophic lateral sclerosis",
+    "onset_site": "limb (right hand)",
+    "symptom_onset": "2025-09",
+    "diagnosed": "2026-03",
+    "el_escorial": "clinically probable"
+  },
+  "genetics": {
+    "SOD1": "negative",
+    "C9orf72": "negative (no repeat expansion)",
+    "FUS": "negative",
+    "TARDBP": "negative",
+    "CYP1A2_phenotype": "normal metabolizer",
+    "CYP2D6_phenotype": "intermediate metabolizer"
+  },
+  "medications": [
+    { "name": "riluzole", "dose": "50 mg BID", "since": "2026-07", "clearance": "CYP1A2" },
+    { "name": "vitamin D3", "dose": "1000 IU daily", "since": "2026-04" }
+  ],
+  "allergies": ["sulfonamides (rash)"],
+  "labs": [
+    { "test": "Creatine kinase", "value": 470, "unit": "U/L", "ref": "< 195", "date": "2026-10-14" },
+    { "test": "ALT", "value": 31, "unit": "U/L", "ref": "< 40", "date": "2026-10-14" },
+    { "test": "eGFR", "value": 94, "unit": "mL/min/1.73m2", "ref": "> 60", "date": "2026-10-14" },
+    { "test": "Neurofilament light (serum)", "value": 68, "unit": "pg/mL", "ref": "< 20 (age-adjusted)", "date": "2026-09-02" },
+    { "test": "QTc", "value": 438, "unit": "ms", "ref": "< 450", "date": "2026-08-20" }
+  ],
+  "function": {
+    "ALSFRS_R": { "total": 39, "bulbar": 10, "fine_motor": 7, "gross_motor": 10, "respiratory": 12, "date": "2026-10-14" },
+    "ALSFRS_R_slope_per_month": -0.9,
+    "FVC_sitting_pct": 76,
+    "FVC_supine_pct": 61,
+    "weight_kg": { "baseline": 86, "current": 77.5, "unintentional": true },
+    "grip_right_kg": 14,
+    "pinch_right_kg": 3,
+    "swallowing": "coughs on thin liquids"
+  },
+  "symptoms": [
+    { "name": "muscle cramps", "severity": 3, "note": "nightly, calves and hands" },
+    { "name": "pain", "severity": 2, "note": "right shoulder, musculoskeletal" },
+    { "name": "sialorrhea", "severity": 1, "note": "mild, evenings" },
+    { "name": "insomnia", "severity": 2, "note": "wakes from cramps" },
+    { "name": "fasciculations", "severity": 2, "note": "" },
+    { "name": "weight loss", "severity": 2, "note": "8.5 kg unintentional" }
+  ],
+  "trials": [
+    { "nct_id": "NCT04297683", "role": "screened", "outcome": "not enrolled — outside onset window at screening" }
+  ],
+  "goals": "Stay independent with hands as long as possible; sleep through the night."
+}

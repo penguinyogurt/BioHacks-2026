@@ -29,3 +29,8 @@ data/raw/
 # Recorded demo videos — large binaries, regenerate with tools/record-demo.mjs
 demo/
 tools/node_modules/
+
+.env
+# Research agent: recorded runs and tool cache are local
+agent/runs/
+agent/cache/

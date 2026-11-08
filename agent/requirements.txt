@@ -1,0 +1,12 @@
+fastapi==0.162.2
+httpx==0.28.1
+langchain==1.4.9
+langchain-google-genai==4.4.3
+langchain-mcp-adapters==0.3.2
+langgraph==1.2.20
+langsmith==0.14.17
+mcp==1.30.0
+pydantic==2.14.3
+python-dotenv==1.2.4
+sse-starlette==3.7.0
+uvicorn==0.54.0
