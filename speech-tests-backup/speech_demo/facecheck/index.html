@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FaceCheck — facial expression amplitude prototype</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <h1>FaceCheck</h1>
+        <p class="sub">Record your relaxed face and five expressions. On a later check-in, compare your facial movement with your own baseline.</p>
+        <p class="sub instructions">
+          Take your time getting into each expression — nothing advances on a
+          timer, you click when you're ready. Go as big and exaggerated as
+          you can for each one; a subtle expression won't read as different
+          from a weak one.
+        </p>
+      </header>
+
+      <section class="camera-section">
+        <div class="camera-pane">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
+          <div id="prompt" class="prompt hidden">
+            <span id="prompt-text"></span>
+            <button id="prompt-advance" class="prompt-advance hidden"></button>
+          </div>
+          <div id="face-indicator" class="face-indicator hidden">
+            <span class="dot-indicator"></span> <span id="face-indicator-text">tracking</span>
+          </div>
+        </div>
+
+        <div id="status" class="status">Loading face model…</div>
+
+        <label class="mesh-toggle">
+          <input type="checkbox" id="chk-mesh" checked />
+          Show face mesh overlay
+        </label>
+
+        <div class="actions">
+          <button id="btn-baseline" disabled>Record baseline</button>
+          <button id="btn-checkin" disabled>Run check-in</button>
+          <button id="btn-reset" class="ghost">Clear stored data</button>
+        </div>
+      </section>
+
+      <section id="results" class="results"></section>
+
+      <footer>
+        <p>
+          Everything is stored in this browser only (localStorage). Nothing
+          is uploaded. Not a diagnostic tool — a feasibility prototype.
+        </p>
+      </footer>
+    </main>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,693 @@
+{
+  "local_source_ledger": {
+    "swallow": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[4].value",
+      "quote": "Coughs on thin liquids"
+    },
+    "hand_function": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[5].value",
+      "quote": "Right pinch 3 kg, grip 14 kg"
+    },
+    "respiratory": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[1].value",
+      "quote": "FVC 76% sitting, 61% supine"
+    },
+    "weight": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[2].value",
+      "quote": "86 \u2192 77.5 kg, unintentional"
+    }
+  },
+  "searches": [
+    {
+      "kind": "primary literature search",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+swallowing+randomized+bulbar+function%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json",
+      "status": "found",
+      "records": [
+        {
+          "id": "42826312",
+          "title": "Excellent response to high-dose Riboflavin in Brown-Vialetto-Van Laere syndrome: A case report.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42826312/"
+        },
+        {
+          "id": "42152867",
+          "title": "The effects of a mobile healthcare application on speech and swallowing in amyotrophic lateral sclerosis.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42152867/"
+        },
+        {
+          "id": "42404161",
+          "title": "Perspective and quality of life in amyotrophic lateral sclerosis patients undergoing percutaneous endoscopic gastrostomy.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42404161/"
+        },
+        {
+          "id": "41753201",
+          "title": "Impact of Built-In Software Monitoring on Survival in Amyotrophic Lateral Sclerosis Patients Receiving Home Mechanical Ventilation: A Cohort Study.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41753201/"
+        },
+        {
+          "id": "42263252",
+          "title": "Intrathecal Administration of Riluzole in Amyotrophic Lateral Sclerosis.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42263252/"
+        }
+      ],
+      "sha256": "c1f6581d23b77b3787ebe436b27d60c9a5a53fccd1000c25a7364c57c0c8510f",
+      "fetched_at": "2026-11-08T05:57:18.226698+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "registry search",
+      "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=swallowing+OR+dysphagia&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus",
+      "status": "found",
+      "records": [
+        {
+          "id": "NCT01771640",
+          "title": "Intrathecal Transplantation of Mesenchymal Stem Cell in Patients With ALS",
+          "status": "COMPLETED",
+          "url": "https://clinicaltrials.gov/study/NCT01771640"
+        },
+        {
+          "id": "NCT06426030",
+          "title": "Validation of Czech Language Versions of Questionnaires for ALS Patients' Functional Status and Biomarker Long-term Follow-up",
+          "status": "UNKNOWN",
+          "url": "https://clinicaltrials.gov/study/NCT06426030"
+        },
+        {
+          "id": "NCT03755167",
+          "title": "A Follow up Study to Protocol 101/2 - Continued Treatment by IPL344 IV",
+          "status": "SUSPENDED",
+          "url": "https://clinicaltrials.gov/study/NCT03755167"
+        },
+        {
+          "id": "NCT03334786",
+          "title": "Study to Evaluate Safety & Efficacy of FLX-787-ODT to Treat Fasciculations in Tongue and Appendicular Muscle in Adult Subjects With ALS",
+          "status": "TERMINATED",
+          "url": "https://clinicaltrials.gov/study/NCT03334786"
+        },
+        {
+          "id": "NCT06598202",
+          "title": "Exploring Nasal Drop Therapy With Small Extracellular Vesicles for ALS",
+          "status": "UNKNOWN",
+          "url": "https://clinicaltrials.gov/study/NCT06598202"
+        }
+      ],
+      "sha256": "ed3cdbc4d90de1b3a58606ae854887aef7a39893c5176549d6a230de0937f236",
+      "fetched_at": "2026-11-08T05:57:18.312204+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "label search",
+      "url": "https://api.fda.gov/drug/label.json?search=indications_and_usage%3A%22swallowing%22&limit=3",
+      "status": "found",
+      "records": [
+        {
+          "id": "00738f01-8010-49bd-a903-568d1b134ac0",
+          "title": "",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00738f01-8010-49bd-a903-568d1b134ac0"
+        },
+        {
+          "id": "00da35b2-5946-4c1b-991c-9b2d88d22acf",
+          "title": "",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00da35b2-5946-4c1b-991c-9b2d88d22acf"
+        },
+        {
+          "id": "010e5c7e-1c2c-49ab-a9ca-6e89ae86a6d3",
+          "title": "",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=010e5c7e-1c2c-49ab-a9ca-6e89ae86a6d3"
+        }
+      ],
+      "sha256": "0297398bda062388a6a2858a2dba677d80cf4007cb00a951111c2e5dcb6086e5",
+      "fetched_at": "2026-11-08T05:57:18.745953+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "reviewed primary records",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A28070747%29&resultType=core&format=json&pageSize=1",
+      "status": "found",
+      "records": [
+        {
+          "id": "28070747",
+          "title": "Enhanced Bulbar Function in Amyotrophic Lateral Sclerosis: The Nuedexta Treatment Trial.",
+          "marker": "swallowing",
+          "matched": true,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28070747/"
+        }
+      ],
+      "sha256": "c7136556fb72e5d0530ee23d930abb9f5dc10b61093fb52ab35edfde43aa9aa8",
+      "fetched_at": "2026-11-08T05:57:19.506964+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "reviewed trial protocol",
+      "url": "https://clinicaltrials.gov/api/v2/studies/NCT03883581",
+      "status": "found",
+      "records": [
+        {
+          "id": "NCT03883581",
+          "outcomes": [
+            "Change in Dynamic Imaging Grade of Swallowing Toxicity",
+            "Change in Speech Intelligibility",
+            "Change in Patient-reported Outcome: Center for Neurologic Study-Bulbar Function Scale (CNS-BFS)",
+            "Change in ALSFRS-R Bulbar Subscale Score",
+            "Bamboo Passage Reading Duration (in Seconds)"
+          ],
+          "url": "https://clinicaltrials.gov/study/NCT03883581"
+        }
+      ],
+      "sha256": "1f0b0e86e04ab95f5feee3b5a6284dd9edea14c17b74e252652c0ee69732a526",
+      "fetched_at": "2026-11-08T05:57:19.612725+00:00",
+      "access": "live"
+    }
+  ],
+  "findings": [
+    {
+      "id": "28070747",
+      "role": "support",
+      "finding": "The short blinded ALS crossover trial found improvement on self-reported swallowing. This supports a symptomatic outcome distinct from disease course.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28070747/"
+    },
+    {
+      "id": "NCT03883581",
+      "role": "limitation",
+      "finding": "The protocol calls for objective swallowing measures because patient-reported change alone does not establish safer swallowing.",
+      "url": "https://clinicaltrials.gov/study/NCT03883581"
+    },
+    {
+      "id": "profile-0-28070747",
+      "role": "hosted research finding",
+      "finding": "A randomized, blinded crossover trial in 60 ALS patients found the combination improved CNS-BFS self-reported bulbar function (59.3 to 53.5, p<0.001), with swallowing subscale improvement (18.9 vs 17.1, p=0.009), while the motor and respiratory components of the ALSFRS-R were not affected.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28070747/"
+    },
+    {
+      "id": "profile-0-NCT03883581",
+      "role": "hosted research finding",
+      "finding": "A completed phase 1/2 ALS protocol of the same combination lists a dynamic imaging grade of swallowing toxicity, speech intelligibility, CNS-BFS, ALSFRS-R bulbar subscale and bamboo passage reading duration as primary outcomes, with inclusion limited to ALSFRS-R bulbar subscale below 10 and no invasive ventilation or tracheostomy.",
+      "url": "https://clinicaltrials.gov/study/NCT03883581"
+    },
+    {
+      "id": "profile-0-NCT01806857",
+      "role": "hosted research finding",
+      "finding": "A completed phase 2 ALS trial of the same combination versus matching placebo is registered, supporting that this agent class has been tested in ALS populations.",
+      "url": "https://clinicaltrials.gov/study/NCT01806857"
+    },
+    {
+      "id": "profile-0-NCT00573443",
+      "role": "hosted research finding",
+      "finding": "A completed phase 3 registry record in pseudobulbar affect in ALS or MS tested two dose strengths of the same NMDA-antagonist and CYP2D6-inhibitor combination against placebo, and it is a source for dosing and tolerability context rather than bulbar-function outcomes.",
+      "url": "https://clinicaltrials.gov/study/NCT00573443"
+    },
+    {
+      "id": "profile-1-28070747",
+      "role": "hosted research finding",
+      "finding": "The same crossover trial found no effect on the motor or respiratory components of the ALSFRS-R, which is contrary evidence for assuming respiratory or limb benefit from a bulbar symptomatic agent.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28070747/"
+    }
+  ],
+  "hosted": {
+    "model": "claude-haiku-5-5",
+    "profiles": [
+      {
+        "therapeutic_goal": "Improve patient-reported and rater-scored bulbar function (speech, swallowing, salivation) in ALS, measured with instrumental swallowing and bulbar endpoints before any swallowing benefit is claimed.",
+        "mechanism_of_action": "An orally given, CNS-penetrant combination of a low-dose NMDA-receptor channel antagonist with a sigma-1 receptor agonist, co-dosed with a CYP2D6-inhibiting agent to raise exposure of the antagonist. The intended effect is modulation of glutamatergic and sigma-1-linked neuronal signaling in brainstem bulbar and pseudobulbar circuits, not disease modification.",
+        "molecular_targets": [
+          {
+            "symbol": "GRIN1",
+            "desired_action": "antagonize",
+            "rationale": "NMDA receptor blockade is the glutamatergic component proposed to dampen bulbar and pseudobulbar circuit hyperexcitability, the mechanism behind the symptomatic bulbar signal in the crossover trial."
+          },
+          {
+            "symbol": "SIGMAR1",
+            "desired_action": "agonize",
+            "rationale": "Sigma-1 receptor agonism is a second CNS mechanism in the same combination, which the trial design did not separate from the NMDA component."
+          }
+        ],
+        "pathways": [
+          "glutamatergic synaptic transmission",
+          "bulbar and pseudobulbar motor control circuits",
+          "sigma-1 receptor chaperone signaling"
+        ],
+        "site_of_action": [
+          "brainstem bulbar motor nuclei and their cortical inputs",
+          "central nervous system (brain and brainstem)",
+          "oropharyngeal muscles reached through central control, not directly"
+        ],
+        "required_properties": [
+          "oral formulation",
+          "CNS-penetrant",
+          "fixed-dose combination with a CYP2D6-inhibiting co-agent",
+          "outcome package includes an instrumental swallowing measure (dynamic imaging grade of swallowing toxicity) alongside patient-reported CNS-BFS and ALSFRS-R bulbar subscale",
+          "outcome package includes speech intelligibility and bamboo passage reading duration",
+          "validated instruments: CNS-BFS, ALSFRS-R bulbar subscale"
+        ],
+        "avoid_properties": [
+          "assuming a causal diagnosis for functional findings",
+          "treating swallowing as confirmed without instrumental assessment",
+          "QT-prolongation liability (the CYP2D6-inhibiting co-agent carries QT-interval risk; this is the harmful direction to flag, and safety is not inferred from the trial)",
+          "serotonergic and CYP2D6 interaction burden",
+          "CNS depression and sedation",
+          "reliance on self-report alone as the primary endpoint"
+        ],
+        "lessons_from_failures": [
+          "The crossover trial's primary endpoint was self-reported bulbar function (CNS-BFS); it improved (59.3 to 53.5, p<0.001) but was not paired with an instrumental swallow measure in that report, so the swallowing effect is unconfirmed.",
+          "The same trial found no effect on the motor or respiratory components of the ALSFRS-R, so benefit appears confined to the bulbar domain and does not extend to hand, respiratory or weight outcomes.",
+          "The protocol for the follow-on study explicitly states that patient-reported change alone does not establish safer swallowing, so objective measures are required.",
+          "The sample was small and short (about 70 days), and the trial was driven by patient reports during treatment of emotional lability, which limits generalisability."
+        ],
+        "target_validation": "clinical",
+        "confidence": 0.35,
+        "evidence": [
+          {
+            "source": "pubmed",
+            "id": "28070747",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+            "claim": "A randomized, blinded crossover trial in 60 ALS patients found the combination improved CNS-BFS self-reported bulbar function (59.3 to 53.5, p<0.001), with swallowing subscale improvement (18.9 vs 17.1, p=0.009), while the motor and respiratory components of the ALSFRS-R were not affected."
+          },
+          {
+            "source": "clinicaltrials",
+            "id": "NCT03883581",
+            "url": "https://clinicaltrials.gov/study/NCT03883581",
+            "claim": "A completed phase 1/2 ALS protocol of the same combination lists a dynamic imaging grade of swallowing toxicity, speech intelligibility, CNS-BFS, ALSFRS-R bulbar subscale and bamboo passage reading duration as primary outcomes, with inclusion limited to ALSFRS-R bulbar subscale below 10 and no invasive ventilation or tracheostomy."
+          },
+          {
+            "source": "clinicaltrials",
+            "id": "NCT01806857",
+            "url": "https://clinicaltrials.gov/study/NCT01806857",
+            "claim": "A completed phase 2 ALS trial of the same combination versus matching placebo is registered, supporting that this agent class has been tested in ALS populations."
+          },
+          {
+            "source": "clinicaltrials",
+            "id": "NCT00573443",
+            "url": "https://clinicaltrials.gov/study/NCT00573443",
+            "claim": "A completed phase 3 registry record in pseudobulbar affect in ALS or MS tested two dose strengths of the same NMDA-antagonist and CYP2D6-inhibitor combination against placebo, and it is a source for dosing and tolerability context rather than bulbar-function outcomes."
+          }
+        ]
+      },
+      {
+        "therapeutic_goal": "Slow loss of upper and lower motor neurons so that hand function, respiratory capacity and weight can be preserved over time; this is a longer-horizon hypothesis with no efficacy evidence retrieved in this search.",
+        "mechanism_of_action": "A CNS-penetrant or intrathecally delivered agent that reduces motor neuron stress or death in spinal cord and brainstem motor neurons, with the intent of slowing decline across limb, bulbar and respiratory domains. Any effect on hand, respiratory or nutritional outcomes would need to be shown with validated instruments such as grip and pinch dynamometry, ALSFRS-R respiratory items, FVC and body-weight tracking.",
+        "molecular_targets": [
+          {
+            "symbol": "upper and lower motor neuron survival pathway",
+            "desired_action": "modulate",
+            "rationale": "Slowing motor neuron loss is the only route by which a drug could plausibly affect hand strength, respiratory capacity and weight together, but no validated single gene target was identified in this search."
+          }
+        ],
+        "pathways": [
+          "motor neuron survival and stress response",
+          "glutamatergic excitotoxicity (proposed, not confirmed here)"
+        ],
+        "site_of_action": [
+          "spinal cord anterior horn motor neurons",
+          "brainstem motor nuclei"
+        ],
+        "required_properties": [
+          "CNS-penetrant or intrathecally deliverable",
+          "outcome package includes validated limb and respiratory instruments (grip and pinch dynamometry, ALSFRS-R, FVC) and body-weight tracking",
+          "validated instruments and population description reported"
+        ],
+        "avoid_properties": [
+          "assuming a causal diagnosis for hand, respiratory or weight findings",
+          "treating swallowing impairment as confirmed without instrumental assessment",
+          "claiming a respiratory or weight benefit from a bulbar-only symptomatic signal"
+        ],
+        "lessons_from_failures": [
+          "The only retrieved controlled ALS trial with functional outcomes (28070747) showed no effect on the ALSFRS-R motor or respiratory components, which argues against assuming that bulbar symptomatic benefit transfers to limb or respiratory function.",
+          "Symptomatic benefit on self-reported scales does not establish disease modification."
+        ],
+        "target_validation": "mechanistic",
+        "confidence": 0.1,
+        "evidence": [
+          {
+            "source": "pubmed",
+            "id": "28070747",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+            "claim": "The same crossover trial found no effect on the motor or respiratory components of the ALSFRS-R, which is contrary evidence for assuming respiratory or limb benefit from a bulbar symptomatic agent."
+          }
+        ]
+      }
+    ],
+    "dead_ends": [
+      "Three PubMed searches on instrumental swallowing assessment, hand grip/pinch with respiratory and weight outcomes, and dysphagia with hand, respiratory and weight outcome measures returned no records, so no hand-function, grip or pinch, FVC or weight outcome evidence was retrieved for any candidate agent.",
+      "No validated outcome instrument result (grip dynamometry, pinch, FVC, body-weight trajectory) was found in the retrieved records; the only functional instrument result found is the bulbar-only CNS-BFS and ALSFRS-R bulbar subscale.",
+      "The swallowing benefit in 28070747 rests on a self-report scale; no instrumental swallow measure result was retrieved, and the protocol NCT03883581 states that patient-reported change alone does not establish safer swallowing, so swallowing impairment remains unconfirmed.",
+      "Contrary evidence: the same trial found no effect on ALSFRS-R motor and respiratory components.",
+      "Non-drug options were found but are excluded from profiles: a mobile healthcare application for speech and swallowing (PMID 42152867), percutaneous endoscopic gastrostomy quality-of-life study (PMID 42404161), and built-in ventilator software monitoring and survival (PMID 41753201).",
+      "A case report of high-dose riboflavin in a different condition (Brown-Vialetto-Van Laere syndrome, PMID 42826312) is not ALS evidence and was not used.",
+      "An intrathecal formulation record (PMID 42263252) and a registry entry for intrathecal mesenchymal stem cells (NCT01771640, cell therapy, not a drug profile) were listed but not reviewed for functional outcomes.",
+      "A terminated fasciculation trial (NCT03334786) and an unknown-status nasal extracellular vesicle trial (NCT06598202) were not reviewed for functional outcomes.",
+      "Czech-language functional questionnaire validation (NCT06426030) is an instrument study with no treatment arm and was not used as drug evidence.",
+      "Open Targets and target-profile lookups were not run, so gene-level evidence for hand, respiratory and weight domains was not established.",
+      "Safety: QT prolongation, serotonergic interaction and CYP2D6-related exposure changes are the harmful directions to flag for the bulbar-profile combination; no safety conclusion is drawn from the retrieved records, and absence of respiratory-depression data in these records is not evidence of safety."
+    ],
+    "rejected": [],
+    "events": [
+      {
+        "type": "subagent_started",
+        "criterion": "symptoms-function",
+        "data": {
+          "criterion": "symptoms-function",
+          "objective": "Identify outcome measures and symptom domains relevant to swallowing, hand function, respiratory function, weight and daily function in amyotrophic lateral sclerosis, and which candidate agents have evidence for effects on them. Swallowing impairment is a retrieval hypothesis, and the causes of the functional observations are not established.",
+          "constraints": [
+            "Evidence on swallowing or bulbar function outcomes",
+            "Evidence on upper-limb, grip and pinch or daily-activity outcomes",
+            "Evidence on respiratory function and weight or nutrition outcomes",
+            "Report validated outcome instruments and the populations studied"
+          ],
+          "avoid": [
+            "Assuming a causal diagnosis for the observed functional findings",
+            "Treating swallowing impairment as confirmed without instrumental assessment"
+          ]
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "amyotrophic lateral sclerosis swallowing instrumental assessment videofluoroscopy outcome drug trial",
+            "max_results": 6
+          }
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "amyotrophic lateral sclerosis grip pinch hand function ALSFRS-R respiratory FVC weight outcome treatment",
+            "max_results": 6
+          }
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "search_als_trials",
+          "args": {
+            "intervention": "dextromethorphan quinidine",
+            "max_results": 5
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "search_pubmed",
+          "chars": 2,
+          "error": false,
+          "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "search_pubmed",
+          "chars": 2,
+          "error": false,
+          "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "search_als_trials",
+          "chars": 1751,
+          "error": false,
+          "content_sha256": "b201e7755b3bf5cb741502b92499c87b6f9e429f1a290e4fb2d13303f2178e6d"
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "fetch_pubmed_abstract",
+          "args": {
+            "pmid": "28070747"
+          }
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "get_trial",
+          "args": {
+            "nct_id": "NCT03883581"
+          }
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "ALS dysphagia hand function respiratory weight outcome measures",
+            "max_results": 6
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "fetch_pubmed_abstract",
+          "chars": 3672,
+          "error": false,
+          "content_sha256": "bdee868f881c157c456acc32883f98d7c2a1ff772d45db8ca2eaa46dea0a19d5"
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "get_trial",
+          "chars": 1663,
+          "error": false,
+          "content_sha256": "40515a11bc8681995c2393bfd1ba61130f024cf503fa948ee844290aab0c03ca"
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "symptoms-function",
+        "data": {
+          "tool": "search_pubmed",
+          "chars": 2,
+          "error": false,
+          "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      {
+        "type": "subagent_finished",
+        "criterion": "symptoms-function",
+        "data": {
+          "profiles": 2,
+          "goals": [
+            "Improve patient-reported and rater-scored bulbar function (speech, swallowing, salivation) in ALS, measured with instrumental swallowing and bulbar endpoints before any swallowing benefit is claimed.",
+            "Slow loss of upper and lower motor neurons so that hand function, respiratory capacity and weight can be preserved over time; this is a longer-horizon hypothesis with no efficacy evidence retrieved in this search."
+          ],
+          "targets": [
+            [
+              "GRIN1",
+              "SIGMAR1"
+            ],
+            [
+              "upper and lower motor neuron survival pathway"
+            ]
+          ],
+          "dead_ends": [
+            "Three PubMed searches on instrumental swallowing assessment, hand grip/pinch with respiratory and weight outcomes, and dysphagia with hand, respiratory and weight outcome measures returned no records, so no hand-function, grip or pinch, FVC or weight outcome evidence was retrieved for any candidate agent.",
+            "No validated outcome instrument result (grip dynamometry, pinch, FVC, body-weight trajectory) was found in the retrieved records; the only functional instrument result found is the bulbar-only CNS-BFS and ALSFRS-R bulbar subscale.",
+            "The swallowing benefit in 28070747 rests on a self-report scale; no instrumental swallow measure result was retrieved, and the protocol NCT03883581 states that patient-reported change alone does not establish safer swallowing, so swallowing impairment remains unconfirmed.",
+            "Contrary evidence: the same trial found no effect on ALSFRS-R motor and respiratory components.",
+            "Non-drug options were found but are excluded from profiles: a mobile healthcare application for speech and swallowing (PMID 42152867), percutaneous endoscopic gastrostomy quality-of-life study (PMID 42404161), and built-in ventilator software monitoring and survival (PMID 41753201).",
+            "A case report of high-dose riboflavin in a different condition (Brown-Vialetto-Van Laere syndrome, PMID 42826312) is not ALS evidence and was not used.",
+            "An intrathecal formulation record (PMID 42263252) and a registry entry for intrathecal mesenchymal stem cells (NCT01771640, cell therapy, not a drug profile) were listed but not reviewed for functional outcomes.",
+            "A terminated fasciculation trial (NCT03334786) and an unknown-status nasal extracellular vesicle trial (NCT06598202) were not reviewed for functional outcomes.",
+            "Czech-language functional questionnaire validation (NCT06426030) is an instrument study with no treatment arm and was not used as drug evidence.",
+            "Open Targets and target-profile lookups were not run, so gene-level evidence for hand, respiratory and weight domains was not established.",
+            "Safety: QT prolongation, serotonergic interaction and CYP2D6-related exposure changes are the harmful directions to flag for the bulbar-profile combination; no safety conclusion is drawn from the retrieved records, and absence of respiratory-depression data in these records is not evidence of safety."
+          ]
+        }
+      }
+    ],
+    "access": "replay",
+    "cache_key": "0bbe5efb9e65b9cc9f8ae453f3cf868d408f7c413fb7a359a918425ac352c216"
+  },
+  "unmapped": [
+    {
+      "goal": "Slow loss of upper and lower motor neurons so that hand function, respiratory capacity and weight can be preserved over time; this is a longer-horizon hypothesis with no efficacy evidence retrieved in this search.",
+      "reason": "No corresponding supported clinical endpoint"
+    }
+  ],
+  "reason": null,
+  "queries": [
+    {
+      "anchor": "Disease::MESH:D003680",
+      "traversals": [
+        {
+          "relation": "DRUGBANK::treats::Compound:Disease",
+          "forward": false,
+          "glossary": {
+            "Relation-name": "DRUGBANK::treats::Compound:Disease",
+            "Data-source": "DRUGBANK",
+            "Connected entity-types": "Compound:Disease",
+            "Interaction-type": "Compound treats the disease",
+            "Description": "We extract  the  associated  conditions  related  to  compound entities in the drugbank.",
+            "Reference for the description": ""
+          },
+          "row": 24
+        }
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "fact": {
+        "field": "swallow",
+        "pointer": "patient_profile.findings[4].value",
+        "status": "reported",
+        "concept": "swallowing",
+        "quote": "Swallowing or cough with liquids is reported.",
+        "hypotheses": [
+          "Swallowing impairment is a retrieval hypothesis."
+        ],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation",
+        "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+        "mapping": "reported",
+        "ids": [
+          "Disease::MESH:D003680"
+        ]
+      },
+      "finding_ids": [
+        "28070747",
+        "profile-0-28070747",
+        "profile-0-NCT03883581",
+        "profile-0-NCT01806857",
+        "profile-0-NCT00573443"
+      ],
+      "desired_action": "treat",
+      "goal": "improve swallowing function, pending objective confirmation",
+      "anchor_label": "Deglutition Disorders",
+      "anchor_row": 43786,
+      "derivation": [],
+      "formula": "e[Disease::MESH:D003680] - r[DRUGBANK::treats::Compound:Disease]"
+    },
+    {
+      "anchor": "Disease::MESH:D003680",
+      "traversals": [
+        {
+          "relation": "GNBR::T::Compound:Disease",
+          "forward": false,
+          "glossary": {
+            "Relation-name": "GNBR::T::Compound:Disease",
+            "Data-source": "GNBR",
+            "Connected entity-types": "Compound:Disease",
+            "Interaction-type": "treatment/therapy (including investigatory)",
+            "Description": "",
+            "Reference for the description": ""
+          },
+          "row": 35
+        }
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "fact": {
+        "field": "swallow",
+        "pointer": "patient_profile.findings[4].value",
+        "status": "reported",
+        "concept": "swallowing",
+        "quote": "Swallowing or cough with liquids is reported.",
+        "hypotheses": [
+          "Swallowing impairment is a retrieval hypothesis."
+        ],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation",
+        "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+        "mapping": "reported",
+        "ids": [
+          "Disease::MESH:D003680"
+        ]
+      },
+      "finding_ids": [
+        "28070747",
+        "profile-0-28070747",
+        "profile-0-NCT03883581",
+        "profile-0-NCT01806857",
+        "profile-0-NCT00573443"
+      ],
+      "desired_action": "treat",
+      "goal": "improve swallowing function, pending objective confirmation",
+      "anchor_label": "Deglutition Disorders",
+      "anchor_row": 43786,
+      "derivation": [],
+      "formula": "e[Disease::MESH:D003680] - r[GNBR::T::Compound:Disease]"
+    },
+    {
+      "anchor": "Disease::MESH:D003680",
+      "traversals": [
+        {
+          "relation": "Hetionet::CtD::Compound:Disease",
+          "forward": false,
+          "glossary": {
+            "Relation-name": "Hetionet::CtD::Compound:Disease",
+            "Data-source": "HETIONET",
+            "Connected entity-types": "Compound:Disease",
+            "Interaction-type": "treatment",
+            "Description": "",
+            "Reference for the description": ""
+          },
+          "row": 68
+        }
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "fact": {
+        "field": "swallow",
+        "pointer": "patient_profile.findings[4].value",
+        "status": "reported",
+        "concept": "swallowing",
+        "quote": "Swallowing or cough with liquids is reported.",
+        "hypotheses": [
+          "Swallowing impairment is a retrieval hypothesis."
+        ],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation",
+        "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+        "mapping": "reported",
+        "ids": [
+          "Disease::MESH:D003680"
+        ]
+      },
+      "finding_ids": [
+        "28070747",
+        "profile-0-28070747",
+        "profile-0-NCT03883581",
+        "profile-0-NCT01806857",
+        "profile-0-NCT00573443"
+      ],
+      "desired_action": "treat",
+      "goal": "improve swallowing function, pending objective confirmation",
+      "anchor_label": "Deglutition Disorders",
+      "anchor_row": 43786,
+      "derivation": [],
+      "formula": "e[Disease::MESH:D003680] - r[Hetionet::CtD::Compound:Disease]"
+    }
+  ]
+}

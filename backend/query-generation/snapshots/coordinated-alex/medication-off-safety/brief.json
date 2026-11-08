@@ -1,0 +1,119 @@
+{
+  "dispatched_brief": {
+    "criterion": "safety-interactions-class",
+    "objective": "Identify candidate drug classes and individual agents for ALS repurposing and flag pharmacological interactions and tolerability concerns relevant to a profile of reduced respiratory reserve, unintentional weight loss, raised muscle-enzyme levels, possible swallowing difficulty with liquids (hypothesis only), and impaired hand function. No active index therapy is assumed, so evaluate intrinsic tolerability rather than interactions with a current index therapy. Report where interaction magnitude, exposure or route-specific tolerability is unknown rather than inferring it.",
+    "goal_provenance": "research objective",
+    "facts": [
+      {
+        "field": "current_therapy",
+        "pointer": "patient_profile.findings[0].value",
+        "status": "negated",
+        "concept": "no_active_index_therapy",
+        "quote": "Index therapy reported inactive.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "respiratory",
+        "pointer": "patient_profile.findings[1].value",
+        "status": "reported",
+        "concept": "",
+        "quote": "Lower supine than sitting vital capacity is reported.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "weight",
+        "pointer": "patient_profile.findings[2].value",
+        "status": "reported",
+        "concept": "",
+        "quote": "Unintentional weight loss is reported.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "muscle",
+        "pointer": "patient_profile.findings[3].value",
+        "status": "reported",
+        "concept": "",
+        "quote": "Muscle-enzyme value above the reported reference limit.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "swallow",
+        "pointer": "patient_profile.findings[4].value",
+        "status": "reported",
+        "concept": "swallowing",
+        "quote": "Swallowing or cough with liquids is reported.",
+        "hypotheses": [
+          "Swallowing impairment is a retrieval hypothesis."
+        ],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "hand_function",
+        "pointer": "patient_profile.findings[5].value",
+        "status": "reported",
+        "concept": "",
+        "quote": "Grip and pinch findings recorded.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      }
+    ],
+    "constraints": [
+      "Favor agents with a tolerability profile compatible with limited respiratory reserve",
+      "Favor agents with minimal effect on appetite or body weight",
+      "Favor agents with minimal muscle toxicity or effect on muscle-enzyme levels",
+      "Favor formulations usable with possible swallowing difficulty, such as liquid, dispersible, or non-oral forms, treating the swallowing impairment as a hypothesis",
+      "Favor formulations that do not require fine hand dexterity to administer",
+      "State explicitly when interaction or tolerability evidence is absent or uncertain"
+    ],
+    "avoid": [
+      "Respiratory depressants",
+      "Agents that cause or worsen muscle weakness",
+      "Agents that cause myopathy or raise muscle-enzyme levels",
+      "Agents that suppress appetite or cause weight loss",
+      "Agents that impair swallowing or increase aspiration risk, such as strongly sedating or anticholinergic drugs",
+      "Agents with a narrow therapeutic index and significant interaction liability"
+    ],
+    "unknowns": [
+      "Pair-specific exposure, interaction magnitude and route-specific tolerability.",
+      "The record does not state the patient's own treatment priorities."
+    ],
+    "mechanism_scope": "",
+    "planner": "claude"
+  },
+  "local_source_quotes": {
+    "current_therapy": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[0].value",
+      "quote": "Not taking Riluzole 50 mg BID"
+    },
+    "respiratory": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[1].value",
+      "quote": "FVC 76% sitting, 61% supine"
+    },
+    "weight": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[2].value",
+      "quote": "86 \u2192 77.5 kg, unintentional"
+    },
+    "muscle": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[3].value",
+      "quote": "470 U/L (ref < 195)"
+    },
+    "swallow": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[4].value",
+      "quote": "Coughs on thin liquids"
+    },
+    "hand_function": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[5].value",
+      "quote": "Right pinch 3 kg, grip 14 kg"
+    }
+  }
+}

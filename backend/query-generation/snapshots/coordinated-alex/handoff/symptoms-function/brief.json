@@ -1,0 +1,85 @@
+{
+  "dispatched_brief": {
+    "criterion": "symptoms-function",
+    "objective": "Identify outcome measures and symptom domains relevant to swallowing, hand function, respiratory function, weight and daily function in amyotrophic lateral sclerosis, and which candidate agents have evidence for effects on them. Swallowing impairment is a retrieval hypothesis, and the causes of the functional observations are not established.",
+    "goal_provenance": "research objective",
+    "facts": [
+      {
+        "field": "swallow",
+        "pointer": "patient_profile.findings[4].value",
+        "status": "reported",
+        "concept": "swallowing",
+        "quote": "Swallowing or cough with liquids is reported.",
+        "hypotheses": [
+          "Swallowing impairment is a retrieval hypothesis."
+        ],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "hand_function",
+        "pointer": "patient_profile.findings[5].value",
+        "status": "reported",
+        "concept": "",
+        "quote": "Grip and pinch findings recorded.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "respiratory",
+        "pointer": "patient_profile.findings[1].value",
+        "status": "reported",
+        "concept": "",
+        "quote": "Lower supine than sitting vital capacity is reported.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "weight",
+        "pointer": "patient_profile.findings[2].value",
+        "status": "reported",
+        "concept": "",
+        "quote": "Unintentional weight loss is reported.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      }
+    ],
+    "constraints": [
+      "Evidence on swallowing or bulbar function outcomes",
+      "Evidence on upper-limb, grip and pinch or daily-activity outcomes",
+      "Evidence on respiratory function and weight or nutrition outcomes",
+      "Report validated outcome instruments and the populations studied"
+    ],
+    "avoid": [
+      "Assuming a causal diagnosis for the observed functional findings",
+      "Treating swallowing impairment as confirmed without instrumental assessment"
+    ],
+    "unknowns": [
+      "Instrumental swallowing assessment and a causal diagnosis for functional observations.",
+      "The record does not state the patient's own treatment priorities."
+    ],
+    "mechanism_scope": "",
+    "planner": "claude"
+  },
+  "local_source_quotes": {
+    "swallow": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[4].value",
+      "quote": "Coughs on thin liquids"
+    },
+    "hand_function": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[5].value",
+      "quote": "Right pinch 3 kg, grip 14 kg"
+    },
+    "respiratory": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[1].value",
+      "quote": "FVC 76% sitting, 61% supine"
+    },
+    "weight": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[2].value",
+      "quote": "86 \u2192 77.5 kg, unintentional"
+    }
+  }
+}

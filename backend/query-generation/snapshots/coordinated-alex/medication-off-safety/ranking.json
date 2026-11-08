@@ -1,0 +1,7 @@
+{
+  "rank_type": "concern",
+  "full_cohort_size": 10540,
+  "top_k": [],
+  "fusion_ranks": [],
+  "aggregation": "Smallest L2 across compatible translations for each drug. Ties use canonical ID. Risk rank 1 means greatest predicted concern."
+}

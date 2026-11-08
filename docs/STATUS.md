@@ -95,6 +95,6 @@ One time only. Sorry — that one's on Henri, and it was the only file under
 
 `main` deleted `app/` on 2026-11-07, so branches that built there get
 modify/delete conflicts (measured: 11 on `cursor/pipeline-graph-ui`, 19 on
-`frontend/kg-and-provenance`). `Master-UI-Neo-Face-Integration` and
-`codex/diagnostic-tests` share **no common ancestor** with main and can't be
-merged without `--allow-unrelated-histories`. Your branch, your call.
+`frontend/kg-and-provenance`).
+
+The standalone diagnostic suite was integrated from `codex/diagnostic-tests` by joining its original history to main. The additional FaceCheck integration remains on `Master-UI-Neo-Face-Integration`. See issue #18 and the root README for the merge and launcher.

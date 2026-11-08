@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Passage comparison</title>
+<style>
+*{box-sizing:border-box}body{background:#f6f4ee;color:#152d32;font:16px/1.5 system-ui,sans-serif;margin:0}main{max-width:980px;margin:auto;padding:32px 20px 64px}h1,h2,p{margin:.3em 0 .6em}h1{font:clamp(2.3rem,6vw,3.7rem) Georgia,serif}h2{font-size:1.17rem}header{border-bottom:2px solid #204b52;padding-bottom:15px}.pass{font:1.6rem/1.65 Georgia,serif}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:16px 0}.card,article{background:#fffefa;border:1px solid #c7d2cb;border-radius:12px;padding:18px}select,button,input{font:inherit;max-width:100%}select,button{border:1px solid #a7b5b1;border-radius:7px;padding:7px 10px;background:white;color:inherit}button{cursor:pointer}button:disabled{opacity:.55}button:focus-visible,select:focus-visible{outline:3px solid #cd7732}audio{width:100%;margin-top:8px;height:36px}.primary{background:#16575b;color:white;font-weight:650;padding:10px 18px}.source,small,#status{color:#465d5c}.card label{display:block;margin:9px 0 4px}.card input{font-size:.85rem}#result{margin-top:20px}#words button{font:1.3rem Georgia;margin:3px;padding:8px;border-bottom:3px solid #57978a}#words .err{border-bottom-color:#bb7336}#words .unc{border-style:dashed}#words [aria-pressed=true]{background:#164f53;color:white}#detail{margin-top:12px}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:6px;border-bottom:1px solid #ddd}.source{font-size:.9rem}#status{margin-left:10px}summary{cursor:pointer}details{margin-top:14px}label{font-weight:600}
+.spectrum{margin-top:16px;border-top:1px solid #ccd4ce;padding-top:10px}.spectrum h3{margin:.25em 0}.spectrum svg{width:100%;max-width:780px;display:block}.spectrum svg text{font:12px system-ui;fill:#364c50}.spectrum-key{display:flex;gap:1.4em;color:#176a71;font-weight:650}.spectrum small{display:block;max-width:70ch}#scoreHero{border:2px solid #16575b;background:#eaf4ef;margin:18px 0;padding:22px}#scoreValue{font-size:2.7rem;line-height:1.2;color:#12464a}</style><main><header><h1>Passage comparison</h1><p>Compare two readings, word by word. Your recordings stay on this Mac.</p><button id="openFaceCheck" type="button">Open FaceCheck</button></header>
+<dialog id="faceCheckPanel" aria-label="FaceCheck" style="width:min(960px,96vw);max-width:96vw;padding:12px;border:1px solid #9eb6aa;border-radius:12px">
+<form method="dialog"><button autofocus>Back to speech comparison</button></form>
+<div id="faceCheckMount"></div></dialog>
+<script>
+(() => {
+ const panel=document.getElementById("faceCheckPanel"),mount=document.getElementById("faceCheckMount");
+ document.getElementById("openFaceCheck").onclick=()=>{
+  panel.showModal();const frame=document.createElement("iframe");
+  frame.title="FaceCheck facial movement";frame.allow="camera";frame.src="/facecheck/";
+  frame.style.cssText="display:block;width:100%;height:76vh;border:0;margin-top:.5em";
+  mount.replaceChildren(frame)
+ };
+ panel.addEventListener("close",()=>mount.replaceChildren());
+})();
+</script>
+<h2>Read aloud</h2><p class="pass">__PASSAGE__</p>
+<section class="card" id="calPanel"><h2>Personal passage calibration</h2><p id="calStep" role="status">Loading your local profile…</p><div id="calEntry" hidden><p>Read the whole passage in the requested style. You can replay or retake each reading before saving. Only derived word spectra are stored on this Mac.</p><div id="cal"></div><button id="calSave" class="primary" disabled>Save this reading</button></div><p id="calMsg" role="status"></p><button id="calReset" hidden>Recalibrate score reference</button></section>
+<section id="workspace" hidden><label for="mode">Compare repeat with</label> <select id="mode"><option value="self">My baseline reading</option><option value="tts">macOS voice · whole passage</option></select>
+<div class="grid"><section class="card" id="baseline"></section><section class="card" id="repeat"></section></div>
+<button class="primary" id="go">Compare readings</button><span role="status" id="status"></span>
+<section id="result" hidden><article id="scoreHero" aria-live="polite" tabindex="-1"><h2>Repeat reading · personal score</h2><strong id="scoreValue"></strong><p id="scoreCoverage"></p><p>1 · Your normal reading &nbsp;—&nbsp; 100 · Your severe impairment example</p></article><h2>Word comparison</h2><p id="used"></p><p>Select a word to hear the reference, then the repeat. Dashed words are unscored; amber marks a transcript difference.</p><div id="words"></div><article id="detail" aria-live="polite"></article><details><summary>Transcripts and timestamped edits</summary><div id="logs"></div></details></section>
+</section><script src="/demo.js"></script></main></html>

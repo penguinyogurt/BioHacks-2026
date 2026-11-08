@@ -1,0 +1,547 @@
+{
+  "local_source_ledger": {
+    "diagnosis": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.summary",
+      "quote": "Limb-onset ALS, diagnosed 2026."
+    }
+  },
+  "searches": [
+    {
+      "kind": "primary literature search",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+EAAT2+glutamate+transporter+expression%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json",
+      "status": "found",
+      "records": [
+        {
+          "id": "42647657",
+          "title": "Characterizing Single-Cell Differences in Aquaporin-4 and Glutamate Transporter-1 Between Control and hSOD1G93A Astrocytes Using Integrated Epifluorescence and Structured Illumination Microscopy.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42647657/"
+        },
+        {
+          "id": "42952031",
+          "title": "Copper-Mediated Radiofluorination of the Excitatory Amino Acid Transporter 2 (EAAT2)-Targeted PET Tracer [<sup>18</sup>F]RP-115: Alternate Synthetic Method.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42952031/"
+        },
+        {
+          "id": "42930031",
+          "title": "Development and Validation of Novel VHHs Targeting Astrocyte-Enriched Glutamate Transporters GLT-1 and GLAST-1.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42930031/"
+        },
+        {
+          "id": "42496779",
+          "title": "Functional and Transcriptional Downregulation of Glutamate Transporters (EAAT1 and EAAT2) via DNMT3B Overexpression in Glial Cells.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42496779/"
+        },
+        {
+          "id": "42792229",
+          "title": "Oxidative Stress and Its Mitigation in Neurodegenerative Disorders.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42792229/"
+        }
+      ],
+      "sha256": "767e3b555bdc092c2d8c4f9367f522d85efafd3822c8f2a673393f6af871436a",
+      "fetched_at": "2026-11-08T05:57:17.767364+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "registry search",
+      "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=glutamate+transporter+OR+ceftriaxone&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus",
+      "status": "found",
+      "records": [
+        {
+          "id": "NCT00349622",
+          "title": "Clinical Trial Ceftriaxone in Subjects With ALS",
+          "status": "COMPLETED",
+          "url": "https://clinicaltrials.gov/study/NCT00349622"
+        },
+        {
+          "id": "NCT00718393",
+          "title": "Compassionate Use of Ceftriaxone in Patients With Amyotrophic Lateral Sclerosis (ALS)",
+          "status": "COMPLETED",
+          "url": "https://clinicaltrials.gov/study/NCT00718393"
+        }
+      ],
+      "sha256": "3f059515717f1452d66ddada2015e64a09658aec76caf5be4c1966e22a46dd46",
+      "fetched_at": "2026-11-08T05:57:17.875980+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "ChEMBL target search",
+      "url": "https://www.ebi.ac.uk/chembl/api/data/target.json?target_components__accession=P43004&limit=5",
+      "status": "found",
+      "records": [
+        {
+          "id": "CHEMBL4973",
+          "title": "Excitatory amino acid transporter 2",
+          "url": "https://www.ebi.ac.uk/chembl/explore/target/CHEMBL4973"
+        }
+      ],
+      "sha256": "527cb6f503443dbc22c6a51fcb584a64b17461c1acf0365aaac05e4fb41ea0bd",
+      "fetched_at": "2026-11-08T05:57:18.315240+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "reviewed primary records",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A7611729+OR+EXT_ID%3A15635412+OR+EXT_ID%3A25297012%29&resultType=core&format=json&pageSize=3",
+      "status": "found",
+      "records": [
+        {
+          "id": "25297012",
+          "title": "Safety and efficacy of ceftriaxone for amyotrophic lateral sclerosis: a multi-stage, randomised, double-blind, placebo-controlled trial.",
+          "marker": "stage 3",
+          "matched": true,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/25297012/"
+        },
+        {
+          "id": "15635412",
+          "title": "Beta-lactam antibiotics offer neuroprotection by increasing glutamate transporter expression.",
+          "marker": "expression",
+          "matched": true,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/15635412/"
+        },
+        {
+          "id": "7611729",
+          "title": "Selective loss of glial glutamate transporter GLT-1 in amyotrophic lateral sclerosis.",
+          "marker": "GLT-1",
+          "matched": true,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/7611729/"
+        }
+      ],
+      "sha256": "acccfa5ea883c3f8756814f96d289de20503889c093dc4110dd450dd69fed473",
+      "fetched_at": "2026-11-08T05:57:18.899683+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "target and process annotations",
+      "url": "https://rest.uniprot.org/uniprotkb/P43004.json",
+      "status": "found",
+      "records": [
+        {
+          "id": "P43004",
+          "url": "https://rest.uniprot.org/uniprotkb/P43004.json",
+          "symbol": "SLC1A2",
+          "processes": [
+            {
+              "id": "GO:0006865",
+              "label": "amino acid transport"
+            },
+            {
+              "id": "GO:0007268",
+              "label": "chemical synaptic transmission"
+            },
+            {
+              "id": "GO:0070779",
+              "label": "D-aspartate import across plasma membrane"
+            },
+            {
+              "id": "GO:0090461",
+              "label": "intracellular glutamate homeostasis"
+            },
+            {
+              "id": "GO:0140009",
+              "label": "L-aspartate import across plasma membrane"
+            },
+            {
+              "id": "GO:0070778",
+              "label": "L-aspartate transmembrane transport"
+            },
+            {
+              "id": "GO:0098712",
+              "label": "L-glutamate import across plasma membrane"
+            },
+            {
+              "id": "GO:0015813",
+              "label": "L-glutamate transmembrane transport"
+            },
+            {
+              "id": "GO:0006836",
+              "label": "neurotransmitter transport"
+            },
+            {
+              "id": "GO:0070207",
+              "label": "protein homotrimerization"
+            },
+            {
+              "id": "GO:0070633",
+              "label": "transepithelial transport"
+            },
+            {
+              "id": "GO:0150104",
+              "label": "transport across blood-brain barrier"
+            }
+          ]
+        }
+      ],
+      "sha256": "dc41ec558b566cb3f612f79a84507921eeee84cf2ced09d82d65223d72346e75",
+      "fetched_at": "2026-11-08T05:57:19.489566+00:00",
+      "access": "live"
+    }
+  ],
+  "findings": [
+    {
+      "id": "25297012",
+      "role": "contrary",
+      "finding": "The phase III test of the induction strategy did not improve ALS function or survival and had hepatobiliary toxicity.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/25297012/"
+    },
+    {
+      "id": "15635412",
+      "role": "support",
+      "finding": "Preclinical induction of GLT1 expression increased glutamate transport. Upregulation is a research hypothesis.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/15635412/"
+    },
+    {
+      "id": "7611729",
+      "role": "support",
+      "finding": "Postmortem ALS tissue showed lower glial glutamate transporter protein. This is a group observation.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/7611729/"
+    },
+    {
+      "id": "P43004",
+      "role": "target identity and GO annotation",
+      "finding": "Reviewed target annotation identifies SLC1A2.",
+      "url": "https://rest.uniprot.org/uniprotkb/P43004.json"
+    },
+    {
+      "id": "profile-0-25297012",
+      "role": "hosted research finding",
+      "finding": "A phase III randomised placebo-controlled trial of a glutamate-transporter induction strategy in ALS did not improve function or survival and had hepatobiliary toxicity.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/25297012/"
+    },
+    {
+      "id": "profile-0-15635412",
+      "role": "hosted research finding",
+      "finding": "Preclinical induction of glutamate transporter expression increased glutamate transport, supporting the hypothesis that transporter upregulation is neuroprotective.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/15635412/"
+    },
+    {
+      "id": "profile-0-7611729",
+      "role": "hosted research finding",
+      "finding": "Postmortem ALS tissue showed selective loss of glial glutamate transporter GLT-1 protein in a group-level observation.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/7611729/"
+    },
+    {
+      "id": "profile-0-ENSG00000110436",
+      "role": "hosted research finding",
+      "finding": "SLC1A2 has an Open Targets ALS association score of 0.095, driven by literature evidence (0.78), and no safety liabilities are listed in the target record.",
+      "url": "https://platform.opentargets.org/target/ENSG00000110436"
+    },
+    {
+      "id": "profile-1-ENSG00000120948",
+      "role": "hosted research finding",
+      "finding": "TARDBP has an Open Targets ALS association score of 0.85, indicating strong overall evidence linking it to ALS.",
+      "url": "https://platform.opentargets.org/target/ENSG00000120948"
+    }
+  ],
+  "hosted": {
+    "model": "claude-haiku-5-5",
+    "profiles": [
+      {
+        "therapeutic_goal": "Raise astrocytic glutamate uptake (GLT-1/EAAT2 encoded by SLC1A2) in ALS spinal cord to lower extracellular glutamate around motor neurons, tested as a hypothesis rather than an established mechanism.",
+        "mechanism_of_action": "A CNS-penetrant small molecule or transcriptional inducer that increases SLC1A2 expression and functional glutamate transporter density on perisynaptic astrocyte membranes in the ventral horn. The goal is faster clearance of synaptic glutamate, which would reduce excitotoxic load on motor neurons if excess glutamate contributes to degeneration in a given patient. Benefit is unproven, and the preclinical induction result has not translated clinically.",
+        "molecular_targets": [
+          {
+            "symbol": "SLC1A2",
+            "desired_action": "increase_expression",
+            "rationale": "GLT-1 is the main astrocytic glutamate transporter, and postmortem ALS tissue showed lower glial GLT-1 protein, so restoring its expression is a testable hypothesis for limiting glutamate excitotoxicity. Induction in preclinical work raised glutamate transport, but this remains a research hypothesis."
+          },
+          {
+            "symbol": "glutamate",
+            "desired_action": "modulate",
+            "rationale": "Extracellular glutamate concentration around motor neurons is the downstream variable that the transporter induction is meant to lower; it is a hypothesis to evaluate, not an established driver of ALS."
+          }
+        ],
+        "pathways": [
+          "astrocytic glutamate-glutamine uptake and metabolism",
+          "glutamate neurotransmitter release cycle",
+          "glutamate excitotoxicity (hypothesis)"
+        ],
+        "site_of_action": [
+          "spinal cord ventral horn astrocytes",
+          "perisynaptic astrocyte membranes near lower motor neurons"
+        ],
+        "required_properties": [
+          "CNS-penetrant",
+          "oral or systemic small molecule or biologic with adequate brain exposure",
+          "applicable irrespective of documented genotype or molecular subtype"
+        ],
+        "avoid_properties": [
+          "hepatobiliary toxicity",
+          "agents whose efficacy depends on a specific ALS genotype",
+          "unproven efficacy claims presented as established neuroprotection"
+        ],
+        "lessons_from_failures": [
+          "A phase III trial of a glutamate-transporter induction strategy did not improve ALS function or survival and caused hepatobiliary toxicity, so induction alone is insufficient and liver safety must be monitored.",
+          "Lower GLT-1 in postmortem ALS tissue is a group observation and does not establish that restoring it changes disease course.",
+          "Preclinical upregulation of transporter expression has not been shown to translate into clinical benefit in ALS."
+        ],
+        "target_validation": "preclinical",
+        "confidence": 0.15,
+        "evidence": [
+          {
+            "source": "pubmed",
+            "id": "25297012",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25297012/",
+            "claim": "A phase III randomised placebo-controlled trial of a glutamate-transporter induction strategy in ALS did not improve function or survival and had hepatobiliary toxicity."
+          },
+          {
+            "source": "pubmed",
+            "id": "15635412",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+            "claim": "Preclinical induction of glutamate transporter expression increased glutamate transport, supporting the hypothesis that transporter upregulation is neuroprotective."
+          },
+          {
+            "source": "pubmed",
+            "id": "7611729",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+            "claim": "Postmortem ALS tissue showed selective loss of glial glutamate transporter GLT-1 protein in a group-level observation."
+          },
+          {
+            "source": "opentargets",
+            "id": "ENSG00000110436",
+            "url": "https://platform.opentargets.org/target/ENSG00000110436",
+            "claim": "SLC1A2 has an Open Targets ALS association score of 0.095, driven by literature evidence (0.78), and no safety liabilities are listed in the target record."
+          }
+        ]
+      },
+      {
+        "therapeutic_goal": "Reduce pathological cytoplasmic [drug] mislocalization and aggregation in motor neurons, a genotype-independent ALS proteinopathy target, as an alternative to glutamate-directed strategies.",
+        "mechanism_of_action": "A CNS-penetrant small molecule or biologic that restores nuclear [drug] localization or limits its cytoplasmic aggregation in spinal motor neurons, reducing toxic gain of function and loss of nuclear RNA-processing activity. The strategy does not assume that any particular genetic cause is present in the patient, and target engagement in an individual patient is not assumed.",
+        "molecular_targets": [
+          {
+            "symbol": "TARDBP",
+            "desired_action": "modulate",
+            "rationale": "TARDBP has one of the highest ALS association scores in Open Targets, and [drug] proteinopathy is a broad mechanism in ALS. Modulating its localization or aggregation is a plausible route to preserve motor neurons, but no clinical proof of benefit exists for this mechanism."
+          }
+        ],
+        "pathways": [
+          "[drug] proteinopathy and RNA processing",
+          "proteostasis and aggregate clearance",
+          "nucleocytoplasmic transport"
+        ],
+        "site_of_action": [
+          "spinal cord lower motor neurons",
+          "motor cortex neurons"
+        ],
+        "required_properties": [
+          "CNS-penetrant",
+          "applicable irrespective of documented genotype or molecular subtype"
+        ],
+        "avoid_properties": [
+          "agents that impair nuclear RNA-processing function",
+          "assigning a genetic subtype to the patient"
+        ],
+        "lessons_from_failures": [
+          "Target association in Open Targets does not show that modulating TARDBP improves motor neuron survival in patients.",
+          "The glutamate-transporter test showed that a biologically plausible mechanism can fail to improve ALS function or survival, so mechanistic plausibility is not sufficient."
+        ],
+        "target_validation": "human_genetic",
+        "confidence": 0.2,
+        "evidence": [
+          {
+            "source": "opentargets",
+            "id": "ENSG00000120948",
+            "url": "https://platform.opentargets.org/target/ENSG00000120948",
+            "claim": "TARDBP has an Open Targets ALS association score of 0.85, indicating strong overall evidence linking it to ALS."
+          }
+        ]
+      }
+    ],
+    "dead_ends": [
+      "No ALS trial of a glutamate receptor antagonist was retrieved in the targeted search; the glutamate-keyword search returned only PET imaging trials (NCT05340660, NCT02236897), which are diagnostic rather than therapeutic.",
+      "No directly targeted ALS trial of a GLT-1 inducer other than the phase III transporter induction strategy (25297012) was found in the registry records supplied.",
+      "The ceftriaxone compassionate-use and phase III registry entries (NCT00349622, NCT00718393) were not used as evidence of benefit; the phase III publication reports no functional or survival benefit and hepatobiliary toxicity, the harm direction to flag.",
+      "Open Targets lists no safety liabilities for SLC1A2, but that absence is not evidence of safety, and the hepatobiliary signal from the transporter induction strategy must be monitored.",
+      "Recent records on DNMT3B-mediated transporter downregulation (42496779) and EAAT2 tracers (42952031) are mechanistic or imaging studies, not therapeutic evidence, and were not used to support a profile.",
+      "Unresolved: whether transporter upregulation lowers excitotoxic injury in human motor neurons; no human biomarker linking glutamate transporter level to disease progression was found.",
+      "No search was done for antioxidant or oxidative-stress targets beyond one review record (42792229), so that pathway was left out of the profiles."
+    ],
+    "rejected": [],
+    "events": [
+      {
+        "type": "subagent_started",
+        "criterion": "genes-targets",
+        "data": {
+          "criterion": "genes-targets",
+          "objective": "Identify molecular targets, with the direction of modulation (inhibition, activation or other) and the rationale, that could preserve motor neurons in amyotrophic lateral sclerosis. Treat glutamate excitotoxicity as a hypothesis to evaluate, not an established mechanism. Do not assume any genotype or molecular subtype.",
+          "constraints": [
+            "Target relevant to motor neuron survival in amyotrophic lateral sclerosis",
+            "State the direction of modulation needed and the supporting evidence level",
+            "Include targets linked to glutamate excitotoxicity as a hypothesis, alongside other supported targets",
+            "Applicable irrespective of a documented genotype"
+          ],
+          "avoid": [
+            "Assigning a genetic subtype",
+            "Assuming target engagement in the individual patient"
+          ]
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "genes-targets",
+        "data": {
+          "tool": "opentargets_als_targets",
+          "args": {
+            "limit": 25
+          }
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "genes-targets",
+        "data": {
+          "tool": "target_profile",
+          "args": {
+            "gene_symbol": "SLC1A2"
+          }
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "genes-targets",
+        "data": {
+          "tool": "search_als_trials",
+          "args": {
+            "intervention": "glutamate",
+            "max_results": 8
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "genes-targets",
+        "data": {
+          "tool": "opentargets_als_targets",
+          "chars": 6659,
+          "error": false,
+          "content_sha256": "6bc72289de9d4c92dd966c9bb67dbf2d5ee571d8447ef7a20bcc636508a48901"
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "genes-targets",
+        "data": {
+          "tool": "target_profile",
+          "chars": 1617,
+          "error": false,
+          "content_sha256": "c1a188b0617605f10936819d7f5d2ece447ec79a95b39b13465a8cd709048476"
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "genes-targets",
+        "data": {
+          "tool": "search_als_trials",
+          "chars": 683,
+          "error": false,
+          "content_sha256": "951cb64b0e570940f450fabac6699875638064830b92f029086f8442f49f3d4d"
+        }
+      },
+      {
+        "type": "subagent_finished",
+        "criterion": "genes-targets",
+        "data": {
+          "profiles": 2,
+          "goals": [
+            "Raise astrocytic glutamate uptake (GLT-1/EAAT2 encoded by SLC1A2) in ALS spinal cord to lower extracellular glutamate around motor neurons, tested as a hypothesis rather than an established mechanism.",
+            "Reduce pathological cytoplasmic TDP-43 mislocalization and aggregation in motor neurons, a genotype-independent ALS proteinopathy target, as an alternative to glutamate-directed strategies."
+          ],
+          "targets": [
+            [
+              "SLC1A2",
+              "glutamate"
+            ],
+            [
+              "TARDBP"
+            ]
+          ],
+          "dead_ends": [
+            "No ALS trial of a glutamate receptor antagonist was retrieved in the targeted search; the glutamate-keyword search returned only PET imaging trials (NCT05340660, NCT02236897), which are diagnostic rather than therapeutic.",
+            "No directly targeted ALS trial of a GLT-1 inducer other than the phase III transporter induction strategy (25297012) was found in the registry records supplied.",
+            "The ceftriaxone compassionate-use and phase III registry entries (NCT00349622, NCT00718393) were not used as evidence of benefit; the phase III publication reports no functional or survival benefit and hepatobiliary toxicity, the harm direction to flag.",
+            "Open Targets lists no safety liabilities for SLC1A2, but that absence is not evidence of safety, and the hepatobiliary signal from the transporter induction strategy must be monitored.",
+            "Recent records on DNMT3B-mediated transporter downregulation (42496779) and EAAT2 tracers (42952031) are mechanistic or imaging studies, not therapeutic evidence, and were not used to support a profile.",
+            "Unresolved: whether transporter upregulation lowers excitotoxic injury in human motor neurons; no human biomarker linking glutamate transporter level to disease progression was found.",
+            "No search was done for antioxidant or oxidative-stress targets beyond one review record (42792229), so that pathway was left out of the profiles."
+          ]
+        }
+      }
+    ],
+    "access": "replay",
+    "cache_key": "0201029c970eec3b7a408cde6195a46cd55fe2da0ae40fe5c006dc7e6a7bd85a"
+  },
+  "unmapped": [
+    {
+      "target": {
+        "symbol": "glutamate",
+        "desired_action": "modulate",
+        "rationale": "Extracellular glutamate concentration around motor neurons is the downstream variable that the transporter induction is meant to lower; it is a hypothesis to evaluate, not an established driver of ALS."
+      },
+      "reason": "No equivalent signed predicate in this release"
+    },
+    {
+      "target": {
+        "symbol": "TARDBP",
+        "desired_action": "modulate",
+        "rationale": "TARDBP has one of the highest ALS association scores in Open Targets, and [drug] proteinopathy is a broad mechanism in ALS. Modulating its localization or aggregation is a plausible route to preserve motor neurons, but no clinical proof of benefit exists for this mechanism."
+      },
+      "reason": "No equivalent signed predicate in this release"
+    }
+  ],
+  "reason": null,
+  "queries": [
+    {
+      "anchor": "Gene::6506",
+      "traversals": [
+        {
+          "relation": "GNBR::E+::Compound:Gene",
+          "forward": false,
+          "glossary": {
+            "Relation-name": "GNBR::E+::Compound:Gene",
+            "Data-source": "GNBR",
+            "Connected entity-types": "Compound:Gene",
+            "Interaction-type": "increases expression/production",
+            "Description": "",
+            "Reference for the description": ""
+          },
+          "row": 30
+        }
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json",
+        "https://pubmed.ncbi.nlm.nih.gov/25297012/",
+        "https://platform.opentargets.org/target/ENSG00000110436"
+      ],
+      "fact": {
+        "field": "diagnosis",
+        "pointer": "patient_profile.summary",
+        "status": "reported",
+        "concept": "als",
+        "quote": "Amyotrophic Lateral Sclerosis",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation",
+        "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+        "mapping": "reported",
+        "ids": [
+          "Gene::6506"
+        ]
+      },
+      "finding_ids": [
+        "7611729",
+        "15635412",
+        "P43004",
+        "profile-0-25297012",
+        "profile-0-15635412",
+        "profile-0-7611729",
+        "profile-0-ENSG00000110436"
+      ],
+      "desired_action": "increase_expression",
+      "goal": "increase astroglial glutamate transporter expression",
+      "anchor_label": "SLC1A2",
+      "anchor_row": 1293,
+      "derivation": [],
+      "formula": "e[Gene::6506] - r[GNBR::E+::Compound:Gene]"
+    }
+  ]
+}
