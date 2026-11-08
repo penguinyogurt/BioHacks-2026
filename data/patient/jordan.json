@@ -1,0 +1,243 @@
+{
+  "synthetic": true,
+  "source": "jordan_chart.pdf",
+  "identifiers": {
+    "full_name": "Jordan Ellis",
+    "date_of_birth": "1968-11-03",
+    "mrn": "NNC-0071935",
+    "health_card": "8812-447-310-KT",
+    "address": "44 Birch Crescent, Kingston, Ontario",
+    "city": "Kingston",
+    "province_or_state": "Ontario",
+    "phone": "613-555-0177",
+    "email": "j.ellis68@example.org",
+    "clinicians": [
+      "Dr. Samuel Okafor",
+      "Dr. Helen Brandt"
+    ],
+    "other": [
+      "Maria Ellis (spouse, next of kin)",
+      "Northshore Neuromuscular Clinic - ALS Program",
+      "1200 Lakeview Avenue, Kingston, Ontario K7L 3N6",
+      "613-555-0198",
+      "K7L 3N6",
+      "Visit date: 2026-10-21"
+    ]
+  },
+  "diagnosis": "Amyotrophic lateral sclerosis, bulbar onset. Symptom onset 2025-06 with slurred speech; diagnosed 2025-12 (Gold Coast criteria met). Now with upper-limb involvement bilaterally.",
+  "genetics": [
+    {
+      "name": "SOD1",
+      "value": "heterozygous pathogenic variant c.14C>T (p.Ala5Val; legacy A4V)",
+      "date": ""
+    },
+    {
+      "name": "C9orf72 repeat expansion",
+      "value": "negative",
+      "date": ""
+    },
+    {
+      "name": "CYP2D6",
+      "value": "poor metabolizer",
+      "date": ""
+    },
+    {
+      "name": "CYP1A2",
+      "value": "normal metabolizer",
+      "date": ""
+    }
+  ],
+  "medications": [
+    {
+      "name": "riluzole",
+      "dose": "oral suspension 50 mg twice daily",
+      "since": "2026-01"
+    },
+    {
+      "name": "glycopyrrolate",
+      "dose": "oral solution 1 mg three times daily",
+      "since": "2026-05"
+    },
+    {
+      "name": "citalopram",
+      "dose": "10 mg daily",
+      "since": "2026-03"
+    },
+    {
+      "name": "pantoprazole",
+      "dose": "40 mg daily",
+      "since": ""
+    }
+  ],
+  "allergies": [
+    "Penicillin (hives)"
+  ],
+  "labs": [
+    {
+      "test": "Creatine kinase",
+      "value": "312",
+      "unit": "U/L",
+      "ref": "< 195",
+      "date": "2026-10-21"
+    },
+    {
+      "test": "ALT",
+      "value": "28",
+      "unit": "U/L",
+      "ref": "< 40",
+      "date": "2026-10-21"
+    },
+    {
+      "test": "eGFR",
+      "value": "81",
+      "unit": "mL/min/1.73m2",
+      "ref": "> 60",
+      "date": "2026-10-21"
+    },
+    {
+      "test": "Neurofilament light (serum)",
+      "value": "112",
+      "unit": "pg/mL",
+      "ref": "< 20",
+      "date": "2026-09-30"
+    },
+    {
+      "test": "QTc (ECG)",
+      "value": "452",
+      "unit": "ms",
+      "ref": "< 450",
+      "date": "2026-10-21"
+    },
+    {
+      "test": "Sodium",
+      "value": "139",
+      "unit": "mmol/L",
+      "ref": "135-145",
+      "date": "2026-10-21"
+    }
+  ],
+  "function": [
+    {
+      "name": "ALSFRS-R total",
+      "value": "34/48",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "ALSFRS-R bulbar",
+      "value": "5/12",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "ALSFRS-R fine motor",
+      "value": "9/12",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "ALSFRS-R gross motor",
+      "value": "9/12",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "ALSFRS-R respiratory",
+      "value": "11/12",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "ALSFRS-R decline rate",
+      "value": "about 1.1 points/month since diagnosis",
+      "date": ""
+    },
+    {
+      "name": "FVC sitting %",
+      "value": "71%",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "FVC supine %",
+      "value": "63%",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "weight kg",
+      "value": "72.0",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "weight kg at diagnosis",
+      "value": "79.5",
+      "date": "2025-12"
+    },
+    {
+      "name": "grip right kg",
+      "value": "21",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "grip left kg",
+      "value": "19",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "swallowing",
+      "value": "chokes on thin liquids and dry solids; uses thickened fluids. PEG discussed.",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "speech",
+      "value": "dysarthric, understood by family only; uses a text-to-speech app",
+      "date": "2026-10-21"
+    }
+  ],
+  "symptoms": [
+    {
+      "name": "Drooling",
+      "severity": 4,
+      "note": "still troublesome despite glycopyrrolate, worse when talking"
+    },
+    {
+      "name": "Pseudobulbar affect",
+      "severity": 3,
+      "note": "episodes of uncontrollable crying several times a week"
+    },
+    {
+      "name": "Dysarthria",
+      "severity": -1,
+      "note": "understood by family only; uses a text-to-speech app"
+    },
+    {
+      "name": "Dysphagia",
+      "severity": -1,
+      "note": "chokes on thin liquids and dry solids; uses thickened fluids. PEG discussed."
+    },
+    {
+      "name": "Low mood",
+      "severity": 2,
+      "note": "improving on citalopram"
+    },
+    {
+      "name": "Muscle cramps",
+      "severity": 1,
+      "note": "occasional, in forearms"
+    },
+    {
+      "name": "Constipation",
+      "severity": 2,
+      "note": ""
+    }
+  ],
+  "trials": [
+    {
+      "nct_id": "NCT04856982",
+      "name": "ATLAS",
+      "role": "screened",
+      "outcome": "not eligible as already symptomatic"
+    },
+    {
+      "nct_id": "",
+      "name": "recruiting trials for SOD1-ALS",
+      "role": "interested",
+      "outcome": ""
+    }
+  ],
+  "goals": "Keep communicating with family; reduce drooling and crying episodes; avoid choking."
+}

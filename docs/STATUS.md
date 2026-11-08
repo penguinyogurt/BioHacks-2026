@@ -38,6 +38,13 @@ Whoever picks this up: the cheapest win in the repo is making Jeremy's
 `PipelineEvent` stream come from Levi's agents instead of a timer. The seam
 already exists. Talk before either of you builds further.
 
+**Neo** has a third piece, `agent/` (PR #4): a Claude orchestrator that plans
+ALS criteria and runs parallel LLM sub-agents that return drug-free *target
+profiles* (genes + desired action, pathways, site). These are the anchors
+Levi's DRKG agents need, and its SSE stream is a live source for Jeremy's
+`PipelineEvent`s. How to combine all three without building a fourth:
+[`RESEARCH_AGENT_HANDOFF.md`](RESEARCH_AGENT_HANDOFF.md).
+
 ## Found while auditing — read before you pitch
 
 Measured against Neo's real `pipeline.json` on `cursor/pipeline-graph-ui`,

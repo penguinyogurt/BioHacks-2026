@@ -43,6 +43,11 @@ artifacts/
 # 10.5 MB version on cursor/pipeline-graph-ui is not what main wants.
 !data/pipeline.json
 
+# Research agent: recorded runs and tool cache are local
+agent/runs/
+agent/cache/
+agent/.venv/
+
 # ─── Per-person AI config ─────────────────────────────────────────────────
 # Each harness writes its own machine-local hooks and state. None of it is
 # shared, and committing it starts merge fights nobody wants mid-hackathon.
