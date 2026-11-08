@@ -1,5 +1,8 @@
 # Research agent — handoff for merging the two agent workflows
 
+> **Paths:** since the 2026-11-08 reorg this lives in `backend/`. Paths below
+> (`agent/…`, `data/…`) are relative to `backend/`; run commands from there.
+
 From: Neo's session, 2026-11-07 → 11-08. Branch: `agent/research-backend`.
 For: whoever merges this with Levi's `backend/query-generation/`
 (`agentic-query-generation`) and Jeremy's discovery UI.
@@ -41,7 +44,7 @@ POST /api/research
 | `api.py` | FastAPI + SSE for the frontend | Yes |
 | `llm.py` · `config.py` | The only place Claude clients are built; budgets | Yes |
 
-How to run it, the API table and the event list are in [`agent/README.md`](../agent/README.md).
+How to run it, the API table and the event list are in [`backend/agent/README.md`](../backend/agent/README.md).
 The original design and the list of data sources are in [`RESEARCH_AGENT_SPEC.md`](RESEARCH_AGENT_SPEC.md).
 **Where they disagree, this file and the README are current.** The spec
 still describes sub-agents that return drug findings and the old Gemini

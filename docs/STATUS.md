@@ -19,6 +19,14 @@ Last updated: **2026-11-08**
 
 ---
 
+## Repo reorg (2026-11-08): only `frontend/` and `backend/` at the top
+
+`agent/`, `contract/`, `data/` → `backend/`; the six diagnostic dirs →
+`backend/diagnostics/`. If your branch predates this, merge `main` in —
+git follows the renames — but **new files you added at the old paths will
+land at the old paths**; `git mv` them under `backend/`. Agent commands now
+run from `backend/`; contract is `npm test --prefix backend/contract`.
+
 ## ⚠ Two people are building the same pipeline right now
 
 **Jeremy** has the five-stage discovery pipeline in `frontend/` — scripted
@@ -38,7 +46,7 @@ Whoever picks this up: the cheapest win in the repo is making Jeremy's
 `PipelineEvent` stream come from Levi's agents instead of a timer. The seam
 already exists. Talk before either of you builds further.
 
-**Neo** has a third piece, `agent/` (PR #4): a Claude orchestrator that plans
+**Neo** has a third piece, `backend/agent/` (PR #4): a Claude orchestrator that plans
 ALS criteria and runs parallel LLM sub-agents that return drug-free *target
 profiles* (genes + desired action, pathways, site). These are the anchors
 Levi's DRKG agents need, and its SSE stream is a live source for Jeremy's

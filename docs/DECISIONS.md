@@ -8,6 +8,12 @@ If you reverse one, append the reversal; don't edit the old entry away.
 
 ---
 
+## 2026-11-08 — Two top-level code dirs: `frontend/` and `backend/`
+
+**What:** Everything that isn't the Motus UI moved under `backend/`: `agent/`, `contract/`, `data/`, and the six diagnostic dirs (now `backend/diagnostics/`). Pure renames, no code edits.
+**Why:** Eleven loose top-level dirs made the repo unreadable at a glance; every moved module resolves paths relative to itself, so moving them as siblings breaks nothing (`agent/` now finds `data/` at `backend/data/`).
+**Rules out:** New top-level code directories. Run the agent from `backend/` (`python -m agent.api`); contract commands use `--prefix backend/contract`.
+
 ## 2026-11-08 — Merge the standalone diagnostic suite into main
 
 **What:** Bring the history of `codex/diagnostic-tests` into `main` with its six diagnostic directories.
