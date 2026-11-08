@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowRight, Download, FileText, Loader2, Play, Upload, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { readCasePdf } from '@/lib/case-pdf'
 import { buildReportPdf } from '@/lib/report-pdf'
 import { PROFILES, SAMPLE_PATIENT, type StageId } from '@/lib/pipeline'
 import { useRun } from '@/lib/run-store'
-import { AGENT_PATIENT } from '@/lib/agent-api'
+import { AGENT_PATIENT, filenameOf, reportFilename } from '@/lib/agent-api'
 import { LANE_COLORS } from './lanes'
 import { EmptyStage, PatientCard, STEPS, StageHeader, StepNav, Trace, useGo } from './pieces'
 import { DrkgScene } from './drkg-scene'
@@ -92,7 +92,7 @@ function CaseUpload() {
       {busy ? <Loader2 className="size-6 animate-spin text-muted-foreground" aria-hidden /> : <Upload className="size-6 text-muted-foreground" aria-hidden />}
       <div>
         <p className="font-medium">{busy ? 'Reading the profile…' : 'Drop the patient profile PDF'}</p>
-        <p className="mt-1 text-xs text-muted-foreground">Stays in your browser</p>
+        <p className="mt-1 max-w-sm text-xs text-pretty text-muted-foreground">Sent to Claude to build the patient record when the pipeline runs live. Use synthetic or de-identified cases only.</p>
       </div>
       <input ref={input} type="file" accept="application/pdf,.pdf" className="sr-only" onChange={(e) => void take(e.target.files?.[0])} />
       <Button variant="outline" size="sm" disabled={busy} onClick={() => input.current?.click()}>Choose PDF</Button>
@@ -362,6 +362,24 @@ export function EmbeddingPage() {
 
 /* ------------------------------------------------------ 04 research report */
 
+/** Whether this live report reached Supabase. Words carry the state, not just colour. */
+function SaveNote() {
+  const { reportSave } = useRun()
+  const text = {
+    idle: null,
+    saving: 'Saving to your reports…',
+    saved: 'Saved to your reports',
+    off: 'Not saved: sign in to keep reports',
+    error: `Not saved: ${reportSave.message ?? 'unknown error'}`,
+  }[reportSave.status]
+  return text ? (
+    <CardDescription role="status" className={cn('text-xs', reportSave.status === 'error' && 'text-destructive')}>
+      {reportSave.status === 'saved' ? '✓ ' : ''}
+      {text}
+    </CardDescription>
+  ) : null
+}
+
 export function CandidatesPage() {
   const { state, weights, date, caseFile } = useRun()
   const live = state.source === 'live'
@@ -369,6 +387,8 @@ export function CandidatesPage() {
   // The agent's report, as a PDF for the browser's own viewer (same as the case file in step 0).
   const [url, setUrl] = useState<string | null>(null)
   const [pdfError, setPdfError] = useState<string | null>(null)
+  // Live: the backend names the file ("Alex Moreau (alex).pdf") and we read it off the response.
+  const [liveName, setLiveName] = useState<string | null>(null)
   // Each URL is created and revoked by the same effect run, so StrictMode's
   // mount → unmount → mount can't revoke the one the viewer is still showing.
   useEffect(() => {
@@ -379,7 +399,11 @@ export function CandidatesPage() {
     if (live && state.reportPdf) {
       // The backend's PDF is served as an attachment; fetched as a blob, the browser shows it inline.
       fetch(state.reportPdf)
-        .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
+        .then((r) => {
+          if (!r.ok) return Promise.reject(new Error(String(r.status)))
+          if (!gone) setLiveName(filenameOf(r))
+          return r.blob()
+        })
         .then((b) => {
           if (gone) return
           u = URL.createObjectURL(new Blob([b], { type: 'application/pdf' }))
@@ -397,7 +421,7 @@ export function CandidatesPage() {
     }
   }, [state.report, state.reportPdf, live, patient, weights, date, caseFile?.name])
   // A live report is about the backend's patient record, not the case parsed in the browser.
-  const filename = `Addo report - ${live ? AGENT_PATIENT : patient.label}.pdf`
+  const filename = (live && liveName) || (live ? reportFilename(patient.label, state.patientId ?? AGENT_PATIENT) : reportFilename(patient.label, patient.id))
   return (
     <div className="mx-auto max-w-[1440px] space-y-3 text-sm">
       <StageHeader
@@ -419,6 +443,7 @@ export function CandidatesPage() {
                   <CardTitle className="flex items-center gap-2 text-lg font-normal">
                     <FileText className="size-4 text-muted-foreground" aria-hidden /> Research report
                   </CardTitle>
+                  {live ? <SaveNote /> : null}
                   <CardAction>
                     <Button asChild size="sm" variant="outline">
                       <a href={url} download={filename}>

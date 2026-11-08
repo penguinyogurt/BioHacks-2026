@@ -48,14 +48,44 @@ justified). Same `render(report) -> bytes`, so `/report.pdf` and `assess.py` are
 untouched; it also renders old reports without `score`. `schemas.py`'s summary and
 limitations now ask for third-person scientific register (future runs only).
 
+**Fixed: assessments crashed on PDF-built records** (`AttributeError: 'list' object has no attribute 'get'`). `assess.patient_context()` only knew the hand-written fixture shape; records from `POST /api/patients` (and `jordan.json`) use `PatientRecord`'s lists of items. It now handles both; `test_privacy.ReportHeader` runs it on every record in `data/patient/`.
+
 **Report chat (Jeremy's request):** the Research report page has an "Ask about this report"
 chat under the PDF once a live assessment finishes (`frontend/src/components/discovery/research-chat.tsx`).
-It streams from a new `POST /api/assess/<id>/chat/stream` (SSE: `thinking`, `tool_call`,
+It streams from a new `POST /api/assess/<id>/chat/stream` (SSE: answer tokens as `delta`, `draft_reset`, `thinking`, `tool_call`,
 `tool_result`, then `answer`/`error`); the old `/chat` is unchanged. **Neo:** `chat.answer()`
 takes an optional `emit`, tool calls are emitted after redaction (what actually left), and
 `llm.claude(..., show_thinking=True)` sets `thinking.display: "summarized"` for the streamed
 chat only. Opus 5.5 returns empty thinking text by default, so without it there's no visible reasoning.
 
+- **Take-home test → report (sidebar → Take-home test).** The test is now the app's own
+  child route, `/take-home/index.html` (pages synced from `backend/diagnostics` into
+  `frontend/public/take-home/`; run `npm run sync:take-home` after editing them), and
+  facial + speech scoring run on the agent backend at `/api/diagnostics`
+  (`backend/diagnostics/api.py`; 503 until the models are installed). Deploy steps for
+  Vercel + Vultr: [`DEPLOY.md`](DEPLOY.md). The tab gives a one-time link:
+  **Open** or **Copy test link** (to send a patient; works on any device). Each link carries a single-use, 7-day invite code from
+  `public.take_home_invites`; when the three tests finish, **the suite saves the results
+  itself** via `submit_take_home(code, results)` (security definer; the code is the
+  credential, so no sign-in is needed in the test and no Addo tab has to stay open).
+  Stored as `reports.kind = 'take_home_test'`, results JSON only; the PDF is drawn from
+  it on view (`frontend/src/lib/take-home.ts`). Shown under Reports → **Test results**.
+  The database advisor flags that function as anon-callable: intentional, see the
+  migration. Fallback: a test opened without a link offers a results file to import.
+  Pass rules: facial = the test's own (top prediction is the target, ≥ 80%); **speech ≥
+  90% words correct per passage and tracing ≥ 80% inside the guide per shape are
+  screening defaults we chose** (`SPEECH_PASS`/`LINE_PASS`). The launcher now works on
+  Windows; the facial and speech tests still need their `setup.sh` on each machine.
+- **Finished live reports are saved to Supabase** (signed-in users only): table
+  `public.reports` (ids, ranking, full report JSON, **chat history**) and private bucket
+  `reports/<user_id>/<run>.pdf`, both owner-only by RLS. Schema:
+  `frontend/supabase/migrations/`; code: `frontend/src/lib/reports-db.ts`. The
+  **Reports** page lists them from any machine (plus this session's simulated runs);
+  a card opens its PDF in the app's own viewer straight from Supabase storage, so it
+  keeps working after the agent backend is gone. Signed out, nothing is saved.
+- **Report PDFs download as `<patient name> (<patient id>).pdf`**, e.g.
+  `Alex Moreau (alex).pdf` (`api.pdf_filename`; the CORS config now exposes
+  `Content-Disposition` so the frontend can read it).
 - **A reload no longer loses the run.** The current run's three backend ids and the
   uploaded case PDF are kept in the browser (`frontend/src/lib/session.ts`); on load
   the app reconnects and the backend replays every event, so finished stages and the
@@ -78,9 +108,13 @@ chat only. Opus 5.5 returns empty thinking text by default, so without it there'
 
 - **Neo — one line in your file:** `graph.py`'s `plan` event now also carries
   `rationale`, so the UI can show the orchestrator's reasoning. Additive only.
-- The agent reads `backend/data/patient/alex.json`, **not** the PDF uploaded in
-  the browser (`VITE_AGENT_PATIENT` to change). Sending the PDF to
-  `POST /api/patients` is the obvious next step; it adds ~45 s of Opus.
+- **The agent now uses the uploaded case PDF.** On Run it goes to `POST /api/patients`
+  (Claude builds the record; ~10 s for the sample chart) under the id
+  `<name>-<file hash>`, e.g. `alex-chen-d1cb54`, so the same file is read once. Every
+  stage uses that record, so the report, PDF name and patient card all name the same
+  person. Uploads are sent marked synthetic, and the upload page now says to use
+  synthetic or de-identified cases only. Uploaded records are gitignored; only `alex.json`
+  and `jordan.json` are tracked. `VITE_AGENT_PATIENT` is now only the fallback (replays).
 - "Five agents" is `AGENT_MAX_SUBAGENTS=5` in your local `backend/agent/.env`;
   the planner may still pick 3–5. Lanes render from the plan, so any count works.
 - Rehearse with `VITE_AGENT_REPLAY_RUN=<run_id>`: replays a recorded run at

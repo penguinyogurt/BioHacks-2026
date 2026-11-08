@@ -16,6 +16,8 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { useAuth } from '@/lib/auth'
 import type { StageId } from '@/lib/pipeline'
 import { RunProvider, useRun } from '@/lib/run-store'
+import { TakeHomeProvider } from '@/lib/take-home-store'
+import TakeHomePage from '@/components/take-home-page'
 
 
 /** Placeholder copy for views that aren't built yet. */
@@ -97,9 +99,12 @@ export default function Home() {
     // The user moves between steps, with one exception: a live run follows the
     // orchestrator from analysis to the profile agents when it fans out.
     <RunProvider>
+      {/* Inside RunProvider: names test results after the uploaded case's patient. */}
+      <TakeHomeProvider>
       <GoContext.Provider value={setView}>
         <Workspace view={view} setView={setView} profile={profile} onSignOut={user ? signOut : undefined} />
       </GoContext.Provider>
+    </TakeHomeProvider>
     </RunProvider>
   )
 }
@@ -169,6 +174,8 @@ function Workspace({ view, setView, profile, onSignOut }: { view: string; setVie
                 <GraphExplorer />
               ) : view === 'fus' ? (
                 <FusPage />
+              ) : view === 'take-home' ? (
+                <TakeHomePage />
               ) : view === 'patient' ? (
                 <OverviewDashboard />
               ) : page && !isPipeline ? (

@@ -13,7 +13,7 @@ from typing import Callable
 
 import httpx
 from langchain.agents import create_agent
-from langchain_core.messages import AIMessage, HumanMessage
+from langchain_core.messages import AIMessage, AIMessageChunk, HumanMessage
 from langchain_core.tools import tool
 
 from agent import pubmed
@@ -123,9 +123,19 @@ async def answer(report: dict, messages: list[dict], emit: Callable[[dict], None
                                                      report=json.dumps(_report_for_prompt(report), indent=1)))
     history = [HumanMessage(m["content"]) if m["role"] == "user" else AIMessage(m["content"]) for m in messages[-MAX_TURNS:]]
     last: AIMessage | None = None
-    async for update in agent.astream({"messages": history}, stream_mode="updates",
-                                      config={"run_name": f"assessment chat {report['run_id']}", "recursion_limit": 2 * (PUBMED_PER_TURN + WEB_PER_TURN) + 6}):
-        for node_out in update.values():
+    # "messages" streams the orchestrator's answer token by token (`delta`); "updates" gives each
+    # finished model turn, whose thinking and tool calls become steps.
+    async for mode, data in agent.astream({"messages": history}, stream_mode=["updates", "messages"],
+                                          config={"run_name": f"assessment chat {report['run_id']}", "recursion_limit": 2 * (PUBMED_PER_TURN + WEB_PER_TURN) + 6}):
+        if mode == "messages":
+            chunk, meta = data
+            # Only the orchestrator's own turns: web_research runs another model inside the tools node.
+            if meta.get("langgraph_node") == "model" and isinstance(chunk, AIMessageChunk):
+                for b in _blocks(chunk):
+                    if b.get("type") == "text" and b.get("text"):
+                        say({"type": "delta", "data": {"text": b["text"]}})
+            continue
+        for node_out in data.values():
             for msg in node_out.get("messages", []) if isinstance(node_out, dict) else []:
                 if not isinstance(msg, AIMessage):
                     continue
@@ -136,6 +146,8 @@ async def answer(report: dict, messages: list[dict], emit: Callable[[dict], None
                     elif b.get("type") == "text" and msg.tool_calls and b.get("text", "").strip():
                         # text alongside a tool call is the agent narrating its next step, not the answer
                         say({"type": "thinking", "data": {"text": b["text"].strip()}})
+                if msg.tool_calls:
+                    say({"type": "draft_reset", "data": {}})  # whatever streamed this turn wasn't the answer
     text = "".join(b.get("text", "") for b in _blocks(last) if b.get("type") == "text") if last else ""
     (text,), refs, dropped = resolve_citations([text], papers)
     return {"answer": text, "references": [r.model_dump() for r in refs], "searches": searches,

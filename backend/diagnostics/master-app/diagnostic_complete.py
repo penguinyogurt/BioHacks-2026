@@ -29,7 +29,9 @@ def healthy(url, expected):
                 raise RuntimeError("A different app is using " + url)
             return True
     except URLError as error:
-        if getattr(error.reason, "errno", None) in (errno.ECONNREFUSED,):
+        # Nothing listening yet. On Windows a closed local port isn't refused at once: the connect
+        # retries for ~2 s, so this 1 s check times out instead (or reports WSAECONNREFUSED, 10061).
+        if isinstance(error.reason, (ConnectionRefusedError, TimeoutError)) or getattr(error.reason, "errno", None) in (errno.ECONNREFUSED, getattr(errno, "WSAECONNREFUSED", -1)):
             return False
         raise RuntimeError("Could not reach the test at " + url) from error
 
@@ -43,7 +45,8 @@ def start_test(stage):
         if healthy(url, signature):
             return url
         folder = ROOT / directory
-        python = folder / ".venv/bin/python"
+        # macOS/Linux venvs keep the interpreter in bin/, Windows ones in Scripts/.
+        python = next((p for p in (folder / ".venv/bin/python", folder / ".venv/Scripts/python.exe") if p.is_file()), folder / ".venv/bin/python")
         if not python.is_file():
             raise RuntimeError(f"Run setup.sh in {directory} first.")
         process = CHILDREN.get(stage)
@@ -75,14 +78,15 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.headers.get("Host") != URL[7:]:
             return self.send_error(403)
-        if self.path == "/health":
+        path = self.path.split("?", 1)[0]  # the suite is opened as /?return=<web app origin>
+        if path == "/health":
             return self.reply(200,b"diagnostic-complete-v1","text/plain")
         routes={"/":(APP/"diagnostic-ui/index.html","text/html"),"/suite.js":(APP/"diagnostic-ui/suite.js","text/javascript"),
                 "/trace":(ROOT/"line-test/index.html","text/html")}
-        if self.path not in routes:
+        if path not in routes:
             return self.send_error(404)
-        path, kind=routes[self.path]
-        self.reply(200,path.read_bytes(),kind+"; charset=utf-8")
+        file, kind=routes[path]
+        self.reply(200,file.read_bytes(),kind+"; charset=utf-8")
 
     def do_POST(self):
         stage=self.path.removeprefix("/begin/")

@@ -1,0 +1,14 @@
+# Take-home test scoring on the agent backend (diagnostics/api.py, mounted at /api/diagnostics).
+# Install into the SAME venv as the agent (backend/.venv), alongside agent/requirements.txt:
+#   .venv/bin/pip install -r agent/requirements.txt -r diagnostics/requirements.txt \
+#       --extra-index-url https://download.pytorch.org/whl/cpu     # CPU-only torch, ~200 MB instead of ~2 GB
+# Pins match facial-test/setup.sh and speech-test-good/setup.sh, which also fetch the model files.
+torch==2.7.1
+torchvision==0.22.1
+timm==0.6.13
+thop==0.1.1.post2209072238
+opencv-python-headless==4.10.0.84
+numpy<2.1                 # the facial model's pin; agent/requirements.txt accepts any 2.x
+pillow
+scipy
+vosk

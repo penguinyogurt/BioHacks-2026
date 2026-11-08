@@ -8,7 +8,7 @@ langchain-mcp-adapters==0.3.2
 langgraph==1.2.20
 langsmith==0.14.17
 mcp==1.30.0
-numpy==2.5.4      # DRKG scoring (frontend/scripts/drkg_scene.py, run by agent/drkg.py)
+numpy>=2.0         # DRKG scoring (agent/drkg.py). Unpinned: diagnostics/requirements.txt needs <2.1 in the same venv
 pydantic==2.14.3
 pypdf==7.0.0
 python-dotenv==1.2.4

@@ -1,5 +1,5 @@
 import {
-  AlarmClock, BookOpen, Check, Circle, CirclePlus, Database, FileText, FlaskConical, Library, Loader2, LogOut,
+  AlarmClock, BookOpen, Check, Circle, CirclePlus, ClipboardCheck, Database, FileText, FlaskConical, Library, Loader2, LogOut,
   MoreVertical, Network, Activity, Settings, Shield, UserCircle, Users, Waves,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -29,8 +29,9 @@ export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
     label: 'Library',
     items: [
-      { value: 'runs', label: 'Runs & reports', icon: FileText },
+      { value: 'runs', label: 'Reports', icon: FileText },
       { value: 'patient', label: 'Patient monitoring', icon: Activity },
+      { value: 'take-home', label: 'Take-home test', icon: ClipboardCheck },
       { value: 'graph', label: 'Knowledge graph', icon: Network },
     ],
   },

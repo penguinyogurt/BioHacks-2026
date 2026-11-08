@@ -13,6 +13,17 @@ const paths=[
  Array.from({length:151},(_,i)=>{const t=i/150,a=4.2*Math.PI*t,r=8+65*t;return (i?"L":"M")+(200+r*Math.cos(a))+" "+(111+r*Math.sin(a))}).join(" ")
 ];
 let index=0, frame,origin,raf;
+// Each test's structured results, saved to the Addo Labs Supabase when the suite finishes.
+const results={};
+// The Addo Labs link puts these in the fragment (#code=…&api=…&key=…), which never reaches this
+// server: a one-time invite code tied to the inviting account, and the project's public URL and
+// publishable key. Opened without them, results can still be downloaded and imported.
+const link=new URLSearchParams(location.hash.slice(1));
+const save=(()=>{try{const api=new URL(link.get("api")).origin,code=link.get("code"),key=link.get("key");return code&&key&&/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(api)?{api,code,key}:null}catch{return null}})();
+async function submit(payload){
+ const r=await fetch(save.api+"/rest/v1/rpc/submit_take_home",{method:"POST",headers:{apikey:save.key,Authorization:"Bearer "+save.key,"Content-Type":"application/json"},body:JSON.stringify({p_code:save.code,p_results:payload})});
+ if(!r.ok)throw Error((await r.json().catch(()=>({}))).message||"The results could not be saved.");
+}
 const smooth=t=>{t=Math.min(1,Math.max(0,t));return t*t*(3-2*t)};
 function animate(){
  const start=performance.now(), reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -57,11 +68,26 @@ function opening(){
  $("description").textContent=steps[index].description;$("error").textContent="";
  $("begin").disabled=false;$("begin").textContent="Begin";animate()
 }
+// Two ways to run. Local: diagnostic_complete.py serves this page on :8772 and starts each test's
+// own server (/begin). Deployed: the page is static under the web app (/take-home/), each test
+// sits in a sibling folder, and facial/speech scoring comes from the backend in the link (#backend=).
+const local=location.origin==="http://127.0.0.1:8772";
+const backend=(()=>{try{return new URL(link.get("backend")).origin}catch{return null}})();
+async function testUrl(key){
+ if(local){
+  const response=await fetch("/begin/"+key,{method:"POST"});
+  const data=await response.json();if(!response.ok)throw Error(data.error);
+  return data.url
+ }
+ if(key!=="line"&&!backend)throw Error("This link has no scoring server, so this test can’t run. Ask for a new link.");
+ const q=new URLSearchParams({suite:location.origin});
+ if(key!=="line")q.set("api",backend+"/api/diagnostics/"+key);
+ return key+"/index.html?"+q // explicit index.html: works on Vercel and in the Vite dev server
+}
 $("begin").onclick=async()=>{
  const step=steps[index];$("begin").disabled=true;$("begin").textContent="Opening…";
  try{
-  const response=await fetch("/begin/"+step.key,{method:"POST"});
-  const data=await response.json();if(!response.ok)throw Error(data.error);
+  const data={url:await testUrl(step.key)};
   cancelAnimationFrame(raf);$("opening").hidden=true;$("shell").hidden=false;
   $("shell").classList.remove("review");$("active").textContent=step.name;$("next").hidden=true;$("outcome").textContent="";
   frame=document.createElement("iframe");frame.title=step.name;
@@ -73,6 +99,7 @@ $("begin").onclick=async()=>{
 window.addEventListener("message",e=>{
  if(!frame||e.source!==frame.contentWindow||e.origin!==origin||e.data?.suite!==steps[index].key)return;
  const done=e.data.complete===true;
+ if(done)results[steps[index].key]={summary:e.data.summary??"",...(e.data.results??{})};
  $("shell").classList.toggle("review",done);
  $("outcome").textContent=done?e.data.summary:"";
  $("next").textContent=index===2?"Complete Diagnostic":"Proceed To Next Test";
@@ -85,5 +112,13 @@ $("next").onclick=()=>{
  if(++index<steps.length){opening();$("begin").focus();return}
  $("shell").hidden=true;document.querySelector("header").hidden=true;
  $("final").hidden=false;$("thanks").focus();
+ const payload={kind:"addo-take-home-v1",completedAt:new Date().toISOString(),tests:results};
+ $("download").href=URL.createObjectURL(new Blob([JSON.stringify(payload,null,1)],{type:"application/json"}));
+ if(!save){$("sent").textContent="This test wasn’t opened from an Addo Labs link, so the results weren’t saved. Download the file and import it on the Take-home test page.";return}
+ $("sent").textContent="Saving your results…";
+ submit(payload).then(
+  ()=>{$("sent").textContent="Your results were saved to Addo Labs. You can close this window."},
+  e=>{$("sent").textContent=e.message+" Download the file and import it on the Take-home test page."}
+ );
 };
 opening();
