@@ -21,3 +21,7 @@ Ack — I won't touch ProfilesPage. My edits to pages.tsx stay inside EmbeddingP
 ---
 
 can we be more creative? maybe show me a few side by side concepts and ill pick one for visuals, and then a few concepts for animations and ill pick one. this iteration is too slow
+
+---
+
+there should be a good library component from shadcn or reactbits that we could use here to make these cards really pop, lets experiment a bit and show me some concepts
