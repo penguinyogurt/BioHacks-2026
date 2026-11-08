@@ -28,14 +28,16 @@ def run(g, p, pool, review, terms):
     return queries.finish(risk=True)
 
 
-def evaluate(report,c,row):
-    from shared.dossier import observed,failures,cite
-    rv=c["review"]
-    baseline=(observed("safety-interactions-class",row,report,c) if row else
-              "No supported rank on the original safety screen. No positive safety credit.")
-    return ("**Safety unresolved.** "+baseline+" I checked the recorded medication and the targeted sources below. "
-            +rv["ddi_interpretation"]+" "+rv["medication_check"]+" "+rv["warning"]+" "+
-            ("Matched case fact: "+rv["matched_fact"]+". " if rv["matched_fact"] else "")+
-            "No conclusion on local-route safety. "+
-            " ".join(cite(u) for u in [report["sources"]["safety_evidence"]["source"],*rv["sources"]])+
-            "\n\nExternal check limitations: "+("; ".join(failures(rv)) or "none retrieving the cited targeted records; evidence coverage remains limited."))
+def evaluate(report, candidate, row):
+    from shared.dossier import cite, observed
+    decision = report["reassessments"][candidate["id"]]
+    review = decision.get("review", {})
+    screen = decision.get("case_exclusion")
+    if screen:
+        return screen["reason"] + " " + cite(screen["source"])
+    text = observed("safety-interactions-class", row, report, candidate)
+    if not review:
+        return text + " Patient-specific safety clearance remains undocumented."
+    findings = [review["ddi_interpretation"], review["medication_check"], review["warning"]]
+    sources = " ".join(cite(url) for url in review["sources"])
+    return text + "\n\n" + " ".join(x for x in findings if x) + " " + sources

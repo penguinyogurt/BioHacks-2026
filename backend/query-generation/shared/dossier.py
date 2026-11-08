@@ -39,84 +39,154 @@ def failures(review):
     return issues
 
 
-def write_outputs(report,out,load_agent):
-    ag=report["aggregation"]
-    folder=out.parent/(out.stem+"-research")
-    folder.mkdir(exist_ok=True)
-    fb=report.get("fallback")
-    title="# Alex research candidates" if report["case"]["case_id"]=="alex" else "# Research candidates"
-    lines=[title,"",f"Strict first pass: **{ag['status']}** at K={ag['top_k']}. "
-           f"Five-way overlap: {ag['five_way_overlap']}.","",
-           " | ".join(f"{TITLES[n]}: {ag['list_sizes'][n]}" for n in NAMES),""]
-    gate = report["trial_gate"]
-    lines += [f"ALS administration gate: {gate['before']:,} canonical ingredients → {gate['after']} with documented human exposure in the frozen graph → {len(report['eligible_ids'])} eligible investigational IDs after case and comparator exclusions.", "", gate["scope"], "", "[Query traces and complete agent rankings](query-traces.md)", "", "### Established ALS treatments", ""]
-    for node, item in report["established"].items():
-        lines.append(f"- {item['name']} ({node}), reported separately. {cite(item['classification_source'])}")
-    for item in gate["withheld"]:
-        lines.append("- "+str(item.get("ingredient", item.get("study")))+": "+item["reason"]+".")
-    for item in gate["formulation_checks"]:
-        lines.append("- "+item["reason"]+" "+cite(item["source"]))
-    lines += [""]
-    (folder/"query-traces.md").write_text(trace_report(report))
-    if ag["abstained"]:lines.append("Abstaining agents: "+", ".join(ag["abstained"]))
-    if not fb:
-        lines.append("The strict intersection supplies the following research ranking. The fallback was unnecessary.")
-        for row in ag["final"]:
-            lines.append(f"- {row['final_rank']}. {report['ingredient_names'][row['id']]}: "+", ".join(
-                f"{TITLES[n]} {r}" for n,r in row["ranks"].items())+". "+
-                " ".join(cite(study["source"]) for study in gate["evidence"][row["id"]] ))
+def references(urls):
+    return " ".join(cite(link) for link in dict.fromkeys(urls))
+
+
+def primary_findings(item):
+    findings = " ".join(f"{v['finding']} {cite(v['source'])}" for v in item["decisive"])
+    if item["unreviewed_studies"]:
+        findings += " Primary outcomes still need review. " + references(item["unreviewed_studies"])
+    return findings.strip() or "No adjudicated primary result."
+
+
+def delivery_text(item):
+    records = item["delivery"]
+    if not records:
+        return "No drug-specific exposure or focused-ultrasound dossier has been verified."
+    parts = []
+    for key, label in (("exposure", "Original delivery"), ("delivery_change", "Proposed focused ultrasound")):
+        claim = records.get(key, {})
+        parts.append(f"**{label}**. {claim.get('finding','Evidence missing.')} " + references(claim.get("sources", [])))
+    return "\n\n".join(parts)
+
+
+def dossier(report, node, load_agent):
+    item = report["reassessments"][node]
+    lines = ["# " + report["ingredient_names"][node], "",
+             "**Disposition: " + item["disposition"] + ".**", "",
+             "Human evidence category: " + item["category"] + ".", "", primary_findings(item), ""]
+    if item.get("case_exclusion"):
+        case = item["case_exclusion"]
+        lines += [case["reason"]+" "+cite(case["source"]), ""]
+    if item["unreviewed_studies"]:
+        lines += ["Unreviewed administration records: "+references(item["unreviewed_studies"]), ""]
+    if item["conflicting_endpoints"]:
+        lines += ["Conflicting controlled results for "+", ".join(item["conflicting_endpoints"])+".", ""]
+    lines += ["## Why would changing delivery change the result?", "", delivery_text(item), "",
+              "## Human studies and competing findings", ""]
+    for record in item["studies"]:
+        lines += [f"### {record['study_id']} · {record['role']}", "",
+                  f"{record['design']}. Population: {record['population']}. Intervention: {record['route']}.", "",
+                  "Primary endpoint: "+record["primary_endpoint"]+".", "",
+                  "Observed outcome: "+record["finding"], "", "Safety: "+record["safety"],
+                  "", record.get("other_findings",""), cite(record["source"]), ""]
+    lines += ["## Internal ranking score", ""]
+    graph = item.get("graph")
+    if graph is not None:
+        lines += ["| Agent | Supported rank | Weight | Contribution |","|---|---:|---:|---:|"]
+        for n in NAMES:
+            lines.append(f"| {TITLES[n]} | {graph['ranks'].get(n,'Missing evidence')} | "
+                         f"{graph['weights'][n]:.2f} | {graph['contributions'][n]:.4f} |")
+        lines += ["",f"Base {graph['base']:.4f}; concern deduction {graph['penalty']:.4f}; "
+                  f"**internal ranking score {graph['internal_ranking_score']:.4f}**. "
+                  "This ordinal retrieval measure has no probability interpretation.", ""]
+        for n in NAMES:
+            row = next((x for x in report["agents"][n]["ranking"] if x["id"] == node), None)
+            lines += ["### "+TITLES[n]+" agent","",load_agent(n).evaluate(report,{"id":node},row),""]
     else:
-        zero=[k for k,v in ag["pairwise_overlap"].items() if v==0]
-        lines+=["Zero-overlap pairs: "+(", ".join(zero) or "none; the five-way set is nevertheless empty"),"",
-                f"Evaluated {fb['evaluated']} eligible IDs; {fb['provisional_count']} had a qualifying graph rationale. "
-                f"Reviewed {len(fb['reviews'])} provisional leaders. Fixed prior exclusions: {len(report['pool']['exclusions'])}.",
-                "","A category counts when it supplies a sourced rank. A disease, target or pathway rank supports a research hypothesis. A missing rank contributes zero. Negative trial evidence appears beside the rankings and does not enter this graph score.", "", report["assumption"],"",
-                "| Rank | Research candidate | Categories | Disease | Gene | Safety | Pathway | Symptom | Penalty | Score |",
-                "|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
-        for c in fb["final"]:
-            rv=c["review"]; node=c["id"]; slug=node.split("::")[1];dest=folder/(slug+".md")
-            contributions=c["contributions"]
-            lines.append(f"| {c['fallback_rank']} | [{rv['name']}]({slug}.md) | {len(c['ranks'])}/5 | "+
-                         " | ".join(f"{contributions[n]:.4f}" for n in NAMES)+
-                         f" | −{c['penalty']:.4f} | {c['score']:.4f} |")
-            text=[f"# Research candidate {c['fallback_rank']}: {rv['name']} ({slug})","",
-                  "**Safety unresolved.** "+rv["review_status"].capitalize()+".","",report["assumption"],"",
-                  "Case facts are from the project profile "+cite(report["case"]["source"])+".",""]
-            text += ["## Tested in human ALS studies", ""]
-            for study in gate["evidence"][node]:
-                text += [f"- **{study['outcome'].capitalize()}**. {study['population']}. {study['formulation']}. "
-                         f"{study['result']} Study status: {study['status']}. [{study['study_id']}]({study['source']})"]
-            text += [""]
-            for n in NAMES:
-                result=report["agents"][n]
-                row=next((r for r in result["ranking"] if r["id"]==node),None)
-                text+=[f"## {TITLES[n]} agent","",load_agent(n).evaluate(report,c,row),""]
-            text+=["## Context",""]
-            for k,field in report["context_fields"][node].items():
-                if isinstance(field,dict):
-                    text.append(f"- {k.replace('_',' ')}: {field['value']}"+(" "+cite(field["source"]) if field["source"] else ""))
-            text+=["","## Why it ranked here","",
-                   ", ".join(f"{TITLES[n]} {contributions[n]:.4f}" for n in NAMES)+
-                   f"; concern deduction {c['penalty']:.4f}. Final score **{c['score']:.4f}**. "
-                   f"Provisional position {c['provisional_rank']}; {len(c['ranks'])}/5 categories supported.","",
-                   "## Main concern","",rv["contrary"]+" "+rv["warning"]+" Safety unresolved. "+
-                   " ".join(cite(u) for u in rv["sources"]),"","## What evidence would change the ranking","",rv["change"]]
-            dest.write_text("\n".join(text)+"\n")
-        lines+=["","### Review findings",""]
-        for x in fb["reviews"]:
-            r=x["review"];issues=failures(r)
-            lines.append(f"- {r['name']} ({x['id']}): **{r['safety']}**. {r['warning']} {r['contrary']} "+
-                         " ".join(cite(u) for u in r["sources"])+
-                         (" Source check limitations: "+"; ".join(issues) if issues else ""))
-            if r["ddi_edges"]:
-                lines.append("  Medication-pair graph alert: "+str(r["ddi_edges"])+". "+r["ddi_interpretation"])
-        lines+=["","### Exclusions before ranking",""]
-        for node, decision in report["pool"]["exclusions"].items():
-            lines.append(f"- {decision.get('name',node)} ({node}): {decision['reason']} {cite(decision['source'])}")
-        lines+=["",f"New hard exclusions: {list(fb['new_vetoes']) or 'none'}. "
-                f"Displaced from provisional five: {fb['dropped'] or 'none'}. Backfilled: {fb['backfilled'] or 'none'}.",
-                "",f"[Detailed machine-readable report](../{out.name})"]
+        lines += ["Outside the investigational graph pool. No agent ranks or contributions assigned.", ""]
+    review = item.get("review", {})
+    if review:
+        lines += ["## Case safety review", "",
+                  "Documented screen: "+review.get("patient_safety_screen",{}).get("status","unresolved")+".",
+                  "",review["medication_check"]+" "+review["warning"]+" "+references(review["sources"]),""]
+        issues = failures(review)
+        if issues:
+            lines += ["Source-check limitations: "+"; ".join(issues), ""]
+    lines += ["## Practical context", ""]
+    for key, value in report["context_fields"][node].items():
+        if isinstance(value,dict):
+            lines.append("- "+key.replace("_"," ")+": "+value["value"]+
+                         (" "+cite(value["source"]) if value.get("source") else ""))
+    return "\n".join(lines).strip()+"\n"
+
+
+def write_outputs(report, out, load_agent):
+    folder = out.parent / (out.stem+"-research")
+    folder.mkdir(exist_ok=True)
+    by_id = report["reassessments"]
+    names = report["ingredient_names"]
+    def link(node):
+        return f"[{names[node]}]({node.split('::')[1]}.md)"
+    for node in by_id:
+        (folder / (node.split("::")[1]+".md")).write_text(dossier(report,node,load_agent))
+    (folder/"query-traces.md").write_text(trace_report(report))
+    gate = report["trial_gate"]
+    strict = report["aggregation"]
+    lines = ["# Reassessment of previously tested ALS drugs", "",
+             f"**{len(report['advanced'])} advanced for {report['case']['case_id'].title()}.** "
+             f"{gate['before']:,} frozen compound IDs, {gate['after']} with verified human ALS administration, "
+             f"{len(report['eligible_ids'])} in the investigational graph pool.", "", gate["scope"], "",
+             f"Strict top-{strict['top_k']} after clinical and patient-safety review: {strict['status']}. "
+             f"Five-way overlap: {strict['five_way_overlap']}.",
+             strict.get("blocking_reason",""),
+             "The fallback returned "+str(len(report["fallback"]["final"]))+"." if report["fallback"] is not None
+             else "The strict intersection supplied the final list.", "",
+             "Graph-only supported counts before clinical selection: "+
+             ", ".join(f"{TITLES[n]} {report['graph_overlap']['supported_sizes'][n]}" for n in NAMES)+".",
+             "", "[Patient-specific queries and agent rankings](query-traces.md) · "
+             f"[All scores, study records and decisions](../{out.name})", ""]
+    if report["advanced"]:
+        lines += ["## Advanced", ""] + [f"- {i['final_rank']}. {link(i['id'])} — {i['category']}, "
+                    f"internal ranking score {i['internal_ranking_score']:.4f}." for i in report["advanced"]]+[""]
+    if report["previous_finalists"]:
+        lines += ["## Previous finalists", "", "| Previous rank | Ingredient | Previous internal ranking score | Current disposition | Decisive human evidence | Why change delivery? |",
+                  "|---:|---|---:|---|---|---|"]
+        for row in report["previous_finalists"]:
+            node = row["id"]
+            value = row["internal_ranking_score"]
+            previous_score = "unavailable" if value is None else f"{value:.4f}"
+            if node in by_id:
+                lines.append(f"| {row['rank']} | {link(node)} | {previous_score} | "
+                             f"{row['disposition']} | {primary_findings(by_id[node])} | "
+                             f"{by_id[node]['delivery'].get('exposure',{}).get('finding','Evidence missing.')} |")
+            else:
+                lines.append(f"| {row['rank']} | {node} | {previous_score} | {row['disposition']} | — | — |")
+        lines += [""]
+    lines += ["## Decisions for every tested ingredient in the graph","",
+              "Within each evidence category, the internal ranking score orders the rows that have graph evidence. "
+              "An empty agent rank means missing support. Each drug dossier gives its delivery assessment.", ""]
+    from itertools import groupby
+    def order(node):
+        item = by_id[node]
+        return (item['category'], -item.get('graph',{}).get('internal_ranking_score',-1),node)
+    for category, group in groupby(sorted(by_id,key=order),key=lambda n:by_id[n]["category"]):
+        lines += ["### "+category.capitalize(),"","| Ingredient | Disposition | Internal ranking score | Decisive human finding |",
+                  "|---|---|---:|---|"]
+        for node in group:
+            item = by_id[node]
+            score = item.get("graph",{}).get("internal_ranking_score")
+            value = "—" if score is None else f"{score:.4f}"
+            lines.append(f"| {link(node)} | {item['disposition']} | {value} | {primary_findings(item)} |")
+        lines += [""]
+    lines += ["## Why would changing delivery change the result?", "",
+              "For each negative trial, the dossier examines whether exposure or engagement limited the original "
+              "regimen and whether focused ultrasound could correct that limitation for the same ingredient. "
+              "Human ALS feasibility evidence demonstrates transient focal opening measured by contrast enhancement. "
+              "Drug-specific exposure, target engagement and a clinical response require separate evidence. "
+              +cite("https://pubmed.ncbi.nlm.nih.gov/31558719/"), "",
+              "## Five-agent breakdown", "",
+              "Agent cells show supported rank / normalized weight / contribution. Missing support earns zero. "
+              "Rows are alphabetical for lookup.", "",
+              "| Ingredient | "+" | ".join(TITLES[n] for n in NAMES)+" | Concern deduction |",
+              "|---|---|---|---|---|---|---:|"]
+    for node in sorted(report["eligible_ids"], key=lambda n:names[n]):
+        g = by_id[node]["graph"]
+        cells = [f"{g['ranks'].get(n,'missing')} / {g['weights'][n]:.2f} / {g['contributions'][n]:.4f}" for n in NAMES]
+        lines.append("| "+link(node)+" | "+" | ".join(cells)+f" | {g['penalty']:.4f} |")
     (folder/"summary.md").write_text("\n".join(lines)+"\n")
+
 
 def trace_report(report):
     lines = ["# Queries and investigational rankings", "",

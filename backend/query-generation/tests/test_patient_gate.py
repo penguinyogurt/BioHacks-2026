@@ -62,7 +62,15 @@ class PatientGateTests(unittest.TestCase):
                 self.assertEqual(ungated["ranking"][0]["id"], U)
                 self.assertEqual(ungated["ranking"][0]["l2"], 0)
         policy = json.loads((ROOT/"examples/fallback-policy.json").read_text())
-        r = run(g,p,safety,100,cat,terms,policy,{"case":{}, "records":{}},True)
+        def run_fixture():
+            clinical = {"reports":[{"applies_to":[A], "role":"favorable","basis":"controlled human intervention",
+                "source":LINK,"clinical_question":"ALS function", **{f:"fixture" for f in
+                ("design","population","route","primary_endpoint","finding","safety")}}]}
+            safety_records = {"case":copy.deepcopy(p), "records":{A:{"name":"A","action":"reviewed",
+                "sources":[[LINK,"fixture"]], "patient_safety_screen":{"status":"pass",
+                "finding":"fixture clinical review","sources":[LINK]}}}}
+            return run(g,p,safety,100,cat,terms,policy,safety_records,True,clinical)
+        r = run_fixture()
         self.assertEqual(r["trial_gate"]["before"],4)
         self.assertEqual(r["eligible_ids"],[A])
         self.assertEqual(r["aggregation"]["final"][0]["id"],A)
@@ -72,7 +80,7 @@ class PatientGateTests(unittest.TestCase):
             for q in output["queries"]:
                 self.assertEqual(set(q["scores"]),{A})
         p["facts"]["swallow"]="unmapped observation"
-        r = run(g,p,safety,100,cat,terms,policy,{"case":{}, "records":{}},True)
+        r = run_fixture()
         self.assertEqual(r["fallback"]["evaluated"],1)
         self.assertEqual([row["id"] for row in r["fallback"]["final"]],[A])
         with self.assertRaisesRegex(ValueError, "ineligible"):

@@ -99,8 +99,15 @@ def reviewer(profile, catalog, offline, graph, medicines=None, labels=None):
                 f'{compound} AND TITLE_ABS:"amyotrophic lateral sclerosis" AND '
                 '(respiratory OR dysphagia OR weight OR weakness OR function)', offline)
         action = data.get("action", "unknown")
+        screen = data.get("patient_safety_screen", {})
+        if screen.get("status") == "pass":
+            usable = {check["source"] for check in checks if check["status"] in
+                      ("source marker present", "offline: stored review only")}
+            if not set(screen.get("sources", [])).issubset(usable):
+                screen = dict(screen, status="unresolved", reason="Safety source not confirmed")
         return dict(
-            name=name, action=action, matched_fact=profile["facts"].get(data.get("fact")),
+            name=name, action=action, patient_safety_screen=screen,
+            matched_fact=profile["facts"].get(data.get("fact")),
             warning=data.get("warning", ""),
             medication_check=data.get("medication_check", "No adjudicated drug–therapy evidence."),
             ddi_edges=edges,

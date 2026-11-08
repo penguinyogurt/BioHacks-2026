@@ -1,7 +1,8 @@
 import unittest
 from types import SimpleNamespace
 
-from ranking.fallback import fallback
+from ranking.fallback import select
+from shared.outcomes import ADVANCE_CATEGORIES, HARM, NEGATIVE, UNRESOLVED
 from ranking.intersection import NAMES
 from shared.leader_review import reviewer
 
@@ -21,11 +22,12 @@ def agents(**categories):
     return result
 
 
-def decision(action="unknown"):
+def decision(action="reviewed", category=ADVANCE_CATEGORIES[0]):
     row = {"action": action, "safety": "safety unresolved", "warning": "", "sources": []}
     if action in ("veto", "caution"):
         row.update(warning="fixture interaction warning", sources=[SOURCE], matched_fact="fixture medication")
-    return row
+    row["patient_safety_screen"] = {"status":"pass","finding":"fixture chart reviewed","sources":[SOURCE]}
+    return {"category":category,"review":row}
 
 
 class FallbackTests(unittest.TestCase):
@@ -33,69 +35,70 @@ class FallbackTests(unittest.TestCase):
         self.policy = {"weights": dict.fromkeys(NAMES, 1), "rank_offset": 10,
                        "coverage_exponent": 0, "soft_concern_penalty": 0.04}
 
-    def test_veto_overrules_every_category_and_backfills(self):
-        nodes = list("ABCDEFG")
-        lists = [(n, i) for i, n in enumerate(nodes, 1)]
-        rankings = agents(**{name: lists for name in NAMES})
-        result = fallback(nodes, rankings, self.policy, lambda n: decision("veto" if n == "A" else "unknown"))
-        self.assertEqual([row["id"] for row in result["final"]], list("BCDEF"))
-        self.assertEqual(result["new_vetoes"]["A"]["matched_fact"], "fixture medication")
-        self.assertEqual(result["dropped"], ["A"])
-        self.assertEqual(result["backfilled"], ["F"])
-        self.assertNotIn("G", [x["id"] for x in result["reviews"]])
+    def test_veto_backfills_even_a_strict_intersection(self):
+        ids = list("ABCDEFG")
+        ranks = [(n,i) for i,n in enumerate(ids,1)]
+        judgments = {n:decision() for n in ids}
+        judgments["A"] = decision("veto")
+        strict, fb, rows = select(ids, agents(**{n:ranks for n in NAMES}), judgments, self.policy, 100)
+        self.assertIsNone(fb)
+        self.assertEqual([r["id"] for r in rows], list("BCDEF"))
+        self.assertEqual(strict["final"], rows)
+        self.assertEqual(judgments["A"]["disposition"], "excluded by case safety screen")
 
-    def test_documented_soft_concern_remains_with_warning(self):
-        result = fallback(["A"], agents(**{DISEASE: [("A", 1)]}), self.policy, lambda _: decision("caution"))
-        row = result["final"][0]
-        self.assertAlmostEqual(row["score"], 0.16)
-        self.assertEqual(row["review"]["warning"], "fixture interaction warning")
-        self.assertFalse(result["new_vetoes"])
+    def test_clinical_precedence_on_strict_and_fallback(self):
+        ids = list("ABCDEFG")
+        rank = [(n,i) for i,n in enumerate(ids,1)]
+        for active in (NAMES, [DISEASE]):
+            judgments = {n:decision() for n in ids}
+            for n, category in zip("ABCF",(HARM, NEGATIVE, UNRESOLVED, ADVANCE_CATEGORIES[1])):
+                judgments[n] = decision(category=category)
+            judgments["D"] = decision("unknown")
+            strict, fb, final = select(ids, agents(**{n:rank for n in active}),judgments,self.policy,100)
+            self.assertEqual([r["id"] for r in final],list("EGF"))
+            self.assertEqual(fb is not None, len(active) == 1)
+            self.assertEqual(judgments["D"]["disposition"],"unresolved patient safety")
+            self.assertGreater(judgments["A"]["graph"]["internal_ranking_score"],final[0]["internal_ranking_score"])
 
-    def test_penalized_fifth_replaced_by_unpenalized_sixth(self):
-        nodes = list("ABCDEF")
-        result = fallback(nodes, agents(**{DISEASE: list(zip(nodes, range(1, 7)))}),
-                          self.policy, lambda n: decision("caution" if n == "E" else "unknown"))
-        self.assertEqual(result["dropped"], ["E"])
-        self.assertEqual(result["backfilled"], ["F"])
-        self.assertFalse(result["new_vetoes"])
+    def test_category_precedes_even_the_strict_top_k_cut(self):
+        ranked = agents(**{n:[("D",1),("F",2)] for n in NAMES})
+        judgments = {"D":decision(category=ADVANCE_CATEGORIES[1]), "F":decision()}
+        strict, fallback, rows = select("DF",ranked,judgments,self.policy,1)
+        self.assertIsNone(fallback)
+        self.assertEqual([row["id"] for row in strict["final"]], ["F"])
 
-    def test_outside_top_100_is_supported_and_unknown_safety_earns_zero(self):
-        result = fallback(["A"], agents(**{PATHWAYS: [("A", 101)]}), self.policy, lambda _: decision())
-        row = result["final"][0]
-        self.assertEqual(row["ranks"], {PATHWAYS: 101})
-        self.assertEqual(row["contributions"][SAFETY], 0)
-        self.assertEqual(row["review"]["safety"], "safety unresolved")
-        self.assertAlmostEqual(row["score"], 0.2 * 11 / 111)
-        self.assertAlmostEqual(row["coverage"], 0.2)
-        self.policy["coverage_exponent"] = 1
-        downweighted = fallback(["A"], agents(**{PATHWAYS: [("A", 101)]}), self.policy, lambda _: decision())
-        self.assertAlmostEqual(downweighted["final"][0]["score"], 0.2 * row["score"])
+    def test_soft_conflict_needs_documented_clearance(self):
+        j = {n:decision("caution") for n in "AB"}
+        j["B"]["review"]["patient_safety_screen"] = {}
+        _, fb, rows = select("AB",agents(**{DISEASE:[("A",1),("B",2)]}),j,self.policy,100)
+        self.assertEqual([r["id"] for r in rows],["A"])
+        self.assertAlmostEqual(rows[0]["internal_ranking_score"],0.16)
+        self.assertTrue(j["A"]["review"]["warning"])
 
-    def test_cutoff_ties_use_id_independent_of_iteration_order(self):
-        # Explicit equal evidence scores on either side of the fifth-place cut.
-        rankings = agents(**{DISEASE: [(n, i) for i, n in enumerate("ABCDZ", 1)],
-                             GENES: [(n, i) for i, n in enumerate("ABCDY", 1)]})
-        for order in ("ABCDZY", "YZDCBA"):
-            result = fallback(order, rankings, self.policy, lambda _: decision())
-            self.assertEqual([r["id"] for r in result["final"]], list("ABCDY"))
-            self.assertEqual(len(result["reviews"]), 6)
+    def test_outside_top_100_and_configurable_coverage(self):
+        for power, expected in [(0,0.2*11/111),(1,0.04*11/111)]:
+            self.policy["coverage_exponent"] = power
+            j = {"A":decision()}
+            _,_,rows = select("A",agents(**{PATHWAYS:[("A",101)]}),j,self.policy,100)
+            self.assertAlmostEqual(rows[0]["internal_ranking_score"],expected)
+            self.assertIn(SAFETY,rows[0]["missing"])
+            self.assertEqual(rows[0]["contributions"][SAFETY],0)
 
-    def test_fewer_than_five_without_filling_from_unsourced_or_excluded_ids(self):
-        rankings = agents(**{SYMPTOMS: [("S", 1)], SAFETY: [("X", 1)], GENES: [("U", 1)],
-                             DISEASE: [("E", 1), ("A", 2)]})
-        rankings[GENES]["queries"][0]["evidence"] = ["no attributable source"]
-        result = fallback("ASXUE", rankings, self.policy, lambda _: decision(), excluded={"E"})
-        self.assertEqual([row["id"] for row in result["final"]], ["A"])
-        self.assertEqual(set(result["ineligible"]), set("SXUE"))
-        self.assertEqual(result["evaluated"], 5)
-        self.assertEqual(result["provisional_count"], 1)
+    def test_ties_unsourced_support_and_fewer_than_five(self):
+        rankings = agents(**{DISEASE:[("B",1)],GENES:[("A",1)],PATHWAYS:[("U",1)],SAFETY:[("S",1)]})
+        rankings[PATHWAYS]["queries"][0]["evidence"] = []
+        for order in ("ABUS","SUBA"):
+            _,_,rows = select(order,rankings,{n:decision() for n in order},self.policy,100)
+            self.assertEqual([r["id"] for r in rows],list("ABSU"))
+            self.assertEqual(rows[-1]["internal_ranking_score"],0)
+            self.assertCountEqual(rows[-1]["missing"],NAMES)
 
-    def test_veto_requires_source_and_matched_case_fact(self):
-        for missing in ("warning", "matched_fact", "sources"):
-            invalid = decision("veto")
-            invalid.pop(missing)
+    def test_case_veto_requires_source_fact_and_reason(self):
+        for missing in ("warning","matched_fact","sources"):
+            j = {"A":decision("veto")}
+            del j["A"]["review"][missing]
             with self.assertRaises(ValueError):
-                fallback(["A"], agents(**{GENES: [("A", 1)]}), self.policy, lambda _: invalid)
+                select("A",agents(**{GENES:[("A",1)]}),j,self.policy,100)
 
     def test_graph_only_medication_alert_does_not_assign_safety_or_veto(self):
         profile = {"therapy": "M", "facts": {"current_therapy": "example medicine"}}

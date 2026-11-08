@@ -1,4 +1,4 @@
-# DRKG queries for ALS research
+# Reassessment of previously tested ALS drugs
 
 From the BioHacks root, run with Python 3.9+ and NumPy:
 
@@ -6,9 +6,9 @@ From the BioHacks root, run with Python 3.9+ and NumPy:
 python3 backend/query-generation/run.py --top-k 100
 ```
 
-The first run downloads the official DRKG TransE-L2 release and two terminology tables. The loader checks SHA-256 hashes of the graph, ID mappings, glossary, matrices and terminology. Subsequent runs reuse those files. Internet access refreshes the documentary checks on provisional leaders. `--offline` uses the local data and adjudicated records. No credentials are required. [DRKG release](https://github.com/gnn4dr/DRKG) · [MeSH descriptors](https://www.nlm.nih.gov/databases/download/mesh.html) · [Hetionet nodes](https://github.com/hetio/hetionet/tree/main/hetnet/tsv)
+The first run downloads the official DRKG TransE-L2 release and two terminology tables. The loader checks SHA-256 hashes of the graph, ID mappings, glossary, matrices and terminology. Subsequent runs reuse those files. Internet access refreshes the documentary checks for candidates with case review records or a potentially advancing human outcome. `--offline` uses the local data and adjudicated records. No credentials are required. [DRKG release](https://github.com/gnn4dr/DRKG) · [MeSH descriptors](https://www.nlm.nih.gov/databases/download/mesh.html) · [Hetionet nodes](https://github.com/hetio/hetionet/tree/main/hetnet/tsv)
 
-Open `reports/alex-gated-research/summary.md` for the shortlist, individual dossiers and one worked query per agent. `reports/alex-gated.json` holds every computed distance, trial record, eligibility decision, review and rank. The generated files and downloaded inputs stay local. [Saved Alex run](snapshots/alex-gated-research/summary.md)
+Open `reports/alex-outcomes-research/summary.md` for the shortlist, individual dossiers and one worked query per agent. `reports/alex-outcomes.json` holds every computed distance, trial record, eligibility decision, review and rank. The generated files and downloaded inputs stay local. [Current Alex reassessment](snapshots/alex-outcomes-research/summary.md) · [Previous five finalists](snapshots/alex-gated-research/summary.md)
 
 ## Eligibility before scoring
 
@@ -16,7 +16,7 @@ The versioned `examples/als-study-cache.json` contains adjudicated primary studi
 
 The gate normalizes case, punctuation and explicit aliases. It checks each identified ingredient of a combination separately. It never strips salts, infers an ingredient from a class or transfers a trial to a different preparation. Each reviewed alias has a canonical DrugBank ID. Missing evidence means testing status is unknown. This is a curated evidence snapshot with bounded coverage. To extend it, add an exact ingredient identity and a qualifying administration record with a primary citation. Use `--trials` to select a different snapshot.
 
-The workflow intersects that evidence with canonical IDs in the frozen release, then separates established ALS comparators and applies the patient-specific exclusions. All five concurrent agents, the strict intersection and the fallback receive the same immutable investigational pool. Neither trial results nor eligibility queries consume a DRKG distance.
+The workflow intersects that evidence with canonical IDs in the frozen release, then separates established ALS comparators and applies the patient-specific exclusions. Untested ingredients stay outside the project. All five agents use the same immutable investigational pool to compute the patient-specific L2 audit. Before this calculation, the workflow reviews the study outcomes and assigns each ingredient an evidence category. Both advancement paths share the resulting evidence and case-safety gates.
 
 ## From record to query
 
@@ -34,27 +34,38 @@ Terms resolve through MeSH descriptor names and entry terms, Hetionet gene and c
 
 Every translation uses the original 400-dimensional arrays. For an observed triple `(drug, r, target)`, use `q = e[target] − r`. For `(anchor, r, drug)`, use `q = e[anchor] + r`. Multi-hop paths add one signed relation per traversal. Each constructed query scores every eligible compound with Euclidean distance. The JSON records the quotation, source pointer, grounded entity IDs, derivation edges, relation names and row indices, directions, formula, scores and winning witness.
 
-Multiple anchors denote alternative mechanistic hypotheses. A positive agent takes each drug's **smallest supported distance** and sorts ascending. This preserves one inspectable path and avoids averaging unrelated anchors into an unsupported vector. For safety, the closest risk query represents the strongest modeled concern. Only independently reviewed drugs receive a safety rank, ordered by that minimum distance descending. The model makes no safety inference from an absent edge or a large distance. It assumes adequate local delivery and uses no passive BBB feature.
+Multiple anchors denote alternative mechanistic hypotheses. A positive agent takes each drug's **smallest supported distance** and sorts ascending. This preserves one inspectable path and avoids averaging unrelated anchors into an unsupported vector. For safety, the closest risk query represents the strongest modeled concern. Only independently reviewed drugs receive a safety rank, ordered by that minimum distance descending. The model makes no safety inference from an absent edge or a large distance. Passive BBB characteristics do not enter the graph score. Local exposure and focused-ultrasound delivery are separate evidence questions.
 
-## Strict ranking and fallback
+## Human evidence and advancement
 
-First intersect all five supported top-100 lists. A missing list causes an explicit abstention. With five populated lists, a strict survivor's mean rank, worst rank and canonical ID determine its position. An empty strict result preserves its status and invokes a separately labeled research fallback.
+The versioned [clinical review](examples/clinical-reassessment.json) records the design, population, formulation and route, primary endpoint, observed result, safety findings, other signals, and primary source for each abstracted report. It also records the Europe PMC and ClinicalTrials.gov search queries and hit IDs for the ingredient set. Some reports describe the same cohort. Adjudication compares endpoint, design and applicability without counting publications as independent votes. Primary human clinical results determine the category. Separate entries identify combination, biomarker, pharmacokinetic, observational, safety and exploratory findings. Animal findings stay in the contextual evidence. Searches are bounded and are dated in the cache. To incorporate a new study, update the exposure cache and its outcome abstraction. A newly verified trial without an abstraction holds advancement pending review. Use `--clinical` to select the review.
 
-The fallback evaluates the full eligible pool. Entry requires a cited disease, target or pathway query and supporting graph witness. Each supported category contributes
+| Human evidence | Selection rule |
+|---|---|
+| Credible harm | Exclude after controlled evidence of worse clinical function or consequential comparative toxicity. Record the harm, population, regimen and source. |
+| Negative clinical efficacy | Retain for reporting. Delivery research requires a separate source plausibly identifying inadequate exposure or engagement in the failed trial, and drug-specific evidence that the proposed change can correct that limitation at the same site. Generic ultrasound feasibility and unmeasured exposure earn no credit. |
+| Inconclusive, conflicting, safety-only or biomarker-only | Hold. Preserve both directions of conflicting controlled evidence for the same clinical question. A symptom endpoint is identified separately from disease progression. |
+| Favorable clinical endpoint | Eligible for research review on that clinical question after a documented case-specific safety pass. The dossier independently evaluates focused ultrasound. |
+
+The safety review requires an exact chart match, explicit pass, a finding and cited sources confirmed by the review. A flagged medication pair additionally needs a documented adjudication. An unknown safety review cannot advance a drug. Case exclusions remain binding. Cost, Canadian availability, regulatory status and patient acceptance are reported separately.
+
+## Internal ranking score
+
+Five-agent ranks are calculated on the common reference pool for reproducible comparison with the previous run. Each dossier shows each agent's rank, normalized weight, contribution and missing evidence. Missing support contributes zero. The existing rank-fusion calculation is
 
 ```text
-(category weight / sum of all five weights) × (offset + 1) / (offset + rank) × coverage^exponent
+normalized agent weight × (offset + 1) / (offset + supported rank) × coverage^exponent
 ```
 
-Coverage is the fraction of the five weights carrying evidence. Missing categories contribute zero. The prespecified weights are 0.36 disease, 0.26 genes, 0.13 safety, 0.20 pathways and 0.05 symptoms. Offset is 10 and the default coverage exponent is zero. Use `--policy` to change these settings. A case-matched hard veto overrides all scores. A documented lesser concern costs 0.04 once. Negative clinical outcomes are reported explicitly. The resulting graph score is a research retrieval score and has no calibrated clinical meaning.
+The normalized weights are 0.36 disease, 0.26 genes, 0.13 safety, 0.20 pathways and 0.05 symptoms. The default offset is 10, and the coverage exponent is zero. A sourced lesser concern deducts 0.04 once. `--policy` configures these values. The **internal ranking score** measures relative graph retrieval and has no probability interpretation.
 
-Provisional leaders receive a source review against the case, directed medication-pair graph checks and targeted Europe PMC searches. Search hits alone cannot adjudicate an interaction. Labels and primary studies are scoped to the reviewed formulation. `--review` sets the original exclusion screen and `--leader-review` selects case-matched adjudications. After each veto or deduction, the workflow examines challengers until their unpenalized score is strictly below the fifth accepted score, handling ties by canonical ID. It returns fewer than five if necessary. The output records changes, unresolved evidence, cost, Canadian availability, regulatory status and patient acceptance separately.
+Both selection paths start from the same drugs that passed the clinical and patient-safety rules. Each agent's eligible list gives precedence to favorable clinical evidence, followed by negative trials with a supported delivery rationale. Within a category it retains the agent's rank. Intersect the five top-K lists first. If the intersection is empty, the fallback considers the whole cleared pool. A qualifying human clinical or delivery finding supplies a sourced disease rationale even when every graph rank is missing. The clinical category precedes the internal ranking score on both paths, with canonical ID breaking ties. Both may return zero.
 
 ## Alex run
 
-Of 10,551 canonical graph IDs, 19 had verified human ALS exposure in this cache. Alex's current riluzole and the established comparator edaravone were separated. Mexiletine and gabapentin met the original case exclusion screen. Tofersen had study evidence and no compound row in this release. The common investigational pool contained 15 IDs. The supported category counts were 9, 4, 1, 8 and 0. The symptoms agent grounded the swallowing observation but found no eligible treatment edge. Twelve IDs qualified for provisional fusion and five were returned. All five have unresolved safety. Minocycline's randomized trial documented faster functional decline. [Primary trial](https://pubmed.ncbi.nlm.nih.gov/17980667/)
+Nineteen of 10,551 frozen compound IDs met the verified-administration gate. Two established comparators and two case exclusions left 15 investigational drugs. Of those, **zero advanced**. Four had credible evidence of harm, nine had negative clinical outcomes without the two required delivery links, and two remained unresolved. The five prior finalists and their current dispositions are linked in the [saved summary](snapshots/alex-outcomes-research/summary.md). The shared human focused-ultrasound evidence concerns transient motor-cortex barrier opening in four ALS participants. [Primary feasibility study](https://pubmed.ncbi.nlm.nih.gov/31558719/)
 
-Run the deterministic tests from this directory:
+Run the tests from this directory:
 
 ```sh
 python3 -m unittest discover -s tests -v
