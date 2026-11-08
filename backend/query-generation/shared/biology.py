@@ -3,7 +3,3 @@ TREATS=("DRUGBANK::treats::Compound:Disease","GNBR::T::Compound:Disease","Hetion
 TARGET=("DRUGBANK::target::Compound:Gene","Hetionet::CbG::Compound:Gene")
 ASSOCIATION="Hetionet::DaG::Disease:Gene"
 PARTICIPATES="Hetionet::GpBP::Gene:Biological Process"
-
-
-def linked_genes(graph,profile):
-    return sorted(set(graph.walk(profile["disease"],ASSOCIATION,True)) & set(profile["disease_genes"]))

@@ -1,14 +1,15 @@
-from shared.biology import TREATS
-from shared.query import paths, query, rank_queries
+from shared.patient_query import CLINICAL_FIELDS, PatientQueries
 
 
-def run(g,p,pool,review):
-    qs=[]
-    for fact,hypothesis in p["symptom_hypotheses"].items():
-        if not p["facts"].get(fact):continue
-        node=hypothesis["node"]
-        evidence=[p["facts"][fact],p["source"],hypothesis["source"],hypothesis["interpretation"]]
-        for r in TREATS:
-            steps=[(r,False)]
-            qs.append(query(g,node,steps,evidence,paths(g,node,steps,pool)))
-    return rank_queries(g,qs)
+def run(g, p, pool, review, terms):
+    queries = PatientQueries(g, p, pool, terms)
+    for field in CLINICAL_FIELDS:
+        fact, anchors = queries.fact(field, "disease")
+        queries.disease_queries(fact, anchors)
+    return queries.finish()
+
+
+def evaluate(report, c, row):
+    from shared.dossier import observed
+    return ("I checked recorded function, swallowing, strength, weight and respiratory observations for a supported treatment relation. Measurements without a mapped phenotype remain available for formulation and safety review.\n\n" +
+            observed("symptoms-function", row, report, c))

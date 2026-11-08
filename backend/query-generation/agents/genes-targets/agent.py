@@ -1,12 +1,19 @@
-from shared.biology import linked_genes, ASSOCIATION, TARGET
-from shared.query import paths, query, rank_queries
+from shared.biology import TARGET
+from shared.patient_query import PatientQueries
 
 
-def run(g,p,pool,review):
-    qs=[]
-    for gene in linked_genes(g,p):
-        evidence=[p["gene_source"],[p["disease"],ASSOCIATION,gene],"Disease biology only; no patient genotype inferred."]
-        for r in TARGET:
-            steps=[(r,False)]
-            qs.append(query(g,gene,steps,evidence,paths(g,gene,steps,pool)))
-    return rank_queries(g,qs)
+def run(g, p, pool, review, terms):
+    queries = PatientQueries(g, p, pool, terms)
+    for gene, fact, derivation in queries.genes():
+        for relation in TARGET:
+            neighbors = g.walk(gene, relation, False)
+            if neighbors:
+                support = {drug: [[drug, relation, gene]] for drug in pool.intersection(neighbors)}
+                queries.add(fact, gene, [(relation, False)], derivation, support)
+    return queries.finish()
+
+
+def evaluate(report, c, row):
+    from shared.dossier import observed
+    return ("I checked the chart for a genotype and expanded the recorded diagnosis through observed association, mutation and pathogenesis relations. A disease-level gene association does not establish the patient’s genotype or the effect of binding.\n\n" +
+            observed("genes-targets", row, report, c))

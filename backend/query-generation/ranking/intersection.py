@@ -3,12 +3,13 @@ from itertools import combinations
 NAMES=("disease-indications","genes-targets","safety-interactions-class","pathways-processes","symptoms-function")
 
 
-def aggregate(lists,k):
+def aggregate(lists,k,pool=None):
     if k<1:raise ValueError("top-k must be positive")
     if set(lists)-set(NAMES):raise ValueError("Unexpected agent")
     ranks={}
     for name in NAMES:
         ids=lists.get(name,[])
+        if pool is not None and not set(ids).issubset(pool):raise ValueError("Agent ranked an ineligible compound")
         if len(ids)!=len(set(ids)):raise ValueError(f"Duplicate compound in {name}")
         ranks[name]={n:i for i,n in enumerate(ids[:k],1)}
     absent=[n for n in NAMES if not ranks[n]]

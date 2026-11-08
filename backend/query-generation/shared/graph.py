@@ -1,4 +1,5 @@
 """Typed, read-only snapshot of the official TransE-L2 release."""
+from functools import lru_cache
 import csv
 import hashlib
 import json
@@ -90,6 +91,7 @@ class Graph:
         self.edges={r:np.frombuffer(v,dtype=np.int32).reshape(-1,2) for r,v in buffers.items()}
         for v in self.edges.values(): v.flags.writeable=False
 
+    @lru_cache(maxsize=4096)
     def walk(self,node,relation,forward):
         if node not in self.entities or relation not in self.edges: return []
         source,dest=(0,1) if forward else (1,0)

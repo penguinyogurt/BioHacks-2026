@@ -1,0 +1,641 @@
+{
+  "scope": "Bounded primary-study cache covering established treatments, previous shortlist ingredients, and additional interventional or symptomatic trials. Ingredients without verified administration have unknown testing status. Coverage is not a census of ALS research.",
+  "ingredients": [
+    {
+      "id": "Compound::DB00740",
+      "name": "Riluzole",
+      "aliases": [
+        "Rilutek"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB00740",
+      "classification": "Established ALS treatment",
+      "classification_source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+    },
+    {
+      "id": "Compound::DB12243",
+      "name": "Edaravone",
+      "aliases": [
+        "MCI-186",
+        "Radicava"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB12243",
+      "classification": "Established ALS treatment",
+      "classification_source": "https://www.fda.gov/drugs/news-events-human-drugs/fda-approves-oral-form-treatment-adults-amyotrophic-lateral-sclerosis-als"
+    },
+    {
+      "id": "Compound::DB14782",
+      "name": "Tofersen",
+      "aliases": [
+        "BIIB067",
+        "Qalsody"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB14782",
+      "classification": "Established ALS treatment",
+      "classification_source": "https://www.fda.gov/drugs/news-events-human-drugs/fda-approves-treatment-amyotrophic-lateral-sclerosis-associated-mutation-sod1-gene"
+    },
+    {
+      "id": "Compound::DB05025",
+      "name": "Arimoclomol",
+      "aliases": [
+        "Arimoclomol citrate"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB05025",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB06151",
+      "name": "Acetylcysteine",
+      "aliases": [
+        "N-acetylcysteine",
+        "NAC"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB06151",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB00148",
+      "name": "Creatine",
+      "aliases": [
+        "Creatine monohydrate"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB00148",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB12310",
+      "name": "Trehalose",
+      "aliases": [
+        "SLS-005"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB12310",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB01043",
+      "name": "Memantine",
+      "aliases": [
+        "Memantine hydrochloride"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB01043",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB00656",
+      "name": "Trazodone",
+      "aliases": [
+        "Trazodone hydrochloride"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB00656",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB01212",
+      "name": "Ceftriaxone",
+      "aliases": [
+        "Ceftriaxone sodium"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB01212",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB01017",
+      "name": "Minocycline",
+      "aliases": [
+        "Minocycline hydrochloride"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB01017",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB00482",
+      "name": "Celecoxib",
+      "aliases": [
+        "Celebrex"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB00482",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB00379",
+      "name": "Mexiletine",
+      "aliases": [
+        "Mexiletine hydrochloride"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB00379",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB00996",
+      "name": "Gabapentin",
+      "aliases": [
+        "Neurontin"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB00996",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB00273",
+      "name": "Topiramate",
+      "aliases": [
+        "Topamax"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB00273",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB01367",
+      "name": "Rasagiline",
+      "aliases": [
+        "Rasagiline mesylate"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB01367",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB01132",
+      "name": "Pioglitazone",
+      "aliases": [
+        "Pioglitazone hydrochloride"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB01132",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB01065",
+      "name": "Melatonin",
+      "aliases": [],
+      "identity_source": "https://go.drugbank.com/drugs/DB01065",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB01202",
+      "name": "Levetiracetam",
+      "aliases": [
+        "Keppra"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB01202",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    },
+    {
+      "id": "Compound::DB15130",
+      "name": "Dexpramipexole",
+      "aliases": [
+        "KNS-760704"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB15130",
+      "classification": "Investigational in ALS",
+      "classification_source": null
+    }
+  ],
+  "studies": [
+    {
+      "study_id": "PMID:8302340",
+      "registry_ids": [],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/8302340/",
+      "title": "A controlled trial of riluzole in amyotrophic lateral sclerosis. ALS/Riluzole Study Group.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "155 people with ALS",
+      "tested_ingredients": [
+        "Riluzole"
+      ],
+      "formulation": "Riluzole 100 mg daily versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Riluzole. Survival favored riluzole.",
+      "outcome": "positive",
+      "result": "Survival favored riluzole."
+    },
+    {
+      "study_id": "PMID:28522181",
+      "registry_ids": [
+        "NCT01492686"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/28522181/",
+      "title": "Safety and efficacy of edaravone in well defined patients with amyotrophic lateral sclerosis: a randomised, double-blind, placebo-controlled trial.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "Selected early-stage ALS population",
+      "tested_ingredients": [
+        "Edaravone"
+      ],
+      "formulation": "Intravenous edaravone cycles versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Edaravone. Less ALSFRS-R decline in this selected population.",
+      "outcome": "positive",
+      "result": "Less ALSFRS-R decline in this selected population."
+    },
+    {
+      "study_id": "PMID:36129998",
+      "registry_ids": [
+        "NCT02623699",
+        "NCT03070119"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/36129998/",
+      "title": "Trial of Antisense Oligonucleotide Tofersen for <i>SOD1</i> ALS.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "Genetically confirmed SOD1 ALS",
+      "tested_ingredients": [
+        "Tofersen"
+      ],
+      "formulation": "Intrathecal tofersen versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Tofersen. No significant clinical benefit at 28 weeks. Biomarkers fell.",
+      "outcome": "negative",
+      "result": "No significant clinical benefit at 28 weeks. Biomarkers fell."
+    },
+    {
+      "study_id": "PMID:38782015",
+      "registry_ids": [
+        "NCT03491462"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/38782015/",
+      "title": "Safety and efficacy of arimoclomol in patients with early amyotrophic lateral sclerosis (ORARIALS-01): a randomised, double-blind, placebo-controlled, multicentre, phase 3 trial.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "Early ALS",
+      "tested_ingredients": [
+        "arimoclomol citrate"
+      ],
+      "formulation": "Oral arimoclomol citrate versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Arimoclomol. No improvement in combined function and survival.",
+      "outcome": "negative",
+      "result": "No improvement in combined function and survival."
+    },
+    {
+      "study_id": "PMID:7763202",
+      "registry_ids": [],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/7763202/",
+      "title": "Randomized, double-blind, controlled trial of acetylcysteine in amyotrophic lateral sclerosis.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "110 ALS patients",
+      "tested_ingredients": [
+        "Acetylcysteine"
+      ],
+      "formulation": "Subcutaneous acetylcysteine versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Acetylcysteine. No significant overall survival or progression benefit.",
+      "outcome": "negative",
+      "result": "No significant overall survival or progression benefit."
+    },
+    {
+      "study_id": "PMID:12666111",
+      "registry_ids": [],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/12666111/",
+      "title": "A randomized sequential trial of creatine in amyotrophic lateral sclerosis.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "175 people with ALS",
+      "tested_ingredients": [
+        "creatine monohydrate"
+      ],
+      "formulation": "Creatine monohydrate versus placebo",
+      "status": "stopped at sequential analysis",
+      "administration_evidence": "The investigators report on-treatment observations for Creatine. No survival or functional benefit.",
+      "outcome": "negative",
+      "result": "No survival or functional benefit."
+    },
+    {
+      "study_id": "PMID:40409314",
+      "registry_ids": [
+        "NCT05136885"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/40409314/",
+      "title": "Safety and efficacy of trehalose in amyotrophic lateral sclerosis (HEALEY ALS Platform Trial): an adaptive, phase 2/3, double-blind, randomised, placebo-controlled trial.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "HEALEY ALS platform participants",
+      "tested_ingredients": [
+        "Trehalose"
+      ],
+      "formulation": "Intravenous trehalose versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Trehalose. No evidence of slower disease progression.",
+      "outcome": "negative",
+      "result": "No evidence of slower disease progression."
+    },
+    {
+      "study_id": "PMID:39511965",
+      "registry_ids": [],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/39511965/",
+      "title": "A 40-week phase 2B randomized, multicenter, double-blind, placebo-controlled study evaluating the safety and efficacy of memantine in amyotrophic lateral sclerosis.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "Adults with ALS",
+      "tested_ingredients": [
+        "Memantine"
+      ],
+      "formulation": "Memantine versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Memantine. No difference in progression or measured biomarkers.",
+      "outcome": "negative",
+      "result": "No difference in progression or measured biomarkers."
+    },
+    {
+      "study_id": "PMID:39307154",
+      "registry_ids": [
+        "NCT04302870"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/39307154/",
+      "title": "Safety and efficacy of memantine and trazodone versus placebo for motor neuron disease (MND SMART): stage two interim analysis from the first cycle of a phase 3, multiarm, multistage, randomised, adaptive platform trial.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "Motor neuron disease including ALS",
+      "tested_ingredients": [
+        "Trazodone"
+      ],
+      "formulation": "Oral trazodone in a separate randomized arm from memantine and placebo",
+      "status": "arm stopped at interim analysis",
+      "administration_evidence": "The investigators report on-treatment observations for Trazodone. Interim analysis found no efficacy benefit.",
+      "outcome": "negative",
+      "result": "Interim analysis found no efficacy benefit."
+    },
+    {
+      "study_id": "PMID:25297012",
+      "registry_ids": [
+        "NCT00349622"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/25297012/",
+      "title": "Safety and efficacy of ceftriaxone for amyotrophic lateral sclerosis: a multi-stage, randomised, double-blind, placebo-controlled trial.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "People with ALS",
+      "tested_ingredients": [
+        "Ceftriaxone"
+      ],
+      "formulation": "Intravenous ceftriaxone versus placebo",
+      "status": "stopped for futility",
+      "administration_evidence": "The investigators report on-treatment observations for Ceftriaxone. Phase 3 did not demonstrate efficacy.",
+      "outcome": "negative",
+      "result": "Phase 3 did not demonstrate efficacy."
+    },
+    {
+      "study_id": "PMID:17980667",
+      "registry_ids": [
+        "NCT00047723"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/17980667/",
+      "title": "Efficacy of minocycline in patients with amyotrophic lateral sclerosis: a phase III randomised trial.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "People with ALS",
+      "tested_ingredients": [
+        "Minocycline"
+      ],
+      "formulation": "Escalating oral minocycline versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Minocycline. ALSFRS-R declined significantly faster on minocycline.",
+      "outcome": "negative",
+      "result": "ALSFRS-R declined significantly faster on minocycline."
+    },
+    {
+      "study_id": "PMID:16802291",
+      "registry_ids": [],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/16802291/",
+      "title": "Trial of celecoxib in amyotrophic lateral sclerosis.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "People with ALS",
+      "tested_ingredients": [
+        "Celecoxib"
+      ],
+      "formulation": "Celecoxib 800 mg/day versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Celecoxib. No measured functional or survival benefit.",
+      "outcome": "negative",
+      "result": "No measured functional or survival benefit."
+    },
+    {
+      "study_id": "PMID:29510461",
+      "registry_ids": [],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/29510461/",
+      "title": "Mexiletine for muscle cramps in amyotrophic lateral sclerosis: A randomized, double-blind crossover trial.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "People with ALS and symptomatic cramps",
+      "tested_ingredients": [
+        "Mexiletine"
+      ],
+      "formulation": "Mexiletine 150 mg twice daily in a placebo-controlled crossover",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Mexiletine. Fewer muscle cramps. Disease modification was not tested.",
+      "outcome": "positive",
+      "result": "Fewer muscle cramps. Disease modification was not tested."
+    },
+    {
+      "study_id": "PMID:11294919",
+      "registry_ids": [],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/11294919/",
+      "title": "Phase III randomized trial of gabapentin in patients with amyotrophic lateral sclerosis.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "People with ALS",
+      "tested_ingredients": [
+        "Gabapentin"
+      ],
+      "formulation": "Gabapentin versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Gabapentin. No strength, survival or functional benefit.",
+      "outcome": "negative",
+      "result": "No strength, survival or functional benefit."
+    },
+    {
+      "study_id": "PMID:12939417",
+      "registry_ids": [],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/12939417/",
+      "title": "A randomized, placebo-controlled trial of topiramate in amyotrophic lateral sclerosis.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "People with ALS",
+      "tested_ingredients": [
+        "Topiramate"
+      ],
+      "formulation": "High-dose topiramate versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Topiramate. Faster measured strength decline and increased adverse events.",
+      "outcome": "negative",
+      "result": "Faster measured strength decline and increased adverse events."
+    },
+    {
+      "study_id": "PMID:29934198",
+      "registry_ids": [
+        "NCT01879241"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/29934198/",
+      "title": "Safety and efficacy of rasagiline as an add-on therapy to riluzole in patients with amyotrophic lateral sclerosis: a randomised, double-blind, parallel-group, placebo-controlled, phase 2 trial.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "People with ALS on riluzole",
+      "tested_ingredients": [
+        "Rasagiline"
+      ],
+      "formulation": "Rasagiline added to riluzole versus placebo plus riluzole",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Rasagiline. No significant difference in primary survival outcome.",
+      "outcome": "negative",
+      "result": "No significant difference in primary survival outcome."
+    },
+    {
+      "study_id": "PMID:22715372",
+      "registry_ids": [
+        "NCT00690118"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/22715372/",
+      "title": "A randomized, double blind, placebo-controlled trial of pioglitazone in combination with riluzole in amyotrophic lateral sclerosis.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "People with ALS on riluzole",
+      "tested_ingredients": [
+        "Pioglitazone"
+      ],
+      "formulation": "Pioglitazone added to riluzole versus placebo plus riluzole",
+      "status": "stopped for futility",
+      "administration_evidence": "The investigators report on-treatment observations for Pioglitazone. Stopped for futility. No survival improvement.",
+      "outcome": "negative",
+      "result": "Stopped for futility. No survival improvement."
+    },
+    {
+      "study_id": "PMID:17014688",
+      "registry_ids": [],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/17014688/",
+      "title": "Reduced oxidative damage in ALS by high-dose enteral melatonin treatment.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "People with ALS receiving chronic melatonin",
+      "tested_ingredients": [
+        "Melatonin"
+      ],
+      "formulation": "Rectal melatonin 300 mg daily in human safety study",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Melatonin. Tolerability and an oxidative biomarker reported. Clinical efficacy undetermined.",
+      "outcome": "inconclusive",
+      "result": "Tolerability and an oxidative biomarker reported. Clinical efficacy undetermined."
+    },
+    {
+      "study_id": "PMID:18821142",
+      "registry_ids": [],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/18821142/",
+      "title": "Open-label pilot trial of levetiracetam for cramps and spasticity in patients with motor neuron disease.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "Motor neuron disease cohort including ALS",
+      "tested_ingredients": [
+        "Levetiracetam"
+      ],
+      "formulation": "Open-label levetiracetam following prospective baseline",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Levetiracetam. Cramp measures improved in this uncontrolled symptomatic study.",
+      "outcome": "inconclusive",
+      "result": "Cramp measures improved in this uncontrolled symptomatic study."
+    },
+    {
+      "study_id": "PMID:24067398",
+      "registry_ids": [
+        "NCT01281189"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/24067398/",
+      "title": "Dexpramipexole versus placebo for patients with amyotrophic lateral sclerosis (EMPOWER): a randomised, double-blind, phase 3 trial.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "EMPOWER ALS trial",
+      "tested_ingredients": [
+        "Dexpramipexole"
+      ],
+      "formulation": "Dexpramipexole versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Dexpramipexole. No difference in the primary combined function and survival outcome.",
+      "outcome": "negative",
+      "result": "No difference in the primary combined function and survival outcome."
+    },
+    {
+      "study_id": "PMID:16193258",
+      "registry_ids": [],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/16193258/",
+      "title": "Minocycline in amyotrophic lateral sclerosis: a pilot study",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "Twenty ALS patients",
+      "tested_ingredients": [
+        "Minocycline",
+        "Riluzole"
+      ],
+      "formulation": "Minocycline plus riluzole versus riluzole alone over six months",
+      "status": "completed",
+      "administration_evidence": "The authors administered riluzole in both arms and minocycline in the combination arm and followed adverse effects.",
+      "outcome": "inconclusive",
+      "result": "Pilot tolerability findings under coadministration do not establish disease-modifying efficacy."
+    }
+  ],
+  "formulation_checks": [
+    {
+      "withheld": [
+        "Compound::DB14533",
+        "Compound::DB14487",
+        "Compound::DB01593"
+      ],
+      "tested_form": "Zinc methionine (Optizinc) with copper",
+      "source": "https://www.neurology.org/doi/10.1212/WNL.78.1_supplement.P04.153",
+      "reason": "The ALS pilot did not establish administration of zinc chloride, zinc acetate or elemental zinc metal."
+    }
+  ]
+}

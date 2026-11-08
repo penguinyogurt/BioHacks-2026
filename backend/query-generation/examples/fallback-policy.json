@@ -1,0 +1,9 @@
+{
+  "weights":{"disease-indications":0.36,"genes-targets":0.26,"safety-interactions-class":0.13,"pathways-processes":0.20,"symptoms-function":0.05},
+  "rank_offset":10,
+  "coverage_exponent":0,
+  "soft_concern_penalty":0.04,
+  "entry_rule":"At least one observed supporting graph witness for disease, target or pathway relevance. Association alone never proves benefit.",
+  "hard_rule":"Carry forward the published first-pass eligibility screen. At targeted review veto a documented contraindication whose prerequisites the chart meets, a label-directed avoid/contraindicated combination with an actual medication, a named strong/moderate CYP1A2 inhibitor under the prior riluzole screen, or a labeled serious respiratory-depression risk explicitly applicable to underlying respiratory impairment. Require a matching chart fact and a primary source. Do not infer contraindications from class similarity, an interaction edge, or missing labs.",
+  "soft_rule":"Subtract one fixed penalty for a sourced clinically consequential caution applicable to the chart that falls below the veto threshold. Do not stack penalties for multiple warnings. Negative efficacy evidence is reported independently."
+}

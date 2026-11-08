@@ -14,8 +14,8 @@ def paths(graph, anchor, steps, pool):
     return {node:path for node,path in frontier.items() if node in pool}
 
 
-def query(graph, anchor, steps, evidence, support):
-    if not support:return None
+def query(graph, anchor, steps, evidence, support, keep_empty=False):
+    if not support and not keep_empty:return None
     node_type=anchor.split("::")[0]
     point=graph.E[graph.entities[anchor]].astype(float)
     traversals=[]
