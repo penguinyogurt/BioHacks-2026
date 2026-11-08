@@ -1,19 +1,16 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { CartesianGrid, LabelList, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts'
-import { ArrowRight, FileText, Loader2, Play, Upload, X } from 'lucide-react'
+import { ArrowRight, Download, FileText, Loader2, Play, Upload, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChartContainer } from '@/components/ui/chart'
-import { Switch } from '@/components/ui/switch'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { readCasePdf } from '@/lib/case-pdf'
-import { CANDIDATES, CRITERIA, EXCLUDED, MATCHES, PROFILE_POINTS, PROFILES, SAMPLE_PATIENT, rank } from '@/lib/pipeline'
+import { buildReportPdf } from '@/lib/report-pdf'
+import { MATCHES, PROFILE_POINTS, PROFILES, SAMPLE_PATIENT } from '@/lib/pipeline'
 import { useRun } from '@/lib/run-store'
 import { LANE_COLORS } from './lanes'
 import { EmptyStage, PatientCard, STEPS, StageHeader, StepNav, Trace } from './pieces'
-import { Report } from './report'
 
 type Go = (view: string) => void
 
@@ -25,7 +22,6 @@ function CaseUpload() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [drag, setDrag] = useState(false)
-  const [page, setPage] = useState(0)
   const locked = state.phase === 'running'
 
   async function take(file: File | undefined) {
@@ -38,7 +34,6 @@ function CaseUpload() {
     setError('')
     try {
       setCaseFile(await readCasePdf(file))
-      setPage(0)
     } catch {
       setError('Couldn’t read that PDF. Is it password-protected or a scanned image?')
     } finally {
@@ -47,7 +42,6 @@ function CaseUpload() {
   }
 
   if (caseFile) {
-    const text = caseFile.text[page] ?? ''
     return (
       <Card className="gap-3 [--card-spacing:--spacing(5)]">
         <CardHeader>
@@ -64,16 +58,12 @@ function CaseUpload() {
           <p className="text-xs text-muted-foreground">
             {caseFile.pages} page{caseFile.pages === 1 ? '' : 's'} · {caseFile.words.toLocaleString()} words
           </p>
-          <div className="max-h-64 overflow-y-auto rounded-lg border bg-background/70 p-3 text-xs leading-relaxed whitespace-pre-wrap">
-            {text || <span className="text-muted-foreground">No text on this page (it may be a scanned image).</span>}
-          </div>
-          {caseFile.pages > 1 ? (
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <Button size="xs" variant="ghost" disabled={page === 0} onClick={() => setPage((p) => p - 1)}>Previous</Button>
-              <span className="tabular-nums">Page {page + 1} of {caseFile.pages}</span>
-              <Button size="xs" variant="ghost" disabled={page === caseFile.pages - 1} onClick={() => setPage((p) => p + 1)}>Next</Button>
-            </div>
-          ) : null}
+          {/* The browser's own PDF viewer: scrolling, zoom, search, page thumbnails and print. */}
+          <iframe
+            src={`${caseFile.url}#view=FitH`}
+            title={`Case PDF: ${caseFile.name}`}
+            className="block h-[80vh] w-full rounded-md bg-white ring-1 ring-border"
+          />
         </CardContent>
       </Card>
     )
@@ -98,7 +88,7 @@ function CaseUpload() {
     >
       {busy ? <Loader2 className="size-6 animate-spin text-muted-foreground" aria-hidden /> : <Upload className="size-6 text-muted-foreground" aria-hidden />}
       <div>
-        <p className="font-medium">{busy ? 'Reading case…' : 'Drop the patient case PDF'}</p>
+        <p className="font-medium">{busy ? 'Reading the profile…' : 'Drop the patient profile PDF'}</p>
         <p className="mt-1 text-xs text-muted-foreground">Stays in your browser</p>
       </div>
       <input ref={input} type="file" accept="application/pdf,.pdf" className="sr-only" onChange={(e) => void take(e.target.files?.[0])} />
@@ -109,54 +99,42 @@ function CaseUpload() {
 }
 
 export function CasePage({ go }: { go: Go }) {
-  const { state, caseFile, goal, setGoal, weights, setWeights, start } = useRun()
+  const { state, caseFile, start } = useRun()
   return (
     <div className="mx-auto max-w-[1440px] space-y-3 text-sm">
-      <StageHeader step="00 · Patient case" title="Start with the patient." />
+      <StageHeader
+        step="01 · Patient case"
+        title="Start with the patient"
+        description="Upload the case file as a PDF. Every later step is grounded in what it contains."
+      />
       <div className="grid gap-3 lg:grid-cols-12">
-        <div className="space-y-3 lg:col-span-6">
+        <div className={cn(caseFile ? 'lg:col-span-6' : 'lg:col-span-12')}>
           <CaseUpload />
-          <PatientCard
-            compact
-            footer={!caseFile ? <p className="mt-3 text-xs text-muted-foreground">Sample patient — used until you add a case.</p> : null}
-          />
         </div>
-        <Card className="gap-4 self-start [--card-spacing:--spacing(5)] lg:col-span-6">
-          <CardHeader>
-            <CardTitle className="text-lg font-normal">Goal</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-5">
-            <Textarea value={goal} onChange={(e) => setGoal(e.target.value)} rows={3} className="bg-background/70 text-sm" aria-label="Research goal" />
-            <div className="flex flex-wrap gap-x-4 gap-y-2.5">
-              {CRITERIA.map((c) => (
-                <label key={c.key} className="flex items-center gap-2 text-xs" title={c.hint}>
-                  <Switch checked={weights[c.key]} onCheckedChange={(v) => setWeights({ ...weights, [c.key]: v })} />
-                  {c.label}
-                </label>
-              ))}
-            </div>
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t pt-4">
-              <span className="text-xs text-muted-foreground">Delivery: MRgFUS</span>
-              {state.phase === 'running' || state.phase === 'paused' ? (
-                <Button variant="outline" onClick={() => go(STEPS.filter((x) => x.stage && state.stages[x.stage] !== 'pending').at(-1)?.view ?? 'analysis')}>
-                  Run in progress <ArrowRight aria-hidden />
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => {
-                    start()
-                    go('analysis')
-                  }}
-                  disabled={!goal.trim()}
-                >
-                  <Play aria-hidden /> {state.phase === 'done' ? 'Start a new run' : 'Run patient analysis'}
-                </Button>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+        {/* The profile only exists once there's a file to parse it from. */}
+        {caseFile ? (
+          <div className="self-start lg:col-span-6">
+            <PatientCard />
+          </div>
+        ) : null}
       </div>
-      <StepNav view="case" />
+      <div className="flex justify-end">
+        {state.phase === 'running' || state.phase === 'paused' ? (
+          <Button variant="outline" onClick={() => go(STEPS.filter((x) => x.stage && state.stages[x.stage] !== 'pending').at(-1)?.view ?? 'analysis')}>
+            Run in progress <ArrowRight aria-hidden />
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              start()
+              go('analysis')
+            }}
+            disabled={!caseFile}
+          >
+            <Play aria-hidden /> {state.phase === 'done' ? 'Start a new run' : 'Run patient analysis'}
+          </Button>
+        )}
+      </div>
     </div>
   )
 }
@@ -169,9 +147,9 @@ export function AnalysisPage() {
   return (
     <div className="mx-auto max-w-[1440px] space-y-3 text-sm">
       <StageHeader
-        step="01 · Patient analysis"
-        title="Understand the case."
-        description="The analysis agent reads the case file, checks genetics against NCBI and ClinVar, and writes the patient summary every other agent works from."
+        step="02 · Patient analysis"
+        title="Clinical picture"
+        description="The analysis agent summarises the key findings and checks the genetics against NCBI and ClinVar."
       />
       {state.stages.analysis === 'pending' ? (
         <EmptyStage view="analysis" />
@@ -214,9 +192,9 @@ export function ProfilesPage() {
   return (
     <div className="mx-auto max-w-[1600px] space-y-3 text-sm">
       <StageHeader
-        step="02 · Profile agents"
-        title="Five takes on the ideal drug."
-        description="Five agents run in parallel. Each frames a different therapeutic hypothesis for this patient and writes the profile of the drug that would test it."
+        step="03 · Profile agents"
+        title="Five therapeutic hypotheses"
+        description="Five agents run in parallel, each defining the drug that would test one disease mechanism in this patient."
       />
       {state.stages.profiles === 'pending' ? (
         <EmptyStage view="profiles" />
@@ -263,9 +241,9 @@ export function EmbeddingPage() {
   return (
     <div className="mx-auto max-w-[1440px] space-y-3 text-sm">
       <StageHeader
-        step="03 · DRKG embedding"
-        title="From profile to real compounds."
-        description="Each profile becomes a vector in the DRKG knowledge-graph embedding space; the nearest drug entities by cosine similarity become candidates."
+        step="04 · DRKG embedding"
+        title="Matching profiles to known drugs"
+        description="Each profile is placed in the DRKG knowledge graph and matched to its nearest compounds by cosine similarity."
       />
       {state.stages.embedding === 'pending' ? (
         <EmptyStage view="embedding" />
@@ -329,83 +307,67 @@ export function EmbeddingPage() {
   )
 }
 
-/* ----------------------------------------------------- 04 research & ranking */
+/* ------------------------------------------------------ 04 research report */
 
 export function CandidatesPage() {
-  const { state, weights, setWeights } = useRun()
-  const ranked = rank(CANDIDATES, weights)
+  const { state, weights, date, caseFile } = useRun()
+  const patient = caseFile?.patient ?? SAMPLE_PATIENT
+  // The agent's report, as a PDF for the browser's own viewer (same as the case file in step 0).
+  const [url, setUrl] = useState<string | null>(null)
+  // Each URL is created and revoked by the same effect run, so StrictMode's
+  // mount → unmount → mount can't revoke the one the viewer is still showing.
+  useEffect(() => {
+    if (!state.report) return
+    const u = buildReportPdf({ patient, weights, date, caseName: caseFile?.name })
+    setUrl(u)
+    return () => {
+      URL.revokeObjectURL(u)
+      setUrl(null)
+    }
+  }, [state.report, patient, weights, date, caseFile?.name])
+  const filename = `Addo report - ${patient.label}.pdf`
   return (
     <div className="mx-auto max-w-[1440px] space-y-3 text-sm">
       <StageHeader
-        step="04 · Research & ranking"
-        title="Rank for this patient."
-        description="A research agent with open search checks evidence, interactions with current medication, cost, availability in Canada and patient burden, then ranks the matches."
+        step="05 · Research report"
+        title="Ranked for this patient"
+        description="A research agent weighs evidence, drug interactions, cost, access and treatment burden, then writes a cited report."
       />
       {state.stages.research === 'pending' ? (
         <EmptyStage view="candidates" />
       ) : (
         <div className="grid gap-3 lg:grid-cols-12">
-          <div className="space-y-3 lg:col-span-8">
-            {state.candidates ? (
-              <>
-                <div className="flex flex-wrap gap-x-5 gap-y-2 rounded-lg bg-card px-4 py-3 ring-1 ring-border backdrop-blur-md">
-                  <span className="text-xs text-muted-foreground">Rank by</span>
-                  {CRITERIA.map((c) => (
-                    <label key={c.key} className="flex items-center gap-2 text-xs" title={c.hint}>
-                      <Switch checked={weights[c.key]} onCheckedChange={(v) => setWeights({ ...weights, [c.key]: v })} />
-                      {c.label}
-                    </label>
-                  ))}
-                </div>
-                <div className="overflow-x-auto rounded-lg bg-card ring-1 ring-border backdrop-blur-md">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-8">#</TableHead>
-                        <TableHead>Candidate</TableHead>
-                        <TableHead>Delivery</TableHead>
-                        {CRITERIA.map((c) => (
-                          <TableHead key={c.key} title={c.label} className={cn('text-right', !weights[c.key] && 'opacity-40')}>{c.short}</TableHead>
-                        ))}
-                        <TableHead className="text-right">Overall</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {ranked.map((c, i) => (
-                        <TableRow key={c.drug}>
-                          <TableCell className="text-muted-foreground tabular-nums">{i + 1}</TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-2"><span className="size-2 rounded-full" style={{ background: LANE_COLORS[c.lane] }} /><span className="font-medium">{c.drug}</span></div>
-                            <div className="max-w-[14rem] text-xs whitespace-normal text-muted-foreground">{c.cls}</div>
-                          </TableCell>
-                          <TableCell className="text-xs whitespace-normal">
-                            <div>BBB alone: {c.bbbAlone}</div>
-                            <div className="text-[#a35b1d]">MRgFUS: {c.withFus}</div>
-                          </TableCell>
-                          {CRITERIA.map((k) => (
-                            <TableCell key={k.key} className={cn('text-right tabular-nums', !weights[k.key] && 'opacity-40')}>{c.scores[k.key]}</TableCell>
-                          ))}
-                          <TableCell className="text-right"><span className="font-brand text-lg tabular-nums">{c.overall}</span></TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-                <div className="rounded-lg bg-card px-4 py-3 text-xs ring-1 ring-border backdrop-blur-md">
-                  <p className="mb-1.5 text-muted-foreground">Excluded for this patient</p>
-                  <ul className="space-y-0.5">
-                    {EXCLUDED.map((e) => <li key={e.drug}><strong className="font-medium">{e.drug}</strong> — {e.reason}</li>)}
-                  </ul>
-                </div>
-              </>
+          <div className="self-start lg:col-span-4">
+            <Trace stage="research" title="Research agent" maxH="max-h-[34rem]" />
+          </div>
+          <div className="lg:col-span-8">
+            {url ? (
+              <Card className="gap-3 [--card-spacing:--spacing(5)]">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-lg font-normal">
+                    <FileText className="size-4 text-muted-foreground" aria-hidden /> Research report
+                  </CardTitle>
+                  <CardAction>
+                    <Button asChild size="sm" variant="outline">
+                      <a href={url} download={filename}>
+                        <Download aria-hidden /> Download PDF
+                      </a>
+                    </Button>
+                  </CardAction>
+                </CardHeader>
+                <CardContent>
+                  <iframe
+                    src={`${url}#view=FitH`}
+                    title={`Research report for ${patient.label}`}
+                    className="block h-[80vh] w-full rounded-md bg-white ring-1 ring-border"
+                  />
+                </CardContent>
+              </Card>
             ) : (
               <Card className="[--card-spacing:--spacing(6)]">
-                <CardContent className="flex items-center gap-2 text-muted-foreground"><Loader2 className="size-4 animate-spin" aria-hidden /> Researching candidates…</CardContent>
+                <CardContent className="flex items-center gap-2 text-muted-foreground"><Loader2 className="size-4 animate-spin" aria-hidden /> Writing the report…</CardContent>
               </Card>
             )}
-          </div>
-          <div className="lg:col-span-4">
-            <Trace stage="research" title="Research agent" maxH="max-h-[34rem]" />
           </div>
         </div>
       )}
@@ -413,27 +375,3 @@ export function CandidatesPage() {
     </div>
   )
 }
-
-/* ----------------------------------------------------------------- 05 report */
-
-export function ReportPage() {
-  const { state, weights, date, caseFile } = useRun()
-  return (
-    <div className="mx-auto max-w-[1440px] space-y-3 text-sm">
-      <StageHeader
-        step="05 · Report"
-        title="The case for each candidate."
-        description="Cited, patient-specific, and ready to bring to the neurologist."
-      />
-      {!state.report ? (
-        <EmptyStage view="report" />
-      ) : (
-        <div className="mx-auto max-w-4xl rounded-xl bg-card p-6 ring-1 ring-border backdrop-blur-md">
-          <Report patient={SAMPLE_PATIENT} weights={weights} date={date} caseName={caseFile?.name} />
-        </div>
-      )}
-      <StepNav view="report" />
-    </div>
-  )
-}
-
