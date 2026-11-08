@@ -1,0 +1,9 @@
+synapseclient==4.10.0
+numpy==1.26.4
+scipy==1.13.1
+scikit-learn==1.6.1
+openpyxl==3.1.5
+soundfile==0.13.1
+torch==2.8.0
+transformers==4.57.1
+mord==0.7
