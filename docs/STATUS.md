@@ -81,6 +81,25 @@ Ordered roughly by what hurts most if it's still open on Sunday morning.
 
 ---
 
+## If main gives you a `tsconfig.tsbuildinfo` conflict — read this first
+
+**Jeremy, this is the one you're hitting.** `frontend/tsconfig.tsbuildinfo`
+is TypeScript's incremental build cache. It was committed by mistake, it
+rewrites itself on every single build, so it conflicted constantly. `main`
+untracked it on 2026-11-07 and it's gitignored now.
+
+Your branch has it modified, main deleted it → modify/delete conflict.
+Accept the deletion; it regenerates on your next build and will never come
+back:
+
+```bash
+git rm --cached frontend/tsconfig.tsbuildinfo
+git commit --no-edit
+```
+
+One time only. Sorry — that one's on Henri, and it was the only file under
+`frontend/` that main touched.
+
 ## Heads-up if you merge main
 
 `main` deleted `app/` on 2026-11-07, so branches that built there get
