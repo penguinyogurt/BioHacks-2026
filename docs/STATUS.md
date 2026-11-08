@@ -1,52 +1,80 @@
-# Status
+# Status — the shared task board
 
-**Who is on what, right now.** Read this at the start of every session;
-update it at the end of every session, in the same commit as your work.
+**This is the one place work is claimed.** Read it at the start of every
+session. Claim before you write code. Release when you stop.
 
-Keep it short. A stale entry is worse than a missing one — if you stopped
-working on something, say so.
+There is no task framework to install — `gh` isn't on these machines and
+four people on three different AI harnesses have exactly one medium in
+common, which is this repo. So the board is a file, and the protocol below
+is what makes it work.
 
 Last updated: **2026-11-07**
 
 ---
 
-## In flight
+## How to claim (all of it)
 
-| Person | Track | Branch | What they're on | Blocked on |
+1. **`git pull`** — then put your name on the line you want, in **In flight**.
+2. **Commit just this file and push immediately.** Don't bundle the claim
+   with your work; the claim is worthless if it lands an hour later.
+   ```bash
+   git pull && git add docs/STATUS.md && git commit -m "claim: <task>" && git push
+   ```
+3. **If the push is rejected**, someone claimed something while you typed.
+   `git pull --rebase`, check your task is still free, push again.
+4. **When you stop** — done, blocked, or bored — move the line to **Done** or
+   back to **Open**, with one line on where you left it. A task parked
+   silently is the same as a task nobody did.
+
+If two of you end up on the same line anyway, that's a conflict in one
+markdown row. Keep both names, talk, move on.
+
+---
+
+## In flight — claimed, don't touch
+
+| Who | Track | Branch | Task | Blocked on |
 |---|---|---|---|---|
-| Henri | repo / frontend | `main` | Repo cleanup: scrapped the dead frontends, extracted `contract/`, rewrote the process docs | — |
-| Jeremy | frontend | `main` (merged) | **Discovery pipeline** — FUS-enabled repurposing, scripted end to end. See `DISCOVERY_SPEC.md`. Also the Motus dashboard: overview landed, 15 views still placeholders | Supabase keys; a live backend behind `runDemoPipeline` |
-| Neo | pipeline | `cursor/pipeline-graph-ui` | Drug-repurposing pipeline — BBB + patient filter scored across 3,791 compounds | — |
-| Neo | facecheck | `cursor/facial-als-validation` | FaceCheck MediaPipe prototype | See `FACECHECK_SPEC.md` §2 gaps |
-| Levi | speech | `Master-UI-Neo-Face-Integration` | Speech + diagnostic test apps | Unrelated git history — merge is a decision, not a chore |
+| Jeremy | discovery | `main` | FUS discovery pipeline — scripted end to end. See `DISCOVERY_SPEC.md` | A live backend behind `runDemoPipeline` |
+| Jeremy | frontend | `main` | Motus dashboard — overview landed, 15 views still placeholders | Supabase keys |
+| Neo | pipeline | `cursor/pipeline-graph-ui` | Drug pipeline — BBB + patient filter scored over 3,791 compounds | — |
+| Neo | facecheck | `cursor/facial-als-validation` | FaceCheck MediaPipe prototype | `FACECHECK_SPEC.md` §2 gaps |
+| Levi | speech | `Master-UI-Neo-Face-Integration` | Speech + diagnostic test apps | No spec in `docs/` yet |
+| Henri | repo | `main` | Cleanup, specs, this board | — |
 
-> Names are from git history. Correct them if they're wrong.
+> Names are from git history. Fix them if they're wrong.
 
-## Just landed
+## Open — unclaimed, grab one
 
-- **2026-11-07** — Repo cleanup on `main`: `app/` and `web/` (two dead
-  drug-funnel frontends) deleted; the contract and validator extracted to
-  `contract/` so the Python side keeps its check; `.gitignore` rewritten
-  (`.env` was not ignored); `.workspace/` added for per-person AI config;
-  CI deleted outright — run `npm test --prefix contract` yourself.
-- **2026-11-07** — `frontend/` (Motus) merged to `main` via PR #1.
+Ordered roughly by what hurts most if it's still open on Sunday morning.
 
-## Open questions
+| Track | Task | Why it matters |
+|---|---|---|
+| **decision** | **Pick the product: discovery pipeline or Motus.** Both ship on `main`, in one sidebar, sharing nothing else | 90 seconds, one argument. Everything below depends on this |
+| **decision** | **Pick the name.** Code says *Addo Labs*, landing page says *motus* | A judge sees both in one scroll |
+| discovery | Wire the graveyard's `never_arrived` bucket in as the FUS candidate pool | It already exists in `data/pipeline.json` and is exactly the right set — `DISCOVERY_SPEC.md` §1 |
+| discovery | Real citations for the Sunnybrook MRgFUS claim; be precise about human vs proposed | The whole pitch rests on it, and someone will ask |
+| pipeline | Port the Python onto a branch cut from `main` (leave `data/*.json` and `artifacts/` behind) | `main` has no pipeline code today |
+| speech | Write `docs/SPEECH_SPEC.md` | The only track with no spec — nobody else can pick it up |
+| frontend | Decide demo mode: signed-in or sample data | Sample works today with no keys |
+| facecheck | Decide: own page, or a tab in the app | `FACECHECK_SPEC.md` §7 |
+| discovery | A real backend behind `runDemoPipeline` — stretch | The seam is clean; don't collapse it under time pressure |
 
-These need a person, not an agent:
+## Done
 
-- **Is the product the discovery pipeline or Motus?** `main` ships both, in
-  one sidebar, sharing nothing else. One demo, 90 seconds — a judge can
-  follow one argument. **Decide this first; everything else depends on it.**
-  (`DISCOVERY_SPEC.md` §4.)
-- **What is it called?** The code says *Addo Labs*; the landing page says
-  *motus*. Pick one.
-- **Does the old elimination funnel feed the new pipeline?** The graveyard's
-  `never_arrived` bucket is exactly the FUS-unlocked candidate pool — wire it
-  in, or retire the contract and say so.
-- **Does `Master-UI-Neo-Face-Integration` get merged into `main`?** It has an
-  unrelated git history. Decide before Saturday evening or it stays separate.
-- **Does FaceCheck ship as its own page or as a tab in Motus?**
-  (`FACECHECK_SPEC.md` §7.)
-- **Supabase**: who owns the project, and do we demo signed-in or on sample
-  data? Sample data works today with no keys.
+- **2026-11-07** · Henri · Repo cleanup: `app/` and `web/` deleted, contract
+  extracted to `contract/`, `.gitignore` rewritten (`.env` was exposed),
+  `.workspace/` added, CI deleted — run `npm test --prefix contract` yourself.
+- **2026-11-07** · Henri · `DISCOVERY_SPEC.md` written from Jeremy's pitch.
+- **2026-11-07** · Jeremy · Discovery pipeline UI + Motus dashboard merged
+  (PRs #1, #2).
+
+---
+
+## Heads-up if you merge main
+
+`main` deleted `app/` on 2026-11-07, so branches that built there get
+modify/delete conflicts (measured: 11 on `cursor/pipeline-graph-ui`, 19 on
+`frontend/kg-and-provenance`). `Master-UI-Neo-Face-Integration` and
+`codex/diagnostic-tests` share **no common ancestor** with main and can't be
+merged without `--allow-unrelated-histories`. Your branch, your call.

@@ -47,13 +47,23 @@ artifacts/
 # Each harness writes its own machine-local hooks and state. None of it is
 # shared, and committing it starts merge fights nobody wants mid-hackathon.
 # Anything personal you want to keep goes in .workspace/ — see its README.
-.agents/
 .codex/
 .cursor/
 .entire/
-.claude/settings.json
 .claude/settings.local.json
 .claude/worktrees/
+
+# .agents/ is a generated mirror of .claude/skills/ for non-Claude harnesses.
+# Regenerate it with `npx skills` rather than committing it.
+.agents/
+
+# NOT ignored, on purpose:
+#   .claude/skills/     the 21 vetted skills, pinned in skills-lock.json so
+#                       everyone gets the identical set (see CLAUDE.md)
+#   .claude/launch.json how to start the dev server
+#   .claude/settings.json  Entire hooks — team-wide, and every hook is
+#                       guarded with `command -v entire` so it no-ops for
+#                       anyone who hasn't installed it
 
 # Your own scratch space: notes, personal CLAUDE.md, scratch scripts, dumps.
 # Tracked exception: the README that explains what belongs here.

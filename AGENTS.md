@@ -19,15 +19,24 @@ three separate frontends for one project.
 
 So, in order, every session:
 
-1. **Read [`docs/STATUS.md`](docs/STATUS.md).** It says who is on what, right
-   now. It takes fifteen seconds and it is the whole point.
-2. **Check the map below** for which directory your work belongs in. If your
+1. **Read [`docs/STATUS.md`](docs/STATUS.md).** It is the shared task board:
+   what is claimed, what is open, what is done. Fifteen seconds.
+2. **Claim your task there before you write code** — put your name on the
+   line, commit *just that file*, push immediately. The protocol is at the
+   top of the board. A claim that lands after your work is worthless.
+3. **Check the map below** for which directory your work belongs in. If your
    change doesn't obviously fit one, say so before writing code.
-3. **Before you stop, update `docs/STATUS.md`.** Even "I got nowhere on X"
-   is worth more to the other three than silence.
+4. **Before you stop, update the board.** Move your line to Done, or back to
+   Open with one line on where you left it. Even "I got nowhere on X" is
+   worth more to the other three than silence.
 
-If you are an agent: do steps 1 and 3 without being asked. Step 3 happens in
-the same commit as your work, not as a follow-up you forget.
+**If you are an agent, steps 1, 2 and 4 are not optional and you do them
+without being asked.** You are one of several agents working this repo at
+the same time, driven by different people on different harnesses, and you
+cannot see the others. The board is the only thing that stops two of you
+writing the same file from opposite directions. If a task you were about to
+start is already claimed by someone else, stop and tell your human rather
+than doing it anyway.
 
 ---
 
