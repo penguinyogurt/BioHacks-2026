@@ -1,0 +1,25 @@
+{
+  "case_id": "alex",
+  "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+  "scope": "Project example case; facts are reported by the case, not independently confirmed clinical observations.",
+  "facts": {
+    "diagnosis": "Limb-onset ALS, diagnosed in 2026",
+    "current_therapy": "Riluzole 50 mg twice daily since July 2026",
+    "respiratory": "FVC 76% sitting, 61% supine",
+    "weight": "Unintentional decline from 86 to 77.5 kg",
+    "muscle": "CK 470 U/L, reference ceiling 195 U/L",
+    "swallow": "Coughs on thin liquids",
+    "hand_function": "Right pinch 3 kg and grip 14 kg",
+    "jurisdiction": "Hamilton, Ontario, Canada",
+    "genotype": "unknown"
+  },
+  "disease": "Disease::MESH:D000690",
+  "therapy": "Compound::DB00740",
+  "symptom_hypotheses": {
+    "swallow": {"node":"Disease::MESH:D003680","source":"https://id.nlm.nih.gov/mesh/D003680","interpretation":"Swallowing difficulty is a retrieval hypothesis based on the chart; this is not a new diagnosis."}
+  },
+  "disease_genes": ["Gene::6647","Gene::23435"],
+  "gene_source":"https://pubmed.ncbi.nlm.nih.gov/24570655/",
+  "process":"Biological Process::GO:0006979",
+  "process_source":"https://pubmed.ncbi.nlm.nih.gov/24704492/"
+}
