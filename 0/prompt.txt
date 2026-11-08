@@ -1,0 +1,33 @@
+Is the report cached and saved to supabase? Is that why the pdf reports the id as a20261108-053845-9b1fc4?
+
+---
+
+Yes save the reports to supabase
+
+---
+
+Does the chat history and reports get cached too?
+
+---
+
+Remove the saved reports just make This session saved reports instead. Also update the pdf preview it's not accurate to the updated paper formating now. Lastly update the name of the pdf file to just be the name of the patient with their id
+
+---
+
+and change this header: Every run, with its evidence. It should be more professional and less cringe
+
+---
+
+Why Alex Moreau? That's not the patient's name. I thought we were using the live patient upload now. Also remove all the Worth Investigating and top drug stuff I just want the filename and date it was created
+
+---
+
+Clicking on the pdf should open its own pdf viewer and not link back to the reports section of the pipeline since the agent is no longer running. I don't think that makes sense since after a long time the agent will no longer be running and it will break the site
+
+---
+
+what's with the colour on the top part of opening the pdf?
+
+---
+
+change the colour of the cream strip to better match the colour scheme used in the webapp
