@@ -28,7 +28,7 @@ Last updated: **2026-11-07**
   drug-funnel frontends) deleted; the contract and validator extracted to
   `contract/` so the Python side keeps its check; `.gitignore` rewritten
   (`.env` was not ignored); `.workspace/` added for per-person AI config;
-  CI repointed off the deleted `app/`.
+  CI deleted outright — run `npm test --prefix contract` yourself.
 - **2026-11-07** — `frontend/` (Motus) merged to `main` via PR #1.
 
 ## Open questions

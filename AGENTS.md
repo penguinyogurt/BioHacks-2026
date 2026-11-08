@@ -159,8 +159,11 @@ npm test     --prefix contract         # contract tests
 npm run validate --prefix contract -- <file>   # validate any pipeline JSON
 ```
 
-CI (`.github/workflows/check.yml`) runs the contract tests and a frontend
-typecheck + build on every PR.
+**There is no CI.** We deleted it — it's a hackathon and a red X on a PR
+nobody has time to read is just noise. That makes the two commands above
+yours to run: the contract is the integration point between four people, so
+if you change its shape and don't check, the first person to find out is
+whoever is demoing.
 
 ---
 
