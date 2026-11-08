@@ -120,7 +120,7 @@ function Workspace({ view, setView, profile, onSignOut }: { view: string; setVie
   const label = ALL_NAV.find((n) => n.value === view)?.label ?? 'Patient case'
   const section =
     NAV_GROUPS.find((g) => g.items.some((i) => i.value === view))?.label ??
-    (NAV_SECONDARY.some((i) => i.value === view) ? 'Account' : 'Pipeline')
+    (NAV_SECONDARY.some((i) => i.value === view) ? 'Account' : 'Discovery')
   const page = VIEWS[view]
   const isPipeline = NAV_PIPELINE.some((n) => n.value === view)
 

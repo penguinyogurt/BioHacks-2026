@@ -144,7 +144,8 @@ export function CasePage({ go }: { go: Go }) {
 /**
  * A live run moves on by itself: when `stage` starts, follow it to `view`, `delay` ms after
  * `ready` (e.g. once the DRKG scene has finished drawing). Fires only on that transition,
- * so going back to an earlier page stays put.
+ * so going back to an earlier page stays put. Once due, the move survives the stage
+ * finishing in the meantime (DRKG takes ~2 s, less than some delays).
  */
 function useFollow(stage: StageId, view: string, ready = true, delay = 0) {
   const { state } = useRun()
@@ -152,15 +153,18 @@ function useFollow(stage: StageId, view: string, ready = true, delay = 0) {
   const status = state.stages[stage]
   const live = state.source === 'live'
   const was = useRef(status)
+  const [due, setDue] = useState(false)
   useEffect(() => {
     if (!ready) return
-    const fire = live && was.current === 'pending' && status !== 'pending'
+    if (live && was.current === 'pending' && status !== 'pending') setDue(true)
     was.current = status
-    if (!fire) return
+  }, [live, status, ready])
+  useEffect(() => {
+    if (!due) return
     const t = setTimeout(() => go(view), delay)
     return () => clearTimeout(t)
-    // `go` is a new function every render (Home's setView); the ref makes this fire once anyway.
-  }, [live, status, ready, view, delay])
+    // `go` is a new function every render (Home's setView); `due` makes this fire once anyway.
+  }, [due, view, delay])
 }
 
 /* -------------------------------------------------------- 01 patient analysis */
@@ -225,7 +229,8 @@ export function ProfilesPage() {
   const n = state.lanes.length
   const count = COUNT[n] ?? String(n)
   const ranked = state.trace.find((t) => t.step.label === 'Ranked for this patient')
-  useFollow('embedding', 'embedding', true, 2500)
+  // Straight to the DRKG page the moment stage 3 starts, so the traversal is watched from its first frame.
+  useFollow('embedding', 'embedding')
   return (
     <div className="mx-auto max-w-[1600px] space-y-3 text-sm">
       <StageHeader

@@ -153,7 +153,7 @@ export default function GraphExplorer() {
   return (
     <div className="flex h-[calc(100dvh-var(--header-height)-5.5rem)] min-h-[34rem] flex-col gap-3" style={{ colorScheme: 'light' }}>
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-        <div className="rounded-lg bg-popover px-3 py-1.5 ring-1 ring-border">
+        <div className="rounded-lg bg-card px-3 py-1.5 ring-1 ring-border backdrop-blur-md">
           <h2 className="text-lg font-medium text-balance">The whole knowledge graph</h2>
           <p className="text-sm text-foreground/75 tabular-nums">{stats}</p>
         </div>
@@ -166,7 +166,7 @@ export default function GraphExplorer() {
             value={colorBy}
             onValueChange={(v) => v && setColorBy(v as ColorBy)}
             aria-label="Colour points by"
-            className="bg-popover"
+            className="bg-card/90"
           >
             <ToggleGroupItem value="type" className="px-2.5 text-xs">Colour by type</ToggleGroupItem>
             <ToggleGroupItem value="cluster" className="px-2.5 text-xs" disabled={!data?.clusters}>
@@ -174,13 +174,13 @@ export default function GraphExplorer() {
             </ToggleGroupItem>
           </ToggleGroup>
           <div className="flex items-center">
-            <Button variant="outline" size="icon-sm" className="rounded-r-none bg-popover" aria-label="Back (Alt+Left)" title="Back (Alt+←)" disabled={hist.pos === 0} onClick={() => step(-1)}>
+            <Button variant="outline" size="icon-sm" className="rounded-r-none bg-card/90" aria-label="Back (Alt+Left)" title="Back (Alt+←)" disabled={hist.pos === 0} onClick={() => step(-1)}>
               <ChevronLeft aria-hidden />
             </Button>
             <Button
               variant="outline"
               size="icon-sm"
-              className="-ml-px rounded-l-none bg-popover"
+              className="-ml-px rounded-l-none bg-card/90"
               aria-label="Forward (Alt+Right)"
               title="Forward (Alt+→)"
               disabled={hist.pos === hist.list.length - 1}
@@ -193,7 +193,7 @@ export default function GraphExplorer() {
       </div>
 
       <div className="flex min-h-0 flex-1 gap-3">
-        <div className="relative isolate min-w-0 flex-1 overflow-hidden rounded-xl bg-background ring-1 ring-border">
+        <div className="relative isolate min-w-0 flex-1 overflow-hidden rounded-xl bg-card ring-1 ring-border backdrop-blur-md">
           {data ? (
             <GraphCanvas
               className="absolute inset-0"
@@ -239,7 +239,7 @@ export default function GraphExplorer() {
               <details
                 open={selected === null}
                 key={selected === null ? 'open' : 'closed'}
-                className="pointer-events-auto w-56 rounded-lg bg-popover/95 p-1.5 shadow-xs ring-1 ring-border"
+                className="pointer-events-auto w-56 rounded-lg bg-card/90 p-1.5 shadow-xs ring-1 ring-border backdrop-blur-sm"
               >
                 <summary className="flex cursor-pointer list-none items-baseline justify-between rounded-md px-1.5 pt-0.5 pb-1 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none [&::-webkit-details-marker]:hidden">
                   <h3 className="eyebrow">Types · {only.size ? `${only.size} shown` : 'click to isolate'}</h3>
@@ -280,7 +280,7 @@ export default function GraphExplorer() {
                   })}
                 </ul>
               </details>
-              <p className="rounded-md bg-popover/90 px-2 py-1 text-xs leading-snug text-pretty text-muted-foreground">
+              <p className="rounded-md bg-card/90 px-2 py-1 backdrop-blur-sm text-xs leading-snug text-pretty text-muted-foreground">
                 Islands: k-means of 400-d TransE vectors, not distance-preserving · drag to rotate, scroll to zoom, right-drag to pan
               </p>
               </div>
@@ -288,7 +288,7 @@ export default function GraphExplorer() {
           ) : null}
         </div>
 
-        <aside ref={aside} className="w-[20rem] shrink-0 overflow-y-auto rounded-xl bg-popover ring-1 ring-border xl:w-[23rem]" aria-label="Entity details">
+        <aside ref={aside} className="w-[20rem] shrink-0 overflow-y-auto rounded-xl bg-card ring-1 ring-border backdrop-blur-md xl:w-[23rem]" aria-label="Entity details">
           {data ? (
             <GraphInspector
               row={selected}

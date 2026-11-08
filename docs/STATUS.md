@@ -36,6 +36,11 @@ only needs the verified genes, which `graph.py`'s `verify` now also emits
 ~35 s more) streams alongside and opens stage 4's trace; the assessment waits
 for both, since it reads the ranked profiles.
 
+**Neo — `subagent.py`:** each `tool_result` event now carries `preview`, the first
+1,500 characters of what the tool returned (sub-agents never see the patient, so
+it's public data only). The profile cards' "Evidence returned" row shows it.
+`chars` now counts that text rather than the repr of MCP's content list.
+
 - **Restart the backend** to pick up `/api/drkg`, and never with `uvicorn --reload`
   (Windows: subprocesses raise NotImplementedError under it). `numpy` is new in
   `requirements.txt`.
@@ -79,8 +84,11 @@ Sidebar → **Knowledge graph** is a searchable explorer of all 97,238 DRKG
 entities, on the same 24-island layout as stage 3. Search any name or id,
 click to see full relation counts, graph neighbours (walkable) and the 10
 nearest same-type entities in 400-d TransE. Data: `frontend/scripts/drkg_graph.py`
-→ `frontend/public/drkg/graph/` (~20 MB, committed so the demo laptop needs no
-download). Things to know before demoing it:
+→ `frontend/public/drkg/graph/` (~20 MB). **Untracked since `frontend/live-agent`
+(gitignored, Jeremy's call):** without the shards the page still renders the canvas
+and name search, but no neighbour inspector. Rebuild them on the demo laptop with
+`python frontend/scripts/drkg_graph.py` (needs the raw DRKG release). Merging
+that branch deletes them from main. Things to know before demoing it:
 
 - **Neighbour lists are capped at 44 per entity** (curated sources first);
   relation counts are always the full numbers. The inspector says "showing X of Y".

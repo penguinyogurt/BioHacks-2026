@@ -36,7 +36,7 @@ export function StageHeader({ step, title, description }: { step: string; title:
   return (
     <>
     <PageHeader
-      eyebrow={`Pipeline / ${step}`}
+      eyebrow={`Discovery / ${step}`}
       title={title}
       description={description}
       actions={

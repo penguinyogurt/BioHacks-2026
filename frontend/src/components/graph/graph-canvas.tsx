@@ -312,6 +312,16 @@ const World = memo(function World(props: WorldProps) {
     }
   }, [camera, gl, home])
 
+  /* The type legend covers the bottom-left (w-56 + left-3 = 236px), so centre the picture in the
+     space to its right: slide the frustum, not the camera, so orbiting, framing, labels and
+     picking all stay consistent. Recomputed per resize because the offset is in pixels. */
+  useEffect(() => {
+    const cam = camera as THREE.PerspectiveCamera
+    const shift = Math.min(118, size.width * 0.1)
+    cam.setViewOffset(size.width, size.height, -shift, 0, size.width, size.height)
+    return () => cam.clearViewOffset()
+  }, [camera, size.width, size.height])
+
   /* camera: centre on the selection, back off to fit its graph neighbours. Re-aims only for a
      new selection or when its neighbours first arrive, never for a kNN or relation toggle. */
   const framed = useRef<{ sel: number | null; loaded: boolean }>({ sel: null, loaded: false })
@@ -505,7 +515,7 @@ const World = memo(function World(props: WorldProps) {
 
 /* ----------------------------------------------------------------- shell -- */
 
-const pill = 'rounded-md bg-popover/95 px-1.5 py-0.5 text-sm leading-tight text-foreground shadow-xs ring-1 ring-border'
+const pill = 'rounded-md bg-card/90 px-1.5 py-0.5 text-sm leading-tight text-foreground shadow-xs ring-1 ring-border backdrop-blur-sm'
 
 export function GraphCanvas({
   data,
@@ -626,7 +636,7 @@ export function GraphCanvas({
           <div
             key={ci}
             ref={(el) => void (clusterEls.current[i] = el)}
-            className="absolute top-0 left-0 w-max whitespace-nowrap rounded-full bg-popover/85 px-2 py-0.5 text-sm leading-tight font-medium text-foreground/80 opacity-0"
+            className="absolute top-0 left-0 w-max whitespace-nowrap rounded-full bg-card/85 px-2 py-0.5 text-sm leading-tight font-medium text-foreground/80 opacity-0"
           >
             {clusters[ci].label} <span className="font-normal text-muted-foreground tabular-nums">{clusters[ci].size.toLocaleString('en-US')}</span>
           </div>

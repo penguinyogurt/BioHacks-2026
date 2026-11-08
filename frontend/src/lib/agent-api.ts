@@ -164,7 +164,12 @@ export function runLiveAgent(question: string, emit: (e: PipelineEvent) => void,
         if (lane) step('profiles', 'tool_call', d.tool, json(d.args), lane.lane)
         break
       case 'tool_result':
-        if (lane) step('profiles', 'tool_result', `${d.tool} — ${d.error ? 'error' : 'result'}`, `${Number(d.chars).toLocaleString()} characters returned${d.error ? ' (tool error)' : ''}.`, lane.lane)
+        if (lane) {
+          const size = `${Number(d.chars).toLocaleString()} characters returned${d.error ? ' (tool error)' : ''}`
+          // `preview`: the first 1,500 characters of what the tool returned (runs recorded before it have only the size).
+          const body = d.preview ? `${size}${d.chars > d.preview.length ? `, first ${d.preview.length.toLocaleString()} shown` : ''}:\n\n${d.preview}` : `${size}.`
+          step('profiles', 'tool_result', `${d.tool} — ${d.error ? 'error' : 'result'}`, body, lane.lane)
+        }
         break
       case 'budget_exhausted':
         if (lane) step('profiles', 'thinking', 'Tool budget used', `Answering from the ${d.tool_results} results gathered so far.`, lane.lane)
