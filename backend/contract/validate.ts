@@ -1,8 +1,10 @@
 /**
  * Validate any pipeline JSON against the contract, from the command line.
  *
- *   npm run validate --prefix contract -- path/to/your.json
- *   npm run validate --prefix contract            # defaults to data/pipeline.json
+ *   npm run validate --prefix backend/contract -- path/to/your.json
+ *   npm run validate --prefix backend/contract    # defaults to backend/data/pipeline.json
+ *
+ * The path is relative to where you ran npm, not to backend/contract.
  *
  * This exists so the Python module owners can check merge.py output without
  * running the frontend. Exit code 1 on failure, so it drops into a script.
@@ -15,7 +17,8 @@ import { parsePipeline } from "./contract.ts";
 // fileURLToPath, not URL.pathname: on Windows the latter yields "/C:/..."
 // which resolves to a nonexistent "C:\C:\..." path.
 const DEFAULT = fileURLToPath(new URL("../data/pipeline.json", import.meta.url));
-const target = process.argv[2] ? resolve(process.argv[2]) : DEFAULT;
+// `npm --prefix` runs this from backend/contract; INIT_CWD is where npm was invoked.
+const target = process.argv[2] ? resolve(process.env.INIT_CWD ?? process.cwd(), process.argv[2]) : DEFAULT;
 
 let raw: unknown;
 try {
@@ -32,8 +35,8 @@ if (!result.ok) {
   console.error(`✕ ${target} does not satisfy the contract\n`);
   for (const problem of result.problems) console.error(`  ${problem}`);
   console.error(
-    "\nThe contract is app/src/lib/contract.ts. If the shape changed on " +
-      "purpose, update it there, update data/pipeline.json, and tell the team.",
+    "\nThe contract is backend/contract/contract.ts. If the shape changed on " +
+      "purpose, update it there, update backend/data/pipeline.json, and tell the team.",
   );
   process.exit(1);
 }
