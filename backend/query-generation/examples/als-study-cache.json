@@ -201,6 +201,14 @@
       "identity_source": "https://go.drugbank.com/drugs/DB15130",
       "classification": "Investigational in ALS",
       "classification_source": null
+    },
+    {
+      "id": "Compound::DB11947",
+      "name": "Pridopidine",
+      "aliases": [],
+      "identity_source": "https://go.drugbank.com/drugs/DB11947",
+      "classification": "Investigational in ALS",
+      "classification_source": null
     }
   ],
   "studies": [
@@ -624,6 +632,28 @@
       "administration_evidence": "The authors administered riluzole in both arms and minocycline in the combination arm and followed adverse effects.",
       "outcome": "inconclusive",
       "result": "Pilot tolerability findings under coadministration do not establish disease-modifying efficacy."
+    },
+    {
+      "study_id": "PMID:40067755",
+      "registry_ids": [
+        "NCT04615923",
+        "NCT04297683"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/40067755/",
+      "title": "Pridopidine in Amyotrophic Lateral Sclerosis: The HEALEY ALS Platform Trial",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "People with ALS in a randomized platform regimen",
+      "tested_ingredients": [
+        "Pridopidine"
+      ],
+      "formulation": "Oral pridopidine 45 mg twice daily versus placebo for 24 weeks",
+      "status": "completed",
+      "administration_evidence": "The investigators report participants treated in the active and placebo arms.",
+      "outcome": "negative",
+      "result": "No significant benefit on joint function and survival. Disease rate ratio 0.99 (95% credible interval 0.80 to 1.21)."
     }
   ],
   "formulation_checks": [

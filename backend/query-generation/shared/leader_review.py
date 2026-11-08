@@ -60,9 +60,27 @@ def search_literature(query, offline):
     return search
 
 
+def applicable_records(profile, catalog):
+    original = catalog["case"]
+    if profile == original:
+        return catalog["records"]
+    # A drug-pair clearance is never inherited by a different medication list.
+    # Carry only explicitly adjudicated cautions when this is the sole chart edit.
+    facts = dict(original.get("facts", {}))
+    facts["current_therapy"] = profile.get("facts", {}).get("current_therapy")
+    if dict(original, facts=facts) != profile:
+        return {}
+    return {node:dict(record, patient_safety_screen={},
+                    medication_check="Medication list changed; previous pair assessment is inapplicable.")
+            for node, record in catalog["records"].items()
+            if record.get("warning_scope")=="documented chart finding independent of current therapy"
+            and record.get("action")=="caution" and record.get("fact")!="current_therapy"
+            and facts.get(record.get("fact"))}
+
+
 def reviewer(profile, catalog, offline, graph, medicines=None, labels=None):
     # Scope documentary adjudications to the exact chart used by the reviewer.
-    records = catalog["records"] if profile == catalog["case"] else {}
+    records = applicable_records(profile, catalog)
     checked = {}
     medicines = medicines if medicines is not None else [profile["therapy"]]
     labels = labels or {}
@@ -112,7 +130,8 @@ def reviewer(profile, catalog, offline, graph, medicines=None, labels=None):
             medication_check=data.get("medication_check", "No adjudicated drug–therapy evidence."),
             ddi_edges=edges,
             ddi_interpretation=("Observed medication-pair interaction edge. Clinical significance requires independent verification."
-                                if edges else "No medication-pair DDI edge in this release. Compatibility remains unknown."),
+                                if edges else "No medication-pair DDI edge in this release. Compatibility remains unknown."
+                                if medicines else "No active grounded medication pair to check."),
             contrary=data.get("contrary", "No candidate-specific outcome evidence adjudicated."),
             change=data.get("change", "A direct ALS study and route-specific interaction and safety evidence."),
             sources=[s[0] for s in refs], verification=checks, literature_searches=searches,

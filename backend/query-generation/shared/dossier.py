@@ -119,15 +119,16 @@ def write_outputs(report, out, load_agent):
     names = report["ingredient_names"]
     def link(node):
         return f"[{names[node]}]({node.split('::')[1]}.md)"
-    for node in by_id:
+    dossier_ids=set(report["trial_gate"]["evidence"]) | {item["id"] for item in report["advanced"]}
+    for node in sorted(dossier_ids):
         (folder / (node.split("::")[1]+".md")).write_text(dossier(report,node,load_agent))
     (folder/"query-traces.md").write_text(trace_report(report))
     gate = report["trial_gate"]
     strict = report["aggregation"]
-    lines = ["# Reassessment of previously tested ALS drugs", "",
+    lines = ["# ALS discovery and human-outcome reassessment", "",
              f"**{len(report['advanced'])} advanced for {report['case']['case_id'].title()}.** "
              f"{gate['before']:,} frozen compound IDs, {gate['after']} with verified human ALS administration, "
-             f"{len(report['eligible_ids'])} in the investigational graph pool.", "", gate["scope"], "",
+             f"{len(report['eligible_ids'])} in the investigational graph pool.", "", gate["scope"]+" Study history annotates the full discovery pool. Compounds without a matching trial remain eligible for mechanistic research.", "",
              f"Strict top-{strict['top_k']} after clinical and patient-safety review: {strict['status']}. "
              f"Five-way overlap: {strict['five_way_overlap']}.",
              strict.get("blocking_reason",""),
@@ -137,6 +138,12 @@ def write_outputs(report, out, load_agent):
              ", ".join(f"{TITLES[n]} {report['graph_overlap']['supported_sizes'][n]}" for n in NAMES)+".",
              "", "[Patient-specific queries and agent rankings](query-traces.md) · "
              f"[All scores, study records and decisions](../{out.name})", ""]
+    pool = report["pool"]
+    lines += ["## Discovery pool", "",
+              f"All five researchers received {len(report['eligible_ids']):,} identical compound IDs. "
+              f"{pool['verified_als_in_scored_pool']} have verified human ALS administration in the cache. "
+              f"Testing status is unknown here for the other {pool['unknown_als_testing_in_scored_pool']:,}.", "",
+              report["assumption"], ""]
     if report["advanced"]:
         lines += ["## Advanced", ""] + [f"- {i['final_rank']}. {link(i['id'])} — {i['category']}, "
                     f"internal ranking score {i['internal_ranking_score']:.4f}." for i in report["advanced"]]+[""]
@@ -161,7 +168,7 @@ def write_outputs(report, out, load_agent):
     def order(node):
         item = by_id[node]
         return (item['category'], -item.get('graph',{}).get('internal_ranking_score',-1),node)
-    for category, group in groupby(sorted(by_id,key=order),key=lambda n:by_id[n]["category"]):
+    for category, group in groupby(sorted(dossier_ids,key=order),key=lambda n:by_id[n]["category"]):
         lines += ["### "+category.capitalize(),"","| Ingredient | Disposition | Internal ranking score | Decisive human finding |",
                   "|---|---|---:|---|"]
         for node in group:
@@ -181,16 +188,30 @@ def write_outputs(report, out, load_agent):
               "Rows are alphabetical for lookup.", "",
               "| Ingredient | "+" | ".join(TITLES[n] for n in NAMES)+" | Concern deduction |",
               "|---|---|---|---|---|---|---:|"]
-    for node in sorted(report["eligible_ids"], key=lambda n:names[n]):
+    for node in sorted(dossier_ids.intersection(report["eligible_ids"]), key=lambda n:names[n]):
         g = by_id[node]["graph"]
         cells = [f"{g['ranks'].get(n,'missing')} / {g['weights'][n]:.2f} / {g['contributions'][n]:.4f}" for n in NAMES]
         lines.append("| "+link(node)+" | "+" | ".join(cells)+f" | {g['penalty']:.4f} |")
+    lines+=["","## Five-category retrieval","",
+            "Each scored category searched the full eligible pool. The risk column reports concern; a small distance does not verify a conflict.", "",
+            "| Category | Queries | Scored | Closest compound | Distance |", "|---|---:|---:|---|---:|"]
+    for name in NAMES:
+        a=report["agents"][name]
+        row=a["retrieval"][0] if a["retrieval"] else None
+        lines.append(f"| [{TITLES[name]}](handoff/{name}/trace.json) | {len(a['queries'])} | {len(a['retrieval'])} | "
+                     + (f"{names[row['id']]} ({row['id']}) | {row['l2']:.5f} |" if row else "Unscored | — |"))
+    lines+=["","## Discovery leads outside the administration cache","",
+            "These graph-supported research hypotheses have unverified ALS testing status. "
+            "Their disposition records whether case-specific safety review allowed advancement.", "",
+            "| Lead | Compound | Internal ranking score | Decision |","|---:|---|---:|---|"]
+    for row in report["discovery_leads"]:
+        lines.append(f"| {row['rank']} | {names[row['id']]} ({row['id']}) | {row['internal_ranking_score']:.4f} | {row['disposition']} |")
     (folder/"summary.md").write_text("\n".join(lines)+"\n")
 
 
 def trace_report(report):
     lines = ["# Queries and investigational rankings", "",
-             "Each query scores every eligible ingredient. A reported category rank also requires a witness or documentary review. Distance uses the 400 frozen dimensions.", ""]
+             "Each query scores all eligible compounds in 400 frozen dimensions. The handoff rankings include predictions without direct edges. The tables here show the narrower graph-witness or documentary ranks used for final fusion.", ""]
     names = report["ingredient_names"]
     for name in NAMES:
         agent = report["agents"][name]
@@ -199,7 +220,7 @@ def trace_report(report):
         for fact in agent["facts"]:
             lines.append(f"- “{fact['quote']}” — {fact['mapping']}. {', '.join(fact['ids'])} "
                          f"({fact['pointer']}). {cite(fact['source'])}")
-        if not agent["queries"]:
+        if not agent["queries"] or not report["eligible_ids"]:
             lines += ["", "No supported graph query for these facts.", ""]
             continue
         best = rows[0] if rows else None

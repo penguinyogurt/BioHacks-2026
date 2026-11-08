@@ -1,0 +1,1539 @@
+{
+  "rank_type": "benefit",
+  "full_cohort_size": 10540,
+  "top_k": [
+    {
+      "id": "Compound::DB00898",
+      "query": 1,
+      "l2": 10.545600233940018,
+      "support": [
+        [
+          "Compound::DB00898",
+          "GNBR::T::Compound:Disease",
+          "Disease::MESH:D003680"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 1
+    },
+    {
+      "id": "Compound::DB06774",
+      "query": 1,
+      "l2": 10.625277181553809,
+      "support": [
+        [
+          "Compound::DB06774",
+          "GNBR::T::Compound:Disease",
+          "Disease::MESH:D003680"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 2
+    },
+    {
+      "id": "Compound::DB08839",
+      "query": 1,
+      "l2": 10.885877204407995,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 3
+    },
+    {
+      "id": "Compound::DB11783",
+      "query": 1,
+      "l2": 11.089624223986664,
+      "support": [
+        [
+          "Compound::DB11783",
+          "GNBR::T::Compound:Disease",
+          "Disease::MESH:D003680"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 4
+    },
+    {
+      "id": "Compound::DB00883",
+      "query": 1,
+      "l2": 11.13030062373853,
+      "support": [
+        [
+          "Compound::DB00883",
+          "GNBR::T::Compound:Disease",
+          "Disease::MESH:D003680"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 5
+    },
+    {
+      "id": "Compound::DB00604",
+      "query": 1,
+      "l2": 11.139058576176607,
+      "support": [
+        [
+          "Compound::DB00604",
+          "GNBR::T::Compound:Disease",
+          "Disease::MESH:D003680"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 6
+    },
+    {
+      "id": "Compound::DB03128",
+      "query": 1,
+      "l2": 11.37332485949193,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 7
+    },
+    {
+      "id": "Compound::DB01282",
+      "query": 0,
+      "l2": 11.465200504992616,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 8
+    },
+    {
+      "id": "Compound::DB00727",
+      "query": 1,
+      "l2": 11.470898481850568,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 9
+    },
+    {
+      "id": "Compound::DB00907",
+      "query": 1,
+      "l2": 11.471508149930736,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 10
+    },
+    {
+      "id": "Compound::DB00572",
+      "query": 1,
+      "l2": 11.472197970376609,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 11
+    },
+    {
+      "id": "Compound::DB09140",
+      "query": 1,
+      "l2": 11.485140955617293,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 12
+    },
+    {
+      "id": "Compound::DB01235",
+      "query": 1,
+      "l2": 11.49327370476826,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 13
+    },
+    {
+      "id": "Compound::DB01113",
+      "query": 1,
+      "l2": 11.504578252396502,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 14
+    },
+    {
+      "id": "Compound::DB00295",
+      "query": 1,
+      "l2": 11.524723675246447,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 15
+    },
+    {
+      "id": "Compound::DB12537",
+      "query": 1,
+      "l2": 11.544991150347387,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 16
+    },
+    {
+      "id": "Compound::DB00818",
+      "query": 1,
+      "l2": 11.55607973252976,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 17
+    },
+    {
+      "id": "Compound::DB01612",
+      "query": 0,
+      "l2": 11.565640585429257,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 18
+    },
+    {
+      "id": "Compound::DB01197",
+      "query": 1,
+      "l2": 11.584157482011943,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 19
+    },
+    {
+      "id": "Compound::DB00753",
+      "query": 1,
+      "l2": 11.59012983844056,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 20
+    },
+    {
+      "id": "Compound::DB05381",
+      "query": 1,
+      "l2": 11.596735113698369,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 21
+    },
+    {
+      "id": "Compound::DB01065",
+      "query": 1,
+      "l2": 11.597965863186138,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 22
+    },
+    {
+      "id": "Compound::DB01159",
+      "query": 1,
+      "l2": 11.63581664136202,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 23
+    },
+    {
+      "id": "Compound::DB01064",
+      "query": 1,
+      "l2": 11.638137826885645,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 24
+    },
+    {
+      "id": "Compound::DB00714",
+      "query": 1,
+      "l2": 11.639882470557916,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 25
+    },
+    {
+      "id": "Compound::DB01233",
+      "query": 1,
+      "l2": 11.646975459119771,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 26
+    },
+    {
+      "id": "Compound::DB00571",
+      "query": 1,
+      "l2": 11.673694119656576,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 27
+    },
+    {
+      "id": "Compound::DB08960",
+      "query": 1,
+      "l2": 11.68313570589487,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 28
+    },
+    {
+      "id": "Compound::DB00584",
+      "query": 1,
+      "l2": 11.698560321274275,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 29
+    },
+    {
+      "id": "Compound::DB00599",
+      "query": 1,
+      "l2": 11.701459663885968,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 30
+    },
+    {
+      "id": "Compound::DB12126",
+      "query": 1,
+      "l2": 11.708469515116683,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 31
+    },
+    {
+      "id": "Compound::DB01118",
+      "query": 1,
+      "l2": 11.71409932635536,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 32
+    },
+    {
+      "id": "Compound::DB00988",
+      "query": 1,
+      "l2": 11.718472816094812,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 33
+    },
+    {
+      "id": "Compound::DB01229",
+      "query": 1,
+      "l2": 11.720384268821093,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 34
+    },
+    {
+      "id": "Compound::DB00640",
+      "query": 1,
+      "l2": 11.721006908320911,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 35
+    },
+    {
+      "id": "Compound::DB13366",
+      "query": 1,
+      "l2": 11.725868658003481,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 36
+    },
+    {
+      "id": "Compound::DB01373",
+      "query": 1,
+      "l2": 11.738062465694448,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 37
+    },
+    {
+      "id": "Compound::DB12465",
+      "query": 1,
+      "l2": 11.738857805607298,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 38
+    },
+    {
+      "id": "Compound::DB01200",
+      "query": 1,
+      "l2": 11.741452312257582,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 39
+    },
+    {
+      "id": "Compound::DB00183",
+      "query": 1,
+      "l2": 11.743771568672615,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 40
+    },
+    {
+      "id": "Compound::DB06690",
+      "query": 1,
+      "l2": 11.748688691127413,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 41
+    },
+    {
+      "id": "Compound::DB11724",
+      "query": 1,
+      "l2": 11.749318043110991,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 42
+    },
+    {
+      "id": "Compound::DB11094",
+      "query": 1,
+      "l2": 11.75684119390143,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 43
+    },
+    {
+      "id": "Compound::DB09341",
+      "query": 1,
+      "l2": 11.763597575926513,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 44
+    },
+    {
+      "id": "Compound::DB09242",
+      "query": 1,
+      "l2": 11.767039451832431,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 45
+    },
+    {
+      "id": "Compound::DB09112",
+      "query": 0,
+      "l2": 11.769387384358605,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 46
+    },
+    {
+      "id": "Compound::DB00721",
+      "query": 1,
+      "l2": 11.79365162060888,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 47
+    },
+    {
+      "id": "Compound::DB00975",
+      "query": 1,
+      "l2": 11.797338547866058,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 48
+    },
+    {
+      "id": "Compound::DB14500",
+      "query": 1,
+      "l2": 11.800626876449458,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 49
+    },
+    {
+      "id": "Compound::DB00670",
+      "query": 1,
+      "l2": 11.808718115555012,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 50
+    },
+    {
+      "id": "Compound::DB00338",
+      "query": 1,
+      "l2": 11.811833684761437,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 51
+    },
+    {
+      "id": "Compound::DB00297",
+      "query": 0,
+      "l2": 11.812824671632319,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 52
+    },
+    {
+      "id": "Compound::DB06268",
+      "query": 1,
+      "l2": 11.813240782965721,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 53
+    },
+    {
+      "id": "Compound::DB00862",
+      "query": 1,
+      "l2": 11.815410200404695,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 54
+    },
+    {
+      "id": "Compound::DB08844",
+      "query": 1,
+      "l2": 11.817236203017762,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 55
+    },
+    {
+      "id": "Compound::DB00575",
+      "query": 1,
+      "l2": 11.825913948582471,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 56
+    },
+    {
+      "id": "Compound::DB09286",
+      "query": 0,
+      "l2": 11.83645987840244,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 57
+    },
+    {
+      "id": "Compound::DB00334",
+      "query": 0,
+      "l2": 11.838962369841527,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 58
+    },
+    {
+      "id": "Compound::DB01002",
+      "query": 0,
+      "l2": 11.843488696323984,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 59
+    },
+    {
+      "id": "Compound::DB03575",
+      "query": 1,
+      "l2": 11.851691928146206,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 60
+    },
+    {
+      "id": "Compound::DB01221",
+      "query": 1,
+      "l2": 11.854599714730956,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 61
+    },
+    {
+      "id": "Compound::DB01593",
+      "query": 1,
+      "l2": 11.85464091423529,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 62
+    },
+    {
+      "id": "Compound::DB08931",
+      "query": 0,
+      "l2": 11.857915988928635,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 63
+    },
+    {
+      "id": "Compound::DB01355",
+      "query": 0,
+      "l2": 11.862358466456593,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 64
+    },
+    {
+      "id": "Compound::DB00622",
+      "query": 1,
+      "l2": 11.863335452499179,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 65
+    },
+    {
+      "id": "Compound::DB00697",
+      "query": 1,
+      "l2": 11.86471176727358,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 66
+    },
+    {
+      "id": "Compound::DB01115",
+      "query": 1,
+      "l2": 11.880032013179008,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 67
+    },
+    {
+      "id": "Compound::DB09282",
+      "query": 1,
+      "l2": 11.880979798474906,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 68
+    },
+    {
+      "id": "Compound::DB01483",
+      "query": 0,
+      "l2": 11.881467022604152,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 69
+    },
+    {
+      "id": "Compound::DB06216",
+      "query": 0,
+      "l2": 11.886376272242769,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 70
+    },
+    {
+      "id": "Compound::DB01085",
+      "query": 1,
+      "l2": 11.888324736571036,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 71
+    },
+    {
+      "id": "Compound::DB11672",
+      "query": 1,
+      "l2": 11.888559863351155,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 72
+    },
+    {
+      "id": "Compound::DB09157",
+      "query": 1,
+      "l2": 11.891462386326797,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 73
+    },
+    {
+      "id": "Compound::DB00755",
+      "query": 1,
+      "l2": 11.894848229759493,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 74
+    },
+    {
+      "id": "Compound::DB00691",
+      "query": 1,
+      "l2": 11.895519549863206,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 75
+    },
+    {
+      "id": "Compound::DB00184",
+      "query": 1,
+      "l2": 11.901004127676975,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 76
+    },
+    {
+      "id": "Compound::DB00886",
+      "query": 0,
+      "l2": 11.901397301354327,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 77
+    },
+    {
+      "id": "Compound::DB00747",
+      "query": 1,
+      "l2": 11.908621936964805,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 78
+    },
+    {
+      "id": "Compound::DB01041",
+      "query": 1,
+      "l2": 11.914887677523888,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 79
+    },
+    {
+      "id": "Compound::DB00388",
+      "query": 1,
+      "l2": 11.918372735468417,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 80
+    },
+    {
+      "id": "Compound::DB00668",
+      "query": 1,
+      "l2": 11.919646252502062,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 81
+    },
+    {
+      "id": "Compound::DB00940",
+      "query": 0,
+      "l2": 11.921904075496943,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 82
+    },
+    {
+      "id": "Compound::DB00866",
+      "query": 1,
+      "l2": 11.922761770972528,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 83
+    },
+    {
+      "id": "Compound::DB00678",
+      "query": 1,
+      "l2": 11.922958254813622,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 84
+    },
+    {
+      "id": "Compound::DB00585",
+      "query": 0,
+      "l2": 11.923781954513956,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 85
+    },
+    {
+      "id": "Compound::DB01238",
+      "query": 1,
+      "l2": 11.932782636346337,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 86
+    },
+    {
+      "id": "Compound::DB00734",
+      "query": 1,
+      "l2": 11.934280743495767,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 87
+    },
+    {
+      "id": "Compound::DB01116",
+      "query": 1,
+      "l2": 11.93459848776837,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 88
+    },
+    {
+      "id": "Compound::DB01143",
+      "query": 0,
+      "l2": 11.943388985946479,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 89
+    },
+    {
+      "id": "Compound::DB00908",
+      "query": 1,
+      "l2": 11.944626695187754,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 90
+    },
+    {
+      "id": "Compound::DB01174",
+      "query": 1,
+      "l2": 11.94463936017295,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 91
+    },
+    {
+      "id": "Compound::DB00790",
+      "query": 0,
+      "l2": 11.954171014807317,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 92
+    },
+    {
+      "id": "Compound::DB01142",
+      "query": 1,
+      "l2": 11.961616525601762,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 93
+    },
+    {
+      "id": "Compound::DB00624",
+      "query": 1,
+      "l2": 11.969001347129215,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 94
+    },
+    {
+      "id": "Compound::DB00501",
+      "query": 1,
+      "l2": 11.972932298460298,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 95
+    },
+    {
+      "id": "Compound::DB09289",
+      "query": 1,
+      "l2": 11.97409966296145,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 96
+    },
+    {
+      "id": "Compound::DB01242",
+      "query": 1,
+      "l2": 11.98225338051645,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 97
+    },
+    {
+      "id": "Compound::DB03322",
+      "query": 1,
+      "l2": 11.983489912385291,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 98
+    },
+    {
+      "id": "Compound::DB00872",
+      "query": 0,
+      "l2": 11.985831585531573,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 99
+    },
+    {
+      "id": "Compound::DB09273",
+      "query": 1,
+      "l2": 11.988389080131862,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 100
+    }
+  ],
+  "fusion_ranks": [
+    {
+      "id": "Compound::DB00898",
+      "query": 1,
+      "l2": 10.545600233940018,
+      "support": [
+        [
+          "Compound::DB00898",
+          "GNBR::T::Compound:Disease",
+          "Disease::MESH:D003680"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 1
+    },
+    {
+      "id": "Compound::DB06774",
+      "query": 1,
+      "l2": 10.625277181553809,
+      "support": [
+        [
+          "Compound::DB06774",
+          "GNBR::T::Compound:Disease",
+          "Disease::MESH:D003680"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 2
+    },
+    {
+      "id": "Compound::DB11783",
+      "query": 1,
+      "l2": 11.089624223986664,
+      "support": [
+        [
+          "Compound::DB11783",
+          "GNBR::T::Compound:Disease",
+          "Disease::MESH:D003680"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 3
+    },
+    {
+      "id": "Compound::DB00883",
+      "query": 1,
+      "l2": 11.13030062373853,
+      "support": [
+        [
+          "Compound::DB00883",
+          "GNBR::T::Compound:Disease",
+          "Disease::MESH:D003680"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 4
+    },
+    {
+      "id": "Compound::DB00604",
+      "query": 1,
+      "l2": 11.139058576176607,
+      "support": [
+        [
+          "Compound::DB00604",
+          "GNBR::T::Compound:Disease",
+          "Disease::MESH:D003680"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+        "https://clinicaltrials.gov/study/NCT03883581",
+        "https://clinicaltrials.gov/study/NCT01806857",
+        "https://clinicaltrials.gov/study/NCT00573443"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 5
+    }
+  ],
+  "aggregation": "Smallest L2 across compatible translations for each drug. Ties use canonical ID. Risk rank 1 means greatest predicted concern."
+}

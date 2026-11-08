@@ -58,6 +58,7 @@ def select(pool, agents, decisions, policy, k):
         row["internal_ranking_score"] = row["base"] - row["penalty"]
 
     cleared = {node for node in pool if decisions[node]["category"] in ADVANCE_CATEGORIES
+               and (decisions[node]["category"] != ADVANCE_CATEGORIES[2] or scores[node]["rationale"])
                and not decisions[node].get("case_exclusion") and clearance(decisions[node].get("review", {}))}
     lists = {n:[row["id"] for row in agents[n]["ranking"] if row["id"] in cleared] for n in NAMES}
     # A lower clinical category cannot occupy a higher category's top-K slot.
@@ -88,10 +89,13 @@ def select(pool, agents, decisions, policy, k):
             item["disposition"] = "excluded by case safety screen"
         elif item["category"] not in ADVANCE_CATEGORIES:
             item["disposition"] = item["category"]
+        elif item["category"] == ADVANCE_CATEGORIES[2] and not scores[node]["rationale"]:
+            item["disposition"] = "discovery prediction only; no supported rationale for advancement"
         elif node not in cleared:
             item["disposition"] = "unresolved patient safety"
         elif node in chosen:
-            item["disposition"] = "advanced for " + ("research review" if item["category"] == ADVANCE_CATEGORIES[0] else "delivery research")
+            item["disposition"] = "advanced for " + {ADVANCE_CATEGORIES[0]:"research review", ADVANCE_CATEGORIES[1]:"delivery research",
+                                                   ADVANCE_CATEGORIES[2]:"mechanistic research review"}[item["category"]]
         else:
             item["disposition"] = "held outside returned ranks"
     return strict, fallback, final

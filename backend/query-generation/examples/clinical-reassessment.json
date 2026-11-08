@@ -940,6 +940,23 @@
       "other_findings": "",
       "clinical_question": "ALS disease course",
       "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB11947"
+      ],
+      "study_id": "PMID:40067755",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/40067755/",
+      "role": "negative",
+      "design": "Randomized double-blind platform regimen",
+      "population": "162 in the regimen primary efficacy analysis",
+      "route": "Oral 45 mg twice daily",
+      "primary_endpoint": "Function and survival over 24 weeks",
+      "finding": "The joint progression endpoint did not improve relative to placebo. Disease rate ratio 0.99 (95% credible interval 0.80 to 1.21).",
+      "safety": "Case-specific safety and tolerability under altered delivery are unresolved.",
+      "other_findings": "A lead found in the expanded graph search has prior human testing despite its absence from the older cache.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
     }
   ],
   "delivery": {
@@ -1364,11 +1381,11 @@
     }
   },
   "policy": {
-    "scope": "Reassessment of previously tested ALS drugs. Human administration establishes scope. Adjudications cover the bounded study search and its cited primary reports.",
+    "scope": "All eligible frozen DRKG compounds may enter discovery. Verified human ALS administration identifies the subset with prior trial evidence. Unknown testing status is preserved.",
     "harm": "A controlled human finding of worse clinical function or credible consequential toxicity overrides possible benefit. Record routine tolerability, withdrawals and non-attributed events separately from this exclusion.",
     "conflict": "Discordant controlled primary clinical results for the same therapeutic question remain unresolved. Retain the populations and regimens. Secondary, uncontrolled, biomarker, animal and observational findings cannot establish primary clinical benefit.",
     "delivery": "For a negative trial require independent, specific evidence of inadequate exposure or engagement at the intended site and evidence that the proposed focused-ultrasound delivery of this ingredient could correct it. Generic permeability or missing measurements alone cannot satisfy either requirement.",
-    "order": "Favorable clinical evidence first, then negative efficacy with a supported delivery rationale. Safety clearance is required for both; graph scores only order candidates within one category."
+    "order": "Favorable clinical evidence, then supported delivery research after a negative trial, then mechanistic discovery with case-matched safety clearance and a sourced graph rationale."
   },
   "search": {
     "review_date": "2026-11-07",

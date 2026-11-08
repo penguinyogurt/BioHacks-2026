@@ -3,3 +3,4 @@ TREATS=("DRUGBANK::treats::Compound:Disease","GNBR::T::Compound:Disease","Hetion
 TARGET=("DRUGBANK::target::Compound:Gene","Hetionet::CbG::Compound:Gene")
 ASSOCIATION="Hetionet::DaG::Disease:Gene"
 PARTICIPATES="Hetionet::GpBP::Gene:Biological Process"
+DDI="DRUGBANK::ddi-interactor-in::Compound:Compound"

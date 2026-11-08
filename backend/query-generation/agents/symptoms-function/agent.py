@@ -1,15 +1,7 @@
-from shared.patient_query import CLINICAL_FIELDS, PatientQueries
+"""Category entry point. Research questions and adjudicated findings are keyed by this module's directory."""
+from shared.retrieval import research_category as research
 
 
-def run(g, p, pool, review, terms):
-    queries = PatientQueries(g, p, pool, terms)
-    for field in CLINICAL_FIELDS:
-        fact, anchors = queries.fact(field, "disease")
-        queries.disease_queries(fact, anchors)
-    return queries.finish()
-
-
-def evaluate(report, c, row):
+def evaluate(report, candidate, row):
     from shared.dossier import observed
-    return ("I checked recorded function, swallowing, strength, weight and respiratory observations for a supported treatment relation. Measurements without a mapped phenotype remain available for formulation and safety review.\n\n" +
-            observed("symptoms-function", row, report, c))
+    return observed("symptoms-function",row,report,candidate)

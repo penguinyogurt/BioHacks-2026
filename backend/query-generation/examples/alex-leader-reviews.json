@@ -42,7 +42,8 @@
           "https://pubmed.ncbi.nlm.nih.gov/38782015/",
           "did not improve"
         ]
-      ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
     },
     "Compound::DB06151": {
       "name": "Acetylcysteine",
@@ -61,7 +62,8 @@
           "https://pubmed.ncbi.nlm.nih.gov/7763202/",
           "subcutaneously"
         ]
-      ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
     },
     "Compound::DB14533": {
       "name": "Zinc chloride",
@@ -80,7 +82,8 @@
           "https://pubmed.ncbi.nlm.nih.gov/10617463/",
           "cultured motor neurons"
         ]
-      ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
     },
     "Compound::DB00148": {
       "name": "Creatine",
@@ -114,7 +117,8 @@
           "https://pubmed.ncbi.nlm.nih.gov/10617463/",
           "cultured motor neurons"
         ]
-      ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
     },
     "Compound::DB01593": {
       "name": "Zinc (elemental record)",
@@ -138,7 +142,8 @@
           "neurologic disease"
         ]
       ],
-      "search_name": "zinc"
+      "search_name": "zinc",
+      "warning_scope": "documented chart finding independent of current therapy"
     },
     "Compound::DB12310": {
       "name": "Trehalose",
@@ -153,7 +158,8 @@
           "https://pubmed.ncbi.nlm.nih.gov/40409314/",
           "No death was considered related"
         ]
-      ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
     },
     "Compound::DB01065": {
       "name": "Melatonin",
@@ -172,7 +178,8 @@
           "https://pubmed.ncbi.nlm.nih.gov/17014688/",
           "rectal melatonin"
         ]
-      ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
     },
     "Compound::DB01017": {
       "name": "Minocycline",
@@ -191,7 +198,8 @@
           "https://pubmed.ncbi.nlm.nih.gov/16193258/",
           "combined treatment"
         ]
-      ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
     },
     "Compound::DB01043": {
       "name": "Memantine",

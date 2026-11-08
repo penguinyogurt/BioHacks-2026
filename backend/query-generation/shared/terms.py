@@ -17,7 +17,7 @@ VOCAB = {
 }
 SYNONYMS = {"als": "amyotrophic lateral sclerosis", "pd": "parkinson disease",
             "ms": "multiple sclerosis"}
-NEGATED = re.compile(r"\b(no|denies|negative|family history|rule out|possible|stopped|discontinued|unknown)\b", re.I)
+NEGATED = re.compile(r"\b(no|not|never|without|denies|denied|negative|family history|rule out|possible|stopped|discontinued|unknown)\b", re.I)
 
 
 def norm(value):
@@ -57,7 +57,7 @@ class Terms:
     def medication_parts(self, text):
         # Preserve unresolved co-medications so one known drug cannot clear a whole list.
         return [(part.strip(), self.match(part, "compound"))
-                for part in re.split(r";|,|\n|\b(?:and|plus)\b", text, flags=re.I) if part.strip()]
+                for part in re.split(r";|,|\n|\b(?:and|plus|but)\b", text, flags=re.I) if part.strip()]
 
     @classmethod
     def load(cls, root, graph, catalog, offline):

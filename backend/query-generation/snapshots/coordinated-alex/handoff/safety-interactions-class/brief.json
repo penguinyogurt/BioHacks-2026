@@ -1,0 +1,117 @@
+{
+  "dispatched_brief": {
+    "criterion": "safety-interactions-class",
+    "objective": "Flag pharmacological interactions and tolerability concerns for candidate agents, in the context of a concurrent therapy with a labeled CYP1A2 interaction concern and of reported positional reduction in respiratory capacity, unintentional weight loss, an elevated muscle-enzyme value, liquid-associated swallowing or cough, and altered grip and pinch function. Swallowing impairment is only a retrieval hypothesis. Pair-specific exposure, interaction magnitude and route-specific tolerability are unknown.",
+    "goal_provenance": "research objective",
+    "facts": [
+      {
+        "field": "current_therapy",
+        "pointer": "patient_profile.findings[0].value",
+        "status": "reported",
+        "concept": "cyp1a2_exposure",
+        "quote": "Active therapy with a labeled CYP1A2 interaction concern.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "respiratory",
+        "pointer": "patient_profile.findings[1].value",
+        "status": "reported",
+        "concept": "",
+        "quote": "Lower supine than sitting vital capacity is reported.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "weight",
+        "pointer": "patient_profile.findings[2].value",
+        "status": "reported",
+        "concept": "",
+        "quote": "Unintentional weight loss is reported.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "muscle",
+        "pointer": "patient_profile.findings[3].value",
+        "status": "reported",
+        "concept": "",
+        "quote": "Muscle-enzyme value above the reported reference limit.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "swallow",
+        "pointer": "patient_profile.findings[4].value",
+        "status": "reported",
+        "concept": "swallowing",
+        "quote": "Swallowing or cough with liquids is reported.",
+        "hypotheses": [
+          "Swallowing impairment is a retrieval hypothesis."
+        ],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      },
+      {
+        "field": "hand_function",
+        "pointer": "patient_profile.findings[5].value",
+        "status": "reported",
+        "concept": "",
+        "quote": "Grip and pinch findings recorded.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      }
+    ],
+    "constraints": [
+      "Assess interaction potential with a concurrently used CYP1A2-relevant therapy",
+      "Note effects on respiratory function and muscle",
+      "Note effects on appetite, weight and gastrointestinal tolerability",
+      "If swallowing difficulty is present, consider whether liquid, dispersible or non-oral forms are available",
+      "Consider effects on grip and hand function",
+      "Report the evidence basis for any interaction claim"
+    ],
+    "avoid": [
+      "Clinically consequential CYP1A2 inhibition",
+      "CYP1A2 induction that could meaningfully alter exposure to the concurrent therapy",
+      "Respiratory depressants",
+      "Agents likely to worsen muscle injury, weakness or weight loss"
+    ],
+    "unknowns": [
+      "Pair-specific exposure, interaction magnitude and route-specific tolerability.",
+      "The record does not state the patient's own treatment priorities."
+    ],
+    "mechanism_scope": "",
+    "planner": "claude"
+  },
+  "local_source_quotes": {
+    "current_therapy": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[0].value",
+      "quote": "Riluzole 50 mg BID"
+    },
+    "respiratory": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[1].value",
+      "quote": "FVC 76% sitting, 61% supine"
+    },
+    "weight": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[2].value",
+      "quote": "86 \u2192 77.5 kg, unintentional"
+    },
+    "muscle": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[3].value",
+      "quote": "470 U/L (ref < 195)"
+    },
+    "swallow": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[4].value",
+      "quote": "Coughs on thin liquids"
+    },
+    "hand_function": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[5].value",
+      "quote": "Right pinch 3 kg, grip 14 kg"
+    }
+  }
+}

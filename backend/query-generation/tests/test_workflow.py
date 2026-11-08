@@ -4,7 +4,6 @@ import numpy as np
 from ranking.intersection import aggregate,NAMES
 from shared.query import query,rank_queries,paths
 from shared.graph import Graph
-from run import agent
 
 
 class Intersection(unittest.TestCase):
@@ -36,15 +35,10 @@ class Intersection(unittest.TestCase):
 
     def test_abstention(self):
         # The actual safety agent must abstain when reviewed evidence is missing.
-        p={"therapy":"Compound::T","facts":{"current_therapy":"fixture"},"source":"fixture"}
-        from shared.terms import Terms
-        from shared.patient_query import DDI
-        g=SimpleNamespace(walk=lambda *args:["Compound::neighbor"], E=np.zeros((2,2)),
-                          R=np.zeros((1,2)), entities={"Compound::T":0, "Compound::X":1},
-                          relations={DDI:0}, types={DDI:("Compound","Compound")}, gloss={DDI:{}})
-        terms=Terms()
-        terms.add("compound","fixture","Compound::T")
-        r=agent(NAMES[2])(g,p,{"Compound::X"},{"applies_with":p["therapy"],"source":"fixture","reviewed":{}},terms)
+        from shared.retrieval import apply_safety_review
+        r={"ranking":[],"retrieval":[{"id":"Compound::X","l2":1.0}]}
+        g=SimpleNamespace(walk=lambda *args:[])
+        apply_safety_review(r,g,["Compound::T"],{"applies_with":"Compound::T","reviewed":{}},False)
         self.assertEqual(r["ranking"],[])
         lists={n:["A"] for n in NAMES}
         lists[NAMES[2]]=r["ranking"]

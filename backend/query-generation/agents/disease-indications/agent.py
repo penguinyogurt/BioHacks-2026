@@ -1,14 +1,7 @@
-from shared.patient_query import PatientQueries
+"""Category entry point. Research questions and adjudicated findings are keyed by this module's directory."""
+from shared.retrieval import research_category as research
 
 
-def run(g, p, pool, review, terms):
-    queries = PatientQueries(g, p, pool, terms)
-    fact, diseases = queries.fact("diagnosis", "disease")
-    queries.disease_queries(fact, diseases)
-    return queries.finish()
-
-
-def evaluate(report, c, row):
+def evaluate(report, candidate, row):
     from shared.dossier import observed
-    return ("I checked observed treatment relations for the diagnosis recorded in the chart. The human ALS study section gives the administered formulation and observed outcome.\n\n" +
-            observed("disease-indications", row, report, c))
+    return observed("disease-indications",row,report,candidate)

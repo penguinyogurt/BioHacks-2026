@@ -1,7 +1,8 @@
 """Adjudicate exact-ingredient human ALS trial findings before graph ranking."""
 from urllib.parse import urlparse
 
-ADVANCE_CATEGORIES = ("favorable clinical evidence", "negative trial with delivery rationale")
+DISCOVERY = "mechanistic discovery; ALS testing unverified"
+ADVANCE_CATEGORIES = ("favorable clinical evidence", "negative trial with delivery rationale", DISCOVERY)
 HARM = "excluded for human harm"
 NEGATIVE = "negative efficacy; retained only"
 UNRESOLVED = "unresolved"

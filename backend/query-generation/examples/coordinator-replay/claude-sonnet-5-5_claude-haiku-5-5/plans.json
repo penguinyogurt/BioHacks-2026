@@ -1,0 +1,95 @@
+{
+  "{\"avoid\": [], \"constraints\": [\"Amyotrophic Lateral Sclerosis\"], \"criterion\": \"disease-indications\", \"facts\": [{\"concept\": \"als\", \"field\": \"diagnosis\", \"hypotheses\": [], \"pointer\": \"patient_profile.summary\", \"quote\": \"Amyotrophic Lateral Sclerosis\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}], \"goal_provenance\": \"research objective\", \"mechanism_scope\": \"\", \"objective\": \"Slow functional decline and preserve survival.\", \"unknowns\": [\"Individual response and applicable trial phenotype.\", \"The record does not state the patient's own treatment priorities.\"]}": {
+    "criterion": "disease-indications",
+    "objective": "Find agents with evidence for slowing functional decline or prolonging survival in amyotrophic lateral sclerosis, including approved, trial-stage and off-label evidence, noting the trial phenotype and the strength of the evidence.",
+    "constraints": [
+      "Evidence in amyotrophic lateral sclerosis populations",
+      "Report trial phase, phenotype enrolled and outcome measures (functional scale, survival)",
+      "Distinguish approved use from investigational or off-label evidence"
+    ],
+    "avoid": [
+      "Evidence from non-ALS motor neuron conditions presented as ALS evidence",
+      "Extrapolating group-level results to individual response"
+    ]
+  },
+  "{\"avoid\": [], \"constraints\": [\"Amyotrophic Lateral Sclerosis\"], \"criterion\": \"genes-targets\", \"facts\": [{\"concept\": \"als\", \"field\": \"diagnosis\", \"hypotheses\": [], \"pointer\": \"patient_profile.summary\", \"quote\": \"Amyotrophic Lateral Sclerosis\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}], \"goal_provenance\": \"research objective\", \"mechanism_scope\": \"Glutamate excitotoxicity\", \"objective\": \"Identify a target and direction with a rationale for preserving motor neurons.\", \"unknowns\": [\"Patient-level target engagement and causal genotype unless specifically tested.\", \"The record does not state the patient's own treatment priorities.\", \"No genotype is documented; do not assign a molecular subtype.\"]}": {
+    "criterion": "genes-targets",
+    "objective": "Identify molecular targets, with the direction of modulation (inhibition, activation or other) and the rationale, that could preserve motor neurons in amyotrophic lateral sclerosis. Treat glutamate excitotoxicity as a hypothesis to evaluate, not an established mechanism. Do not assume any genotype or molecular subtype.",
+    "constraints": [
+      "Target relevant to motor neuron survival in amyotrophic lateral sclerosis",
+      "State the direction of modulation needed and the supporting evidence level",
+      "Include targets linked to glutamate excitotoxicity as a hypothesis, alongside other supported targets",
+      "Applicable irrespective of a documented genotype"
+    ],
+    "avoid": [
+      "Assigning a genetic subtype",
+      "Assuming target engagement in the individual patient"
+    ]
+  },
+  "{\"avoid\": [\"Clinically consequential CYP1A2 inhibition.\"], \"constraints\": [\"Active therapy with a labeled CYP1A2 interaction concern.\", \"Lower supine than sitting vital capacity is reported.\", \"Unintentional weight loss is reported.\", \"Muscle-enzyme value above the reported reference limit.\", \"Swallowing or cough with liquids is reported.\", \"Grip and pinch findings recorded.\"], \"criterion\": \"safety-interactions-class\", \"facts\": [{\"concept\": \"cyp1a2_exposure\", \"field\": \"current_therapy\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[0].value\", \"quote\": \"Active therapy with a labeled CYP1A2 interaction concern.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"\", \"field\": \"respiratory\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[1].value\", \"quote\": \"Lower supine than sitting vital capacity is reported.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"\", \"field\": \"weight\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[2].value\", \"quote\": \"Unintentional weight loss is reported.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"\", \"field\": \"muscle\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[3].value\", \"quote\": \"Muscle-enzyme value above the reported reference limit.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"swallowing\", \"field\": \"swallow\", \"hypotheses\": [\"Swallowing impairment is a retrieval hypothesis.\"], \"pointer\": \"patient_profile.findings[4].value\", \"quote\": \"Swallowing or cough with liquids is reported.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"\", \"field\": \"hand_function\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[5].value\", \"quote\": \"Grip and pinch findings recorded.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}], \"goal_provenance\": \"research objective\", \"mechanism_scope\": \"\", \"objective\": \"Flag pharmacological interactions and tolerability concerns.\", \"unknowns\": [\"Pair-specific exposure, interaction magnitude and route-specific tolerability.\", \"The record does not state the patient's own treatment priorities.\"]}": {
+    "criterion": "safety-interactions-class",
+    "objective": "Flag pharmacological interactions and tolerability concerns for candidate agents, in the context of a concurrent therapy with a labeled CYP1A2 interaction concern and of reported positional reduction in respiratory capacity, unintentional weight loss, an elevated muscle-enzyme value, liquid-associated swallowing or cough, and altered grip and pinch function. Swallowing impairment is only a retrieval hypothesis. Pair-specific exposure, interaction magnitude and route-specific tolerability are unknown.",
+    "constraints": [
+      "Assess interaction potential with a concurrently used CYP1A2-relevant therapy",
+      "Note effects on respiratory function and muscle",
+      "Note effects on appetite, weight and gastrointestinal tolerability",
+      "If swallowing difficulty is present, consider whether liquid, dispersible or non-oral forms are available",
+      "Consider effects on grip and hand function",
+      "Report the evidence basis for any interaction claim"
+    ],
+    "avoid": [
+      "Clinically consequential CYP1A2 inhibition",
+      "CYP1A2 induction that could meaningfully alter exposure to the concurrent therapy",
+      "Respiratory depressants",
+      "Agents likely to worsen muscle injury, weakness or weight loss"
+    ]
+  },
+  "{\"avoid\": [], \"constraints\": [\"Amyotrophic Lateral Sclerosis\"], \"criterion\": \"pathways-processes\", \"facts\": [{\"concept\": \"als\", \"field\": \"diagnosis\", \"hypotheses\": [], \"pointer\": \"patient_profile.summary\", \"quote\": \"Amyotrophic Lateral Sclerosis\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}], \"goal_provenance\": \"research objective\", \"mechanism_scope\": \"Glutamate excitotoxicity\", \"objective\": \"Identify a biological process whose modulation could preserve function.\", \"unknowns\": [\"Patient-specific process activity and engagement.\", \"The record does not state the patient's own treatment priorities.\", \"No genotype is documented; do not assign a molecular subtype.\"]}": {
+    "criterion": "pathways-processes",
+    "objective": "Identify biological processes in amyotrophic lateral sclerosis whose modulation could preserve function. Evaluate glutamate excitotoxicity as a hypothesis among other processes, with the evidence for each. Do not assume a molecular subtype.",
+    "constraints": [
+      "Process relevant to amyotrophic lateral sclerosis pathophysiology",
+      "Include glutamate excitotoxicity as a hypothesis alongside other supported processes",
+      "Note the evidence level and whether modulation has been tested clinically",
+      "Applicable irrespective of a documented genotype"
+    ],
+    "avoid": [
+      "Assuming the process is active in the individual patient",
+      "Assigning a molecular subtype"
+    ]
+  },
+  "{\"avoid\": [], \"constraints\": [\"Swallowing or cough with liquids is reported.\", \"Grip and pinch findings recorded.\", \"Lower supine than sitting vital capacity is reported.\", \"Unintentional weight loss is reported.\"], \"criterion\": \"symptoms-function\", \"facts\": [{\"concept\": \"swallowing\", \"field\": \"swallow\", \"hypotheses\": [\"Swallowing impairment is a retrieval hypothesis.\"], \"pointer\": \"patient_profile.findings[4].value\", \"quote\": \"Swallowing or cough with liquids is reported.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"\", \"field\": \"hand_function\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[5].value\", \"quote\": \"Grip and pinch findings recorded.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"\", \"field\": \"respiratory\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[1].value\", \"quote\": \"Lower supine than sitting vital capacity is reported.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"\", \"field\": \"weight\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[2].value\", \"quote\": \"Unintentional weight loss is reported.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}], \"goal_provenance\": \"research objective\", \"mechanism_scope\": \"\", \"objective\": \"Identify outcomes relevant to swallowing and daily function.\", \"unknowns\": [\"Instrumental swallowing assessment and a causal diagnosis for functional observations.\", \"The record does not state the patient's own treatment priorities.\"]}": {
+    "criterion": "symptoms-function",
+    "objective": "Identify outcome measures and symptom domains relevant to swallowing, hand function, respiratory function, weight and daily function in amyotrophic lateral sclerosis, and which candidate agents have evidence for effects on them. Swallowing impairment is a retrieval hypothesis, and the causes of the functional observations are not established.",
+    "constraints": [
+      "Evidence on swallowing or bulbar function outcomes",
+      "Evidence on upper-limb, grip and pinch or daily-activity outcomes",
+      "Evidence on respiratory function and weight or nutrition outcomes",
+      "Report validated outcome instruments and the populations studied"
+    ],
+    "avoid": [
+      "Assuming a causal diagnosis for the observed functional findings",
+      "Treating swallowing impairment as confirmed without instrumental assessment"
+    ]
+  },
+  "{\"avoid\": [], \"constraints\": [\"Lower supine than sitting vital capacity is reported.\", \"Unintentional weight loss is reported.\", \"Muscle-enzyme value above the reported reference limit.\", \"Swallowing or cough with liquids is reported.\", \"Grip and pinch findings recorded.\"], \"criterion\": \"safety-interactions-class\", \"facts\": [{\"concept\": \"no_active_index_therapy\", \"field\": \"current_therapy\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[0].value\", \"quote\": \"Index therapy reported inactive.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"negated\"}, {\"concept\": \"\", \"field\": \"respiratory\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[1].value\", \"quote\": \"Lower supine than sitting vital capacity is reported.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"\", \"field\": \"weight\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[2].value\", \"quote\": \"Unintentional weight loss is reported.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"\", \"field\": \"muscle\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[3].value\", \"quote\": \"Muscle-enzyme value above the reported reference limit.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"swallowing\", \"field\": \"swallow\", \"hypotheses\": [\"Swallowing impairment is a retrieval hypothesis.\"], \"pointer\": \"patient_profile.findings[4].value\", \"quote\": \"Swallowing or cough with liquids is reported.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}, {\"concept\": \"\", \"field\": \"hand_function\", \"hypotheses\": [], \"pointer\": \"patient_profile.findings[5].value\", \"quote\": \"Grip and pinch findings recorded.\", \"source_kind\": \"de-identified abstraction; local ledger holds the chart quotation\", \"status\": \"reported\"}], \"goal_provenance\": \"research objective\", \"mechanism_scope\": \"\", \"objective\": \"Flag pharmacological interactions and tolerability concerns.\", \"unknowns\": [\"Pair-specific exposure, interaction magnitude and route-specific tolerability.\", \"The record does not state the patient's own treatment priorities.\"]}": {
+    "criterion": "safety-interactions-class",
+    "objective": "Identify candidate drug classes and individual agents for ALS repurposing and flag pharmacological interactions and tolerability concerns relevant to a profile of reduced respiratory reserve, unintentional weight loss, raised muscle-enzyme levels, possible swallowing difficulty with liquids (hypothesis only), and impaired hand function. No active index therapy is assumed, so evaluate intrinsic tolerability rather than interactions with a current index therapy. Report where interaction magnitude, exposure or route-specific tolerability is unknown rather than inferring it.",
+    "constraints": [
+      "Favor agents with a tolerability profile compatible with limited respiratory reserve",
+      "Favor agents with minimal effect on appetite or body weight",
+      "Favor agents with minimal muscle toxicity or effect on muscle-enzyme levels",
+      "Favor formulations usable with possible swallowing difficulty, such as liquid, dispersible, or non-oral forms, treating the swallowing impairment as a hypothesis",
+      "Favor formulations that do not require fine hand dexterity to administer",
+      "State explicitly when interaction or tolerability evidence is absent or uncertain"
+    ],
+    "avoid": [
+      "Respiratory depressants",
+      "Agents that cause or worsen muscle weakness",
+      "Agents that cause myopathy or raise muscle-enzyme levels",
+      "Agents that suppress appetite or cause weight loss",
+      "Agents that impair swallowing or increase aspiration risk, such as strongly sedating or anticholinergic drugs",
+      "Agents with a narrow therapeutic index and significant interaction liability"
+    ]
+  }
+}
