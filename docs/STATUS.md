@@ -70,6 +70,33 @@ Ordered roughly by what hurts most if it's still open on Sunday morning.
 | facecheck | Decide: own page, or a tab in the app | `FACECHECK_SPEC.md` §7 |
 | discovery | A real backend behind `runDemoPipeline` — stretch | The seam is clean; don't collapse it under time pressure |
 
+## Found while auditing — read before you pitch
+
+Measured against Neo's real `pipeline.json` on `cursor/pipeline-graph-ui`,
+not the sample. Full citations in [`FUS_RESEARCH.md`](FUS_RESEARCH.md).
+
+1. **The graveyard overstates `never_arrived`.** 24 `never_arrived` / 8
+   `arrived_failed` — but **21 of the 24 have no BBB prediction at all**
+   (biologics, or out of the model's domain). `src/merge.py:211-214` files
+   "no prediction" as `never_arrived`. Only ceftriaxone (p 0.39),
+   pentoxifylline (0.29) and pioglitazone (0.29) are actually predicted
+   BBB-negative. Honest split: **3 / 8 / 21 undetermined.** Say "3 predicted
+   never-arrived, 21 we can't call" on stage, never "24" — a judge who knows
+   gabapentin crosses the BBB will catch it.
+2. **Same error in the funnel.** "2,440 eliminated: predicted BBB-negative"
+   is **1,593 predicted negative + 847 out of domain.** The honest number is
+   still the strong one: **1,593 approved drugs the model says can't cross.**
+   That is the FUS-unlocked pool — use it.
+3. **Discovery stage 3 is fake while a real one exists.** `MATCHES` in
+   `frontend/src/lib/pipeline.ts` is hand-written; Neo's `src/drkg.py` loads
+   the real DRKG TransE vectors. Note DRKG embeds *entities*, not text, so a
+   profile has to become DRKG genes before it has a vector — Jeremy's
+   profiles already list target genes, so that bridge is short.
+4. **Three knowledge graphs and two FaceChecks exist.** Graph: Neo's
+   `GraphCanvas`, Henri's stale `KnowledgeGraph.tsx`, and a "coming soon"
+   placeholder on `main`. FaceCheck: Neo's TS original and Levi's JS port.
+   Pick one of each.
+
 ## Done
 
 - **2026-11-07** · Henri · Repo cleanup: `app/` and `web/` deleted, contract

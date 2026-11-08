@@ -83,6 +83,22 @@ Before creating a new app, page, module or script: **search for it first.**
 If what exists is wrong, fix or replace it deliberately and say so — don't
 leave both standing.
 
+### Add an env var, update `.env.example` in the same commit
+
+Non-negotiable, and it applies to agents without being asked. The moment you
+read a new `import.meta.env.*` or `os.environ[...]`, add it to the matching
+`.env.example` with a comment saying what it's for and whether the app runs
+without it.
+
+Nobody else can see your `.env` — it's gitignored, which is the point. An
+undocumented variable means the next person clones the repo, gets a blank
+screen or a crash, and loses twenty minutes to a key they didn't know
+existed. At 3am on Sunday that is the whole evening.
+
+Never put a real value in `.env.example`, and never commit a `.env`. If a
+key does land in a commit, say so immediately and rotate it — it's in the
+history whether or not you delete the file.
+
 ### Integration happens through files, not imports
 
 Each module writes **one JSON file**. Nobody imports anybody else's code.

@@ -38,9 +38,15 @@ about.** A drug that failed because it never arrived is the one worth
 re-asking under FUS. That partition was built for the old elimination funnel;
 it turns out to be the input to the new pipeline. Nobody has to rebuild it.
 
-> Unverified as of this writing: whether the two sets were produced with the
-> same BBB model and are directly comparable. Check before claiming it on
-> stage.
+> **Checked 2026-11-07 against Neo's real `pipeline.json`
+> (`cursor/pipeline-graph-ui`):** same BBB model, so the sets are comparable —
+> but the bucket is inflated. 21 of the 24 `never_arrived` drugs have **no BBB
+> prediction** (biologics or out of domain) and were filed there by default
+> (`src/merge.py:211-214`). Only ceftriaxone, pentoxifylline and pioglitazone
+> are predicted BBB-negative. Say "3 predicted never-arrived, 21 we can't
+> call" on stage, not "24". The bigger, honest number for this pitch is the
+> funnel's: **1,593 of 3,791 approved drugs predicted BBB-negative** (plus 847
+> the model declines to call). That is the FUS-unlocked pool.
 
 ---
 
@@ -55,6 +61,13 @@ Jeremy's five stages, as pitched and as coded in `STAGES`:
 | 3 | `embedding` | Each profile → vector in the **DRKG** embedding space → cosine search over compounds | TransE over DRKG |
 | 4 | `research` | A research agent with open web search ranks the top matches for this patient | web search |
 | 5 | `report` | Cited report: each drug, its effects, and the new potential FUS gives it | — |
+
+**Stage 3 has a gap in the pitch as worded.** "The same embedding model used
+in DRKG" is TransE over *entities* — it has no vector for a sentence. A
+profile only gets a DRKG vector once it is written as DRKG entities (genes,
+mostly). The profiles in `PROFILES` already list target genes, so: map them
+to `Gene::<Entrez>` ids, average their vectors, cosine against compound
+vectors. Neo's `src/drkg.py` already loads these embeddings.
 
 Running the profile agent five times is the part worth defending. One agent
 gives you one opinion; five give you a spread, and a compound that surfaces
@@ -107,7 +120,7 @@ seam; don't let anyone collapse it under time pressure.
    self-contained and never reads `data/pipeline.json`. Either wire the
    graveyard in as the candidate pool (§1 — cheap, and it makes the two
    tracks one story) or retire the contract and say so.
-4. **Can we cite the Sunnybrook FUS work accurately?** The claim rests on
+4. **Answered → [`FUS_RESEARCH.md`](FUS_RESEARCH.md).** Was: **Can we cite the Sunnybrook FUS work accurately?** The claim rests on
    it. Get real citations for BBB opening in ALS or in neurodegeneration
    generally, and be precise about what has been shown in humans versus what
    is proposed. Mark anything unverified as unverified — a judge who knows
