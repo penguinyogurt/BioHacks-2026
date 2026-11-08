@@ -1,6 +1,8 @@
 // Deployed (/take-home/) the suite passes ?api= (the backend's diagnostics endpoint) and ?suite= (its own origin);
 // run standalone, both default to the local servers, so the local apps work unchanged.
-const Q=new URLSearchParams(location.search),API=Q.get("api")||"",SUITE=Q.get("suite")||"http://127.0.0.1:8772";
+const Q=new URLSearchParams(location.search),SUITE=Q.get("suite")||"http://127.0.0.1:8772";
+const localWebPage=location.pathname.startsWith("/take-home/") && ["127.0.0.1","localhost"].includes(location.hostname);
+const API=Q.get("api")||(localWebPage?"http://127.0.0.1:8001/api/diagnostics/facial":"");
 "use strict";
 const $=id=>document.getElementById(id);
 const rounds=[

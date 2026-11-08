@@ -15,8 +15,8 @@ APP = Path(__file__).resolve().parent
 ROOT = APP.parent
 URL = "http://127.0.0.1:8772"
 SERVICES = {
-    "facial": ("facial-test", "app.py", 8771, b"poster-expression-challenge-v1"),
-    "speech": ("speech-test-good", "transcript_only.py", 8770, b"transcript-only-v1"),
+    "facial": ("facial-test", "app.py", 8771, b"poster-expression-challenge-v2"),
+    "speech": ("speech-test-good", "transcript_only.py", 8770, b"transcript-only-v2"),
 }
 CHILDREN = {}
 LOCK = threading.Lock()
@@ -28,6 +28,10 @@ def healthy(url, expected):
             if response.read(128) != expected:
                 raise RuntimeError("A different app is using " + url)
             return True
+    except TimeoutError:
+        # The facial server binds its socket before loading POSTER++. It can accept
+        # a connection while its health response is still waiting on model startup.
+        return False
     except URLError as error:
         # Nothing listening yet. On Windows a closed local port isn't refused at once: the connect
         # retries for ~2 s, so this 1 s check times out instead (or reports WSAECONNREFUSED, 10061).
@@ -46,8 +50,10 @@ def start_test(stage):
             return url
         folder = ROOT / directory
         # macOS/Linux venvs keep the interpreter in bin/, Windows ones in Scripts/.
-        python = next((p for p in (folder / ".venv/bin/python", folder / ".venv/Scripts/python.exe") if p.is_file()), folder / ".venv/bin/python")
-        if not python.is_file():
+        environments = (folder / ".venv", ROOT.parent / ".venv")
+        python = next((env / exe for env in environments for exe in ("bin/python", "Scripts/python.exe")
+                       if (env / exe).is_file()), None)
+        if python is None:
             raise RuntimeError(f"Run setup.sh in {directory} first.")
         process = CHILDREN.get(stage)
         if process is None or process.poll() is not None:
@@ -80,7 +86,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_error(403)
         path = self.path.split("?", 1)[0]  # the suite is opened as /?return=<web app origin>
         if path == "/health":
-            return self.reply(200,b"diagnostic-complete-v1","text/plain")
+            return self.reply(200,b"diagnostic-complete-v2","text/plain")
         routes={"/":(APP/"diagnostic-ui/index.html","text/html"),"/suite.js":(APP/"diagnostic-ui/suite.js","text/javascript"),
                 "/trace":(ROOT/"line-test/index.html","text/html")}
         if path not in routes:
@@ -107,7 +113,7 @@ if __name__=="__main__":
     try:
         server=ThreadingHTTPServer(("127.0.0.1",8772),Handler)
     except OSError as error:
-        if error.errno!=errno.EADDRINUSE or not healthy(URL,b"diagnostic-complete-v1"):
+        if error.errno!=errno.EADDRINUSE or not healthy(URL,b"diagnostic-complete-v2"):
             raise
         if not args.no_browser:
             webbrowser.open(URL)

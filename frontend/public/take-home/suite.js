@@ -73,7 +73,11 @@ function opening(){
 // own server (/begin). Deployed: the page is static under the web app (/take-home/), each test
 // sits in a sibling folder, and facial/speech scoring comes from the backend in the link (#backend=).
 const local=location.origin==="http://127.0.0.1:8772";
-const backend=(()=>{try{return new URL(link.get("backend")).origin}catch{return null}})();
+const backend=(()=>{
+ const configured=link.get("backend");
+ if(!configured && ["localhost","127.0.0.1"].includes(location.hostname))return "http://127.0.0.1:8001";
+ try{return new URL(configured).origin}catch{return null}
+})();
 async function testUrl(key){
  if(local){
   const response=await fetch("/begin/"+key,{method:"POST"});

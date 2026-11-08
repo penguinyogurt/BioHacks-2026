@@ -11,10 +11,10 @@ from pathlib import Path
 from urllib.request import urlopen
 
 import numpy as np
-from engine import PASSAGE, ROOT, WORDS, edits, recognize, waveform
+from engine import PASSAGE, ROOT, WORDS, edits, model, recognize, waveform
 
 URL = "http://127.0.0.1:8770"
-HEALTH = b"transcript-only-v1"
+HEALTH = b"transcript-only-v2"
 LOCK = threading.Lock()
 
 
@@ -101,6 +101,7 @@ if __name__ == "__main__":
             if not args.no_browser:
                 webbrowser.open(URL)
         else:
+            model()  # Only advertise a ready server once its local recognizer can load.
             print(URL,flush=True)
             if not args.no_browser:
                 threading.Timer(.4,lambda:webbrowser.open(URL)).start()

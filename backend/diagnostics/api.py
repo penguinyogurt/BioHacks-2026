@@ -54,7 +54,9 @@ def _facial():
 
 @lru_cache(maxsize=1)
 def _speech():
-    return _load("diagnostics_speech_server", SPEECH, "transcript_only.py")
+    module = _load("diagnostics_speech_server", SPEECH, "transcript_only.py")
+    module.model()  # Vosk opens its acoustic model lazily. Check it before advertising readiness.
+    return module
 
 
 def _engine(loader, what: str, setup: str):
