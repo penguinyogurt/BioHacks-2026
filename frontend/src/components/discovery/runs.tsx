@@ -1,31 +1,18 @@
-import { useState } from 'react'
-import { ArrowLeft, FileText } from 'lucide-react'
+import { FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SAMPLE_PATIENT, rank, CANDIDATES } from '@/lib/pipeline'
-import { Report } from './report'
-import type { CompletedRun } from './workspace'
+import { useRun } from '@/lib/run-store'
+import { useGo } from './pieces'
 
 /** Saved runs as paper previews (Callio Labs' Projects panel, for reports). */
-export default function Runs({ runs, onNewRun }: { runs: CompletedRun[]; onNewRun: () => void }) {
-  const [open, setOpen] = useState<CompletedRun | null>(null)
-
-  if (open) {
-    return (
-      <div className="mx-auto max-w-4xl">
-        <Button size="sm" variant="ghost" className="mb-3" onClick={() => setOpen(null)}>
-          <ArrowLeft aria-hidden /> All runs
-        </Button>
-        <div className="rounded-xl bg-card p-6 ring-1 ring-border backdrop-blur-md">
-          <Report patient={SAMPLE_PATIENT} weights={open.weights} date={open.date} />
-        </div>
-      </div>
-    )
-  }
+export default function Runs({ onNewRun }: { onNewRun: () => void }) {
+  const { runs, open, openedId, state } = useRun()
+  const go = useGo()
 
   return (
     <div className="mx-auto max-w-[1440px]">
       <div className="mb-4 rounded-xl bg-card px-5 pt-5 pb-4 ring-1 ring-border backdrop-blur-md">
-        <p className="eyebrow">Discovery / Runs & reports</p>
+        <p className="eyebrow">Library / Runs & reports</p>
         <h2 className="font-brand mt-3 text-[clamp(2.25rem,3.6vw,3.25rem)] leading-none">Every run, with its evidence.</h2>
       </div>
       {runs.length === 0 ? (
@@ -41,7 +28,10 @@ export default function Runs({ runs, onNewRun }: { runs: CompletedRun[]; onNewRu
               <button
                 key={r.id}
                 type="button"
-                onClick={() => setOpen(r)}
+                onClick={() => {
+                  open(r)
+                  go('report')
+                }}
                 className="group overflow-hidden rounded-xl bg-card text-left ring-1 ring-border backdrop-blur-md transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.98]"
               >
                 <div className="relative mx-3 mt-3 h-36 overflow-hidden rounded-t-md bg-white shadow-[0_-4px_12px_rgb(0_0_0/0.06)]">
@@ -59,7 +49,8 @@ export default function Runs({ runs, onNewRun }: { runs: CompletedRun[]; onNewRu
                   <p className="flex items-center gap-1.5 text-sm font-medium">
                     <FileText className="size-3.5 text-muted-foreground" aria-hidden /> Top: {top.drug}
                   </p>
-                  <p className="text-xs text-muted-foreground">{r.date}</p>
+                  <p className="truncate text-xs text-muted-foreground">{r.caseName ?? 'Sample case'} · {r.date}</p>
+                  {r.id === openedId && state.phase === 'done' ? <p className="mt-1 text-[0.6875rem] text-[#a35b1d]">Open in workspace</p> : null}
                 </div>
               </button>
             )

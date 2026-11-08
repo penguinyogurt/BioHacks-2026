@@ -1,6 +1,6 @@
 import {
-  Activity, AlarmClock, BookOpen, CalendarDays, CirclePlus, Database, Dna, FileText, FlaskConical, LogOut, MoreVertical,
-  Network, NotebookPen, Pill, Settings, Shield, UserCircle, Users, Waves,
+  AlarmClock, BookOpen, Check, Circle, CirclePlus, Database, FileText, FlaskConical, Library, Loader2, LogOut,
+  MoreVertical, Network, Activity, Settings, Shield, UserCircle, Users, Waves,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -14,23 +14,25 @@ import {
 } from '@/components/ui/sidebar'
 
 type NavItem = { value: string; label: string; icon: LucideIcon }
+export type StepStatus = 'pending' | 'running' | 'done'
 
-/** Callio Labs' sidebar shape: primary action, main nav, labelled groups, secondary links pinned low. */
-export const NAV_MAIN: NavItem[] = [
-  { value: 'discovery', label: 'Discovery', icon: FlaskConical },
-  { value: 'runs', label: 'Runs & reports', icon: FileText },
-  { value: 'patient', label: 'Patient overview', icon: Activity },
-  { value: 'graph', label: 'Knowledge graph', icon: Network },
+/** The flow, one page per step (Callio Labs: one sidebar entry per page). */
+export const NAV_PIPELINE: { value: string; label: string; n: string }[] = [
+  { value: 'case', label: 'Patient case', n: '00' },
+  { value: 'analysis', label: 'Patient analysis', n: '01' },
+  { value: 'profiles', label: 'Profile agents', n: '02' },
+  { value: 'embedding', label: 'DRKG embedding', n: '03' },
+  { value: 'candidates', label: 'Research & ranking', n: '04' },
+  { value: 'report', label: 'Report', n: '05' },
 ]
 
 export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
-    label: 'Patient data',
+    label: 'Library',
     items: [
-      { value: 'genetics', label: 'Genetics', icon: Dna },
-      { value: 'medications', label: 'Medications', icon: Pill },
-      { value: 'visits', label: 'Clinic visits', icon: CalendarDays },
-      { value: 'diary', label: 'Symptom diary', icon: NotebookPen },
+      { value: 'runs', label: 'Runs & reports', icon: FileText },
+      { value: 'patient', label: 'Patient monitoring', icon: Activity },
+      { value: 'graph', label: 'Knowledge graph', icon: Network },
     ],
   },
   {
@@ -49,7 +51,11 @@ export const NAV_SECONDARY: NavItem[] = [
   { value: 'settings', label: 'Settings', icon: Settings },
 ]
 
-export const ALL_NAV: NavItem[] = [...NAV_MAIN, ...NAV_GROUPS.flatMap((g) => g.items), ...NAV_SECONDARY]
+export const ALL_NAV: { value: string; label: string }[] = [
+  ...NAV_PIPELINE,
+  ...NAV_GROUPS.flatMap((g) => g.items),
+  ...NAV_SECONDARY,
+]
 
 export type Profile = { name: string; email: string; avatar?: string }
 
@@ -71,16 +77,25 @@ function NavList({ items, active, select }: { items: NavItem[]; active: string; 
   )
 }
 
+function StepIcon({ status }: { status?: StepStatus }) {
+  if (status === 'done') return <Check className="ml-auto !size-3.5" aria-label="done" />
+  if (status === 'running') return <Loader2 className="ml-auto !size-3.5 animate-spin text-[#c9732a]" aria-label="running" />
+  return <Circle className="ml-auto !size-2.5 opacity-30" aria-label="pending" />
+}
+
 export function AppSidebar({
   active,
   onSelect,
   profile,
   onSignOut,
+  steps,
 }: {
   active: string
   onSelect: (view: string) => void
   profile: Profile
   onSignOut?: () => void
+  /** Status per pipeline view id. */
+  steps: Record<string, StepStatus>
 }) {
   const { isMobile, setOpenMobile } = useSidebar()
   const select = (value: string) => {
@@ -93,7 +108,7 @@ export function AppSidebar({
       <SidebarHeader className="pt-4">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton className="h-auto !p-2 !pt-3 hover:bg-transparent active:bg-transparent" onClick={() => select('discovery')}>
+            <SidebarMenuButton className="h-auto !p-2 !pt-3 hover:bg-transparent active:bg-transparent" onClick={() => select('case')}>
               <span className="font-brand text-3xl leading-none">addo labs</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -115,8 +130,22 @@ export function AppSidebar({
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
-            <NavList items={NAV_MAIN} active={active} select={select} />
           </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Pipeline</SidebarGroupLabel>
+          <SidebarMenu>
+            {NAV_PIPELINE.map((item) => (
+              <SidebarMenuItem key={item.value}>
+                <SidebarMenuButton tooltip={item.label} isActive={active === item.value} onClick={() => select(item.value)}>
+                  <span className="w-4 shrink-0 text-[0.6875rem] text-muted-foreground tabular-nums">{item.n}</span>
+                  <span>{item.label}</span>
+                  <StepIcon status={steps[item.value]} />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
         </SidebarGroup>
 
         {NAV_GROUPS.map((group) => (
@@ -173,11 +202,14 @@ export function AppSidebar({
                   <DropdownMenuItem onSelect={() => select('settings')}>
                     <UserCircle /> Account
                   </DropdownMenuItem>
-                  <DropdownMenuItem onSelect={() => select('settings')}>
-                    <AlarmClock /> Notifications
+                  <DropdownMenuItem onSelect={() => select('runs')}>
+                    <Library /> Runs & reports
                   </DropdownMenuItem>
                   <DropdownMenuItem onSelect={() => select('privacy')}>
                     <BookOpen /> Data & privacy
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => select('settings')}>
+                    <AlarmClock /> Notifications
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

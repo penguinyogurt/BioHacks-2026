@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import Dither from '@/components/react-bits/Dither'
+import { AsciiBackground } from '@/components/background'
 import NeuronViewer from '@/components/neuron-viewer'
 import { AFTER_SIGN_IN, useAuth } from '@/lib/auth'
-import { DITHER_INK, DITHER_PAPER } from '@/lib/theme'
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -38,18 +37,7 @@ export default function Landing() {
   return (
     <div className="relative h-dvh w-screen overflow-hidden bg-background text-foreground">
       <div className="absolute inset-0 z-0">
-        <Dither
-          waveSpeed={0.02}
-          waveFrequency={3}
-          waveAmplitude={0.3}
-          backgroundColor={DITHER_PAPER}
-          waveColor={DITHER_INK}
-          colorNum={4}
-          pixelSize={2}
-          disableAnimation={reducedMotion}
-          enableMouseInteraction
-          mouseRadius={1.2}
-        />
+        <AsciiBackground />
       </div>
 
       {/* The neuron stands in the right half and spins about its own long axis. */}
