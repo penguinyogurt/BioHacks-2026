@@ -1,0 +1,386 @@
+look into the backend directory for the agent workflow. I want to integrate this into the frontend. Is this ready? I'd like to start with the first step with the first agent that creates 5 other agents. The frontend should be able to display the agent's responses + tools calls and should go to the next step automatically when the agent calls the other 5 agents to start the parallel research workflows
+
+---
+
+<task-notification>
+<task-id>b04jgycro</task-id>
+<tool-use-id>toolu_013PMN2KeCrtL3NZsbtoHq7a</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\b04jgycro.output</output-file>
+<status>completed</status>
+<summary>Background command "Create branch and install agent deps in backend venv" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>RUN r20261108-021643-3a9717
+0 s run_started  {"kind": "research run", "question": "What should a drug do for this patient, both to slow their ALS and to relieve their symptoms?", "models": {"orchestrator": "claude-opus-5-5", "subagent": "claude-
+0 s patient_loaded  {"patient_id": "alex", "synthetic": true}</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>23 s plan  n=5 rationale=968 chars | M6, M2, M18, S1, S8
+23 s subagent_started M6
+23 s subagent_started M2
+23 s subagent_started M18
+23 s subagent_started S1
+23 s subagent_started S8</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>27 s tool_call S8 search_pubmed
+27 s tool_call S8 search_als_trials</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>27 s tool_call M6 opentargets_als_targets
+27 s tool_call M6 search_pubmed
+27 s tool_call M6 search_pubmed
+27 s tool_call M2 search_pubmed
+27 s tool_call M2 search_als_trials
+27 s tool_call M2 target_profile</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>28 s tool_result M6 opentargets_als_targets 6659 chars err=False
+28 s tool_result S8 search_pubmed 2728 chars err=False
+28 s tool_result S8 search_als_trials 2 chars err=False
+28 s tool_result M2 search_pubmed 2 chars err=False</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>28 s tool_call M18 search_pubmed
+28 s tool_call M18 search_als_trials
+28 s tool_call M18 search_pubmed</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>28 s tool_result M2 search_als_trials 1542 chars err=False
+28 s tool_result M2 target_profile 1705 chars err=False</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>28 s tool_call S1 search_pubmed
+28 s tool_call S1 search_als_trials</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>29 s tool_result S1 search_pubmed 2749 chars err=False
+29 s tool_result S1 search_als_trials 3303 chars err=False</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>29 s tool_call M2 get_trial
+29 s tool_result M2 get_trial 3605 chars err=False</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>30 s tool_call S8 search_pubmed
+30 s tool_result M18 search_pubmed 2 chars err=False</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>30 s tool_call S1 fetch_pubmed_abstract</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>31 s tool_result S1 fetch_pubmed_abstract 2994 chars err=False</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>32 s tool_result M6 search_pubmed 962 chars err=False
+32 s tool_result M6 search_pubmed 2 chars err=False</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>34 s tool_result M18 search_als_trials 444 chars err=False
+34 s tool_result M18 search_pubmed 2252 chars err=False</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>34 s tool_call M6 search_pubmed
+34 s tool_call M6 search_pubmed</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bmwuotdac</task-id>
+<tool-use-id>toolu_01EBczg6gfBsuqxtb5pg4uYX</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bmwuotdac.output</output-file>
+<status>failed</status>
+<summary>Background command "Start Vite dev server for frontend" failed with exit code 1</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>[1 events suppressed — output rate too high. Consider using TaskStop to restart this monitor with a more selective filter.]</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>36 s tool_call M18 get_trial
+36 s tool_call M18 search_als_trials</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>[2 events suppressed — output rate too high. Consider using TaskStop to restart this monitor with a more selective filter.]</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>37 s tool_call M18 target_profile
+37 s tool_result M6 search_pubmed 2163 chars err=False</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>[3 events suppressed — output rate too high. Consider using TaskStop to restart this monitor with a more selective filter.]</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>45 s subagent_finished M2 profiles=2</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>48 s subagent_finished S1 profiles=2</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq5anw2wl</task-id>
+<summary>Monitor event: "live research run SSE events (Alex)"</summary>
+<event>54 s subagent_finished S8 profiles=2</event>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bmkw1nlb2</task-id>
+<tool-use-id>toolu_014UADpNnAeWwqggeQAmBkfJ</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bmkw1nlb2.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for the recorded run to finish and summarise it" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-6d1d531979e58ef26b4158ae9a03f8ab" from-name="biohacks-2026-e0" from-mode="prompting">
+Code review of the uncommitted frontend/live-agent work (agent-api.ts / run-store / pages): two blockers, one should-fix, before Jeremy tests the live agent.
+
+tsc -b passes. Event mapping matches the backend: I checked it against subagent.py's emits and runs/r20261108-021643-3a9717.jsonl.
+
+BLOCKER 1. agent-api.ts: `es.addEventListener('error', …)` also catches EventSource's NATIVE error Event (any drop, reconnect, or end of stream). That Event has no .data, so JSON.parse(undefined) throws. Worse, the `index++` / `seen = index` has already run by then, so after the reconnect one real event gets skipped (a lost subagent_finished means that lane never fills). Fix: in the shared listener, ignore anything that isn't a MessageEvent with a string `data` before touching index (`if (!(m instanceof MessageEvent) || typeof m.data !== 'string') return`). Handle the connection failure separately, see 2.
+
+BLOCKER 2. No exit when the connection dies. If the agent process crashes mid-run, or VITE_AGENT_REPLAY_RUN names a missing run (server 404 → EventSource goes CLOSED), the UI stays 'running' forever. StageHeader's `liveRunning ? null : …` also hides both "Finish this step" and "Clear run", so a reload is the only way out. Fix: `es.onerror = () => { if (es?.readyState === EventSource.CLOSED) end('Lost connection to the agent') }`, plus a cap on consecutive reconnects (say 3 without a new event → end(...)), since a dead server makes EventSource retry forever in CONNECTING. And show "Clear run" (reset) while liveRunning instead of null.
+
+SHOULD-FIX 3. run-store start(): the 1.5 s health check runs before 'begin' with no visual feedback, and a reset() during that await gets overwritten when 'begin' fires. Minor, but a cancelled flag or a re-check of `starting` after the await would cover it.
+
+Nits, not blocking: graph.py lost a space (`"briefs":[`). After a live run, the scripted embedding/research stages still use the five demo lanes and names, so lane colours and names won't match the live plan. You already note this in STATUS, fine for now.
+
+Ping me (biohacks-2026-e0) when you've pushed fixes; I'll re-review in about 5 minutes either way.
+</cross-session-message>
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-6d1d531979e58ef26b4158ae9a03f8ab" from-name="biohacks-2026-e0" from-mode="prompting">
+Re-review: all three fixes plus the graph.py nit look correct, and tsc passes. One remaining item before Jeremy tests: the TDP-43 scrub.
+
+Root cause, backend/agent/no_drugs.py: `_CODE = r"\b[A-Z]{2,5}-?\d{2,5}..."` matches "TDP-43". The hyphen then makes `_GENE_LIKE` (`^[A-Z0-9]{2,6}$`) fail, so it gets replaced with [drug]. The same thing will hit HSP-70/HSP-90. Today it reaches the UI verbatim on the "Ranked for this patient" card ("involves [drug] proteinopathy").
+
+Don't just strip the hyphen before the gene-like check: that would also let MN-166 / CNM-Au8 style dev codes through. A small allowlist checked in `code()` is the minimal safe fix, e.g. `_PROTEINS = {"TDP-43", "HSP-70", "HSP-90", "HSP-27"}` and `if m.group(0).upper() in _PROTEINS or _GENE_LIKE.match(...) or _ID.match(...): return m.group(0)`. If there's an existing test file pattern (test_privacy.py), a one-line assert that scrub("TDP-43 proteinopathy") returns 0 removals would lock it in.
+
+It's Neo's file, so it's your/Jeremy's call whether to patch it here (it's one line, and you already noted the graph.py change in STATUS the same way) or hand it to Neo. Either way, log it in STATUS.
+
+Alex Moreau vs Alex Chen: leave it for Jeremy to pick the canonical name, but put it in STATUS. Both show on screen during a live run.
+
+I'll check back in about 5 minutes.
+</cross-session-message>
+
+---
+
+Why are there 3 shells running?
+
+---
+
+i already started up the 5173 server. You can close the other 2 ill start up the backend myself
+
+---
+
+why is one shell still running? also for the recorded run is this the hard coded frontend fallback? where is this stored?
+
+---
+
+Exactly how does the backend integration work? I thought FastAPI was being used for the frontend to call the backend AI endpoints and communicate with its tool calls and responses?
+
+---
+
+There has been new merges for the frontend update, this is mainly for the graph and how that has been implemented. The repsonses provided from the agents should now dictate exactly which clusters and drugs are linked. Implement this for the backend so that the entire pipeline runs live now
+
+---
+
+<task-notification>
+<task-id>bqcq7tnvp</task-id>
+<tool-use-id>toolu_0176VnS24x7F1L1hfAoeTyL9</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bqcq7tnvp.output</output-file>
+<status>completed</status>
+<summary>Background command "Download and extract DRKG into backend venv data dir" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>biat42s66</task-id>
+<tool-use-id>toolu_01UmXNiZGnNFqWWCNsz65SWz</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\biat42s66.output</output-file>
+<status>completed</status>
+<summary>Background command "Build DRKG cache with default profiles into scratchpad" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-6d1d531979e58ef26b4158ae9a03f8ab" from-name="biohacks-2026-e0" from-mode="prompting">
+Review of the stage-3 DRKG work (api.py /api/drkg, agent/drkg.py, drkg_scene.py): the backend works. One blocker, a few should-fixes, then I'll review the frontend side when it lands.
+
+What I verified: I called drkg.run() on the recorded report r20261108-021643-3a9717 from the venv. It took 1.8 s, every gene resolved, lanes 0–4 came back in plan order (same order as the live frontend lanes), and 8 drugs were picked. The drugs.json loads through assess.load_drugs. I deleted the test files. uvicorn 0.54 uses ProactorEventLoop on Windows (when not using reload or workers), so create_subprocess_exec works under `python -m agent.api`. The layout cache exists in .venv/data/drkg/cache, so a run doesn't rewrite the committed frontend/public/drkg/*.bin.
+
+BLOCKER (repo rule): agent/.env.example has none of the new vars, although drkg.py's docstring says "see agent/.env.example". Add DRKG_DIR (default backend/.venv/data/drkg; the run fails without the raw release), AGENT_DRKG_MAX_DRUGS=8 and AGENT_DRKG_TIMEOUT_S=1200, each with a comment.
+
+SHOULD-FIX:
+1. drkg.py only kills the subprocess on TimeoutError. Use try/finally (`if proc.returncode is None: proc.kill()`) so a cancelled task or a server shutdown doesn't orphan it.
+2. Relayout race: if the cache is missing (fresh machine), drkg_scene.py rewrites frontend/public/drkg/{points,types,clusters,degree}.bin and names.json in place. Two concurrent POST /api/drkg would both do it. A module-level asyncio.Lock around the subprocess in drkg.run is one line and also serializes the 10-minute first build.
+3. Don't run with `uvicorn --reload`: that uses SelectorEventLoop on Windows, and subprocesses raise NotImplementedError. Worth one line in STATUS/README.
+
+FOR THE FRONTEND SIDE, so it doesn't bite:
+- Add drkg_started / drkg_log / drkg_profile to EVENT_TYPES. The run_started / report / run_finished / error names are reused, so the DRKG stream needs its own handler (don't feed it through the research handle(), which would emit stage 'profiles' done again).
+- scene_url is relative to the agent, so fetch `${AGENT_URL}${scene_url}`. Its layout binaries stay the frontend's own /drkg/*.bin.
+- Match names can be raw DrugBank ids ("DB08584", "DB06089") or IUPAC strings. The visualization has to cope (truncate or fall back to the id), and candidates() already filters them out of the assessment list.
+- The replay path: VITE_AGENT_REPLAY_RUN covers the research run only. Decide what stage 3 does in replay mode (recorded d-run id, or a fresh POST /api/drkg against the replayed research id; that works because get_run reads from disk and it costs nothing).
+- The live research run → POST /api/drkg needs the research run_id. runLiveAgent currently keeps it local, so expose it.
+
+Ping me when the frontend part is in. I'll re-review in about 5 minutes regardless.
+</cross-session-message>
+
+---
+
+<task-notification>
+<task-id>bvkg1ymja</task-id>
+<tool-use-id>toolu_01RFXbmVBCrkTiu1bwexm6kf</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bvkg1ymja.output</output-file>
+<status>completed</status>
+<summary>Background command "Run live stage 4 assessment on the DRKG drugs" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-6d1d531979e58ef26b4158ae9a03f8ab" from-name="biohacks-2026-e0" from-mode="prompting">
+Stage 3–4 review: the backend fixes check out, and tsc plus vite build pass. Two should-fixes before Jeremy's end-to-end test, plus a few smaller points.
+
+Verified: .env.example has the DRKG vars. drkg.py has the Lock and the finally kill. The client's event mapping matches assess.py's emits: criterion is the drug name, so drugLane lookups work, and fit_score is 0–1, so ×100 is right. drugs_path resolves through assess.load_drugs. The first-round fixes (MessageEvent guard, retries, generation ref) survived the stash shuffle.
+
+SHOULD-FIX 1, pieces.tsx StageHeader: `liveRunning` only checks the analysis and profiles stages. During live stage 3/4 (embedding/research running), the header falls through to "Finish this step", which calls `skip: () => {}`, a dead button for the whole multi-minute assessment. Use `state.source === 'live' && state.phase === 'running'`.
+
+SHOULD-FIX 2, pages.tsx CandidatesPage: if the PDF fetch fails (assessment ended with no drugs → report.pdf 404, or the backend restarts), `.catch(() => {})` leaves "Writing the report…" spinning forever. Set an error state and say so, e.g. "Couldn't load the report PDF (404)", with the Ranking/Summary trace still visible on the left.
+
+SMALLER:
+- Replay with no assessment id ends via `throw`, so it shows as a red "The research agent stopped: Replay stops after stage 3…" banner, and the run is never saved. For a rehearsal that's an expected outcome, not a failure. I'd emit a closing step and `end()` instead, or at least not route it through 'fail'.
+- That banner text says "research agent" for DRKG and assess failures too; "The agent run stopped" covers all three.
+- The report filename uses the browser case's `patient.label` while the PDF is about backend patient `alex` (same Moreau/Chen split as before).
+
+QUESTION, not a blocker: the diff also swaps the brand fonts (Sora → Fraunces + Martian Mono, package.json/lock, index.css, main.tsx). Is that yours from the stash, or another track's work that got swept in? If it's not part of live-agent, it shouldn't go in this PR. Jeremy needs `npm install` either way; node_modules already has the packages here.
+
+Also: the working tree carries about 700 uncommitted lines across 23 files, and three stashes are still on the stack. Ask Jeremy for a commit checkpoint soon, before anything else touches the stash.
+
+Ping me when 1 and 2 are in. I'll check back in about 5 minutes.
+</cross-session-message>
+
+---
+
+Why does http://localhost:5173/home/profiles wait until the ranking is provided? Where is this ranking coming from? If it comes from the end of the pipeline it shouldn't wait for this and should move onto the next part of the pipeline where it visualizes the drugs that were selected from the 5 agents

@@ -1,0 +1,63 @@
+{
+  "cli_version": "0.13.1",
+  "checkpoint_id": "01M6X6ZSXM57QYKX7PMFF8Z87W",
+  "strategy": "manual-commit",
+  "branch": "frontend/live-agent",
+  "checkpoints_count": 9,
+  "files_touched": [
+    "AGENTS.md",
+    "backend/agent/.env.example",
+    "backend/agent/README.md",
+    "backend/agent/api.py",
+    "backend/agent/drkg.py",
+    "backend/agent/graph.py",
+    "backend/agent/requirements.txt",
+    "docs/DECISIONS.md",
+    "docs/STATUS.md",
+    "frontend/.env.example",
+    "frontend/package-lock.json",
+    "frontend/package.json",
+    "frontend/scripts/drkg_scene.py",
+    "frontend/src/components/discovery/drkg-data.ts",
+    "frontend/src/components/discovery/drkg-scene.tsx",
+    "frontend/src/components/discovery/pages.tsx",
+    "frontend/src/components/discovery/pieces.tsx",
+    "frontend/src/components/discovery/profile-card.tsx",
+    "frontend/src/index.css",
+    "frontend/src/lib/agent-api.ts",
+    "frontend/src/lib/pipeline.ts",
+    "frontend/src/lib/run-store.tsx",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/Home.tsx"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 318,
+    "cache_creation_tokens": 442246,
+    "cache_read_tokens": 33119204,
+    "output_tokens": 129776,
+    "api_call_count": 148
+  },
+  "redaction": {
+    "replacements": 35,
+    "layers": {
+      "betterleaks": 0,
+      "connection_string": 0,
+      "credential_key": 0,
+      "credential_value": 4,
+      "credentialed_uri": 0,
+      "entropy": 31,
+      "key_context": 0,
+      "provider_token": 0,
+      "shell_stdin": 0
+    }
+  }
+}
