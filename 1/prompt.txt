@@ -1,0 +1,17 @@
+remove all subtext in the landing page that lead to links
+
+---
+
+change the colour of the beam from orange to a lighter yellow
+
+---
+
+reduce the gradient on the white. it should be white near the text and start the gradient after
+
+---
+
+start the gradient earlier, closer to the bottom of the screen
+
+---
+
+can you move it any lower
