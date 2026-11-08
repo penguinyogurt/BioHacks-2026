@@ -17,7 +17,7 @@
 import type { AgentStep, DrugProfile, PipelineEvent, StageId } from './pipeline'
 import type { CaseFile } from './case-pdf'
 
-export const AGENT_URL = (import.meta.env.VITE_AGENT_URL as string | undefined) || 'http://127.0.0.1:8001'
+export const AGENT_URL = ((import.meta.env.VITE_AGENT_URL as string | undefined) || 'http://127.0.0.1:8001').replace(/\/+$/, '')  // a trailing slash made //api/health 404
 /** Which record in backend/data/patient/ the agent reads. The case PDF is only parsed in the browser. */
 export const AGENT_PATIENT = (import.meta.env.VITE_AGENT_PATIENT as string | undefined) || 'alex'
 /**
