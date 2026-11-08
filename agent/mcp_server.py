@@ -280,6 +280,39 @@ def opentargets_target_drugs(gene_symbol: str) -> dict:
     }
 
 
+_TRACTABLE = {"Approved Drug", "Advanced Clinical", "Phase 1 Clinical", "Druggable Family", "High-Quality Pocket", "High-Quality Ligand"}
+
+
+@mcp.tool()
+@cached
+def target_profile(gene_symbol: str) -> dict:
+    """Biology of one gene/protein target: function, pathways, druggability by modality, known safety liabilities, and how strongly it's associated with ALS (overall and by evidence type)."""
+    hits = _ot("""query($q:String!){ search(queryString:$q, entityNames:["target"], page:{index:0,size:1}){ hits { id } } }""", {"q": gene_symbol})["search"]["hits"]
+    if not hits:
+        return {"found": False, "gene": gene_symbol}
+    tid = hits[0]["id"]
+    q = """query($id:String!,$d:String!){
+      target(ensemblId:$id){ approvedSymbol approvedName functionDescriptions
+        pathways { pathway topLevelTerm } tractability { label modality value } safetyLiabilities { event } }
+      disease(efoId:$d){ associatedTargets(Bs:[$id]){ rows { score datatypeScores { id score } } } } }"""
+    data = _ot(q, {"id": tid, "d": ALS_EFO})
+    t = data["target"]
+    rows = data["disease"]["associatedTargets"]["rows"]
+    modality = {"SM": "small molecule", "AB": "antibody", "PR": "PROTAC", "OC": "other modality"}
+    return {
+        "found": True,
+        "ensembl_id": tid,
+        "symbol": t["approvedSymbol"],
+        "name": t["approvedName"],
+        "function": _clip(" ".join(t.get("functionDescriptions") or []), 900),
+        "pathways": sorted({f"{p['pathway'].strip()} ({p['topLevelTerm']})" for p in (t.get("pathways") or [])})[:12],
+        "druggable_by": sorted({f"{modality.get(x['modality'], x['modality'])}: {x['label']}" for x in (t.get("tractability") or []) if x["value"] and x["label"] in _TRACTABLE}),
+        "safety_liabilities": sorted({s["event"] for s in (t.get("safetyLiabilities") or []) if s.get("event")})[:12],
+        "als_association": {"score": round(rows[0]["score"], 3), "by_evidence": {d["id"]: round(d["score"], 3) for d in rows[0]["datatypeScores"]}} if rows else None,
+        "url": f"https://platform.opentargets.org/target/{tid}",
+    }
+
+
 # ── our pipeline (drug-level only) ──────────────────────────────────────────
 def _pipeline() -> dict:
     return json.loads(PIPELINE_PATH.read_text(encoding="utf-8"))

@@ -52,8 +52,9 @@ def sensitive_terms(record: dict) -> list[str]:
             # person names: also each part ("Alex", "Moreau"), skipping titles.
             # Other identifiers (addresses, "next of kin") only as whole strings,
             # or common words would be scrubbed from every brief.
-            if field in _NAME_FIELDS or _PERSON_NAME.match(v):
-                terms.update(p for p in re.split(r"[\s.,()]+", v) if len(p) >= 3 and p.lower() not in _NOT_IDENTIFYING)
+            name = v.split("(")[0].split(",")[0].strip()  # "Maria Ellis (spouse, next of kin)" -> "Maria Ellis"
+            if field in _NAME_FIELDS or _PERSON_NAME.match(name):
+                terms.update(p for p in re.split(r"[\s.]+", name) if len(p) >= 3 and p.lower() not in _NOT_IDENTIFYING)
     for med in record.get("medications", []):
         terms.add(med["name"])
     for trial in record.get("trials", []):

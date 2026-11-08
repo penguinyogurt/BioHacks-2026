@@ -1,54 +1,45 @@
-"""Research criteria the orchestrator can dispatch a sub-agent for.
-Ids match docs/RESEARCH_AGENT_SPEC.md §3."""
+"""ALS-specific criteria a sub-agent can define a target drug profile for.
+
+M* = disease mechanisms (what a disease-modifying drug would act on).
+S* = ALS symptoms (what a symptomatic drug would relieve).
+Delivery, formulation and safety aren't criteria. They reach sub-agents as
+brief constraints and land in each profile's required/avoid properties.
+"""
 
 CRITERIA: dict[str, tuple[str, str]] = {
-    # A. disease-modifying / survival
-    "A1": ("Extend survival / slow progression", "Drugs with survival or ALSFRS-R slope evidence in ALS."),
-    "A2": ("Genetic subtype", "Therapies specific to an ALS gene (SOD1, C9orf72, FUS, TARDBP, ATXN2)."),
-    "A3": ("Glutamate excitotoxicity", "Modulators of glutamate release, receptors or EAAT2 uptake."),
-    "A4": ("Oxidative stress", "Free-radical scavengers, NRF2 activators."),
-    "A5": ("TDP-43 proteinopathy", "TDP-43 aggregation, nuclear import, cryptic exon (STMN2, UNC13A) rescue."),
-    "A6": ("Neuroinflammation", "Microglia/astrocyte-modulating immunomodulators."),
-    "A7": ("Mitochondria / metabolism", "Bioenergetics, hypermetabolism, mitochondrial protection."),
-    "A8": ("Proteostasis / autophagy", "Autophagy inducers, heat-shock response modulators."),
-    "A9": ("Axonal transport / NMJ", "Cytoskeleton, axonal transport, neuromuscular-junction stability."),
-    "A10": ("Neurofilament-lowering", "Drugs with evidence of lowering neurofilament light (NfL)."),
-    # B. symptom relief
-    "B1": ("Pain", "Musculoskeletal, neuropathic or contracture pain in ALS."),
-    "B2": ("Muscle cramps", "Cramp relief in motor neuron disease."),
-    "B3": ("Spasticity", "Antispasticity agents."),
-    "B4": ("Sialorrhea", "Drooling / excess saliva."),
-    "B5": ("Thick secretions", "Mucolytics and secretion management."),
-    "B6": ("Pseudobulbar affect", "Involuntary laughing/crying."),
-    "B7": ("Depression / anxiety", "Mood treatment suited to ALS."),
-    "B8": ("Insomnia", "Sleep, with attention to respiratory safety of sedatives."),
-    "B9": ("Fatigue", "Fatigue in neuromuscular disease."),
-    "B10": ("Dyspnea / air hunger", "Symptomatic breathlessness relief."),
-    "B11": ("Constipation", "Bowel management with reduced mobility."),
-    "B12": ("Weight loss", "Weight and appetite preservation, hypermetabolism."),
-    "B13": ("Cognitive / behavioural", "ALS-FTD cognitive or behavioural symptoms."),
-    # C. body region
-    "C1": ("Brain / upper motor neuron", "Targets in motor cortex; requires BBB penetration."),
-    "C2": ("Spinal cord / lower motor neuron", "Spinal targets; BBB/BSCB or intrathecal routes."),
-    "C3": ("Peripheral nerve / NMJ", "Peripherally acting drugs that don't need to cross the BBB."),
-    "C4": ("Skeletal muscle", "Muscle-directed drugs (e.g. troponin activators) and their ALS trial record."),
-    "C5": ("Respiratory muscles", "Diaphragm / respiratory function preservation."),
-    "C6": ("Bulbar", "Tongue, lip and swallowing function."),
-    # D. delivery
-    "D1": ("BBB penetration", "CNS-penetrant drugs; P-gp efflux; physicochemical BBB likelihood."),
-    "D2": ("Usable route / formulation", "Liquid, dispersible, film, transdermal or other non-tablet forms."),
-    "D3": ("Dosing burden", "Once-daily, long half-life, no titration."),
-    "D4": ("Pharmacogenomics", "CYP2D6 / CYP1A2-dependent drugs and their implications."),
-    # E. safety
-    "E1": ("Safety audit", "Interactions, respiratory depression, QT, anticholinergic burden, hepatotoxicity."),
-    # F. evidence and trials
-    "F1": ("Prior ALS trial failures", "Which candidates already failed in ALS trials, and why."),
-    "F2": ("Recruiting ALS trials", "Recruiting interventional ALS trials and their key eligibility criteria."),
-    "F3": ("Human-genetics support", "Targets with genetic association evidence for ALS."),
-    "F4": ("Preclinical-only leads", "Promising preclinical candidates, with the translation gap stated."),
-    "F5": ("Expanded access", "Compassionate-use / expanded-access programmes."),
-    # G. access
-    "G1": ("Practical access", "Approval status, generic availability, off-label feasibility."),
+    # ── disease mechanisms ──────────────────────────────────────────────────
+    "M1": ("Glutamate excitotoxicity", "Excess glutamate signalling at motor neurons: release, AMPA/NMDA receptor calcium entry, loss of astrocytic EAAT2 uptake."),
+    "M2": ("Motor neuron hyperexcitability", "Cortical and peripheral axon hyperexcitability: persistent sodium current, reduced potassium conductance, loss of inhibitory interneuron tone."),
+    "M3": ("SOD1 toxicity", "Gain-of-function toxicity of misfolded mutant SOD1 (SOD1-ALS)."),
+    "M4": ("C9orf72 repeat expansion", "G4C2 repeat RNA foci, dipeptide-repeat proteins, and C9orf72 haploinsufficiency."),
+    "M5": ("FUS / TARDBP / other ALS genes", "Mutant FUS, TARDBP and other familial-ALS genes; ATXN2 intermediate repeats as a modifier."),
+    "M6": ("TDP-43 proteinopathy", "TDP-43 mislocalisation and aggregation, and loss of its splicing function (cryptic exons in STMN2, UNC13A). Present in ~97% of ALS."),
+    "M7": ("Neuroinflammation", "Microglial and astrocyte activation, peripheral immune and T-cell infiltration, complement."),
+    "M8": ("Oxidative stress", "Reactive oxygen species, NRF2 antioxidant response, lipid peroxidation."),
+    "M9": ("Mitochondrial dysfunction / energy metabolism", "Mitochondrial respiration, calcium buffering, hypermetabolism, bioenergetic failure of motor neurons."),
+    "M10": ("Proteostasis / autophagy / ER stress", "Protein aggregate clearance, autophagy-lysosome pathway, heat-shock response, unfolded protein response."),
+    "M11": ("Axonal transport / cytoskeleton", "Microtubule-based transport, neurofilament accumulation, axon integrity."),
+    "M12": ("Neuromuscular junction / denervation", "NMJ stability and reinnervation (agrin-LRP4-MuSK), early distal axon retraction."),
+    "M13": ("RNA metabolism / stress granules", "Aberrant stress granule dynamics, RNA-binding protein phase separation."),
+    "M14": ("Nucleocytoplasmic transport", "Nuclear pore and importin/exportin defects that trap TDP-43 and other proteins in the cytoplasm."),
+    "M15": ("Neurotrophic support", "Trophic signalling that keeps motor neurons alive: BDNF, GDNF, IGF-1, VEGF."),
+    "M16": ("Cell death pathways", "Apoptosis, necroptosis (RIPK1), ferroptosis in motor neurons."),
+    "M17": ("Blood-brain / blood-spinal cord barrier", "Barrier breakdown in ALS, and the barrier as an obstacle to CNS drug exposure."),
+    "M18": ("Skeletal muscle function", "Muscle-intrinsic targets that preserve strength as innervation falls: contractility, mass, metabolism."),
+    # ── ALS symptoms ────────────────────────────────────────────────────────
+    "S1": ("Muscle cramps", "Painful cramps from hyperexcitable denervated motor units."),
+    "S2": ("Spasticity", "Upper motor neuron stiffness and spasms."),
+    "S3": ("Sialorrhea", "Drooling from impaired swallowing of normal saliva."),
+    "S4": ("Thick secretions", "Tenacious bronchial and pharyngeal mucus with a weak cough."),
+    "S5": ("Pseudobulbar affect", "Involuntary laughing or crying from corticobulbar disinhibition."),
+    "S6": ("Pain", "Musculoskeletal, contracture and neuropathic pain in ALS."),
+    "S7": ("Respiratory insufficiency / dyspnea", "Breathlessness and air hunger from respiratory muscle weakness."),
+    "S8": ("Weight loss / hypermetabolism", "Unintended weight loss, cachexia and raised energy expenditure, an independent poor prognostic sign."),
+    "S9": ("Fatigue", "Central and peripheral fatigue."),
+    "S10": ("Sleep disruption", "Insomnia from cramps, discomfort, nocturnal hypoventilation or mood."),
+    "S11": ("Depression / anxiety", "Mood and anxiety symptoms in ALS."),
+    "S12": ("Constipation", "Reduced mobility, diet change and anticholinergic burden."),
+    "S13": ("Cognitive / behavioural (ALS-FTD)", "Executive dysfunction, apathy, disinhibition."),
 }
 
 

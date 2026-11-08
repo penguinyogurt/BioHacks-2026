@@ -20,9 +20,10 @@ async def main(question: str, patient_id: str) -> None:
             RUNS_DIR.mkdir(parents=True, exist_ok=True)
             out = RUNS_DIR / f"{run_id}.report.json"
             out.write_text(json.dumps(e["data"], indent=2), encoding="utf-8")
-            print(f"\n=== {len(e['data']['findings'])} findings -> {out}\n{e['data']['summary']}")
-            for f in e["data"]["findings"]:
-                print(f"  {f['rank']:>2}. {f['drug']:<28} {f['criterion']:<4} {f['evidence_level']:<16} safety={f['safety']}")
+            print(f"\n=== {len(e['data']['profiles'])} target profiles -> {out}\n{e['data']['summary']}")
+            for p in e["data"]["profiles"]:
+                targets = ", ".join(f"{t['symbol']}:{t['desired_action']}" for t in p["molecular_targets"])
+                print(f"  {p['rank']:>2}. [{p['criterion']}] {p['therapeutic_goal'][:90]}  ({targets})")
         else:
             print(f"[{t}] {crit} {json.dumps(e.get('data'))[:200]}")
 

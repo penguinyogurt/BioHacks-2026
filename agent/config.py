@@ -15,17 +15,16 @@ PIPELINE_PATH = DATA / "pipeline.json"
 RUNS_DIR = ROOT / "agent" / "runs"
 CACHE_DIR = ROOT / "agent" / "cache"
 
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
-# Preview model ids get retired; check https://ai.google.dev/gemini-api/docs/models
-ORCHESTRATOR_MODEL = os.getenv("GEMINI_ORCHESTRATOR_MODEL", "gemini-3.1-pro-preview")
-SUBAGENT_MODEL = os.getenv("GEMINI_SUBAGENT_MODEL", "gemini-3-flash-preview")
-INGEST_MODEL = os.getenv("GEMINI_INGEST_MODEL", ORCHESTRATOR_MODEL)
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY") or os.getenv("CLAUDE_API_KEY")
+ORCHESTRATOR_MODEL = os.getenv("CLAUDE_ORCHESTRATOR_MODEL", "claude-opus-5-5")
+SUBAGENT_MODEL = os.getenv("CLAUDE_SUBAGENT_MODEL", "claude-sonnet-5-5")
+INGEST_MODEL = os.getenv("CLAUDE_INGEST_MODEL", ORCHESTRATOR_MODEL)
 
-MAX_SUBAGENTS = int(os.getenv("AGENT_MAX_SUBAGENTS", "6"))
-MAX_CONCURRENCY = int(os.getenv("AGENT_MAX_CONCURRENCY", "4"))
+MAX_SUBAGENTS = int(os.getenv("AGENT_MAX_SUBAGENTS", "8"))
+MAX_CONCURRENCY = int(os.getenv("AGENT_MAX_CONCURRENCY", "8"))
 MAX_TOOL_CALLS = int(os.getenv("AGENT_MAX_TOOL_CALLS", "8"))
-SUBAGENT_TIMEOUT_S = float(os.getenv("AGENT_SUBAGENT_TIMEOUT_S", "120"))
-RUN_TIMEOUT_S = float(os.getenv("AGENT_RUN_TIMEOUT_S", "300"))
+SUBAGENT_TIMEOUT_S = float(os.getenv("AGENT_SUBAGENT_TIMEOUT_S", "240"))
+RUN_TIMEOUT_S = float(os.getenv("AGENT_RUN_TIMEOUT_S", "480"))
 
 LANGSMITH_PROJECT = os.getenv("LANGSMITH_PROJECT", "biohacks-als-research")
 

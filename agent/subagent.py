@@ -5,14 +5,14 @@ import sys
 from typing import Callable
 
 from langchain.agents import create_agent
-from langchain.agents.structured_output import ToolStrategy
+from langchain.agents.structured_output import ProviderStrategy
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 from langgraph.errors import GraphRecursionError
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_mcp_adapters.tools import load_mcp_tools
 
 from agent.config import MAX_TOOL_CALLS, ROOT, SUBAGENT_MODEL, SUBAGENT_TIMEOUT_S
-from agent.llm import gemini
+from agent.llm import claude, structured
 from agent.criteria import CRITERIA
 from agent.schemas import Brief, SubagentResult
 
@@ -25,25 +25,41 @@ MCP_SERVERS = {
     }
 }
 
-SYSTEM = """You are a focused pharmacology research sub-agent on an ALS drug-repurposing team.
+# Target-level tools only. Drug lookups would pull the answer toward named
+# drugs, and drug matching is a separate downstream step.
+SUBAGENT_TOOLS = {"search_pubmed", "fetch_pubmed_abstract", "search_als_trials", "get_trial", "opentargets_als_targets", "target_profile"}
+
+SYSTEM = """You are an ALS biology research sub-agent on a drug-repurposing team.
+Your job is to define the IDEAL DRUG PROFILE for one criterion: what a drug would have to DO.
+You do NOT pick drugs. A separate system embeds your profile and matches real drugs to it,
+so be precise about targets, mechanism, tissues and properties.
 A lead researcher sent you the brief below. You don't know who the patient is; don't ask and don't speculate.
 
 Criterion {cid}: {label} ({focus})
 Objective: {objective}
-A drug must: {constraints}
-Avoid: {avoid}
+A matching drug must: {constraints}
+A matching drug must avoid: {avoid}
 
 How to work:
-- Use the tools. Prefer already-approved drugs (this is repurposing). Check our own pipeline with pipeline_drug.
-- Every finding needs at least one evidence item whose id and url came from a tool result:
-  PMID (search_pubmed), NCT id (search_als_trials/get_trial), CHEMBL id (chembl_drug / Open Targets),
-  FDA label set_id (fda_label), PubChem CID, or pipeline InChIKey. Never invent ids or urls.
-- Be honest about evidence_level. If a drug failed in ALS trials, set failed_in_als_trials and say why.
-- Stop after at most {max_calls} tool calls, then answer with 1-5 findings and list your dead ends."""
+- Research the ALS biology for this criterion: which genes/proteins/pathways drive it in ALS, in which cells
+  and tissues, and what modulating them should achieve. Tools: opentargets_als_targets, target_profile,
+  search_pubmed, fetch_pubmed_abstract. Use search_als_trials / get_trial to learn which mechanisms were
+  already tested in ALS and what their failures teach.
+- Return 1-3 profiles, each a distinct mechanistic strategy, ordered best first. Every profile must describe
+  a DRUG action (small molecule, biologic, antisense oligonucleotide, toxin, etc.), not a procedure, device,
+  radiation or nutrition. Mention non-drug options only in dead_ends.
+- NEVER write a drug name, brand name or development code. Describe the action instead, e.g.
+  "an antisense oligonucleotide that lowers SOD1 mRNA in spinal motor neurons", "a peripherally restricted
+  muscarinic M3 antagonist acting on salivary glands". Drug classes are fine when they describe mechanism.
+- molecular_targets: HGNC gene symbols where possible, with the desired action.
+- Carry the brief's must/avoid items into required_properties / avoid_properties, and add any the biology needs
+  (e.g. "CNS-penetrant" for a cortical target, "peripherally restricted" when CNS exposure would harm).
+- Every profile needs at least one evidence item whose id and url came from a tool result:
+  PMID, NCT id, or Open Targets Ensembl id. Never invent ids or urls.
+- Stop after at most {max_calls} tool calls, then answer and list your dead ends."""
 
 
-def _llm():
-    return gemini(SUBAGENT_MODEL)
+
 
 
 async def _run(brief: Brief, emit: Callable[[dict], None]) -> SubagentResult:
@@ -59,8 +75,8 @@ async def _run(brief: Brief, emit: Callable[[dict], None]) -> SubagentResult:
     )
     client = MultiServerMCPClient(MCP_SERVERS)
     async with client.session("research") as session:
-        tools = await load_mcp_tools(session)
-        agent = create_agent(_llm(), tools, system_prompt=prompt, response_format=ToolStrategy(SubagentResult), name=f"subagent_{brief.criterion}")
+        tools = [t for t in await load_mcp_tools(session) if t.name in SUBAGENT_TOOLS]
+        agent = create_agent(claude(SUBAGENT_MODEL), tools, system_prompt=prompt, response_format=ProviderStrategy(SubagentResult), name=f"subagent_{brief.criterion}")
         result: SubagentResult | None = None
         notes: list[str] = []  # tool results so far, for the out-of-budget fallback
         config = {
@@ -75,12 +91,12 @@ async def _run(brief: Brief, emit: Callable[[dict], None]) -> SubagentResult:
         except GraphRecursionError:
             # Out of steps before answering: answer from what it already found.
             emit({"type": "budget_exhausted", "criterion": brief.criterion, "data": {"tool_results": len(notes)}})
-            final = _llm().with_structured_output(SubagentResult)
+            final = structured(SUBAGENT_MODEL, SubagentResult)
             result = await final.ainvoke(
                 [SystemMessage(prompt), HumanMessage("Tool budget exhausted. Answer now using ONLY these tool results; cite only ids that appear in them.\n\n" + "\n\n".join(notes)[-30000:])],
                 config={"run_name": f"subagent {brief.criterion}: final answer (budget exhausted)"},
             )
-        return result or SubagentResult(findings=[], dead_ends=["Sub-agent ended without a structured answer."])
+        return result or SubagentResult(profiles=[], dead_ends=["Sub-agent ended without a structured answer."])
 
 
 def _handle(update: dict, brief: Brief, emit: Callable[[dict], None], notes: list[str]) -> SubagentResult | None:
@@ -106,10 +122,10 @@ async def run_subagent(brief: Brief, emit: Callable[[dict], None]) -> SubagentRe
     try:
         result = await asyncio.wait_for(_run(brief, emit), SUBAGENT_TIMEOUT_S)
     except asyncio.TimeoutError:
-        result = SubagentResult(findings=[], dead_ends=[f"Timed out after {SUBAGENT_TIMEOUT_S:.0f}s."])
+        result = SubagentResult(profiles=[], dead_ends=[f"Timed out after {SUBAGENT_TIMEOUT_S:.0f}s."])
     except Exception as e:  # one broken sub-agent must not sink the run
         while isinstance(e, BaseExceptionGroup) and e.exceptions:  # TaskGroups wrap the real cause
             e = e.exceptions[0]
-        result = SubagentResult(findings=[], dead_ends=[f"Sub-agent error: {type(e).__name__}: {e}"[:300]])
-    emit({"type": "subagent_finished", "criterion": brief.criterion, "data": {"findings": len(result.findings), "drugs": [f.drug for f in result.findings], "dead_ends": result.dead_ends}})
+        result = SubagentResult(profiles=[], dead_ends=[f"Sub-agent error: {type(e).__name__}: {e}"[:300]])
+    emit({"type": "subagent_finished", "criterion": brief.criterion, "data": {"profiles": len(result.profiles), "goals": [x.therapeutic_goal for x in result.profiles], "targets": [[t.symbol for t in x.molecular_targets] for x in result.profiles], "dead_ends": result.dead_ends}})
     return result

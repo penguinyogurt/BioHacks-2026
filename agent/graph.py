@@ -20,14 +20,15 @@ from langgraph.config import get_stream_writer
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Send
 
-from agent.config import DEFAULT_PATIENT, LANGSMITH_PROJECT, MAX_SUBAGENTS, ORCHESTRATOR_MODEL, PIPELINE_PATH, SUBAGENT_MODEL, tracing_enabled
-from agent.llm import gemini
+from agent.config import DEFAULT_PATIENT, LANGSMITH_PROJECT, MAX_SUBAGENTS, ORCHESTRATOR_MODEL, SUBAGENT_MODEL, tracing_enabled
+from agent.llm import structured
 from agent.criteria import CRITERIA, catalog_text, label
 from agent.privacy import load_record, sanitize_brief, sensitive_terms
-from agent.schemas import Brief, Plan, PipelineXref, PlanItem, ReportFinding, ResearchReport, SubagentResult, Synthesis
+from agent.no_drugs import scrub_model
+from agent.schemas import Brief, Plan, PlanItem, ReportProfile, ResearchReport, SubagentResult, Synthesis
 from agent.subagent import run_subagent
 
-DEFAULT_QUESTION = "Which approved drugs could help this patient, across survival, symptom relief and delivery?"
+DEFAULT_QUESTION = "What should a drug do for this patient, both to slow their ALS and to relieve their symptoms?"
 
 
 class State(TypedDict, total=False):
@@ -40,11 +41,12 @@ class State(TypedDict, total=False):
     redactions: int
     results: Annotated[list[tuple[str, SubagentResult]], operator.add]
     verified: list[tuple[str, dict]]
+    drug_mentions: int
     report: dict
 
 
-def _llm():
-    return gemini(ORCHESTRATOR_MODEL)
+def _structured(schema):
+    return structured(ORCHESTRATOR_MODEL, schema)
 
 
 def _emit(event: dict) -> None:
@@ -60,7 +62,12 @@ async def load_patient(state: State) -> State:
 
 PLANNER = """You are the lead researcher on an ALS drug-repurposing team. You have the patient's full record.
 Choose the research criteria (from the catalog, by id) that matter most for THIS patient and the question,
-and write one research brief per criterion for a sub-agent. Pick between 3 and {max_n}. Always consider A1.
+and write one research brief per criterion for a sub-agent. Pick between 3 and {max_n}:
+- M* (disease mechanisms): the ones most relevant to this patient's genetics, onset and progression.
+- S* (symptoms): only symptoms this patient actually has, most burdensome first.
+Sub-agents don't pick drugs. They describe what an ideal drug would do for the criterion, and a separate
+system matches real drugs. So the objective says which aspect of the criterion matters for this patient,
+and constraints/avoid carry the patient's pharmacological limits. Never name drugs in a brief.
 
 PRIVACY — sub-agents must never learn who the patient is or see raw clinical data:
 - Never include names, initials, dates, ages, locations, contact details, record/trial ids, lab values,
@@ -77,7 +84,7 @@ Criteria catalog:
 
 async def plan(state: State) -> State:
     record = state["record"]
-    planner = _llm().with_structured_output(Plan)
+    planner = _structured(Plan)
     result: Plan = await planner.ainvoke(
         [
             SystemMessage(PLANNER.format(max_n=MAX_SUBAGENTS, catalog=catalog_text())),
@@ -132,8 +139,7 @@ async def _existing_ncts(client: httpx.AsyncClient, ncts: set[str]) -> set[str]:
 _ID_SHAPE = {
     "pubmed": re.compile(r"^\d{4,9}$"),
     "clinicaltrials": re.compile(r"^NCT\d{8}$"),
-    "chembl": re.compile(r"^CHEMBL\d+$"),
-    "pipeline": re.compile(r"^[A-Z]{14}-[A-Z]{10}-[A-Z]$"),
+    "opentargets": re.compile(r"^(ENSG\d{11}|MONDO_\d+|EFO_\d+)$"),
 }
 
 
@@ -142,116 +148,126 @@ def _normalize_id(source: str, raw: str) -> str:
     s = raw.strip().rstrip("/").split("/")[-1]
     if source == "pubmed":
         return re.sub(r"\D", "", s)
-    if source in ("clinicaltrials", "chembl"):
+    if source == "clinicaltrials":
         return s.upper()
     return s
 
 
 async def verify(state: State) -> State:
-    """Drop evidence whose id doesn't exist; drop findings left with no evidence."""
-    pairs = [(cid, f) for cid, res in state.get("results", []) for f in res.findings]
-    for _, f in pairs:
-        for e in f.evidence:
+    """Drop evidence whose id doesn't exist, drop profiles left with no evidence,
+    and remove any drug names that slipped into a profile."""
+    pairs = [(cid, p) for cid, res in state.get("results", []) for p in res.profiles]
+    for _, p in pairs:
+        for e in p.evidence:
             e.id = _normalize_id(e.source, e.id)
-    pmids = {e.id for _, f in pairs for e in f.evidence if e.source == "pubmed"}
-    ncts = {e.id for _, f in pairs for e in f.evidence if e.source == "clinicaltrials"}
+    pmids = {e.id for _, p in pairs for e in p.evidence if e.source == "pubmed"}
+    ncts = {e.id for _, p in pairs for e in p.evidence if e.source == "clinicaltrials"}
     try:
         async with httpx.AsyncClient(timeout=20) as client:
             good_pmids, good_ncts = await asyncio.gather(_existing_pmids(client, pmids), _existing_ncts(client, ncts))
     except httpx.HTTPError:
         good_pmids, good_ncts = pmids, ncts  # offline: fall back to the shape check only
 
-    verified, dropped_evidence, dropped_findings = [], 0, 0
-    for cid, f in pairs:
-        keep = []
-        for e in f.evidence:
-            shape = _ID_SHAPE.get(e.source)
-            if shape and not shape.match(e.id.strip()):
-                continue
-            if e.source == "pubmed" and e.id not in good_pmids:
-                continue
-            if e.source == "clinicaltrials" and e.id not in good_ncts:
-                continue
-            keep.append(e)
-        dropped_evidence += len(f.evidence) - len(keep)
+    verified, dropped_evidence, dropped_profiles, drug_mentions = [], 0, 0, 0
+    for cid, p in pairs:
+        keep = [
+            e for e in p.evidence
+            if (_ID_SHAPE[e.source].match(e.id) if e.source in _ID_SHAPE else True)
+            and (e.source != "pubmed" or e.id in good_pmids)
+            and (e.source != "clinicaltrials" or e.id in good_ncts)
+        ]
+        dropped_evidence += len(p.evidence) - len(keep)
         if not keep:
-            dropped_findings += 1
+            dropped_profiles += 1
             continue
-        verified.append((cid, f.model_copy(update={"evidence": keep}).model_dump()))
-    _emit({"type": "verify", "data": {"kept": len(verified), "dropped_findings": dropped_findings, "dropped_evidence": dropped_evidence}})
-    return {"verified": verified}
+        clean, n = scrub_model(p.model_copy(update={"evidence": keep}))
+        drug_mentions += n
+        verified.append((cid, clean.model_dump()))
+    _emit({"type": "verify", "data": {"kept": len(verified), "dropped_profiles": dropped_profiles, "dropped_evidence": dropped_evidence, "drug_mentions_removed": drug_mentions}})
+    return {"verified": verified, "drug_mentions": drug_mentions}
 
 
-def _pipeline_xref(drug: str) -> PipelineXref:
-    """Deterministic patient-safety gate: stage-4 results from pipeline.json, verbatim."""
-    try:
-        cands = json.loads(PIPELINE_PATH.read_text(encoding="utf-8"))["candidates"]
-    except (OSError, KeyError, json.JSONDecodeError):
-        return PipelineXref(in_pipeline=False)
-    for c in cands:
-        if c["name"].lower() == drug.lower():
-            return PipelineXref(in_pipeline=True, verdict=c["verdict"], eliminated_at=c["eliminated_at"], filters=c["filters"])
-    return PipelineXref(in_pipeline=False)
+def _embedding_text(label_: str, p: dict) -> str:
+    """Mechanism only, in a fixed field order, so profiles embed comparably."""
+    targets = "; ".join(f"{t['symbol']} ({t['desired_action'].replace('_', ' ')})" for t in p["molecular_targets"])
+    parts = [
+        f"ALS criterion: {label_}.",
+        f"Therapeutic goal: {p['therapeutic_goal']}",
+        f"Mechanism of action: {p['mechanism_of_action']}",
+        f"Molecular targets: {targets}." if targets else "",
+        f"Pathways: {', '.join(p['pathways'])}." if p["pathways"] else "",
+        f"Site of action: {', '.join(p['site_of_action'])}." if p["site_of_action"] else "",
+    ]
+    return " ".join(x for x in parts if x)
 
 
-SYNTH = """You are the lead researcher. Sub-agents researched the criteria below without access to the patient.
-Using the full patient record, rank the verified findings for THIS patient (best first), say why each fits or doesn't,
-and list patient-specific cautions (interactions with current medications, respiratory risk, formulation, etc.).
-Rank every finding exactly once, by its index. Then write a 3-5 sentence summary for a clinician.
-If the patient already takes a drug, say so in patient_fit and rank it below new options.
+def _constraints_text(required: list[str], avoid: list[str]) -> str:
+    parts = [f"Must: {'; '.join(required)}." if required else "", f"Must avoid: {'; '.join(avoid)}." if avoid else ""]
+    return " ".join(x for x in parts if x)
+
+
+SYNTH = """You are the lead researcher. Sub-agents described ideal drug profiles for ALS criteria, without access to the patient.
+A separate system will match real drugs to these profiles, so do NOT name any drugs anywhere.
+Using the full patient record:
+- Rank every profile exactly once, by its index, most important for THIS patient first.
+- For each, give priority_rationale (why it matters for this patient) and any patient-specific properties a matching
+  drug must have or avoid that the profile doesn't already list. Phrase interactions with the patient's current medicines
+  pharmacologically (e.g. "avoid CYP1A2 inhibitors"), not by drug name.
+- Then write a 3-5 sentence summary for a clinician of the therapeutic strategy, again without drug names.
 Refer to the patient by name or as they/them unless the record states their pronouns.
-This is a research aid, not medical advice; don't phrase anything as a prescription."""
+This is a research aid, not medical advice."""
 
 
 async def synthesize(state: State) -> State:
     verified = state.get("verified", [])
-    briefs = state["briefs"]
-    synth = Synthesis(summary="No verified findings.", ranked=[])
+    briefs = {b.criterion: b for b in state["briefs"]}
+    synth = Synthesis(summary="No verified profiles.", ranked=[])
     if verified:
-        listing = [{"index": i, "criterion": cid, **f} for i, (cid, f) in enumerate(verified)]
-        synth = await _llm().with_structured_output(Synthesis).ainvoke(
+        listing = [{"index": i, "criterion": f"{cid} {label(cid)}", **p} for i, (cid, p) in enumerate(verified)]
+        synth = await _structured(Synthesis).ainvoke(
             [
                 SystemMessage(SYNTH),
-                HumanMessage(f"Question: {state['question']}\n\nPatient record:\n{json.dumps(state['record'], indent=1)}\n\nVerified findings:\n{json.dumps(listing, indent=1)}"),
+                HumanMessage(f"Question: {state['question']}\n\nPatient record:\n{json.dumps(state['record'], indent=1)}\n\nVerified profiles:\n{json.dumps(listing, indent=1)}"),
             ],
             config={"run_name": "orchestrator: synthesize"},
         )
+    synth, n_synth = scrub_model(synth)
 
     order = [r.index for r in synth.ranked if 0 <= r.index < len(verified)]
     order = list(dict.fromkeys(order)) + [i for i in range(len(verified)) if i not in order]
     notes = {r.index: r for r in synth.ranked}
 
-    findings = []
-    for i in order:
-        cid, f = verified[i]
-        xref = _pipeline_xref(f["drug"])
-        # The LLM can't override a stage-4 elimination.
-        safety = "unchecked" if not xref.in_pipeline else ("fail" if xref.eliminated_at == "patient_filter" else "pass")
+    profiles = []
+    for rank, i in enumerate(order, 1):
+        cid, p = verified[i]
         note = notes.get(i)
-        findings.append(ReportFinding(
-            **f, criterion=cid, criterion_label=label(cid), rank=0,
-            patient_fit=note.patient_fit if note else "", cautions=note.cautions if note else [],
-            safety=safety, pipeline=xref,
+        brief = briefs.get(cid)
+        required = list(dict.fromkeys(p["required_properties"] + (brief.constraints if brief else []) + (note.patient_required if note else [])))
+        avoid = list(dict.fromkeys(p["avoid_properties"] + (brief.avoid if brief else []) + (note.patient_avoid if note else [])))
+        profiles.append(ReportProfile(
+            **p, criterion=cid, criterion_label=label(cid), rank=rank,
+            priority_rationale=note.priority_rationale if note else "",
+            patient_required=note.patient_required if note else [],
+            patient_avoid=note.patient_avoid if note else [],
+            embedding_text=_embedding_text(label(cid), p),
+            constraints_text=_constraints_text(required, avoid),
         ))
-    # failures sink to the bottom; otherwise keep the orchestrator's order
-    findings.sort(key=lambda x: x.safety == "fail")
-    for rank, f in enumerate(findings, 1):
-        f.rank = rank
 
     dead_ends = [f"{cid} {label(cid)}: {d}" for cid, res in state.get("results", []) for d in res.dead_ends]
     report = ResearchReport(
         run_id=state["run_id"],
         created_at=datetime.now(timezone.utc).isoformat(),
         question=state["question"],
+        patient_id=state.get("patient_id") or DEFAULT_PATIENT,
         partial=len(state.get("results", [])) < len(briefs),
         models={"orchestrator": ORCHESTRATOR_MODEL, "subagent": SUBAGENT_MODEL},
         langsmith_project=LANGSMITH_PROJECT if tracing_enabled() else None,
-        plan=[PlanItem(criterion=b.criterion, label=label(b.criterion), objective=b.objective) for b in briefs],
+        plan=[PlanItem(criterion=b.criterion, label=label(b.criterion), objective=b.objective) for b in state["briefs"]],
         summary=synth.summary,
-        findings=findings,
+        profiles=profiles,
         dead_ends=dead_ends,
-        privacy={"redactions": state.get("redactions", 0)},
-        warnings=["Research aid, not medical advice.", "Findings marked 'unchecked' weren't run through the patient-safety rules."],
+        privacy={"redactions": state.get("redactions", 0), "drug_mentions_removed": state.get("drug_mentions", 0) + n_synth},
+        warnings=["Research aid, not medical advice.", "Profiles describe what a drug should do; drug matching and patient-safety filtering happen downstream."],
     ).model_dump()
     _emit({"type": "report", "data": report})
     return {"report": report}

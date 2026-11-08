@@ -26,7 +26,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sse_starlette.sse import EventSourceResponse
 
-from agent.config import DEFAULT_PATIENT, PATIENT_DIR, GOOGLE_API_KEY, LANGSMITH_PROJECT, MAX_CONCURRENCY, ORCHESTRATOR_MODEL, RUN_TIMEOUT_S, RUNS_DIR, SUBAGENT_MODEL, tracing_enabled
+from agent.config import ANTHROPIC_API_KEY, DEFAULT_PATIENT, PATIENT_DIR, LANGSMITH_PROJECT, MAX_CONCURRENCY, ORCHESTRATOR_MODEL, RUN_TIMEOUT_S, RUNS_DIR, SUBAGENT_MODEL, tracing_enabled
 from agent.graph import DEFAULT_QUESTION, graph
 from agent.ingest import PATIENT_ID, IngestError, parse_pdf, save, summary
 
@@ -73,7 +73,7 @@ async def execute(run: Run) -> None:
                     run.report = event["data"]
                 await run.push(event)
         run.status = "done"
-        await run.push({"type": "run_finished", "data": {"findings": len((run.report or {}).get("findings", []))}})
+        await run.push({"type": "run_finished", "data": {"profiles": len((run.report or {}).get("profiles", []))}})
     except Exception as e:
         run.status, run.error = "error", f"{type(e).__name__}: {e}"[:500]
         await run.push({"type": "error", "data": {"message": run.error}})
@@ -107,8 +107,8 @@ async def list_patients():
 
 @app.post("/api/research")
 async def start_research(body: ResearchRequest):
-    if not GOOGLE_API_KEY:
-        raise HTTPException(503, "GOOGLE_API_KEY is not set (agent/.env)")
+    if not ANTHROPIC_API_KEY:
+        raise HTTPException(503, "ANTHROPIC_API_KEY is not set (agent/.env)")
     if not PATIENT_ID.match(body.patient_id) or not (PATIENT_DIR / f"{body.patient_id}.json").exists():
         raise HTTPException(404, f"unknown patient '{body.patient_id}' (upload a chart to /api/patients)")
     RUNS_DIR.mkdir(parents=True, exist_ok=True)
@@ -181,7 +181,7 @@ async def list_runs():
 async def health():
     return {
         "ok": True,
-        "gemini_key": bool(GOOGLE_API_KEY),
+        "anthropic_key": bool(ANTHROPIC_API_KEY),
         "models": {"orchestrator": ORCHESTRATOR_MODEL, "subagent": SUBAGENT_MODEL},
         "langsmith_tracing": tracing_enabled(),
         "langsmith_project": LANGSMITH_PROJECT if tracing_enabled() else None,

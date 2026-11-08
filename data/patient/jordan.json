@@ -12,16 +12,16 @@
     "phone": "613-555-0177",
     "email": "j.ellis68@example.org",
     "clinicians": [
-      "Dr. Samuel Okafor, MD FRCPC (Neurology)",
-      "Dr. Helen Brandt",
-      "Maria Ellis"
+      "Dr. Samuel Okafor",
+      "Dr. Helen Brandt"
     ],
     "other": [
+      "Maria Ellis (spouse, next of kin)",
       "Northshore Neuromuscular Clinic - ALS Program",
       "1200 Lakeview Avenue, Kingston, Ontario K7L 3N6",
       "613-555-0198",
-      "Maria Ellis (spouse, next of kin)",
-      "BioHacks 2026"
+      "K7L 3N6",
+      "Visit date: 2026-10-21"
     ]
   },
   "diagnosis": "Amyotrophic lateral sclerosis, bulbar onset. Symptom onset 2025-06 with slurred speech; diagnosed 2025-12 (Gold Coast criteria met). Now with upper-limb involvement bilaterally.",
@@ -29,33 +29,33 @@
     {
       "name": "SOD1",
       "value": "heterozygous pathogenic variant c.14C>T (p.Ala5Val; legacy A4V)",
-      "date": null
+      "date": ""
     },
     {
       "name": "C9orf72 repeat expansion",
       "value": "negative",
-      "date": null
+      "date": ""
     },
     {
       "name": "CYP2D6",
       "value": "poor metabolizer",
-      "date": null
+      "date": ""
     },
     {
       "name": "CYP1A2",
       "value": "normal metabolizer",
-      "date": null
+      "date": ""
     }
   ],
   "medications": [
     {
       "name": "riluzole",
-      "dose": "50 mg twice daily",
+      "dose": "oral suspension 50 mg twice daily",
       "since": "2026-01"
     },
     {
       "name": "glycopyrrolate",
-      "dose": "1 mg three times daily",
+      "dose": "oral solution 1 mg three times daily",
       "since": "2026-05"
     },
     {
@@ -66,7 +66,7 @@
     {
       "name": "pantoprazole",
       "dose": "40 mg daily",
-      "since": null
+      "since": ""
     }
   ],
   "allergies": [
@@ -144,8 +144,8 @@
     },
     {
       "name": "ALSFRS-R decline rate",
-      "value": "1.1 points/month",
-      "date": null
+      "value": "about 1.1 points/month since diagnosis",
+      "date": ""
     },
     {
       "name": "FVC sitting %",
@@ -163,7 +163,7 @@
       "date": "2026-10-21"
     },
     {
-      "name": "baseline weight kg",
+      "name": "weight kg at diagnosis",
       "value": "79.5",
       "date": "2025-12"
     },
@@ -176,57 +176,67 @@
       "name": "grip left kg",
       "value": "19",
       "date": "2026-10-21"
+    },
+    {
+      "name": "swallowing",
+      "value": "chokes on thin liquids and dry solids; uses thickened fluids. PEG discussed.",
+      "date": "2026-10-21"
+    },
+    {
+      "name": "speech",
+      "value": "dysarthric, understood by family only; uses a text-to-speech app",
+      "date": "2026-10-21"
     }
   ],
   "symptoms": [
     {
       "name": "Drooling",
       "severity": 4,
-      "note": "still troublesome despite glycopyrrolate, worse when talking."
+      "note": "still troublesome despite glycopyrrolate, worse when talking"
     },
     {
       "name": "Pseudobulbar affect",
       "severity": 3,
-      "note": "episodes of uncontrollable crying several times a week."
+      "note": "episodes of uncontrollable crying several times a week"
     },
     {
-      "name": "Speech",
-      "severity": null,
-      "note": "dysarthric, understood by family only; uses a text-to-speech app."
+      "name": "Dysarthria",
+      "severity": -1,
+      "note": "understood by family only; uses a text-to-speech app"
     },
     {
-      "name": "Swallowing",
-      "severity": null,
+      "name": "Dysphagia",
+      "severity": -1,
       "note": "chokes on thin liquids and dry solids; uses thickened fluids. PEG discussed."
     },
     {
       "name": "Low mood",
       "severity": 2,
-      "note": "improving on citalopram."
+      "note": "improving on citalopram"
     },
     {
-      "name": "Muscle cramps in forearms",
+      "name": "Muscle cramps",
       "severity": 1,
-      "note": "Occasional."
+      "note": "occasional, in forearms"
     },
     {
       "name": "Constipation",
       "severity": 2,
-      "note": null
+      "note": ""
     }
   ],
   "trials": [
     {
       "nct_id": "NCT04856982",
-      "name": "ATLAS, presymptomatic SOD1 study",
+      "name": "ATLAS",
       "role": "screened",
       "outcome": "not eligible as already symptomatic"
     },
     {
-      "nct_id": null,
+      "nct_id": "",
       "name": "recruiting trials for SOD1-ALS",
       "role": "interested",
-      "outcome": null
+      "outcome": ""
     }
   ],
   "goals": "Keep communicating with family; reduce drooling and crying episodes; avoid choking."

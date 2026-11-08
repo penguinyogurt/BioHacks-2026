@@ -1,8 +1,8 @@
 """Patient chart PDF → data/patient/<patient_id>.json (a PatientRecord).
 
-Text PDFs: pypdf extracts the text and Gemini structures it.
-Scanned PDFs (little or no extractable text): the PDF itself goes to Gemini,
-which reads it natively, so no separate OCR is needed.
+Text PDFs: pypdf extracts the text and Claude structures it.
+Scanned PDFs (little or no extractable text): the PDF itself goes to Claude,
+which reads PDFs natively, so no separate OCR is needed.
 
 The identifiers section is the privacy wall's input: privacy.sanitize_brief
 can only redact strings it knows about. So a parse with no patient name is a
@@ -21,8 +21,8 @@ from pathlib import Path
 from langchain_core.messages import HumanMessage, SystemMessage
 from pypdf import PdfReader
 
-from agent.config import DATA, GOOGLE_API_KEY, INGEST_MODEL
-from agent.llm import gemini
+from agent.config import ANTHROPIC_API_KEY, DATA, INGEST_MODEL
+from agent.llm import structured
 from agent.schemas import PatientRecord
 
 PATIENT_DIR = DATA / "patient"
@@ -51,8 +51,8 @@ async def parse_pdf(data: bytes) -> tuple[PatientRecord, str]:
     """Returns (record, method), where method is 'text' or 'vision'."""
     if not data.startswith(b"%PDF"):
         raise IngestError("Not a PDF file.")
-    if not GOOGLE_API_KEY:
-        raise IngestError("GOOGLE_API_KEY is not set (agent/.env)")
+    if not ANTHROPIC_API_KEY:
+        raise IngestError("ANTHROPIC_API_KEY is not set (agent/.env)")
     try:
         text = pdf_text(data)
     except Exception as e:
@@ -67,7 +67,7 @@ async def parse_pdf(data: bytes) -> tuple[PatientRecord, str]:
             {"type": "file", "base64": base64.b64encode(data).decode(), "mime_type": "application/pdf"},
         ]
 
-    llm = gemini(INGEST_MODEL).with_structured_output(PatientRecord)
+    llm = structured(INGEST_MODEL, PatientRecord)
     record: PatientRecord = await llm.ainvoke([SystemMessage(PROMPT), HumanMessage(content=content)], config={"run_name": f"ingest: parse chart ({method})"})
 
     if not record.identifiers.full_name.strip():

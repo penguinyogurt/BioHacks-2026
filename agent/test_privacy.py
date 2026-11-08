@@ -42,11 +42,30 @@ class PrivacyWall(unittest.TestCase):
 
     def test_subagent_tools_expose_no_patient_data(self):
         from agent.mcp_server import mcp, pipeline_top_candidates
+        from agent.subagent import SUBAGENT_TOOLS
 
         names = {t.name for t in asyncio.run(mcp.list_tools())}
         self.assertFalse({n for n in names if "patient" in n}, names)
+        self.assertLessEqual(SUBAGENT_TOOLS, names)
+        # sub-agents describe targets; drug-level lookups would steer them toward named drugs
+        self.assertFalse(SUBAGENT_TOOLS & {"chembl_drug", "fda_label", "pubchem_properties", "pipeline_drug",
+                                           "pipeline_top_candidates", "opentargets_als_drugs", "opentargets_target_drugs"})
         for c in pipeline_top_candidates(50):  # stage-4 reasons are patient-specific
             self.assertNotIn("filters", c)
+
+
+class NoDrugNames(unittest.TestCase):
+    def test_drug_names_and_codes_are_removed_but_biology_kept(self):
+        from agent.no_drugs import PLACEHOLDER, scrub
+
+        out, n = scrub("Like tofersen (BIIB067) or Nuedexta; botulinum toxin type A blocks CHRM3. "
+                       "Lowers SOD1 and glutamate release; creatine kinase high; see NCT02623699 and C9orf72.")
+        for name in ["tofersen", "BIIB067", "Nuedexta", "botulinum"]:
+            self.assertNotIn(name.lower(), out.lower())
+        for kept in ["CHRM3", "SOD1", "glutamate release", "creatine kinase", "NCT02623699", "C9orf72"]:
+            self.assertIn(kept, out)
+        self.assertEqual(n, 4)
+        self.assertIn(PLACEHOLDER, out)
 
 
 if __name__ == "__main__":
