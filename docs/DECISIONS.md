@@ -8,6 +8,12 @@ If you reverse one, append the reversal; don't edit the old entry away.
 
 ---
 
+## 2026-11-08 — Merge the standalone diagnostic suite into main
+
+**What:** Bring the history of `codex/diagnostic-tests` into `main` with its six diagnostic directories.
+**Why:** A single checkout should provide the existing Mac assessment launcher and its tests.
+**Rules out:** Replacing the product frontend or changing the pipeline JSON contract as part of this merge.
+
 ## 2026-11-08 — Research sub-agents describe drugs, they don't name them
 
 **What:** `agent/` sub-agents return target profiles (HGNC targets + desired
