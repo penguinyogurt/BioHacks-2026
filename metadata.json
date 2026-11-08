@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6X3CG35CS9EB2RVP1SPAH4J",
   "strategy": "manual-commit",
   "branch": "frontend/drkg-explorer",
-  "checkpoints_count": 3,
+  "checkpoints_count": 6,
   "files_touched": [
     "frontend/src/pages/Home.tsx"
   ],
@@ -21,6 +21,13 @@
       "compact_transcript": "/1/transcript.jsonl",
       "content_hash": "/1/content_hash.txt",
       "prompt": "/1/prompt.txt"
+    },
+    {
+      "metadata": "/2/metadata.json",
+      "transcript": "/2/full.jsonl",
+      "compact_transcript": "/2/transcript.jsonl",
+      "content_hash": "/2/content_hash.txt",
+      "prompt": "/2/prompt.txt"
     }
   ],
   "token_usage": {
@@ -31,15 +38,15 @@
     "api_call_count": 48
   },
   "redaction": {
-    "replacements": 630,
+    "replacements": 1026,
     "layers": {
       "betterleaks": 0,
       "connection_string": 0,
       "credential_key": 0,
-      "credential_value": 0,
+      "credential_value": 23,
       "credentialed_uri": 0,
-      "entropy": 757,
-      "key_context": 17,
+      "entropy": 1313,
+      "key_context": 25,
       "provider_token": 0,
       "shell_stdin": 0
     }

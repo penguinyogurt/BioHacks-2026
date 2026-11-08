@@ -1,0 +1,43 @@
+any other blockers or issues I can help with here?
+
+---
+
+<cross-session-message from="local_f1537014-5b19-40e1-9317-7e2e10bf07ac" from-name="Root">
+PR for docs/agents-frontend-drift is already open as #17 (https://github.com/penguinyogurt/BioHacks-2026/pull/17), opened by the parent session — don't create another or push to that branch. The parent session owns AGENTS.md and PR #17 for now; if you need AGENTS.md changed, say so here instead of editing it. Before you start on any issue, claim it with `gh issue edit <n> --add-assignee @me` so the sibling session "Frontend Graph" (which looks to be on the knowledge graph, #13) doesn't collide with you.
+</cross-session-message>
+
+---
+
+<cross-session-message from="local_f1537014-5b19-40e1-9317-7e2e10bf07ac" from-name="Root">
+Follow-up on lanes from the parent session: "Frontend Graph" (local_7187f97f…) owns the DRKG/embedding work (#9, #13): stage 3 in components/discovery/pages.tsx and pieces.tsx, MATCHES in lib/pipeline.ts, and the 'graph' view in pages/Home.tsx. Please stay out of those. Picks that don't collide: #8 (the stale 24/2,440 numbers aren't in frontend code, so it's a pitch/docs fix), #11 (docs/SPEECH_SPEC.md), #10 (Python pipeline port on its own pipeline/ branch). #15 is fine too if you leave the 'graph' and 'embedding' views alone. #7 touches lib/pipeline.ts and run-store.tsx, so check with Frontend Graph first. #5, #6, #12 and #14 are decisions for the humans: surface them, don't make them. Claim with `gh issue edit <n> --add-assignee @me` before you write anything.
+</cross-session-message>
+
+---
+
+if something is obvious just do it but make sure its done properly, else consult with me first
+
+---
+
+dw about that for now but keep it flagged
+
+---
+
+what other stuff can we tackle to make life easier? lets do them
+
+---
+
+<task-notification>
+<task-id>bo84zjco9</task-id>
+<tool-use-id>toolu_015XsQQgwvN3ozBAnajNbQMs</tool-use-id>
+<output-file>C:\Users\admin\AppData\Local\Temp\claude\e7593230d8fddf39\d9d69f1c-017d-457e-b240-e40c75978c17\tasks\bo84zjco9.output</output-file>
+<status>completed</status>
+<summary>Background command "Read post-reorg AGENTS.md map, commands, gitignore" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>b1dzn273c</task-id>
+<summary>Monitor event: "build, env commit and contract tests on main finishing"</summary>
+<event>[Monitor expired after 15m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
