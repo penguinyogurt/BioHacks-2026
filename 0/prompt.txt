@@ -1,0 +1,13 @@
+pull latest, and lets get the frontend up and running locally
+
+---
+
+Yes, update it
+
+---
+
+any other decisions we need?
+
+---
+
+yes
