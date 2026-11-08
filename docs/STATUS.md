@@ -45,6 +45,36 @@ Levi's DRKG agents need, and its SSE stream is a live source for Jeremy's
 `PipelineEvent`s. How to combine all three without building a fourth:
 [`RESEARCH_AGENT_HANDOFF.md`](RESEARCH_AGENT_HANDOFF.md).
 
+## ⚠ Real DRKG stage 3 disagrees with the hand-written stage 4
+
+Stage 3 now runs on the real TransE vectors (`frontend/scripts/drkg_scene.py`
+→ `frontend/public/drkg/`, method in `DECISIONS.md`). Where the hand-written
+drugs actually land, ranked within their own profile out of 10,551 compounds:
+
+| Drug | Stage-4 candidate? | Real rank |
+|---|---|---|
+| Sirolimus | — | **3** |
+| Mecasermin | yes | 18 |
+| Eculizumab | — | 44 |
+| Riluzole | — | 92 |
+| Tocilizumab | yes | 124 |
+| Sarilumab | — | 364 |
+| Anakinra | yes | 402 |
+| Ravulizumab | yes | 1,157 |
+| Edaravone | — | 3,087 |
+| Somatropin | — | 3,368 |
+| Tofersen | — | no DRKG compound |
+
+The real top 5s are mostly investigational kinase/AMPA compounds (e.g.
+Amuvatinib, Azd-8055, Talampanel). **Jeremy:** stage 4's `CANDIDATES` no longer
+follow from stage 3. Either re-pick candidates from the real top lists, or
+say on stage that stage 4 is a curated shortlist, not the top of stage 3.
+Don't demo both screens as one chain until that's settled.
+
+The 3D picture is a clustered layout (24 k-means islands), **not** distance-
+preserving. Never point at two dots and say "these are close"; read the L2
+numbers. Islands mostly split by entity type; three are mixed.
+
 ## Found while auditing — read before you pitch
 
 Measured against Neo's real `pipeline.json` on `cursor/pipeline-graph-ui`,

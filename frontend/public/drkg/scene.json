@@ -2,16 +2,19 @@
  "meta": {
   "model": "DRKG pretrained TransE_l2, 400d",
   "entities": 97238,
-  "projection": "PCA-3, global, numpy",
-  "explainedVariance": [
-   0.0594,
-   0.021,
-   0.0201
-  ],
+  "projection": "Clustered layout: k-means (k=24) on PCA-50 of the 400-d vectors; islands placed by PCA-3 of the centroids, points by per-cluster local PCA-3. Not distance-preserving.",
+  "explainedVariance": null,
   "relation": "DRUGBANK::target::Compound:Gene",
   "formula": "q = e[gene] − r[target]; d(c) = ‖e[c] − q‖₂ in 400-d; profile distance = min over its genes",
+  "source": "profiles pipeline.ts PROFILES",
   "universe": 10551,
-  "topK": 5
+  "topK": 5,
+  "degree": {
+   "min": 1,
+   "median": 5,
+   "p99": 1598,
+   "max": 23879
+  }
  },
  "types": [
   {
@@ -67,13 +70,439 @@
    "count": 215
   }
  ],
+ "clusters": [
+  {
+   "id": 0,
+   "size": 1767,
+   "dominantType": "Compound",
+   "topTypes": [
+    {
+     "name": "Compound",
+     "share": 1.0
+    }
+   ],
+   "label": "Compounds 100%"
+  },
+  {
+   "id": 1,
+   "size": 5337,
+   "dominantType": "Gene",
+   "topTypes": [
+    {
+     "name": "Gene",
+     "share": 0.954
+    },
+    {
+     "name": "Compound",
+     "share": 0.028
+    },
+    {
+     "name": "Disease",
+     "share": 0.006
+    }
+   ],
+   "label": "Genes 95%"
+  },
+  {
+   "id": 2,
+   "size": 4531,
+   "dominantType": "Gene",
+   "topTypes": [
+    {
+     "name": "Gene",
+     "share": 0.997
+    },
+    {
+     "name": "Anatomy",
+     "share": 0.003
+    }
+   ],
+   "label": "Genes 100%"
+  },
+  {
+   "id": 3,
+   "size": 3688,
+   "dominantType": "Biological Process",
+   "topTypes": [
+    {
+     "name": "Biological Process",
+     "share": 0.999
+    },
+    {
+     "name": "Gene",
+     "share": 0.0
+    },
+    {
+     "name": "Tax",
+     "share": 0.0
+    }
+   ],
+   "label": "Biological Processes 100%"
+  },
+  {
+   "id": 4,
+   "size": 2139,
+   "dominantType": "Compound",
+   "topTypes": [
+    {
+     "name": "Compound",
+     "share": 1.0
+    }
+   ],
+   "label": "Compounds 100%"
+  },
+  {
+   "id": 5,
+   "size": 2061,
+   "dominantType": "Side Effect",
+   "topTypes": [
+    {
+     "name": "Side Effect",
+     "share": 0.976
+    },
+    {
+     "name": "Atc",
+     "share": 0.011
+    },
+    {
+     "name": "Compound",
+     "share": 0.006
+    }
+   ],
+   "label": "Side Effects 98%"
+  },
+  {
+   "id": 6,
+   "size": 3794,
+   "dominantType": "Biological Process",
+   "topTypes": [
+    {
+     "name": "Biological Process",
+     "share": 0.996
+    },
+    {
+     "name": "Gene",
+     "share": 0.002
+    },
+    {
+     "name": "Compound",
+     "share": 0.001
+    }
+   ],
+   "label": "Biological Processes 100%"
+  },
+  {
+   "id": 7,
+   "size": 2323,
+   "dominantType": "Biological Process",
+   "topTypes": [
+    {
+     "name": "Biological Process",
+     "share": 0.997
+    },
+    {
+     "name": "Anatomy",
+     "share": 0.002
+    },
+    {
+     "name": "Cellular Component",
+     "share": 0.001
+    }
+   ],
+   "label": "Biological Processes 100%"
+  },
+  {
+   "id": 8,
+   "size": 5299,
+   "dominantType": "Compound",
+   "topTypes": [
+    {
+     "name": "Compound",
+     "share": 0.986
+    },
+    {
+     "name": "Gene",
+     "share": 0.005
+    },
+    {
+     "name": "Disease",
+     "share": 0.004
+    }
+   ],
+   "label": "Compounds 99%"
+  },
+  {
+   "id": 9,
+   "size": 7334,
+   "dominantType": "Compound",
+   "topTypes": [
+    {
+     "name": "Compound",
+     "share": 0.404
+    },
+    {
+     "name": "Gene",
+     "share": 0.214
+    },
+    {
+     "name": "Atc",
+     "share": 0.132
+    }
+   ],
+   "label": "Compounds 40% · Genes 21%"
+  },
+  {
+   "id": 10,
+   "size": 4896,
+   "dominantType": "Compound",
+   "topTypes": [
+    {
+     "name": "Compound",
+     "share": 0.995
+    },
+    {
+     "name": "Gene",
+     "share": 0.005
+    }
+   ],
+   "label": "Compounds 100%"
+  },
+  {
+   "id": 11,
+   "size": 1772,
+   "dominantType": "Pathway",
+   "topTypes": [
+    {
+     "name": "Pathway",
+     "share": 1.0
+    }
+   ],
+   "label": "Pathways 100%"
+  },
+  {
+   "id": 12,
+   "size": 3744,
+   "dominantType": "Gene",
+   "topTypes": [
+    {
+     "name": "Gene",
+     "share": 0.994
+    },
+    {
+     "name": "Anatomy",
+     "share": 0.006
+    }
+   ],
+   "label": "Genes 99%"
+  },
+  {
+   "id": 13,
+   "size": 5018,
+   "dominantType": "Gene",
+   "topTypes": [
+    {
+     "name": "Gene",
+     "share": 0.995
+    },
+    {
+     "name": "Anatomy",
+     "share": 0.005
+    }
+   ],
+   "label": "Genes 100%"
+  },
+  {
+   "id": 14,
+   "size": 4080,
+   "dominantType": "Gene",
+   "topTypes": [
+    {
+     "name": "Gene",
+     "share": 1.0
+    },
+    {
+     "name": "Cellular Component",
+     "share": 0.0
+    }
+   ],
+   "label": "Genes 100%"
+  },
+  {
+   "id": 15,
+   "size": 9493,
+   "dominantType": "Compound",
+   "topTypes": [
+    {
+     "name": "Compound",
+     "share": 0.442
+    },
+    {
+     "name": "Gene",
+     "share": 0.177
+    },
+    {
+     "name": "Atc",
+     "share": 0.147
+    }
+   ],
+   "label": "Compounds 44% · Genes 18%"
+  },
+  {
+   "id": 16,
+   "size": 2375,
+   "dominantType": "Gene",
+   "topTypes": [
+    {
+     "name": "Gene",
+     "share": 0.997
+    },
+    {
+     "name": "Anatomy",
+     "share": 0.002
+    },
+    {
+     "name": "Tax",
+     "share": 0.0
+    }
+   ],
+   "label": "Genes 100%"
+  },
+  {
+   "id": 17,
+   "size": 3579,
+   "dominantType": "Disease",
+   "topTypes": [
+    {
+     "name": "Disease",
+     "share": 0.997
+    },
+    {
+     "name": "Symptom",
+     "share": 0.002
+    },
+    {
+     "name": "Anatomy",
+     "share": 0.0
+    }
+   ],
+   "label": "Diseases 100%"
+  },
+  {
+   "id": 18,
+   "size": 4763,
+   "dominantType": "Gene",
+   "topTypes": [
+    {
+     "name": "Gene",
+     "share": 0.996
+    },
+    {
+     "name": "Anatomy",
+     "share": 0.004
+    }
+   ],
+   "label": "Genes 100%"
+  },
+  {
+   "id": 19,
+   "size": 3419,
+   "dominantType": "Gene",
+   "topTypes": [
+    {
+     "name": "Gene",
+     "share": 0.985
+    },
+    {
+     "name": "Anatomy",
+     "share": 0.014
+    },
+    {
+     "name": "Tax",
+     "share": 0.0
+    }
+   ],
+   "label": "Genes 98%"
+  },
+  {
+   "id": 20,
+   "size": 1104,
+   "dominantType": "Gene",
+   "topTypes": [
+    {
+     "name": "Gene",
+     "share": 0.974
+    },
+    {
+     "name": "Anatomy",
+     "share": 0.024
+    },
+    {
+     "name": "Cellular Component",
+     "share": 0.002
+    }
+   ],
+   "label": "Genes 97%"
+  },
+  {
+   "id": 21,
+   "size": 5381,
+   "dominantType": "Molecular Function",
+   "topTypes": [
+    {
+     "name": "Molecular Function",
+     "share": 0.51
+    },
+    {
+     "name": "Cellular Component",
+     "share": 0.216
+    },
+    {
+     "name": "Gene",
+     "share": 0.132
+    }
+   ],
+   "label": "Molecular Functions 51% · Cellular Components 22%"
+  },
+  {
+   "id": 22,
+   "size": 2365,
+   "dominantType": "Side Effect",
+   "topTypes": [
+    {
+     "name": "Side Effect",
+     "share": 1.0
+    }
+   ],
+   "label": "Side Effects 100%"
+  },
+  {
+   "id": 23,
+   "size": 6976,
+   "dominantType": "Compound",
+   "topTypes": [
+    {
+     "name": "Compound",
+     "share": 0.409
+    },
+    {
+     "name": "Atc",
+     "share": 0.208
+    },
+    {
+     "name": "Gene",
+     "share": 0.179
+    }
+   ],
+   "label": "Compounds 41% · ATC codes 21%"
+  }
+ ],
  "als": {
   "id": "Disease::MESH:D000690",
   "row": 25880,
   "pos": [
-   -0.799,
-   -0.717,
-   0.292
+   0.382,
+   -1.454,
+   -2.162
   ],
   "label": "Amyotrophic Lateral Sclerosis"
  },
@@ -87,14 +516,14 @@
      "id": "Gene::3480",
      "row": 162,
      "pos": [
-      -9.305,
-      2.521,
-      -1.926
+      6.441,
+      7.533,
+      0.552
      ],
      "query": [
-      -2.513,
-      -6.651,
-      -3.139
+      0.123,
+      -3.403,
+      2.0
      ],
      "targetEdges": 155,
      "alsEdge": null
@@ -104,14 +533,14 @@
      "id": "Gene::5979",
      "row": 1290,
      "pos": [
-      -9.252,
-      2.364,
-      -0.54
+      5.968,
+      7.402,
+      0.248
      ],
      "query": [
-      -2.46,
-      -6.808,
-      -1.752
+      -0.056,
+      -3.137,
+      2.022
      ],
      "targetEdges": 140,
      "alsEdge": null
@@ -121,14 +550,14 @@
      "id": "Gene::4915",
      "row": 1185,
      "pos": [
-      -9.336,
-      3.364,
-      -1.642
+      6.551,
+      7.06,
+      -0.547
      ],
      "query": [
-      -2.544,
-      -5.808,
-      -2.854
+      3.877,
+      -7.935,
+      2.371
      ],
      "targetEdges": 58,
      "alsEdge": null
@@ -142,9 +571,9 @@
      "row": 3414,
      "name": "Amuvatinib",
      "pos": [
-      -0.126,
-      -4.126,
-      -0.22
+      0.766,
+      -3.219,
+      1.867
      ],
      "distance": 9.623,
      "viaGene": "RET",
@@ -156,9 +585,9 @@
      "row": 20511,
      "name": "DB14751",
      "pos": [
-      0.657,
-      -3.043,
-      -0.867
+      -0.764,
+      -4.474,
+      2.51
      ],
      "distance": 9.624,
      "viaGene": "IGF1R",
@@ -170,9 +599,9 @@
      "row": 8919,
      "name": "Picropodophyllin",
      "pos": [
-      3.009,
-      -2.927,
-      0.132
+      0.107,
+      -4.446,
+      2.108
      ],
      "distance": 9.664,
      "viaGene": "IGF1R",
@@ -184,9 +613,9 @@
      "row": 6283,
      "name": "Sunitinib",
      "pos": [
-      -2.971,
-      -7.068,
-      -4.589
+      1.081,
+      -8.677,
+      1.309
      ],
      "distance": 9.724,
      "viaGene": "IGF1R",
@@ -198,9 +627,9 @@
      "row": 4730,
      "name": "(4Z)-6-bromo-4-({[4-(pyrrolidin-1-ylmethyl)phenyl]amino}methylidene)isoquinoline-1,3(2H,4H)-dione",
      "pos": [
-      2.457,
-      -1.865,
-      -1.385
+      -0.907,
+      -3.488,
+      3.399
      ],
      "distance": 9.747,
      "viaGene": "IGF1R",
@@ -211,7 +640,7 @@
     {
      "from": 162,
      "to": 8919,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 162,
@@ -231,7 +660,7 @@
     {
      "from": 162,
      "to": 8049,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 162,
@@ -246,7 +675,7 @@
     {
      "from": 162,
      "to": 4528,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 162,
@@ -256,7 +685,7 @@
     {
      "from": 162,
      "to": 4266,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::OTHER::Gene:Compound"
     },
     {
      "from": 162,
@@ -266,7 +695,7 @@
     {
      "from": 162,
      "to": 8782,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 162,
@@ -336,12 +765,12 @@
     {
      "from": 1290,
      "to": 6283,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::OTHER::Gene:Compound"
     },
     {
      "from": 1290,
      "to": 6497,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 1290,
@@ -356,7 +785,7 @@
     {
      "from": 1290,
      "to": 8485,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::OTHER::Gene:Compound"
     },
     {
      "from": 1290,
@@ -401,12 +830,12 @@
     {
      "from": 1290,
      "to": 7917,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 1290,
      "to": 5915,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::OTHER::Gene:Compound"
     },
     {
      "from": 1290,
@@ -416,7 +845,7 @@
     {
      "from": 1290,
      "to": 8756,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::OTHER::Gene:Compound"
     },
     {
      "from": 1290,
@@ -426,7 +855,7 @@
     {
      "from": 1290,
      "to": 7648,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 1290,
@@ -579,14 +1008,14 @@
      "id": "Gene::3570",
      "row": 9770,
      "pos": [
-      -9.388,
-      2.867,
-      -2.198
+      6.004,
+      7.996,
+      1.134
      ],
      "query": [
-      -2.596,
-      -6.305,
-      -3.41
+      -0.668,
+      -3.107,
+      2.158
      ],
      "targetEdges": 14,
      "alsEdge": null
@@ -596,14 +1025,14 @@
      "id": "Gene::3554",
      "row": 10156,
      "pos": [
-      -10.584,
-      3.393,
-      -1.852
+      4.711,
+      2.636,
+      3.322
      ],
      "query": [
-      -3.792,
-      -5.779,
-      -3.064
+      0.653,
+      -8.196,
+      1.173
      ],
      "targetEdges": 18,
      "alsEdge": null
@@ -613,14 +1042,14 @@
      "id": "Gene::7124",
      "row": 483,
      "pos": [
-      -8.168,
-      4.069,
-      -2.913
+      4.179,
+      2.525,
+      3.487
      ],
      "query": [
-      -1.376,
-      -5.103,
-      -4.125
+      -1.199,
+      -3.778,
+      1.933
      ],
      "targetEdges": 690,
      "alsEdge": null
@@ -634,9 +1063,9 @@
      "row": 23695,
      "name": "DB05744",
      "pos": [
-      2.709,
-      0.122,
-      -2.558
+      -2.559,
+      -4.241,
+      1.913
      ],
      "distance": 9.668,
      "viaGene": "TNF",
@@ -648,9 +1077,9 @@
      "row": 4974,
      "name": "PR-104",
      "pos": [
-      3.437,
-      -0.617,
-      -1.26
+      -2.089,
+      -3.701,
+      2.916
      ],
      "distance": 9.712,
      "viaGene": "TNF",
@@ -662,9 +1091,9 @@
      "row": 5981,
      "name": "Talmapimod",
      "pos": [
-      0.603,
-      -2.104,
-      -3.337
+      -0.495,
+      -3.804,
+      2.22
      ],
      "distance": 9.777,
      "viaGene": "TNF",
@@ -676,9 +1105,9 @@
      "row": 7131,
      "name": "Atiprimod",
      "pos": [
-      1.528,
-      -3.301,
-      -0.286
+      -0.859,
+      -3.704,
+      1.888
      ],
      "distance": 9.81,
      "viaGene": "TNF",
@@ -690,9 +1119,9 @@
      "row": 6857,
      "name": "VX-702",
      "pos": [
-      0.379,
-      -3.214,
-      -2.955
+      -0.253,
+      -3.748,
+      2.048
      ],
      "distance": 9.858,
      "viaGene": "TNF",
@@ -906,14 +1335,14 @@
      "id": "Gene::727",
      "row": 1745,
      "pos": [
-      -9.183,
-      1.763,
-      -0.792
+      6.519,
+      2.248,
+      -0.976
      ],
      "query": [
-      -2.391,
-      -7.409,
-      -2.004
+      0.836,
+      -8.135,
+      1.241
      ],
      "targetEdges": 46,
      "alsEdge": null
@@ -923,14 +1352,14 @@
      "id": "Gene::718",
      "row": 694,
      "pos": [
-      -8.292,
-      3.114,
-      -0.878
+      6.573,
+      2.263,
+      -0.979
      ],
      "query": [
-      -1.5,
-      -6.058,
-      -2.09
+      0.787,
+      -8.213,
+      1.214
      ],
      "targetEdges": 46,
      "alsEdge": "Hetionet::DaG::Disease:Gene"
@@ -940,14 +1369,14 @@
      "id": "Gene::712",
      "row": 20527,
      "pos": [
-      -8.135,
-      3.32,
-      0.042
+      3.964,
+      2.465,
+      3.418
      ],
      "query": [
-      -1.343,
-      -5.852,
-      -1.17
+      -1.258,
+      -4.875,
+      1.816
      ],
      "targetEdges": 23,
      "alsEdge": null
@@ -961,9 +1390,9 @@
      "row": 6705,
      "name": "Copper",
      "pos": [
-      0.633,
-      -6.161,
-      0.884
+      0.038,
+      -5.021,
+      -4.705
      ],
      "distance": 9.898,
      "viaGene": "C3",
@@ -975,9 +1404,9 @@
      "row": 8821,
      "name": "Propanol",
      "pos": [
-      2.078,
-      -4.159,
-      1.82
+      -1.868,
+      -5.697,
+      2.328
      ],
      "distance": 9.959,
      "viaGene": "C3",
@@ -989,9 +1418,9 @@
      "row": 16972,
      "name": "Zinc acetate",
      "pos": [
-      -2.009,
-      -5.691,
-      -2.279
+      3.764,
+      -8.184,
+      2.944
      ],
      "distance": 10.019,
      "viaGene": "C3",
@@ -1003,9 +1432,9 @@
      "row": 10718,
      "name": "Lutetium (177Lu) chloride",
      "pos": [
-      -1.676,
-      -5.849,
-      -1.927
+      3.738,
+      -8.211,
+      2.909
      ],
      "distance": 10.024,
      "viaGene": "C3",
@@ -1017,9 +1446,9 @@
      "row": 23776,
      "name": "Mirococept",
      "pos": [
-      4.014,
-      -0.828,
-      1.381
+      -2.132,
+      -4.732,
+      3.104
      ],
      "distance": 10.085,
      "viaGene": "C3",
@@ -1328,14 +1757,14 @@
      "id": "Gene::23435",
      "row": 39835,
      "pos": [
-      -8.38,
-      1.931,
-      0.714
+      9.357,
+      -0.84,
+      -0.919
      ],
      "query": [
-      -1.588,
-      -7.241,
-      -0.498
+      -1.079,
+      -3.651,
+      1.89
      ],
      "targetEdges": 9,
      "alsEdge": "Hetionet::DaG::Disease:Gene"
@@ -1345,14 +1774,14 @@
      "id": "Gene::2475",
      "row": 904,
      "pos": [
-      -8.481,
-      3.389,
-      -1.347
+      6.296,
+      6.836,
+      0.834
      ],
      "query": [
-      -1.689,
-      -5.783,
-      -2.559
+      -0.394,
+      -3.199,
+      1.902
      ],
      "targetEdges": 239,
      "alsEdge": null
@@ -1362,14 +1791,14 @@
      "id": "Gene::7942",
      "row": 9451,
      "pos": [
-      -9.291,
-      2.508,
-      0.876
+      5.54,
+      2.93,
+      2.221
      ],
      "query": [
-      -2.499,
-      -6.664,
-      -0.336
+      -1.144,
+      -3.84,
+      1.75
      ],
      "targetEdges": 4,
      "alsEdge": null
@@ -1383,9 +1812,9 @@
      "row": 5375,
      "name": "Azd-8055",
      "pos": [
-      1.169,
-      -6.041,
-      1.399
+      -1.729,
+      -5.673,
+      -5.549
      ],
      "distance": 9.557,
      "viaGene": "MTOR",
@@ -1397,9 +1826,9 @@
      "row": 23592,
      "name": "DB05210",
      "pos": [
-      0.683,
-      -2.705,
-      -0.385
+      -0.592,
+      -3.78,
+      2.105
      ],
      "distance": 9.894,
      "viaGene": "MTOR",
@@ -1411,9 +1840,9 @@
      "row": 5931,
      "name": "Sirolimus",
      "pos": [
-      -2.496,
-      -7.033,
-      -3.156
+      0.645,
+      -8.359,
+      1.367
      ],
      "distance": 9.928,
      "viaGene": "MTOR",
@@ -1425,9 +1854,9 @@
      "row": 23606,
      "name": "DB05241",
      "pos": [
-      1.118,
-      -1.943,
-      -1.185
+      -1.055,
+      -3.842,
+      2.336
      ],
      "distance": 10.009,
      "viaGene": "MTOR",
@@ -1439,9 +1868,9 @@
      "row": 4573,
      "name": "Vistusertib",
      "pos": [
-      2.757,
-      -3.888,
-      1.364
+      -1.454,
+      -4.382,
+      -5.415
      ],
      "distance": 10.296,
      "viaGene": "MTOR",
@@ -1497,7 +1926,7 @@
     {
      "from": 904,
      "to": 5375,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 904,
@@ -1522,7 +1951,7 @@
     {
      "from": 904,
      "to": 4666,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 904,
@@ -1537,17 +1966,17 @@
     {
      "from": 904,
      "to": 5757,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 904,
      "to": 5225,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 904,
      "to": 4332,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 904,
@@ -1557,7 +1986,7 @@
     {
      "from": 904,
      "to": 5140,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 904,
@@ -1577,12 +2006,12 @@
     {
      "from": 904,
      "to": 4478,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 904,
      "to": 4529,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 904,
@@ -1592,7 +2021,7 @@
     {
      "from": 904,
      "to": 7455,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 904,
@@ -1607,7 +2036,7 @@
     {
      "from": 904,
      "to": 7191,
-     "rel": "bioarx::DrugHumGen:Compound:Gene"
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
     },
     {
      "from": 904,
@@ -1645,14 +2074,14 @@
      "id": "Gene::6506",
      "row": 1293,
      "pos": [
-      -8.419,
-      4.014,
-      0.175
+      5.157,
+      1.065,
+      1.963
      ],
      "query": [
-      -1.627,
-      -5.158,
-      -1.037
+      0.898,
+      -8.192,
+      0.966
      ],
      "targetEdges": 16,
      "alsEdge": "GNBR::J::Gene:Disease"
@@ -1662,14 +2091,14 @@
      "id": "Gene::2891",
      "row": 911,
      "pos": [
-      -8.911,
-      2.551,
-      -0.878
+      6.678,
+      5.637,
+      -0.35
      ],
      "query": [
-      -2.119,
-      -6.621,
-      -2.09
+      1.292,
+      -7.882,
+      1.34
      ],
      "targetEdges": 152,
      "alsEdge": "Hetionet::DaG::Disease:Gene"
@@ -1679,14 +2108,14 @@
      "id": "Gene::4780",
      "row": 9917,
      "pos": [
-      -8.125,
-      3.318,
-      -0.499
+      5.734,
+      2.555,
+      3.199
      ],
      "query": [
-      -1.333,
-      -5.854,
-      -1.711
+      -1.456,
+      -3.927,
+      1.746
      ],
      "targetEdges": 192,
      "alsEdge": "GNBR::L::Gene:Disease"
@@ -1700,9 +2129,9 @@
      "row": 8128,
      "name": "CX 717",
      "pos": [
-      0.645,
-      -1.752,
-      -1.381
+      -2.04,
+      -3.617,
+      2.076
      ],
      "distance": 8.816,
      "viaGene": "GRIA2",
@@ -1714,9 +2143,9 @@
      "row": 7587,
      "name": "Talampanel",
      "pos": [
-      1.247,
-      -3.033,
-      0.929
+      -1.492,
+      -4.945,
+      1.66
      ],
      "distance": 9.019,
      "viaGene": "GRIA2",
@@ -1728,9 +2157,9 @@
      "row": 6267,
      "name": "5-Fluorowillardiine",
      "pos": [
-      2.467,
-      -2.024,
-      0.654
+      -2.082,
+      -4.115,
+      2.406
      ],
      "distance": 9.189,
      "viaGene": "GRIA2",
@@ -1742,9 +2171,9 @@
      "row": 3570,
      "name": "(S)-2-Amino-3-(1,3,5,7-Pentahydro-2,4-Dioxo-Cyclopenta[E]Pyrimidin-1-Yl) Proionic Acid",
      "pos": [
-      2.95,
-      -1.599,
-      0.077
+      -2.182,
+      -3.917,
+      3.304
      ],
      "distance": 9.394,
      "viaGene": "GRIA2",
@@ -1756,9 +2185,9 @@
      "row": 3145,
      "name": "(S)-Des-Me-Ampa",
      "pos": [
-      2.261,
-      -0.639,
-      0.078
+      -2.199,
+      -4.2,
+      1.326
      ],
      "distance": 9.4,
      "viaGene": "GRIA2",
@@ -2057,9 +2486,9 @@
    "drug": "Somatropin",
    "lane": 0,
    "source": "MATCHES",
-   "id": null,
-   "rank": null,
-   "distance": null
+   "id": "Compound::DB00052",
+   "rank": 3368,
+   "distance": 12.78
   },
   {
    "drug": "Tocilizumab",

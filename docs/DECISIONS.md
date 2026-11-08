@@ -8,6 +8,16 @@ If you reverse one, append the reversal; don't edit the old entry away.
 
 ---
 
+## 2026-11-08 — Reversed: the stage-3 picture is a clustered layout, not PCA-3
+
+**What:** k-means (k = 24) on PCA-50 of the 400-d vectors; islands placed by
+PCA-3 of the centroids, points at centroid + local offset. Colour = cluster,
+size = log degree, shape = entity type. Supersedes the PCA-3 entry below.
+**Why:** PCA-3 kept 10% of the variance and rendered one undifferentiated
+blob; the user rejected it. Clusters read at arm's length.
+**Rules out:** claiming the gene → query arrow is exact arithmetic. It is now
+illustrative; every number on screen is still true 400-d L2.
+
 ## 2026-11-08 — Stage 3 matches with the TransE query, not average + cosine
 
 **What:** Each profile target gene resolves to `Gene::<Entrez>` and gives a
