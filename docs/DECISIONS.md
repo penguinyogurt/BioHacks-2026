@@ -8,6 +8,39 @@ If you reverse one, append the reversal; don't edit the old entry away.
 
 ---
 
+## 2026-11-08 — Reversed: the stage-3 picture is a clustered layout, not PCA-3
+
+**What:** k-means (k = 24) on PCA-50 of the 400-d vectors; islands placed by
+PCA-3 of the centroids, points at centroid + local offset. Colour = cluster,
+size = log degree, shape = entity type. Supersedes the PCA-3 entry below.
+**Why:** PCA-3 kept 10% of the variance and rendered one undifferentiated
+blob; the user rejected it. Clusters read at arm's length.
+**Rules out:** claiming the gene → query arrow is exact arithmetic. It is now
+illustrative; every number on screen is still true 400-d L2.
+
+## 2026-11-08 — Stage 3 matches with the TransE query, not average + cosine
+
+**What:** Each profile target gene resolves to `Gene::<Entrez>` and gives a
+query `q = e[gene] − r[DRUGBANK::target::Compound:Gene]`. Every
+`Compound::DB#####` is scored by 400-d L2 to `q`, a profile keeps each
+compound's smallest distance over its genes, top 5 per profile. Precomputed
+by `frontend/scripts/drkg_scene.py` into `frontend/public/drkg/`.
+**Why:** TransE is fit so head + relation ≈ tail under L2, so `e[gene] − r` is
+where a drug targeting that gene should sit. Averaging unrelated genes lands
+*between* hypotheses; Levi's agents use the same min-over-anchors rule.
+**Rules out:** the "average + cosine" wording in `DISCOVERY_SPEC.md` §2 and
+#9, and embedding profile prose as text.
+
+## 2026-11-08 — The stage-3 picture is one linear PCA of all of DRKG
+
+**What:** All 97,238 entity vectors go through one global PCA to 3D, and query
+points use the same projection. On-screen numbers are true 400-d L2.
+**Why:** A linear map preserves vector addition, so the `gene − r → query`
+arrow on screen *is* the arithmetic, not an illustration of it. UMAP/t-SNE
+would cluster prettier but break that (and UMAP needs numba, no 3.14 wheels).
+**Rules out:** reading closeness off the 3D picture. Projected distance is not
+the ranking; the scene captions this.
+
 ## 2026-11-08 — Two top-level code dirs: `frontend/` and `backend/`
 
 **What:** Everything that isn't the Motus UI moved under `backend/`: `agent/`, `contract/`, `data/`, and the six diagnostic dirs (now `backend/diagnostics/`). Pure renames, no code edits.

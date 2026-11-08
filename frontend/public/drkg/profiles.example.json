@@ -1,0 +1,12 @@
+[
+  {
+    "lane": 0,
+    "name": "Glutamate clearance",
+    "targets": ["SLC1A2", "GRIA2"]
+  },
+  {
+    "lane": 1,
+    "name": "Cytokine neuroinflammation",
+    "targets": ["IL6R", "IL1R1 (IL-1 receptor)", "Gene::7124"]
+  }
+]

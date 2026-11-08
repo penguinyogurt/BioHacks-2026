@@ -4,6 +4,7 @@ import OverviewDashboard from '@/components/overview-dashboard'
 import FusPage from '@/components/fus-page'
 import { PageHeader } from '@/components/page-header'
 import Runs from '@/components/discovery/runs'
+import GraphExplorer from '@/components/graph/graph-explorer'
 import { GoContext } from '@/components/discovery/pieces'
 import { AnalysisPage, CandidatesPage, CasePage, EmbeddingPage, ProfilesPage } from '@/components/discovery/pages'
 import { AppSidebar, ALL_NAV, NAV_GROUPS, NAV_PIPELINE, NAV_SECONDARY, type Profile, type StepStatus } from '@/components/app-sidebar'
@@ -18,11 +19,6 @@ import { RunProvider, useRun } from '@/lib/run-store'
 
 /** Placeholder copy for views that aren't built yet. */
 const VIEWS: Record<string, { title: string; description: string; placeholder: string }> = {
-  graph: {
-    title: 'The map behind the matches.',
-    description: 'Browse DRKG: genes, compounds, diseases and the relations the embeddings are trained on.',
-    placeholder: 'The knowledge-graph explorer is coming soon. Discovery runs already search its compound embeddings.',
-  },
   genetics: {
     title: 'What the genes rule in, and out.',
     description: 'Panel results that decide which targeted therapies apply, like SOD1-directed tofersen.',
@@ -161,6 +157,8 @@ function Workspace({ view, setView, profile, onSignOut }: { view: string; setVie
                 <CandidatesPage />
               ) : view === 'runs' ? (
                 <Runs onNewRun={() => select('new-run')} />
+              ) : view === 'graph' ? (
+                <GraphExplorer />
               ) : view === 'fus' ? (
                 <FusPage />
               ) : view === 'patient' ? (
