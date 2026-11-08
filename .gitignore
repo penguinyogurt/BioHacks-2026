@@ -94,3 +94,9 @@ data/raw/
 
 # DRKG explorer shards: generated, ~20 MB. Rebuild with `python frontend/scripts/drkg_graph.py`.
 frontend/public/drkg/graph/
+
+# Patient records built from uploaded case PDFs (POST /api/patients). Never commit them;
+# only the two fictional samples are tracked.
+backend/data/patient/*.json
+!backend/data/patient/alex.json
+!backend/data/patient/jordan.json

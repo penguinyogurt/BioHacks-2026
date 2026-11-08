@@ -21,6 +21,7 @@ import os
 import re
 import time
 import uuid
+from urllib.parse import quote
 from dataclasses import dataclass, field
 
 import uvicorn
@@ -37,7 +38,9 @@ from agent.graph import DEFAULT_QUESTION, graph
 from agent.ingest import PATIENT_ID, IngestError, parse_pdf, save, summary
 
 app = FastAPI(title="ALS research agent")
-app.add_middleware(CORSMiddleware, allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?", allow_methods=["*"], allow_headers=["*"])
+# expose_headers: the frontend reads the PDF's file name from Content-Disposition.
+app.add_middleware(CORSMiddleware, allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?", allow_methods=["*"], allow_headers=["*"],
+                   expose_headers=["Content-Disposition"])
 
 
 @dataclass
@@ -273,8 +276,20 @@ async def get_run(run_id: str):
 async def report_pdf(run_id: str):
     """The drug assessment as a PDF (assessment runs only)."""
     report = await _assessment(run_id)
-    return Response(assess.render_pdf(report), media_type="application/pdf",
-                    headers={"Content-Disposition": f'attachment; filename="drug-assessment-{report["patient_id"]}-{run_id}.pdf"'})
+    return Response(assess.render_pdf(report), media_type="application/pdf", headers={"Content-Disposition": _attachment(pdf_filename(report))})
+
+
+def pdf_filename(report: dict) -> str:
+    """'<Patient name> (<patient id>).pdf', e.g. 'Alex Moreau (alex).pdf'. The run id is inside the report."""
+    pid = report.get("patient_id") or "patient"
+    name = ((report.get("patient") or {}).get("name") or "").strip()
+    return f"{name} ({pid}).pdf" if name and name.lower() != pid.lower() else f"{pid}.pdf"
+
+
+def _attachment(filename: str) -> str:
+    # filename= for old clients (ASCII only); filename*= carries the exact name (RFC 6266).
+    ascii_ = re.sub(r'[^A-Za-z0-9 ._()-]', "_", filename)
+    return f"attachment; filename=\"{ascii_}\"; filename*=UTF-8''{quote(filename)}"
 
 
 class ChatMessage(BaseModel):
@@ -314,7 +329,8 @@ async def assessment_chat(run_id: str, body: ChatRequest):
 
 @app.post("/api/assess/{run_id}/chat/stream")
 async def assessment_chat_stream(run_id: str, body: ChatRequest):
-    """/chat as SSE, so the UI can show the agent working: `thinking` {text}, `tool_call`
+    """/chat as SSE, so the UI can show the agent working: `delta` {text} (answer tokens;
+    `draft_reset` {} discards them when that turn turned out to call a tool), `thinking` {text}, `tool_call`
     {tool, query, redactions}, `tool_result` {tool, content}, then one `answer` (the /chat
     payload) or `error` {message}. POST, so read it with fetch, not EventSource."""
     if body.messages[-1].role != "user":

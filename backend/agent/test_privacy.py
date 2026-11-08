@@ -156,5 +156,24 @@ class DrugAssessment(unittest.TestCase):
         self.assertGreater(len(pdf), 2000)
 
 
+class ReportHeader(unittest.TestCase):
+    """patient_context builds the report header for every record shape on disk: the hand-written
+    fixtures (fixed keys) and records parsed from a chart PDF (lists of items). A mismatch here
+    used to surface only at the very end of a paid assessment run."""
+
+    def test_every_patient_record(self):
+        from datetime import datetime, timezone
+        from agent.assess import patient_context
+        from agent.config import PATIENT_DIR
+        ids = sorted(p.stem for p in PATIENT_DIR.glob("*.json"))
+        self.assertTrue(ids)
+        for pid in ids:
+            with self.subTest(patient=pid):
+                ctx = patient_context(load_record(pid), datetime(2026, 11, 8, tzinfo=timezone.utc))
+                self.assertTrue(ctx["name"])
+                self.assertTrue(ctx["headline"])
+                self.assertTrue(ctx["context"])
+
+
 if __name__ == "__main__":
     unittest.main()

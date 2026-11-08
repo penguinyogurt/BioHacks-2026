@@ -320,6 +320,8 @@ export type PipelineEvent =
   | { type: 'lanes'; lanes: Lane[] }
   /** Live runs: the stage-3 scene computed from the agents' targets, and the stage-4 report PDF. */
   | { type: 'scene'; src: string }
+  /** Live runs: the backend patient record every stage uses (built from the uploaded case PDF). */
+  | { type: 'patient'; id: string }
   | { type: 'reportPdf'; url: string; runId: string }
   | { type: 'profile'; profile: DrugProfile }
   | { type: 'matches' }

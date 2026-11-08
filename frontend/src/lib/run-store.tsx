@@ -6,6 +6,10 @@ import {
 } from './pipeline'
 import { agentAvailable, runLiveAgent, type LiveIds } from './agent-api'
 import { clearRun, loadCase, loadRun, saveCase, saveRun, type SavedRun } from './session'
+import { saveReport } from './reports-db'
+
+/** Saving a finished live report to Supabase (lib/reports-db.ts). 'off': not signed in / not configured. */
+export type ReportSave = { status: 'idle' | 'saving' | 'saved' | 'off' | 'error'; message?: string }
 
 /**
  * One discovery run, shared by every pipeline page (case → analysis → profiles →
@@ -39,6 +43,8 @@ export type RunState = {
   error: string | null
   /** Live runs: scene.json for stage 3 (null → the demo scene) and the backend's report PDF for stage 4. */
   sceneSrc: string | null
+  /** Live runs: the backend patient record id, e.g. "alex-chen-3f9a1c". */
+  patientId: string | null
   reportPdf: string | null
   /** Live runs: the drug-assessment run id, which the report chat (/api/assess/<id>/chat) talks about. */
   assessRunId: string | null
@@ -56,6 +62,7 @@ const initial: RunState = {
   profiles: [],
   error: null,
   sceneSrc: null,
+  patientId: null,
   reportPdf: null,
   assessRunId: null,
   matches: false,
@@ -89,6 +96,8 @@ function reducer(s: RunState, a: Action): RunState {
       }
     case 'lanes':
       return { ...s, lanes: a.lanes }
+    case 'patient':
+      return { ...s, patientId: a.id }
     case 'scene':
       return { ...s, sceneSrc: a.src, matches: true }
     case 'reportPdf':
@@ -141,6 +150,8 @@ type Store = {
   open: (run: CompletedRun) => void
   /** Id of the reopened run, if one is being viewed. */
   openedId: string | null
+  /** Whether the finished live report made it into Supabase. */
+  reportSave: ReportSave
 }
 
 const Ctx = createContext<Store | null>(null)
@@ -158,7 +169,11 @@ export function RunProvider({ children }: { children: ReactNode }) {
   const [date, setDate] = useState('')
   const [runs, setRuns] = useState<CompletedRun[]>([])
   const [openedId, setOpenedId] = useState<string | null>(null)
+  const [reportSave, setReportSave] = useState<ReportSave>({ status: 'idle' })
   const runner = useRef<{ cancel: () => void; skip: () => void } | null>(null)
+  const starting = useRef(false)
+  // Bumped by reset/open/resume, so a start still awaiting the health check can't resurrect itself.
+  const generation = useRef(0)
   // Mirror of the reducer, so a finished run can be saved whole without waiting for a render.
   const snap = useRef<RunState>(initial)
   const meta = useRef({ when: '', caseFile: null as CaseFile | null, goal: '', weights })
@@ -207,6 +222,8 @@ export function RunProvider({ children }: { children: ReactNode }) {
   const launch = useCallback(
     (saved: SavedRun) => {
       saveRun(saved)
+      let ids = saved.ids
+      setReportSave({ status: 'idle' })
       const cancel = runLiveAgent(
         saved.goal,
         apply,
@@ -215,13 +232,37 @@ export function RunProvider({ children }: { children: ReactNode }) {
           if (error) return apply({ type: 'fail', error })
           apply({ type: 'stage-end', last: true })
           save()
+          // Keep the report beyond this machine's backend: Supabase, under the signed-in user.
+          setReportSave({ status: 'saving' })
+          void saveReport(ids).then(setReportSave)
         },
         saved.ids,
-        (ids: LiveIds) => saveRun({ ...saved, ids }),
+        (next: LiveIds) => {
+          ids = next
+          saveRun({ ...saved, ids: next })
+        },
+        meta.current.caseFile,
       )
       runner.current = { cancel, skip: () => {} }
     },
     [apply, save],
+  )
+
+  /** Rebuild an existing live run from the backend's event replay; nothing is re-run. */
+  const resume = useCallback(
+    (saved: SavedRun, file: CaseFile | null) => {
+      generation.current++
+      runner.current?.cancel()
+      meta.current = { when: saved.when, caseFile: file, goal: saved.goal, weights: saved.weights }
+      setDate(saved.when)
+      setGoal(saved.goal)
+      setWeights(saved.weights)
+      setOpenedId(null)
+      snap.current = initial
+      apply({ type: 'begin', source: 'live' })
+      launch(saved)
+    },
+    [apply, launch],
   )
 
   // After a reload (or a discarded tab): bring back the case file and the live run, if any.
@@ -235,21 +276,14 @@ export function RunProvider({ children }: { children: ReactNode }) {
       if (file) setCaseFileState(file)
       const saved = loadRun()
       if (!saved?.ids.research || snap.current.phase !== 'idle') return
-      meta.current = { when: saved.when, caseFile: file, goal: saved.goal, weights: saved.weights }
-      setDate(saved.when)
-      setGoal(saved.goal)
-      setWeights(saved.weights)
-      apply({ type: 'begin', source: 'live' })
-      launch(saved)
+      resume(saved, file)
     })()
     return () => {
       alive = false
     }
-  }, [apply, launch])
+    // Once, on mount: resume() is stable enough, and re-running this would resume twice.
+  }, [])
 
-  const starting = useRef(false)
-  // Bumped by reset/open, so a start still awaiting the health check can't resurrect itself.
-  const generation = useRef(0)
   const start = useCallback(async () => {
     if (starting.current) return
     starting.current = true
@@ -302,7 +336,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
 
   return (
     <Ctx.Provider
-      value={{ state, caseFile, setCaseFile, goal, setGoal, weights, setWeights, date, runs, start, advance, skip, reset, open, openedId }}
+      value={{ state, caseFile, setCaseFile, goal, setGoal, weights, setWeights, date, runs, start, advance, skip, reset, open, openedId, reportSave }}
     >
       {children}
     </Ctx.Provider>

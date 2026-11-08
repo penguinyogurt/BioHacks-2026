@@ -324,9 +324,39 @@ def score(c: dict, novelty: str = "") -> int:
     return min(100, round(base + (NOVEL_BONUS if novelty == "novel" else 0)))
 
 
+def _chart_context(record: dict) -> dict:
+    """patient_context for a record parsed from a chart PDF (ingest.py → schemas.PatientRecord).
+    Its sections are lists of {name, value, …} items and the diagnosis is free text as written in
+    the chart, so lines are built from what's there rather than from fixed keys."""
+    ident, dx = record.get("identifiers", {}), str(record.get("diagnosis") or "")
+    func, gen = record.get("function", []), record.get("genetics", [])
+    items = lambda xs: "; ".join(f"{x.get('name', '')} {x.get('value', '')}".strip() for x in xs)
+    total = next((str(x.get("value", "")) for x in func if "alsfrs" in x.get("name", "").lower() and "total" in x.get("name", "").lower()), "")
+    score = re.match(r"\s*(\d+(?:\.\d+)?)", total)
+    onset = re.search(r"\b([a-z]+)[ -]onset\b", dx, re.I)
+    headline = ", ".join(x for x in (f"{onset.group(1).capitalize()} onset" if onset else "", f"ALSFRS-R {score.group(1)}/48" if score else "") if x)
+    known = lambda s: isinstance(s.get("severity"), (int, float)) and s["severity"] >= 0  # -1 = not stated in the chart
+    symptoms = "; ".join(s.get("name", "") + (f" {s['severity']}/5" if known(s) else "") for s in record.get("symptoms", []))
+    lines = [
+        dx.rstrip(".") + "." if dx else "",
+        "Function: " + items(func) + "." if func else "",
+        "Genetics: " + items(gen) + "." if gen else "",
+        "Current medication: " + ("; ".join(f"{m.get('name', '')} {m.get('dose', '')}".strip() for m in record.get("medications", [])) or "none recorded") +
+        ". Allergies: " + ("; ".join(record.get("allergies", [])) or "none recorded") + ".",
+        "Labs: " + "; ".join(f"{l.get('test', '')} {l.get('value', '')} {l.get('unit', '')}".strip() for l in record.get("labs", [])) + "." if record.get("labs") else "",
+        "Symptoms: " + symptoms + "." if symptoms else "",
+        " · ".join(x for x in (", ".join(v for v in (ident.get("city"), ident.get("province_or_state")) if v), f"Goals: {record['goals']}" if record.get("goals") else "") if x),
+    ]
+    return {"name": ident.get("full_name", ""), "headline": headline or dx.split(";")[0][:80],
+            "context": [l for l in lines if l.strip(". ")]}
+
+
 def patient_context(record: dict, now: datetime) -> dict:
     """Header facts for the clinician-facing report (the report is the clinician's; the
-    record never leaves this process except here)."""
+    record never leaves this process except here). Handles both record shapes: the hand-written
+    fixtures in data/patient/ (fixed keys) and records parsed from an uploaded chart PDF."""
+    if isinstance(record.get("function"), list) or isinstance(record.get("diagnosis"), str):
+        return _chart_context(record)
     ident, dx, f = record.get("identifiers", {}), record.get("diagnosis", {}), record.get("function", {})
     def months(ym: str) -> str:
         try:
@@ -335,9 +365,11 @@ def patient_context(record: dict, now: datetime) -> dict:
         except ValueError:
             return "?"
     age = ""
-    if ident.get("date_of_birth"):
-        y, m, d = map(int, ident["date_of_birth"].split("-"))
+    try:
+        y, m, d = map(int, ident.get("date_of_birth", "").split("-"))
         age = f"{now.year - y - ((now.month, now.day) < (m, d))} y, "
+    except ValueError:  # missing or not ISO: leave the age out rather than fail the report
+        pass
     alsfrs = (f.get("ALSFRS_R") or {}).get("total")
     lines = [
         f"{age}{dx.get('onset_site', '?')} onset, {months(dx.get('diagnosed', ''))} months since diagnosis "
