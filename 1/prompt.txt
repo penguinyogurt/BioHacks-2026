@@ -1,0 +1,23 @@
+Update the focused ultrasound page in the frontend so that it summarizes the information from this article: https://research.sunnybrook.ca/2025/05/world-first-canadian-innovation-enhances-drug-access-to-brain-areas-affected-by-als/
+
+---
+
+What happened to the header? Why isn't it consistent with the rest of the tabs?
+
+---
+
+make sure the headers on all the other tabs are consistent too
+
+---
+
+include some of the images from the article too: https://research.sunnybrook.ca/wp-content/uploads/sites/3/2025/05/FUS-and-ALS-treatment-320edit-1024x683.jpg.webp
+https://research.sunnybrook.ca/wp-content/uploads/sites/3/2025/05/FUS-and-ALS-treatment-322-1350x900.jpg.webp
+https://research.sunnybrook.ca/wp-content/uploads/sites/3/2025/05/FUS-and-ALS-treatment-232-1350x900.jpg.webphttps://research.sunnybrook.ca/wp-content/uploads/sites/3/2025/05/FUS-and-ALS-treatment-277-1350x900.jpg.webp
+
+---
+
+spread the images out over the summary not just all at once
+
+---
+
+stage the commit just for the changes to this page

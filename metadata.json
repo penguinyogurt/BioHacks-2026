@@ -3,14 +3,28 @@
   "checkpoint_id": "01M6WY3FCMC4FR2VSDH93N71WE",
   "strategy": "manual-commit",
   "branch": "frontend/diagnosis",
-  "checkpoints_count": 1,
+  "checkpoints_count": 6,
   "files_touched": [
+    "frontend/package-lock.json",
+    "frontend/package.json",
+    "frontend/public/fus/fus-232-1350x900.webp",
+    "frontend/public/fus/fus-277-1350x900.webp",
+    "frontend/public/fus/fus-320edit-1024x683.webp",
+    "frontend/public/fus/fus-322-1350x900.webp",
+    "frontend/src/components/app-sidebar.tsx",
     "frontend/src/components/background.tsx",
     "frontend/src/components/discovery/pages.tsx",
     "frontend/src/components/discovery/pieces.tsx",
+    "frontend/src/components/discovery/report.tsx",
     "frontend/src/components/discovery/runs.tsx",
+    "frontend/src/components/fus-page.tsx",
+    "frontend/src/components/overview-dashboard.tsx",
+    "frontend/src/components/page-header.tsx",
+    "frontend/src/index.css",
     "frontend/src/lib/case-pdf.ts",
+    "frontend/src/lib/pipeline.ts",
     "frontend/src/lib/run-store.tsx",
+    "frontend/src/lib/sample-data.ts",
     "frontend/src/pages/Home.tsx"
   ],
   "sessions": [
@@ -20,14 +34,21 @@
       "compact_transcript": "/0/transcript.jsonl",
       "content_hash": "/0/content_hash.txt",
       "prompt": "/0/prompt.txt"
+    },
+    {
+      "metadata": "/1/metadata.json",
+      "transcript": "/1/full.jsonl",
+      "compact_transcript": "/1/transcript.jsonl",
+      "content_hash": "/1/content_hash.txt",
+      "prompt": "/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 24,
-    "cache_creation_tokens": 63487,
-    "cache_read_tokens": 984697,
-    "output_tokens": 6510,
-    "api_call_count": 12
+    "input_tokens": 90,
+    "cache_creation_tokens": 137581,
+    "cache_read_tokens": 3464230,
+    "output_tokens": 28380,
+    "api_call_count": 40
   },
   "redaction": {
     "replacements": 18,

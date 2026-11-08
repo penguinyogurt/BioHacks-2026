@@ -1,0 +1,61 @@
+{
+  "cli_version": "0.13.1",
+  "checkpoint_id": "01M6WY3FCMC4FR2VSDH93N71WE",
+  "session_id": "12a52819-5a69-4551-8dad-8a575fda8599",
+  "strategy": "manual-commit",
+  "created_at": "2026-11-08T06:39:05.6896992Z",
+  "branch": "frontend/diagnosis",
+  "checkpoints_count": 5,
+  "save_step_count": 5,
+  "files_touched": [
+    "frontend/package-lock.json",
+    "frontend/package.json",
+    "frontend/public/fus/fus-232-1350x900.webp",
+    "frontend/public/fus/fus-277-1350x900.webp",
+    "frontend/public/fus/fus-320edit-1024x683.webp",
+    "frontend/public/fus/fus-322-1350x900.webp",
+    "frontend/src/components/app-sidebar.tsx",
+    "frontend/src/components/background.tsx",
+    "frontend/src/components/discovery/pages.tsx",
+    "frontend/src/components/discovery/pieces.tsx",
+    "frontend/src/components/discovery/report.tsx",
+    "frontend/src/components/discovery/runs.tsx",
+    "frontend/src/components/fus-page.tsx",
+    "frontend/src/components/overview-dashboard.tsx",
+    "frontend/src/components/page-header.tsx",
+    "frontend/src/index.css",
+    "frontend/src/lib/case-pdf.ts",
+    "frontend/src/lib/pipeline.ts",
+    "frontend/src/lib/run-store.tsx",
+    "frontend/src/lib/sample-data.ts",
+    "frontend/src/pages/Home.tsx"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5-5",
+  "turn_id": "e8b0171e4dfc",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 66,
+    "cache_creation_tokens": 74094,
+    "cache_read_tokens": 2479533,
+    "output_tokens": 21870,
+    "api_call_count": 28
+  },
+  "redaction": {
+    "replacements": 0,
+    "layers": {
+      "betterleaks": 0,
+      "connection_string": 0,
+      "credential_key": 0,
+      "credential_value": 0,
+      "credentialed_uri": 0,
+      "entropy": 0,
+      "key_context": 0,
+      "provider_token": 0,
+      "shell_stdin": 0
+    }
+  },
+  "session_metrics": {
+    "turn_count": 5
+  }
+}
