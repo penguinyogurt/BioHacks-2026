@@ -1,9 +1,11 @@
 """HTTP API for the research agent. The frontend connects here.
 
-  POST /api/research                 {question?}  → {run_id, events_url, report_url}
+  POST /api/research                 {question?, patient_id?}  → {run_id, events_url, report_url}
   GET  /api/research/{run_id}/events SSE: every event so far, then live ones
   GET  /api/research/{run_id}        {status, report, error}
   GET  /api/research                 recent runs
+  POST /api/patients                 multipart {file: PDF, patient_id} → parsed record counts
+  GET  /api/patients                 patient ids
   GET  /api/health
 
 Every run is also written to agent/runs/<run_id>.jsonl, so a recorded run can
@@ -19,13 +21,14 @@ import uuid
 from dataclasses import dataclass, field
 
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sse_starlette.sse import EventSourceResponse
 
-from agent.config import GOOGLE_API_KEY, LANGSMITH_PROJECT, MAX_CONCURRENCY, ORCHESTRATOR_MODEL, RUN_TIMEOUT_S, RUNS_DIR, SUBAGENT_MODEL, tracing_enabled
+from agent.config import DEFAULT_PATIENT, PATIENT_DIR, GOOGLE_API_KEY, LANGSMITH_PROJECT, MAX_CONCURRENCY, ORCHESTRATOR_MODEL, RUN_TIMEOUT_S, RUNS_DIR, SUBAGENT_MODEL, tracing_enabled
 from agent.graph import DEFAULT_QUESTION, graph
+from agent.ingest import PATIENT_ID, IngestError, parse_pdf, save, summary
 
 app = FastAPI(title="ALS research agent")
 app.add_middleware(CORSMiddleware, allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?", allow_methods=["*"], allow_headers=["*"])
@@ -35,6 +38,7 @@ app.add_middleware(CORSMiddleware, allow_origin_regex=r"http://(localhost|127\.0
 class Run:
     run_id: str
     question: str
+    patient_id: str
     started: float = field(default_factory=time.monotonic)
     events: list[dict] = field(default_factory=list)
     status: str = "running"  # running | done | error
@@ -60,11 +64,11 @@ async def execute(run: Run) -> None:
         "max_concurrency": MAX_CONCURRENCY,
         "run_name": "research run",
         "tags": ["research_run"],
-        "metadata": {"run_id": run.run_id, "question": run.question},
+        "metadata": {"run_id": run.run_id, "question": run.question, "patient_id": run.patient_id},
     }
     try:
         async with asyncio.timeout(RUN_TIMEOUT_S):
-            async for event in graph.astream({"run_id": run.run_id, "question": run.question}, config=config, stream_mode="custom"):
+            async for event in graph.astream({"run_id": run.run_id, "question": run.question, "patient_id": run.patient_id}, config=config, stream_mode="custom"):
                 if event.get("type") == "report":
                     run.report = event["data"]
                 await run.push(event)
@@ -77,15 +81,39 @@ async def execute(run: Run) -> None:
 
 class ResearchRequest(BaseModel):
     question: str | None = None
+    patient_id: str = DEFAULT_PATIENT
+
+
+@app.post("/api/patients")
+async def upload_patient(file: UploadFile = File(...), patient_id: str = Form(...), synthetic: bool = Form(True)):
+    """Upload a chart PDF; it's parsed into data/patient/<patient_id>.json. Returns section counts, not contents."""
+    if not PATIENT_ID.match(patient_id):
+        raise HTTPException(422, "patient_id must be lowercase letters, digits, - or _")
+    data = await file.read()
+    if len(data) > 20 * 1024 * 1024:
+        raise HTTPException(413, "PDF over 20 MB")
+    try:
+        record, method = await parse_pdf(data)
+    except IngestError as e:
+        raise HTTPException(422, str(e))
+    save(record, patient_id, synthetic=synthetic, source=file.filename or "upload.pdf")
+    return {"patient_id": patient_id, "method": method, "counts": summary(record)}
+
+
+@app.get("/api/patients")
+async def list_patients():
+    return {"patients": sorted(p.stem for p in PATIENT_DIR.glob("*.json"))}
 
 
 @app.post("/api/research")
 async def start_research(body: ResearchRequest):
     if not GOOGLE_API_KEY:
         raise HTTPException(503, "GOOGLE_API_KEY is not set (agent/.env)")
+    if not PATIENT_ID.match(body.patient_id) or not (PATIENT_DIR / f"{body.patient_id}.json").exists():
+        raise HTTPException(404, f"unknown patient '{body.patient_id}' (upload a chart to /api/patients)")
     RUNS_DIR.mkdir(parents=True, exist_ok=True)
     run_id = time.strftime("r%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6]
-    run = RUNS[run_id] = Run(run_id=run_id, question=(body.question or DEFAULT_QUESTION).strip())
+    run = RUNS[run_id] = Run(run_id=run_id, question=(body.question or DEFAULT_QUESTION).strip(), patient_id=body.patient_id)
     asyncio.create_task(execute(run))
     return {"run_id": run_id, "events_url": f"/api/research/{run_id}/events", "report_url": f"/api/research/{run_id}"}
 

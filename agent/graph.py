@@ -16,12 +16,12 @@ from typing import Annotated, TypedDict
 
 import httpx
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.config import get_stream_writer
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Send
 
-from agent.config import GOOGLE_API_KEY, LANGSMITH_PROJECT, MAX_SUBAGENTS, ORCHESTRATOR_MODEL, PIPELINE_PATH, SUBAGENT_MODEL, tracing_enabled
+from agent.config import DEFAULT_PATIENT, LANGSMITH_PROJECT, MAX_SUBAGENTS, ORCHESTRATOR_MODEL, PIPELINE_PATH, SUBAGENT_MODEL, tracing_enabled
+from agent.llm import gemini
 from agent.criteria import CRITERIA, catalog_text, label
 from agent.privacy import load_record, sanitize_brief, sensitive_terms
 from agent.schemas import Brief, Plan, PipelineXref, PlanItem, ReportFinding, ResearchReport, SubagentResult, Synthesis
@@ -33,6 +33,7 @@ DEFAULT_QUESTION = "Which approved drugs could help this patient, across surviva
 class State(TypedDict, total=False):
     run_id: str
     question: str
+    patient_id: str
     record: dict
     plan_rationale: str
     briefs: list[Brief]
@@ -42,8 +43,8 @@ class State(TypedDict, total=False):
     report: dict
 
 
-def _llm() -> ChatGoogleGenerativeAI:
-    return ChatGoogleGenerativeAI(model=ORCHESTRATOR_MODEL, google_api_key=GOOGLE_API_KEY)
+def _llm():
+    return gemini(ORCHESTRATOR_MODEL)
 
 
 def _emit(event: dict) -> None:
@@ -52,8 +53,8 @@ def _emit(event: dict) -> None:
 
 # ── nodes ───────────────────────────────────────────────────────────────────
 async def load_patient(state: State) -> State:
-    record = load_record()
-    _emit({"type": "patient_loaded", "data": {"synthetic": record.get("synthetic", False)}})
+    record = load_record(state.get("patient_id") or DEFAULT_PATIENT)
+    _emit({"type": "patient_loaded", "data": {"patient_id": state.get("patient_id") or DEFAULT_PATIENT, "synthetic": record.get("synthetic", False)}})
     return {"record": record}
 
 
@@ -136,9 +137,22 @@ _ID_SHAPE = {
 }
 
 
+def _normalize_id(source: str, raw: str) -> str:
+    """'PMID: 15505150' -> '15505150', 'nct02623699' -> 'NCT02623699', urls -> their trailing id."""
+    s = raw.strip().rstrip("/").split("/")[-1]
+    if source == "pubmed":
+        return re.sub(r"\D", "", s)
+    if source in ("clinicaltrials", "chembl"):
+        return s.upper()
+    return s
+
+
 async def verify(state: State) -> State:
     """Drop evidence whose id doesn't exist; drop findings left with no evidence."""
     pairs = [(cid, f) for cid, res in state.get("results", []) for f in res.findings]
+    for _, f in pairs:
+        for e in f.evidence:
+            e.id = _normalize_id(e.source, e.id)
     pmids = {e.id for _, f in pairs for e in f.evidence if e.source == "pubmed"}
     ncts = {e.id for _, f in pairs for e in f.evidence if e.source == "clinicaltrials"}
     try:
@@ -184,6 +198,8 @@ SYNTH = """You are the lead researcher. Sub-agents researched the criteria below
 Using the full patient record, rank the verified findings for THIS patient (best first), say why each fits or doesn't,
 and list patient-specific cautions (interactions with current medications, respiratory risk, formulation, etc.).
 Rank every finding exactly once, by its index. Then write a 3-5 sentence summary for a clinician.
+If the patient already takes a drug, say so in patient_fit and rank it below new options.
+Refer to the patient by name or as they/them unless the record states their pronouns.
 This is a research aid, not medical advice; don't phrase anything as a prescription."""
 
 

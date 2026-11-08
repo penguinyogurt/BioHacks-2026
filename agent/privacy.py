@@ -11,10 +11,15 @@ The wall is enforced in three ways, so one layer failing isn't a leak:
 import json
 import re
 
-from agent.config import PATIENT_PATH
+from agent.config import DEFAULT_PATIENT, PATIENT_DIR
 from agent.schemas import Brief
 
 REDACTED = "[REDACTED]"
+# name parts too generic to redact on their own (would gut briefs)
+_NOT_IDENTIFYING = {"dr", "mrs", "miss", "md", "rn", "frcpc", "phd", "the", "and", "clinic", "hospital", "centre", "center", "health", "street", "road", "unit", "als", "neurology", "neuromuscular", "university", "general"}
+
+_NAME_FIELDS = {"full_name", "clinicians", "neurologist"}
+_PERSON_NAME = re.compile(r"^(Dr\.? )?[A-Z][a-z'-]+( [A-Z][a-z'-]+){1,2}$")
 
 _PATTERNS = [
     re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+"),  # email
@@ -31,22 +36,28 @@ _PATTERNS = [
 ]
 
 
-def load_record() -> dict:
-    return json.loads(PATIENT_PATH.read_text(encoding="utf-8"))
+def load_record(patient_id: str = DEFAULT_PATIENT) -> dict:
+    if not re.fullmatch(r"[a-z0-9][a-z0-9_-]{0,40}", patient_id):
+        raise ValueError("bad patient_id")
+    return json.loads((PATIENT_DIR / f"{patient_id}.json").read_text(encoding="utf-8"))
 
 
 def sensitive_terms(record: dict) -> list[str]:
     terms: set[str] = set()
-    for value in record.get("identifiers", {}).values():
-        if not isinstance(value, str):
-            continue
-        terms.add(value)
-        # names: also each part ("Alex", "Moreau"), skipping titles
-        terms.update(p for p in re.split(r"[\s.]+", value) if len(p) >= 3 and p.lower() not in {"dr", "mrs", "miss"})
+    for field, value in record.get("identifiers", {}).items():
+        for v in value if isinstance(value, list) else [value]:
+            if not isinstance(v, str):
+                continue
+            terms.add(v)
+            # person names: also each part ("Alex", "Moreau"), skipping titles.
+            # Other identifiers (addresses, "next of kin") only as whole strings,
+            # or common words would be scrubbed from every brief.
+            if field in _NAME_FIELDS or _PERSON_NAME.match(v):
+                terms.update(p for p in re.split(r"[\s.,()]+", v) if len(p) >= 3 and p.lower() not in _NOT_IDENTIFYING)
     for med in record.get("medications", []):
         terms.add(med["name"])
     for trial in record.get("trials", []):
-        terms.add(trial["nct_id"])
+        terms.update(t for t in (trial.get("nct_id"), trial.get("name")) if t)
     # longest first so "Alex Moreau" goes before "Alex"
     return sorted((t for t in terms if t.strip()), key=len, reverse=True)
 

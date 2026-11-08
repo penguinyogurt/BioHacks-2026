@@ -10,6 +10,7 @@ import functools
 import hashlib
 import json
 import os
+import time
 from urllib.parse import quote
 
 import httpx
@@ -41,10 +42,26 @@ def cached(fn):
     return wrapper
 
 
-def _ncbi_params(**p):
+_ncbi_last = [0.0]
+
+
+def _ncbi(endpoint: str, **params) -> httpx.Response:
+    """NCBI allows 3 req/s without a key (10 with). Throttle, and back off on 429."""
     if os.getenv("NCBI_API_KEY"):
-        p["api_key"] = os.environ["NCBI_API_KEY"]
-    return p
+        params["api_key"] = os.environ["NCBI_API_KEY"]
+    gap = 0.12 if "api_key" in params else 0.4
+    for attempt in range(4):
+        wait = _ncbi_last[0] + gap - time.monotonic()
+        if wait > 0:
+            time.sleep(wait)
+        _ncbi_last[0] = time.monotonic()
+        r = _http.get(f"{NCBI}/{endpoint}", params=params)
+        if r.status_code != 429:
+            r.raise_for_status()
+            return r
+        time.sleep(1.5 * (attempt + 1))
+    r.raise_for_status()
+    return r
 
 
 def _ot(query: str, variables: dict) -> dict:
@@ -67,10 +84,10 @@ def _clip(s: str | None, n: int) -> str | None:
 @cached
 def search_pubmed(query: str, max_results: int = 8) -> list[dict]:
     """Search PubMed. Returns PMID, title, journal, year, url. Add 'amyotrophic lateral sclerosis' to the query yourself if relevant."""
-    ids = _http.get(f"{NCBI}/esearch.fcgi", params=_ncbi_params(db="pubmed", term=query, retmode="json", retmax=min(max_results, 20))).json()["esearchresult"]["idlist"]
+    ids = _ncbi("esearch.fcgi", db="pubmed", term=query, retmode="json", retmax=min(max_results, 20)).json()["esearchresult"]["idlist"]
     if not ids:
         return []
-    summ = _http.get(f"{NCBI}/esummary.fcgi", params=_ncbi_params(db="pubmed", id=",".join(ids), retmode="json")).json()["result"]
+    summ = _ncbi("esummary.fcgi", db="pubmed", id=",".join(ids), retmode="json").json()["result"]
     return [
         {"pmid": i, "title": summ[i].get("title"), "journal": summ[i].get("source"), "year": (summ[i].get("pubdate") or "")[:4], "url": f"https://pubmed.ncbi.nlm.nih.gov/{i}/"}
         for i in ids
@@ -82,7 +99,7 @@ def search_pubmed(query: str, max_results: int = 8) -> list[dict]:
 @cached
 def fetch_pubmed_abstract(pmid: str) -> dict:
     """Fetch the abstract text for one PMID."""
-    text = _http.get(f"{NCBI}/efetch.fcgi", params=_ncbi_params(db="pubmed", id=pmid, rettype="abstract", retmode="text")).text
+    text = _ncbi("efetch.fcgi", db="pubmed", id=pmid, rettype="abstract", retmode="text").text
     return {"pmid": pmid, "url": f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/", "text": _clip(text.strip(), 4000)}
 
 

@@ -25,11 +25,25 @@ agent/.venv/Scripts/python -m pip install -r agent/requirements.txt   # macOS/Li
 cp agent/.env.example agent/.env    # then fill in GOOGLE_API_KEY and LANGSMITH_API_KEY
 ```
 
+## Patient charts (PDF → record)
+
+```bash
+agent/.venv/Scripts/python -m agent.ingest chart.pdf --id jordan   # → data/patient/jordan.json
+```
+
+`ingest.py` takes text with `pypdf` and has Gemini structure it into a
+`PatientRecord` (`schemas.py`). A scanned PDF with no text layer is sent to
+Gemini as a file instead, so no OCR install is needed. The `identifiers`
+section feeds the privacy redaction, so a parse that finds no patient name
+fails rather than saving. A synthetic test chart is in
+`data/patient/samples/jordan_chart.pdf` (regenerate it with
+`python -m agent.make_sample_chart`).
+
 ## Run (from the repo root)
 
 ```bash
 agent/.venv/Scripts/python -m agent.api                 # API on http://127.0.0.1:8001
-agent/.venv/Scripts/python -m agent.cli "cramps and sleep?"   # one run in the terminal
+agent/.venv/Scripts/python -m agent.cli --patient jordan "drooling?"   # one run in the terminal
 agent/.venv/Scripts/python -m unittest agent.test_privacy     # privacy wall, no key needed
 agent/.venv/Scripts/python -m agent.mcp_server          # the MCP server alone (stdio)
 ```
@@ -41,14 +55,16 @@ event loop that can't spawn the MCP subprocesses.
 
 | Method | Path | Returns |
 |---|---|---|
-| POST | `/api/research` body `{"question"?: string}` | `{run_id, events_url, report_url}` |
+| POST | `/api/patients` multipart `file` (PDF), `patient_id`, `synthetic`? | `{patient_id, method, counts}` (section counts only, no contents) |
+| GET | `/api/patients` | patient ids |
+| POST | `/api/research` body `{"question"?: string, "patient_id"?: string}` | `{run_id, events_url, report_url}` |
 | GET | `/api/research/{run_id}/events` | SSE stream: all past events, then live. Recorded runs replay from `agent/runs/`; `?replay_speed=1` keeps original timing |
 | GET | `/api/research/{run_id}` | `{status, report, error}` |
 | GET | `/api/research` | live + recorded run ids |
 | GET | `/api/health` | key present, models, tracing on/off |
 
 Event types, in order: `run_started` · `patient_loaded` · `plan` ·
-(`subagent_started` · `tool_call` · `tool_result` · `subagent_finished`)×N
+(`subagent_started` · `tool_call` · `tool_result` · `budget_exhausted`? · `subagent_finished`)×N
 · `verify` · `report` · `run_finished` | `error`. Each event is
 `{t_ms, type, criterion?, data}`. The `report` data is `ResearchReport` in
 `schemas.py`. Mirror it in zod when the frontend is connected.
@@ -58,6 +74,15 @@ const { events_url } = await (await fetch("http://127.0.0.1:8001/api/research", 
 const es = new EventSource("http://127.0.0.1:8001" + events_url);
 es.addEventListener("report", (e) => console.log(JSON.parse(e.data).data));
 ```
+
+## Gemini free tier
+
+The free tier allows about **5 requests per minute per model**, and
+`gemini-3.1-pro-preview` has no free quota at all. A run makes 25–40 calls.
+`agent/.env.example` lists settings that work on the free tier: Flash for the
+orchestrator, Flash-Lite for the sub-agents (a separate quota), and a shared
+rate limiter (`AGENT_GEMINI_RPM`). A run then takes about 5 minutes. With
+billing on, delete those lines and runs take about 1 minute.
 
 ## Privacy wall
 

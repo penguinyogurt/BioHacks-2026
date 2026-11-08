@@ -6,12 +6,13 @@ from typing import Callable
 
 from langchain.agents import create_agent
 from langchain.agents.structured_output import ToolStrategy
-from langchain_core.messages import AIMessage, ToolMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
+from langgraph.errors import GraphRecursionError
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_mcp_adapters.tools import load_mcp_tools
 
-from agent.config import GOOGLE_API_KEY, MAX_TOOL_CALLS, ROOT, SUBAGENT_MODEL, SUBAGENT_TIMEOUT_S
+from agent.config import MAX_TOOL_CALLS, ROOT, SUBAGENT_MODEL, SUBAGENT_TIMEOUT_S
+from agent.llm import gemini
 from agent.criteria import CRITERIA
 from agent.schemas import Brief, SubagentResult
 
@@ -41,8 +42,8 @@ How to work:
 - Stop after at most {max_calls} tool calls, then answer with 1-5 findings and list your dead ends."""
 
 
-def _llm() -> ChatGoogleGenerativeAI:
-    return ChatGoogleGenerativeAI(model=SUBAGENT_MODEL, google_api_key=GOOGLE_API_KEY)
+def _llm():
+    return gemini(SUBAGENT_MODEL)
 
 
 async def _run(brief: Brief, emit: Callable[[dict], None]) -> SubagentResult:
@@ -61,26 +62,43 @@ async def _run(brief: Brief, emit: Callable[[dict], None]) -> SubagentResult:
         tools = await load_mcp_tools(session)
         agent = create_agent(_llm(), tools, system_prompt=prompt, response_format=ToolStrategy(SubagentResult), name=f"subagent_{brief.criterion}")
         result: SubagentResult | None = None
+        notes: list[str] = []  # tool results so far, for the out-of-budget fallback
         config = {
             "recursion_limit": 2 * MAX_TOOL_CALLS + 6,
             "run_name": f"subagent {brief.criterion}: {label}",
             "tags": ["subagent", brief.criterion],
             "metadata": {"criterion": brief.criterion},
         }
-        async for update in agent.astream({"messages": [{"role": "user", "content": "Begin the research."}]}, config=config, stream_mode="updates"):
-            for node_out in update.values():
-                if not isinstance(node_out, dict):
-                    continue
-                for msg in node_out.get("messages", []):
-                    if isinstance(msg, AIMessage):
-                        for call in msg.tool_calls:
-                            if call["name"] != "SubagentResult":
-                                emit({"type": "tool_call", "criterion": brief.criterion, "data": {"tool": call["name"], "args": call["args"]}})
-                    elif isinstance(msg, ToolMessage) and msg.name != "SubagentResult":
-                        emit({"type": "tool_result", "criterion": brief.criterion, "data": {"tool": msg.name, "chars": len(str(msg.content)), "error": msg.status == "error"}})
-                if node_out.get("structured_response") is not None:
-                    result = node_out["structured_response"]
+        try:
+            async for update in agent.astream({"messages": [{"role": "user", "content": "Begin the research."}]}, config=config, stream_mode="updates"):
+                result = _handle(update, brief, emit, notes) or result
+        except GraphRecursionError:
+            # Out of steps before answering: answer from what it already found.
+            emit({"type": "budget_exhausted", "criterion": brief.criterion, "data": {"tool_results": len(notes)}})
+            final = _llm().with_structured_output(SubagentResult)
+            result = await final.ainvoke(
+                [SystemMessage(prompt), HumanMessage("Tool budget exhausted. Answer now using ONLY these tool results; cite only ids that appear in them.\n\n" + "\n\n".join(notes)[-30000:])],
+                config={"run_name": f"subagent {brief.criterion}: final answer (budget exhausted)"},
+            )
         return result or SubagentResult(findings=[], dead_ends=["Sub-agent ended without a structured answer."])
+
+
+def _handle(update: dict, brief: Brief, emit: Callable[[dict], None], notes: list[str]) -> SubagentResult | None:
+    result = None
+    for node_out in update.values():
+        if not isinstance(node_out, dict):
+            continue
+        for msg in node_out.get("messages", []):
+            if isinstance(msg, AIMessage):
+                for call in msg.tool_calls:
+                    if call["name"] != "SubagentResult":
+                        emit({"type": "tool_call", "criterion": brief.criterion, "data": {"tool": call["name"], "args": call["args"]}})
+            elif isinstance(msg, ToolMessage) and msg.name != "SubagentResult":
+                notes.append(f"[{msg.name}] {str(msg.content)[:2500]}")
+                emit({"type": "tool_result", "criterion": brief.criterion, "data": {"tool": msg.name, "chars": len(str(msg.content)), "error": msg.status == "error"}})
+        if node_out.get("structured_response") is not None:
+            result = node_out["structured_response"]
+    return result
 
 
 async def run_subagent(brief: Brief, emit: Callable[[dict], None]) -> SubagentResult:
@@ -90,6 +108,8 @@ async def run_subagent(brief: Brief, emit: Callable[[dict], None]) -> SubagentRe
     except asyncio.TimeoutError:
         result = SubagentResult(findings=[], dead_ends=[f"Timed out after {SUBAGENT_TIMEOUT_S:.0f}s."])
     except Exception as e:  # one broken sub-agent must not sink the run
+        while isinstance(e, BaseExceptionGroup) and e.exceptions:  # TaskGroups wrap the real cause
+            e = e.exceptions[0]
         result = SubagentResult(findings=[], dead_ends=[f"Sub-agent error: {type(e).__name__}: {e}"[:300]])
     emit({"type": "subagent_finished", "criterion": brief.criterion, "data": {"findings": len(result.findings), "drugs": [f.drug for f in result.findings], "dead_ends": result.dead_ends}})
     return result
