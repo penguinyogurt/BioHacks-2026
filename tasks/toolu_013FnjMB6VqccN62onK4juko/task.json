@@ -1,0 +1,15 @@
+{
+  "tool_use_id": "toolu_013FnjMB6VqccN62onK4juko",
+  "agent_id": "acf357df3f53b22fa",
+  "subagent_type": "fork",
+  "task_description": "Build DRKG legend and encoding key",
+  "token_usage": {
+    "input_tokens": 29,
+    "cache_creation_tokens": 29486,
+    "cache_read_tokens": 3235085,
+    "output_tokens": 17551,
+    "api_call_count": 13
+  },
+  "started_at": "2026-11-08T01:21:26.2570731-05:00",
+  "completed_at": "2026-11-08T01:44:44.5681064-05:00"
+}
