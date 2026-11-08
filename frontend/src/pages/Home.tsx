@@ -1,19 +1,18 @@
-import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
-import Dither from '@/components/react-bits/Dither'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { AsciiBackground } from '@/components/background'
 import OverviewDashboard from '@/components/overview-dashboard'
-import DiscoveryWorkspace, { type CompletedRun } from '@/components/discovery/workspace'
 import Runs from '@/components/discovery/runs'
-import { AppSidebar, ALL_NAV, NAV_GROUPS, NAV_SECONDARY, type Profile } from '@/components/app-sidebar'
+import { GoContext } from '@/components/discovery/pieces'
+import { AnalysisPage, CandidatesPage, CasePage, EmbeddingPage, ProfilesPage, ReportPage } from '@/components/discovery/pages'
+import { AppSidebar, ALL_NAV, NAV_GROUPS, NAV_PIPELINE, NAV_SECONDARY, type Profile, type StepStatus } from '@/components/app-sidebar'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { useAuth } from '@/lib/auth'
-import { SAMPLE_PATIENT } from '@/lib/pipeline'
-import { DITHER_INK, DITHER_PAPER } from '@/lib/theme'
+import { SAMPLE_PATIENT, type StageId } from '@/lib/pipeline'
+import { RunProvider, useRun } from '@/lib/run-store'
 
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /** Placeholder copy for views that aren't built yet. */
 const VIEWS: Record<string, { title: string; description: string; placeholder: string }> = {
@@ -74,11 +73,23 @@ const VIEWS: Record<string, { title: string; description: string; placeholder: s
   },
 }
 
+/** Which page shows each pipeline stage. */
+const STAGE_VIEW: Record<StageId, string> = {
+  analysis: 'analysis',
+  profiles: 'profiles',
+  embedding: 'embedding',
+  research: 'candidates',
+  report: 'report',
+}
+
 export default function Home() {
   const { user, loading, configured, signOut } = useAuth()
-  const [view, setView] = useState('discovery')
-  const [runs, setRuns] = useState<CompletedRun[]>([])
-  const [runKey, setRunKey] = useState(0)
+  // Each step has its own URL (/home/profiles …), so browser back/forward walks the workflow.
+  const { view = 'case' } = useParams()
+  const navigate = useNavigate()
+  const setView = (v: string) => {
+    if (v !== view) navigate(`/home/${v}`)
+  }
 
   if (configured && loading) return null
   if (configured && !user) return <Navigate to="/" replace />
@@ -89,35 +100,42 @@ export default function Home() {
     ? { name: meta.full_name ?? meta.name ?? user.email ?? 'You', email: user.email ?? '', avatar: meta.avatar_url ?? meta.picture }
     : { name: 'Demo researcher', email: 'Sign-in not configured' }
 
-  // "New discovery run" resets the workspace.
+  return (
+    // The pipeline never changes page by itself; the user moves between steps.
+    <RunProvider>
+      <GoContext.Provider value={setView}>
+        <Workspace view={view} setView={setView} profile={profile} onSignOut={user ? signOut : undefined} />
+      </GoContext.Provider>
+    </RunProvider>
+  )
+}
+
+function Workspace({ view, setView, profile, onSignOut }: { view: string; setView: (v: string) => void; profile: Profile; onSignOut?: () => void }) {
+  const { state, reset } = useRun()
+
   const select = (v: string) => {
     if (v === 'new-run') {
-      setRunKey((k) => k + 1)
-      setView('discovery')
+      reset()
+      setView('case')
     } else setView(v)
   }
-  const label = ALL_NAV.find((n) => n.value === view)?.label ?? 'Discovery'
+
+  const steps: Record<string, StepStatus> = {
+    case: state.phase === 'idle' ? 'pending' : 'done',
+    ...Object.fromEntries(Object.entries(STAGE_VIEW).map(([stage, v]) => [v, state.stages[stage as StageId]])),
+  }
+  const label = ALL_NAV.find((n) => n.value === view)?.label ?? 'Patient case'
   const section =
     NAV_GROUPS.find((g) => g.items.some((i) => i.value === view))?.label ??
-    (NAV_SECONDARY.some((i) => i.value === view) ? 'Account' : 'Discovery')
+    (NAV_SECONDARY.some((i) => i.value === view) ? 'Account' : 'Pipeline')
   const page = VIEWS[view]
+  const isPipeline = NAV_PIPELINE.some((n) => n.value === view)
 
   return (
     <div className="relative h-dvh w-full overflow-hidden text-foreground">
-      {/* The landing's dither field runs behind the whole workspace. */}
+      {/* The landing's Gradient ASCII field runs behind the whole workspace, quieter. */}
       <div className="fixed inset-0 z-0" aria-hidden>
-        <Dither
-          waveSpeed={0.02}
-          waveFrequency={3}
-          waveAmplitude={0.3}
-          backgroundColor={DITHER_PAPER}
-          waveColor={DITHER_INK}
-          colorNum={4}
-          pixelSize={2}
-          disableAnimation={reducedMotion}
-          enableMouseInteraction
-          mouseRadius={1.2}
-        />
+        <AsciiBackground quiet />
       </div>
 
       <TooltipProvider delayDuration={0}>
@@ -125,7 +143,7 @@ export default function Home() {
           className="relative z-10 h-dvh min-h-0 !bg-transparent"
           style={{ '--sidebar-width': 'calc(var(--spacing) * 72)', '--header-height': 'calc(var(--spacing) * 12)' } as React.CSSProperties}
         >
-          <AppSidebar active={view} onSelect={select} profile={profile} onSignOut={user ? signOut : undefined} />
+          <AppSidebar active={view} onSelect={select} profile={profile} onSignOut={onSignOut} steps={steps} />
           <SidebarInset className="min-h-0 overflow-y-auto !bg-transparent">
             <header className="sticky top-0 z-10 flex h-(--header-height) shrink-0 items-center gap-2 border-b border-border bg-background/60 backdrop-blur-md">
               <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -135,15 +153,23 @@ export default function Home() {
               </div>
             </header>
             <div className="px-4 pt-6 pb-16 lg:px-6">
-              {/* Kept mounted so a running discovery survives navigating away. */}
-              <div hidden={view !== 'discovery'}>
-                <DiscoveryWorkspace key={runKey} onComplete={(run) => setRuns((r) => [run, ...r])} />
-              </div>
-              {view === 'discovery' ? null : view === 'runs' ? (
-                <Runs runs={runs} onNewRun={() => select('new-run')} />
+              {view === 'case' ? (
+                <CasePage go={setView} />
+              ) : view === 'analysis' ? (
+                <AnalysisPage />
+              ) : view === 'profiles' ? (
+                <ProfilesPage />
+              ) : view === 'embedding' ? (
+                <EmbeddingPage />
+              ) : view === 'candidates' ? (
+                <CandidatesPage />
+              ) : view === 'report' ? (
+                <ReportPage />
+              ) : view === 'runs' ? (
+                <Runs onNewRun={() => select('new-run')} />
               ) : view === 'patient' ? (
                 <OverviewDashboard title={SAMPLE_PATIENT.label} />
-              ) : (
+              ) : page && !isPipeline ? (
                 <div className="pt-8 lg:pt-12">
                   <p className="eyebrow mb-8">{section} / {label}</p>
                   <div aria-live="polite">
@@ -158,7 +184,7 @@ export default function Home() {
                     </div>
                   </Card>
                 </div>
-              )}
+              ) : null}
             </div>
           </SidebarInset>
         </SidebarProvider>

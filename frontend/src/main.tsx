@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import '@fontsource-variable/geist'
+import '@fontsource-variable/geist-mono'
 import '@fontsource/sora/600.css'
 import '@fontsource/instrument-serif/400-italic.css'
 import './index.css'
@@ -15,7 +16,7 @@ createRoot(document.getElementById('root')!).render(
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/home/:view?" element={<Home />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>

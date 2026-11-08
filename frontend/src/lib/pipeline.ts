@@ -8,7 +8,7 @@
  *      fit, safety/interactions, cost, availability/regulation, acceptance
  *   5. Cited report
  *
- * `runDemoPipeline` replays fixed events on timers, the way Callio Labs' demo
+ * `runDemoStage` replays one stage of fixed events on timers, the way Callio Labs' demo
  * sequence does. A live backend only has to emit the same `PipelineEvent`s.
  * All outputs below are ILLUSTRATIVE — the UI labels the run "Simulated".
  */
@@ -318,7 +318,10 @@ export type PipelineEvent =
 
 type Timed = { at: number; event: PipelineEvent }
 
-function script(p: Patient): Timed[] {
+/** What the analysis agent is told about the uploaded case PDF. */
+export type CaseInput = { name: string; pages: number; words: number; excerpt: string } | null
+
+function script(p: Patient, caseInput: CaseInput): Timed[] {
   const out: Timed[] = []
   let t = 0
   const at = (dt: number, event: PipelineEvent) => {
@@ -330,6 +333,15 @@ function script(p: Patient): Timed[] {
 
   // 1 — patient analysis
   at(200, { type: 'stage', stage: 'analysis', status: 'running' })
+  if (caseInput) {
+    step('analysis', 'tool_call', 'pdf.extract_text', `{
+  "file": ${JSON.stringify(caseInput.name)},
+  "pages": ${caseInput.pages}
+}`, 700)
+    step('analysis', 'tool_result', 'Case PDF — result', `Extracted ${caseInput.words.toLocaleString()} words from ${caseInput.pages} page${caseInput.pages === 1 ? '' : 's'}.
+
+“${caseInput.excerpt}…”`, 900)
+  }
   step('analysis', 'thinking', 'Reading patient record', `${p.label}: ${p.age}${p.sex}, ${p.onset.toLowerCase()}, ${p.monthsSinceDx} months from diagnosis. ALSFRS-R ${p.alsfrs}/48, slope ${p.slope} pts/month, FVC ${p.fvc}%. On ${p.medications.join(', ')}.`, 900)
   step('analysis', 'tool_call', 'ncbi.gene_lookup', '{\n  "genes": ["SOD1", "C9orf72", "FUS", "TARDBP"],\n  "organism": "Homo sapiens"\n}', 1100)
   step('analysis', 'tool_result', 'NCBI Gene — result', 'Retrieved gene records and ALS-associated variant summaries for 4 genes.', 1100)
@@ -380,9 +392,24 @@ function script(p: Patient): Timed[] {
   return out.sort((a, b) => a.at - b.at)
 }
 
-/** Replays the scripted run. Returns `{ cancel, skip }`; `skip` flushes everything immediately. */
-export function runDemoPipeline(patient: Patient, emit: (e: PipelineEvent) => void, onDone: () => void) {
-  const events = script(patient)
+/** The scripted events of one stage, with times relative to the stage's start. */
+function stageEvents(patient: Patient, caseInput: CaseInput, stage: StageId): Timed[] {
+  let current: StageId | null = null
+  const mine: Timed[] = []
+  for (const t of script(patient, caseInput)) {
+    if (t.event.type === 'stage' && t.event.status === 'running') current = t.event.stage
+    if (current === stage) mine.push(t)
+  }
+  const t0 = mine[0]?.at ?? 0
+  return mine.map((t) => ({ at: t.at - t0 + 150, event: t.event }))
+}
+
+/**
+ * Replays ONE stage of the scripted run; the pipeline waits for the user
+ * before the next. Returns `{ cancel, skip }`; `skip` finishes the stage now.
+ */
+export function runDemoStage(patient: Patient, caseInput: CaseInput, stage: StageId, emit: (e: PipelineEvent) => void, onDone: () => void) {
+  const events = stageEvents(patient, caseInput, stage)
   let i = 0
   let timer: ReturnType<typeof setTimeout> | undefined
   const start = performance.now()

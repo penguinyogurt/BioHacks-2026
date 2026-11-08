@@ -10,7 +10,7 @@ function Cite({ ns }: { ns: number[] }) {
   return <sup className="ml-0.5 text-[0.7em] text-muted-foreground">[{ns.join(', ')}]</sup>
 }
 
-function ReportBody({ patient, weights, date }: { patient: Patient; weights: Weights; date: string }) {
+function ReportBody({ patient, weights, date, caseName }: { patient: Patient; weights: Weights; date: string; caseName?: string | null }) {
   const ranked = rank(CANDIDATES, weights)
   const enabled = CRITERIA.filter((c) => weights[c.key])
   return (
@@ -21,6 +21,7 @@ function ReportBody({ patient, weights, date }: { patient: Patient; weights: Wei
         <p className="mt-2 text-muted-foreground">
           {date} · {patient.onset}, ALSFRS-R {patient.alsfrs}/48 · Delivery assumption: MRgFUS blood–brain barrier opening
         </p>
+        <p className="mt-1 text-xs text-muted-foreground">Case source: {caseName ?? 'built-in sample patient'}</p>
       </header>
 
       <section className="mt-5">
@@ -116,7 +117,7 @@ function ReportBody({ patient, weights, date }: { patient: Patient; weights: Wei
   )
 }
 
-export function Report({ patient, weights, date }: { patient: Patient; weights: Weights; date: string }) {
+export function Report({ patient, weights, date, caseName }: { patient: Patient; weights: Weights; date: string; caseName?: string | null }) {
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -125,11 +126,11 @@ export function Report({ patient, weights, date }: { patient: Patient; weights: 
           <Download aria-hidden /> Save as PDF
         </Button>
       </div>
-      <ReportBody patient={patient} weights={weights} date={date} />
+      <ReportBody patient={patient} weights={weights} date={date} caseName={caseName} />
       {/* Print-only copy outside #root, so the PDF is just the report. */}
       {createPortal(
         <div className="print-only">
-          <ReportBody patient={patient} weights={weights} date={date} />
+          <ReportBody patient={patient} weights={weights} date={date} caseName={caseName} />
         </div>,
         document.body,
       )}
