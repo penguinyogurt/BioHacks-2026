@@ -1,0 +1,481 @@
+{
+  "local_source_ledger": {
+    "current_therapy": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[0].value",
+      "quote": "Riluzole 50 mg BID"
+    },
+    "respiratory": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[1].value",
+      "quote": "FVC 76% sitting, 61% supine"
+    },
+    "weight": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[2].value",
+      "quote": "86 \u2192 77.5 kg, unintentional"
+    },
+    "muscle": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[3].value",
+      "quote": "470 U/L (ref < 195)"
+    },
+    "swallow": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[4].value",
+      "quote": "Coughs on thin liquids"
+    },
+    "hand_function": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[5].value",
+      "quote": "Right pinch 3 kg, grip 14 kg"
+    }
+  },
+  "searches": [
+    {
+      "kind": "primary literature search",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28CYP1A2+inhibition+amyotrophic+lateral+sclerosis+drug+metabolism%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json",
+      "status": "found",
+      "records": [
+        {
+          "id": "40958536",
+          "title": "A Modeling Investigation of the CYP1A Drug Interactions of Riluzole.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40958536/"
+        },
+        {
+          "id": "42613775",
+          "title": "Integrated In Silico Discovery of Thymoquinone Analogs Targeting the Keap1-Nrf2 Pathway for Amyotrophic Lateral Sclerosis Therapy.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42613775/"
+        },
+        {
+          "id": "42796281",
+          "title": "Computational Repurposing of Janus Kinase Inhibitors as Potential Therapeutic Candidates for Alzheimer's Disease.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42796281/"
+        },
+        {
+          "id": "41706381",
+          "title": "Hepatic Safety of Adjunctive High-Dose Melatonin in Participants Receiving Ocrelizumab for Primary Progressive Multiple Sclerosis: Liver Toxicity Findings from a Phase I/II Randomised Clinical Trial (MELATOMS-1).",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41706381/"
+        },
+        {
+          "id": "41754783",
+          "title": "Antidepressant-Like Effects of <i>n</i>-Butylidenephthalide Using In Vivo and In Silico Approaches.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41754783/"
+        }
+      ],
+      "sha256": "c4a6865229872cc75cdaa30975a912a3c718751c83959bac3e1ecfc6766115f7",
+      "fetched_at": "2026-11-08T05:57:18.332193+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "registry search",
+      "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=pharmacokinetics&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus",
+      "status": "found",
+      "records": [
+        {
+          "id": "NCT04948645",
+          "title": "A Phase 1 Study to Investigate the Safety and Pharmacokinetics of Fosigotifator in Patients With Amyotrophic Lateral Sclerosis",
+          "status": "TERMINATED",
+          "url": "https://clinicaltrials.gov/study/NCT04948645"
+        },
+        {
+          "id": "NCT04176224",
+          "title": "Clinical Pharmacology Study of Oral Edaravone in Patients With Amyotrophic Lateral Sclerosis",
+          "status": "COMPLETED",
+          "url": "https://clinicaltrials.gov/study/NCT04176224"
+        },
+        {
+          "id": "NCT03626012",
+          "title": "A Study to Assess the Safety, Tolerability, and Pharmacokinetics of BIIB078 in Adults With C9ORF72-Associated Amyotrophic Lateral Sclerosis",
+          "status": "COMPLETED",
+          "url": "https://clinicaltrials.gov/study/NCT03626012"
+        },
+        {
+          "id": "NCT05633459",
+          "title": "A Study Evaluating the Safety and Tolerability of QRL-201 in ALS",
+          "status": "ACTIVE_NOT_RECRUITING",
+          "url": "https://clinicaltrials.gov/study/NCT05633459"
+        },
+        {
+          "id": "NCT05053035",
+          "title": "A Phase 2 Study to Evaluate AL001 in C9orf72-Associated ALS",
+          "status": "TERMINATED",
+          "url": "https://clinicaltrials.gov/study/NCT05053035"
+        }
+      ],
+      "sha256": "8bf64076f016e63ef32e10f46a8c9f68a4378025b8e68db7d1da02bec89707e7",
+      "fetched_at": "2026-11-08T05:57:18.447462+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "label search",
+      "url": "https://api.fda.gov/drug/label.json?search=drug_interactions%3A%22CYP1A2+inhibitors%22&limit=3",
+      "status": "found",
+      "records": [
+        {
+          "id": "00f0fbda-eb62-4f79-ae9c-286b31eca733",
+          "title": "RAMELTEON",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00f0fbda-eb62-4f79-ae9c-286b31eca733"
+        },
+        {
+          "id": "00f15108-4c15-4bf3-9665-dc32e5299006",
+          "title": "",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00f15108-4c15-4bf3-9665-dc32e5299006"
+        },
+        {
+          "id": "00fcd792-18a4-45d9-9c6e-0634b54b152a",
+          "title": "TIZANIDNE HYDROCHLORIDE",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00fcd792-18a4-45d9-9c6e-0634b54b152a"
+        }
+      ],
+      "sha256": "5f3cfe9190748ad15e85b9e99dad02a40da6bbc848ead20ccd6e38dcb7731e4f",
+      "fetched_at": "2026-11-08T05:57:19.138497+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "reviewed primary records",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A9316860+OR+EXT_ID%3A37798423%29&resultType=core&format=json&pageSize=2",
+      "status": "found",
+      "records": [
+        {
+          "id": "37798423",
+          "title": "Quantitative Translation of Substrate Intrinsic Clearance from Recombinant CYP1A1 to Humans.",
+          "marker": "CYP1A1",
+          "matched": true,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37798423/"
+        },
+        {
+          "id": "9316860",
+          "title": "Involvement of human CYP1A isoenzymes in the metabolism and drug interactions of riluzole in vitro.",
+          "marker": "CYP1A2",
+          "matched": true,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/9316860/"
+        }
+      ],
+      "sha256": "f46fb0f52ea4ee4e48124d4f626f5ddff985a643aa2e5a85b56f5a8258bd1665",
+      "fetched_at": "2026-11-08T05:57:19.801695+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "reviewed product label",
+      "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls/b117b981-476c-f9b8-e053-2995a90aee5f.xml",
+      "status": "found",
+      "records": [
+        {
+          "id": "b117b981-476c-f9b8-e053-2995a90aee5f",
+          "matched": true,
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+        }
+      ],
+      "sha256": "b266e252be6818f46f2eb2c2d5281f362920c1b28a1d4b2ae5bca93f1892fd25",
+      "fetched_at": "2026-11-08T05:57:20.022239+00:00",
+      "access": "live"
+    }
+  ],
+  "findings": [
+    {
+      "id": "37798423",
+      "role": "limitation",
+      "finding": "Human clearance extrapolation also implicated extrahepatic metabolism. A single-enzyme distance cannot quantify an interaction.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37798423/"
+    },
+    {
+      "id": "9316860",
+      "role": "support",
+      "finding": "Human microsomes showed CYP1A2-mediated metabolism. Inhibition could raise exposure to the index therapy.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/9316860/"
+    },
+    {
+      "id": "label",
+      "role": "support",
+      "finding": "The index therapy label warns of increased exposure with strong or moderate CYP1A2 inhibitors.",
+      "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+    },
+    {
+      "id": "profile-0-9316860",
+      "role": "hosted research finding",
+      "finding": "Human CYP1A isoenzymes were shown to be involved in the in vitro metabolism and drug interactions of the concurrent ALS therapy, so CYP1A2 inhibition could raise its exposure.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/9316860/"
+    },
+    {
+      "id": "profile-0-40958536",
+      "role": "hosted research finding",
+      "finding": "A modeling investigation addresses the CYP1A drug interactions of the concurrent ALS therapy, indicating interaction potential that requires pair-specific assessment.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40958536/"
+    },
+    {
+      "id": "profile-0-37798423",
+      "role": "hosted research finding",
+      "finding": "Human clearance extrapolation from recombinant CYP1A1 implicated extrahepatic metabolism, so single-enzyme distance cannot quantify an interaction.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37798423/"
+    }
+  ],
+  "hosted": {
+    "model": "claude-haiku-5-5",
+    "profiles": [
+      {
+        "therapeutic_goal": "Any candidate added alongside the concurrent CYP1A2-relevant ALS therapy should avoid raising its exposure or causing added respiratory, muscle, weight, swallowing or grip harm, so the safety screen flags interactions and tolerability concerns before co-prescription.",
+        "mechanism_of_action": "This is a screening profile rather than a disease-modifying mechanism: candidates should not be clinically consequential CYP1A2 inhibitors or inducers, and should have no CYP1A2-dependent clearance that a co-medication could alter. Preferred candidates have clearance through non-CYP1A2 routes, with a documented interaction assessment, and a tolerability profile that avoids respiratory depression, muscle injury, weight loss, and hand-function effects. Interaction magnitude and route-specific tolerability are unknown for any pair and must be flagged as unresolved rather than assumed negligible.",
+        "molecular_targets": [
+          {
+            "symbol": "CYP1A2",
+            "desired_action": "modulate",
+            "rationale": "The concurrent therapy is labeled for increased exposure with strong or moderate CYP1A2 inhibitors, and CYP1A2 metabolism of that therapy has been shown in human microsomes, so candidates must neither inhibit nor induce this enzyme in a clinically consequential way."
+          },
+          {
+            "symbol": "CYP1A1",
+            "desired_action": "modulate",
+            "rationale": "A reviewed record on CYP1A1 clearance extrapolation notes extrahepatic metabolism and that single-enzyme distance cannot quantify an interaction, so CYP1A1 relatedness must not be used to infer safety for a candidate."
+          }
+        ],
+        "pathways": [
+          "hepatic cytochrome P450 CYP1A-mediated drug metabolism",
+          "extrahepatic drug metabolism",
+          "neuromuscular and respiratory safety monitoring in ALS"
+        ],
+        "site_of_action": [
+          "liver hepatocytes (CYP1A2-mediated clearance)",
+          "extrahepatic tissues with CYP1A1 or CYP1A2 activity"
+        ],
+        "required_properties": [
+          "No clinically consequential CYP1A2 inhibition",
+          "No CYP1A2 induction that could meaningfully alter exposure to the concurrent therapy",
+          "Documented interaction assessment with evidence basis stated for each claim",
+          "Liquid, dispersible or non-oral formulation available if swallowing difficulty is present",
+          "No respiratory depression liability",
+          "Low risk of muscle injury, weakness or weight loss",
+          "Grip and hand-function effects assessed"
+        ],
+        "avoid_properties": [
+          "Clinically consequential CYP1A2 inhibition (strong or moderate inhibitors raise exposure to the concurrent therapy)",
+          "CYP1A2 induction that could alter exposure to the concurrent therapy",
+          "Respiratory depressants",
+          "Agents likely to worsen muscle injury, weakness or weight loss",
+          "Agents with appetite suppression or GI intolerance that could worsen weight loss",
+          "Agents with hand tremor, weakness or grip-impairing effects"
+        ],
+        "lessons_from_failures": [
+          "Interaction magnitude for a pair is not inferable from enzyme identity alone; single-enzyme distance does not quantify exposure change",
+          "Modeling of CYP1A drug interactions exists for the concurrent therapy but does not establish pair-specific exposure for candidates"
+        ],
+        "target_validation": "clinical",
+        "confidence": 0.5,
+        "evidence": [
+          {
+            "source": "pubmed",
+            "id": "9316860",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+            "claim": "Human CYP1A isoenzymes were shown to be involved in the in vitro metabolism and drug interactions of the concurrent ALS therapy, so CYP1A2 inhibition could raise its exposure."
+          },
+          {
+            "source": "pubmed",
+            "id": "40958536",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40958536/",
+            "claim": "A modeling investigation addresses the CYP1A drug interactions of the concurrent ALS therapy, indicating interaction potential that requires pair-specific assessment."
+          },
+          {
+            "source": "pubmed",
+            "id": "37798423",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37798423/",
+            "claim": "Human clearance extrapolation from recombinant CYP1A1 implicated extrahepatic metabolism, so single-enzyme distance cannot quantify an interaction."
+          }
+        ]
+      }
+    ],
+    "dead_ends": [
+      "One-search PubMed query for CYP1A2 inhibitor interactions with the concurrent ALS therapy returned no records, so no candidate-specific interaction data were retrieved.",
+      "No candidate-specific pharmacokinetic or interaction magnitude data were found for any CYP1A2-relevant pair; pair-specific exposure remains unknown.",
+      "The label record for the concurrent therapy warns of increased exposure with strong or moderate CYP1A2 inhibitors, but the label is a cited finding and was not used as an enum-typed evidence item; no quantitative magnitude was extracted.",
+      "Contrary/unresolved: CYP1A1 and extrahepatic metabolism data suggest CYP1A2 distance is not a sufficient safety proxy; no data on whether the concurrent therapy's extrahepatic clearance is altered by candidates.",
+      "No ALS trial records or outcome data on respiratory, weight, muscle-enzyme, swallowing, or grip effects of candidate agents were retrieved from the supplied receipts; these tolerability concerns remain unresolved.",
+      "Thymoquinone-analog in silico (Keap1-Nrf2) and other receipt records were not tied to CYP1A2 interaction or tolerability data and were not used as safety evidence.",
+      "Hepatic safety data from an adjunctive melatonin trial in multiple sclerosis (receipt 41706381) is not ALS-specific and was not used to infer candidate safety; CYP1A2 relevance of melatonin was not established in receipts."
+    ],
+    "rejected": [],
+    "events": [
+      {
+        "type": "subagent_started",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "criterion": "safety-interactions-class",
+          "objective": "Flag pharmacological interactions and tolerability concerns for candidate agents, in the context of a concurrent therapy with a labeled CYP1A2 interaction concern and of reported positional reduction in respiratory capacity, unintentional weight loss, an elevated muscle-enzyme value, liquid-associated swallowing or cough, and altered grip and pinch function. Swallowing impairment is only a retrieval hypothesis. Pair-specific exposure, interaction magnitude and route-specific tolerability are unknown.",
+          "constraints": [
+            "Assess interaction potential with a concurrently used CYP1A2-relevant therapy",
+            "Note effects on respiratory function and muscle",
+            "Note effects on appetite, weight and gastrointestinal tolerability",
+            "If swallowing difficulty is present, consider whether liquid, dispersible or non-oral forms are available",
+            "Consider effects on grip and hand function",
+            "Report the evidence basis for any interaction claim"
+          ],
+          "avoid": [
+            "Clinically consequential CYP1A2 inhibition",
+            "CYP1A2 induction that could meaningfully alter exposure to the concurrent therapy",
+            "Respiratory depressants",
+            "Agents likely to worsen muscle injury, weakness or weight loss"
+          ]
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "CYP1A2 inhibitor drug interaction amyotrophic lateral sclerosis riluzole exposure",
+            "max_results": 5
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_pubmed",
+          "chars": 2,
+          "error": false,
+          "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      {
+        "type": "subagent_finished",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "profiles": 1,
+          "goals": [
+            "Any candidate added alongside the concurrent CYP1A2-relevant ALS therapy should avoid raising its exposure or causing added respiratory, muscle, weight, swallowing or grip harm, so the safety screen flags interactions and tolerability concerns before co-prescription."
+          ],
+          "targets": [
+            [
+              "CYP1A2",
+              "CYP1A1"
+            ]
+          ],
+          "dead_ends": [
+            "One-search PubMed query for CYP1A2 inhibitor interactions with the concurrent ALS therapy returned no records, so no candidate-specific interaction data were retrieved.",
+            "No candidate-specific pharmacokinetic or interaction magnitude data were found for any CYP1A2-relevant pair; pair-specific exposure remains unknown.",
+            "The label record for the concurrent therapy warns of increased exposure with strong or moderate CYP1A2 inhibitors, but the label is a cited finding and was not used as an enum-typed evidence item; no quantitative magnitude was extracted.",
+            "Contrary/unresolved: CYP1A1 and extrahepatic metabolism data suggest CYP1A2 distance is not a sufficient safety proxy; no data on whether the concurrent therapy's extrahepatic clearance is altered by candidates.",
+            "No ALS trial records or outcome data on respiratory, weight, muscle-enzyme, swallowing, or grip effects of candidate agents were retrieved from the supplied receipts; these tolerability concerns remain unresolved.",
+            "Thymoquinone-analog in silico (Keap1-Nrf2) and other receipt records were not tied to CYP1A2 interaction or tolerability data and were not used as safety evidence.",
+            "Hepatic safety data from an adjunctive melatonin trial in multiple sclerosis (receipt 41706381) is not ALS-specific and was not used to infer candidate safety; CYP1A2 relevance of melatonin was not established in receipts."
+          ]
+        }
+      }
+    ],
+    "access": "replay",
+    "cache_key": "834a6b96d7136510778a9696e0e522808454cc699525dd6a517188926675ca55"
+  },
+  "unmapped": [
+    {
+      "target": {
+        "symbol": "CYP1A2",
+        "desired_action": "modulate",
+        "rationale": "The concurrent therapy is labeled for increased exposure with strong or moderate CYP1A2 inhibitors, and CYP1A2 metabolism of that therapy has been shown in human microsomes, so candidates must neither inhibit nor induce this enzyme in a clinically consequential way."
+      },
+      "reason": "No equivalent signed predicate in this release"
+    },
+    {
+      "target": {
+        "symbol": "CYP1A1",
+        "desired_action": "modulate",
+        "rationale": "A reviewed record on CYP1A1 clearance extrapolation notes extrahepatic metabolism and that single-enzyme distance cannot quantify an interaction, so CYP1A1 relatedness must not be used to infer safety for a candidate."
+      },
+      "reason": "No equivalent signed predicate in this release"
+    }
+  ],
+  "reason": null,
+  "queries": [
+    {
+      "anchor": "Gene::1544",
+      "traversals": [
+        {
+          "relation": "DGIDB::INHIBITOR::Gene:Compound",
+          "forward": true,
+          "glossary": {
+            "Relation-name": "DGIDB::INHIBITOR::Gene:Compound",
+            "Data-source": "DGIDB",
+            "Connected entity-types": "Compound:Gene",
+            "Interaction-type": "inhibition",
+            "Description": "In inhibitor interactions, the drug binds to a target and decreases its expression or activity. Most interactions of this class are enzyme inhibitors, which bind an enzyme to reduce enzyme activity.",
+            "Reference for the description": "http://www.dgidb.org/getting_started"
+          },
+          "row": 6
+        }
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "fact": {
+        "field": "current_therapy",
+        "pointer": "patient_profile.findings[0].value",
+        "status": "reported",
+        "concept": "cyp1a2_exposure",
+        "quote": "Active therapy with a labeled CYP1A2 interaction concern.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation",
+        "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+        "mapping": "reported",
+        "ids": [
+          "Gene::1544"
+        ]
+      },
+      "finding_ids": [
+        "9316860",
+        "label"
+      ],
+      "desired_action": "inhibit",
+      "goal": "flag CYP1A2 inhibition as a potential interaction",
+      "anchor_label": "CYP1A2",
+      "anchor_row": 196,
+      "derivation": [],
+      "formula": "e[Gene::1544] + r[DGIDB::INHIBITOR::Gene:Compound]"
+    },
+    {
+      "anchor": "Gene::1544",
+      "traversals": [
+        {
+          "relation": "GNBR::N::Compound:Gene",
+          "forward": false,
+          "glossary": {
+            "Relation-name": "GNBR::N::Compound:Gene",
+            "Data-source": "GNBR",
+            "Connected entity-types": "Compound:Gene",
+            "Interaction-type": "inhibits",
+            "Description": "",
+            "Reference for the description": ""
+          },
+          "row": 27
+        }
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "fact": {
+        "field": "current_therapy",
+        "pointer": "patient_profile.findings[0].value",
+        "status": "reported",
+        "concept": "cyp1a2_exposure",
+        "quote": "Active therapy with a labeled CYP1A2 interaction concern.",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation",
+        "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+        "mapping": "reported",
+        "ids": [
+          "Gene::1544"
+        ]
+      },
+      "finding_ids": [
+        "9316860",
+        "label"
+      ],
+      "desired_action": "inhibit",
+      "goal": "flag CYP1A2 inhibition as a potential interaction",
+      "anchor_label": "CYP1A2",
+      "anchor_row": 196,
+      "derivation": [],
+      "formula": "e[Gene::1544] - r[GNBR::N::Compound:Gene]"
+    }
+  ]
+}

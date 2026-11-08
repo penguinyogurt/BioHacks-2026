@@ -1,0 +1,317 @@
+{
+  "model": "claude-haiku-5-5",
+  "profiles": [
+    {
+      "therapeutic_goal": "Improve patient-reported and rater-scored bulbar function (speech, swallowing, salivation) in ALS, measured with instrumental swallowing and bulbar endpoints before any swallowing benefit is claimed.",
+      "mechanism_of_action": "An orally given, CNS-penetrant combination of a low-dose NMDA-receptor channel antagonist with a sigma-1 receptor agonist, co-dosed with a CYP2D6-inhibiting agent to raise exposure of the antagonist. The intended effect is modulation of glutamatergic and sigma-1-linked neuronal signaling in brainstem bulbar and pseudobulbar circuits, not disease modification.",
+      "molecular_targets": [
+        {
+          "symbol": "GRIN1",
+          "desired_action": "antagonize",
+          "rationale": "NMDA receptor blockade is the glutamatergic component proposed to dampen bulbar and pseudobulbar circuit hyperexcitability, the mechanism behind the symptomatic bulbar signal in the crossover trial."
+        },
+        {
+          "symbol": "SIGMAR1",
+          "desired_action": "agonize",
+          "rationale": "Sigma-1 receptor agonism is a second CNS mechanism in the same combination, which the trial design did not separate from the NMDA component."
+        }
+      ],
+      "pathways": [
+        "glutamatergic synaptic transmission",
+        "bulbar and pseudobulbar motor control circuits",
+        "sigma-1 receptor chaperone signaling"
+      ],
+      "site_of_action": [
+        "brainstem bulbar motor nuclei and their cortical inputs",
+        "central nervous system (brain and brainstem)",
+        "oropharyngeal muscles reached through central control, not directly"
+      ],
+      "required_properties": [
+        "oral formulation",
+        "CNS-penetrant",
+        "fixed-dose combination with a CYP2D6-inhibiting co-agent",
+        "outcome package includes an instrumental swallowing measure (dynamic imaging grade of swallowing toxicity) alongside patient-reported CNS-BFS and ALSFRS-R bulbar subscale",
+        "outcome package includes speech intelligibility and bamboo passage reading duration",
+        "validated instruments: CNS-BFS, ALSFRS-R bulbar subscale"
+      ],
+      "avoid_properties": [
+        "assuming a causal diagnosis for functional findings",
+        "treating swallowing as confirmed without instrumental assessment",
+        "QT-prolongation liability (the CYP2D6-inhibiting co-agent carries QT-interval risk; this is the harmful direction to flag, and safety is not inferred from the trial)",
+        "serotonergic and CYP2D6 interaction burden",
+        "CNS depression and sedation",
+        "reliance on self-report alone as the primary endpoint"
+      ],
+      "lessons_from_failures": [
+        "The crossover trial's primary endpoint was self-reported bulbar function (CNS-BFS); it improved (59.3 to 53.5, p<0.001) but was not paired with an instrumental swallow measure in that report, so the swallowing effect is unconfirmed.",
+        "The same trial found no effect on the motor or respiratory components of the ALSFRS-R, so benefit appears confined to the bulbar domain and does not extend to hand, respiratory or weight outcomes.",
+        "The protocol for the follow-on study explicitly states that patient-reported change alone does not establish safer swallowing, so objective measures are required.",
+        "The sample was small and short (about 70 days), and the trial was driven by patient reports during treatment of emotional lability, which limits generalisability."
+      ],
+      "target_validation": "clinical",
+      "confidence": 0.35,
+      "evidence": [
+        {
+          "source": "pubmed",
+          "id": "28070747",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+          "claim": "A randomized, blinded crossover trial in 60 ALS patients found the combination improved CNS-BFS self-reported bulbar function (59.3 to 53.5, p<0.001), with swallowing subscale improvement (18.9 vs 17.1, p=0.009), while the motor and respiratory components of the ALSFRS-R were not affected."
+        },
+        {
+          "source": "clinicaltrials",
+          "id": "NCT03883581",
+          "url": "https://clinicaltrials.gov/study/NCT03883581",
+          "claim": "A completed phase 1/2 ALS protocol of the same combination lists a dynamic imaging grade of swallowing toxicity, speech intelligibility, CNS-BFS, ALSFRS-R bulbar subscale and bamboo passage reading duration as primary outcomes, with inclusion limited to ALSFRS-R bulbar subscale below 10 and no invasive ventilation or tracheostomy."
+        },
+        {
+          "source": "clinicaltrials",
+          "id": "NCT01806857",
+          "url": "https://clinicaltrials.gov/study/NCT01806857",
+          "claim": "A completed phase 2 ALS trial of the same combination versus matching placebo is registered, supporting that this agent class has been tested in ALS populations."
+        },
+        {
+          "source": "clinicaltrials",
+          "id": "NCT00573443",
+          "url": "https://clinicaltrials.gov/study/NCT00573443",
+          "claim": "A completed phase 3 registry record in pseudobulbar affect in ALS or MS tested two dose strengths of the same NMDA-antagonist and CYP2D6-inhibitor combination against placebo, and it is a source for dosing and tolerability context rather than bulbar-function outcomes."
+        }
+      ]
+    },
+    {
+      "therapeutic_goal": "Slow loss of upper and lower motor neurons so that hand function, respiratory capacity and weight can be preserved over time; this is a longer-horizon hypothesis with no efficacy evidence retrieved in this search.",
+      "mechanism_of_action": "A CNS-penetrant or intrathecally delivered agent that reduces motor neuron stress or death in spinal cord and brainstem motor neurons, with the intent of slowing decline across limb, bulbar and respiratory domains. Any effect on hand, respiratory or nutritional outcomes would need to be shown with validated instruments such as grip and pinch dynamometry, ALSFRS-R respiratory items, FVC and body-weight tracking.",
+      "molecular_targets": [
+        {
+          "symbol": "upper and lower motor neuron survival pathway",
+          "desired_action": "modulate",
+          "rationale": "Slowing motor neuron loss is the only route by which a drug could plausibly affect hand strength, respiratory capacity and weight together, but no validated single gene target was identified in this search."
+        }
+      ],
+      "pathways": [
+        "motor neuron survival and stress response",
+        "glutamatergic excitotoxicity (proposed, not confirmed here)"
+      ],
+      "site_of_action": [
+        "spinal cord anterior horn motor neurons",
+        "brainstem motor nuclei"
+      ],
+      "required_properties": [
+        "CNS-penetrant or intrathecally deliverable",
+        "outcome package includes validated limb and respiratory instruments (grip and pinch dynamometry, ALSFRS-R, FVC) and body-weight tracking",
+        "validated instruments and population description reported"
+      ],
+      "avoid_properties": [
+        "assuming a causal diagnosis for hand, respiratory or weight findings",
+        "treating swallowing impairment as confirmed without instrumental assessment",
+        "claiming a respiratory or weight benefit from a bulbar-only symptomatic signal"
+      ],
+      "lessons_from_failures": [
+        "The only retrieved controlled ALS trial with functional outcomes (28070747) showed no effect on the ALSFRS-R motor or respiratory components, which argues against assuming that bulbar symptomatic benefit transfers to limb or respiratory function.",
+        "Symptomatic benefit on self-reported scales does not establish disease modification."
+      ],
+      "target_validation": "mechanistic",
+      "confidence": 0.1,
+      "evidence": [
+        {
+          "source": "pubmed",
+          "id": "28070747",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28070747/",
+          "claim": "The same crossover trial found no effect on the motor or respiratory components of the ALSFRS-R, which is contrary evidence for assuming respiratory or limb benefit from a bulbar symptomatic agent."
+        }
+      ]
+    }
+  ],
+  "dead_ends": [
+    "Three PubMed searches on instrumental swallowing assessment, hand grip/pinch with respiratory and weight outcomes, and dysphagia with hand, respiratory and weight outcome measures returned no records, so no hand-function, grip or pinch, FVC or weight outcome evidence was retrieved for any candidate agent.",
+    "No validated outcome instrument result (grip dynamometry, pinch, FVC, body-weight trajectory) was found in the retrieved records; the only functional instrument result found is the bulbar-only CNS-BFS and ALSFRS-R bulbar subscale.",
+    "The swallowing benefit in 28070747 rests on a self-report scale; no instrumental swallow measure result was retrieved, and the protocol NCT03883581 states that patient-reported change alone does not establish safer swallowing, so swallowing impairment remains unconfirmed.",
+    "Contrary evidence: the same trial found no effect on ALSFRS-R motor and respiratory components.",
+    "Non-drug options were found but are excluded from profiles: a mobile healthcare application for speech and swallowing (PMID 42152867), percutaneous endoscopic gastrostomy quality-of-life study (PMID 42404161), and built-in ventilator software monitoring and survival (PMID 41753201).",
+    "A case report of high-dose riboflavin in a different condition (Brown-Vialetto-Van Laere syndrome, PMID 42826312) is not ALS evidence and was not used.",
+    "An intrathecal formulation record (PMID 42263252) and a registry entry for intrathecal mesenchymal stem cells (NCT01771640, cell therapy, not a drug profile) were listed but not reviewed for functional outcomes.",
+    "A terminated fasciculation trial (NCT03334786) and an unknown-status nasal extracellular vesicle trial (NCT06598202) were not reviewed for functional outcomes.",
+    "Czech-language functional questionnaire validation (NCT06426030) is an instrument study with no treatment arm and was not used as drug evidence.",
+    "Open Targets and target-profile lookups were not run, so gene-level evidence for hand, respiratory and weight domains was not established.",
+    "Safety: QT prolongation, serotonergic interaction and CYP2D6-related exposure changes are the harmful directions to flag for the bulbar-profile combination; no safety conclusion is drawn from the retrieved records, and absence of respiratory-depression data in these records is not evidence of safety."
+  ],
+  "rejected": [],
+  "events": [
+    {
+      "type": "subagent_started",
+      "criterion": "symptoms-function",
+      "data": {
+        "criterion": "symptoms-function",
+        "objective": "Identify outcome measures and symptom domains relevant to swallowing, hand function, respiratory function, weight and daily function in amyotrophic lateral sclerosis, and which candidate agents have evidence for effects on them. Swallowing impairment is a retrieval hypothesis, and the causes of the functional observations are not established.",
+        "constraints": [
+          "Evidence on swallowing or bulbar function outcomes",
+          "Evidence on upper-limb, grip and pinch or daily-activity outcomes",
+          "Evidence on respiratory function and weight or nutrition outcomes",
+          "Report validated outcome instruments and the populations studied"
+        ],
+        "avoid": [
+          "Assuming a causal diagnosis for the observed functional findings",
+          "Treating swallowing impairment as confirmed without instrumental assessment"
+        ]
+      }
+    },
+    {
+      "type": "tool_call",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "search_pubmed",
+        "args": {
+          "query": "amyotrophic lateral sclerosis swallowing instrumental assessment videofluoroscopy outcome drug trial",
+          "max_results": 6
+        }
+      }
+    },
+    {
+      "type": "tool_call",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "search_pubmed",
+        "args": {
+          "query": "amyotrophic lateral sclerosis grip pinch hand function ALSFRS-R respiratory FVC weight outcome treatment",
+          "max_results": 6
+        }
+      }
+    },
+    {
+      "type": "tool_call",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "search_als_trials",
+        "args": {
+          "intervention": "dextromethorphan quinidine",
+          "max_results": 5
+        }
+      }
+    },
+    {
+      "type": "tool_result",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "search_pubmed",
+        "chars": 2,
+        "error": false,
+        "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "type": "tool_result",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "search_pubmed",
+        "chars": 2,
+        "error": false,
+        "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "type": "tool_result",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "search_als_trials",
+        "chars": 1751,
+        "error": false,
+        "content_sha256": "b201e7755b3bf5cb741502b92499c87b6f9e429f1a290e4fb2d13303f2178e6d"
+      }
+    },
+    {
+      "type": "tool_call",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "fetch_pubmed_abstract",
+        "args": {
+          "pmid": "28070747"
+        }
+      }
+    },
+    {
+      "type": "tool_call",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "get_trial",
+        "args": {
+          "nct_id": "NCT03883581"
+        }
+      }
+    },
+    {
+      "type": "tool_call",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "search_pubmed",
+        "args": {
+          "query": "ALS dysphagia hand function respiratory weight outcome measures",
+          "max_results": 6
+        }
+      }
+    },
+    {
+      "type": "tool_result",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "fetch_pubmed_abstract",
+        "chars": 3672,
+        "error": false,
+        "content_sha256": "bdee868f881c157c456acc32883f98d7c2a1ff772d45db8ca2eaa46dea0a19d5"
+      }
+    },
+    {
+      "type": "tool_result",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "get_trial",
+        "chars": 1663,
+        "error": false,
+        "content_sha256": "40515a11bc8681995c2393bfd1ba61130f024cf503fa948ee844290aab0c03ca"
+      }
+    },
+    {
+      "type": "tool_result",
+      "criterion": "symptoms-function",
+      "data": {
+        "tool": "search_pubmed",
+        "chars": 2,
+        "error": false,
+        "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "type": "subagent_finished",
+      "criterion": "symptoms-function",
+      "data": {
+        "profiles": 2,
+        "goals": [
+          "Improve patient-reported and rater-scored bulbar function (speech, swallowing, salivation) in ALS, measured with instrumental swallowing and bulbar endpoints before any swallowing benefit is claimed.",
+          "Slow loss of upper and lower motor neurons so that hand function, respiratory capacity and weight can be preserved over time; this is a longer-horizon hypothesis with no efficacy evidence retrieved in this search."
+        ],
+        "targets": [
+          [
+            "GRIN1",
+            "SIGMAR1"
+          ],
+          [
+            "upper and lower motor neuron survival pathway"
+          ]
+        ],
+        "dead_ends": [
+          "Three PubMed searches on instrumental swallowing assessment, hand grip/pinch with respiratory and weight outcomes, and dysphagia with hand, respiratory and weight outcome measures returned no records, so no hand-function, grip or pinch, FVC or weight outcome evidence was retrieved for any candidate agent.",
+          "No validated outcome instrument result (grip dynamometry, pinch, FVC, body-weight trajectory) was found in the retrieved records; the only functional instrument result found is the bulbar-only CNS-BFS and ALSFRS-R bulbar subscale.",
+          "The swallowing benefit in 28070747 rests on a self-report scale; no instrumental swallow measure result was retrieved, and the protocol NCT03883581 states that patient-reported change alone does not establish safer swallowing, so swallowing impairment remains unconfirmed.",
+          "Contrary evidence: the same trial found no effect on ALSFRS-R motor and respiratory components.",
+          "Non-drug options were found but are excluded from profiles: a mobile healthcare application for speech and swallowing (PMID 42152867), percutaneous endoscopic gastrostomy quality-of-life study (PMID 42404161), and built-in ventilator software monitoring and survival (PMID 41753201).",
+          "A case report of high-dose riboflavin in a different condition (Brown-Vialetto-Van Laere syndrome, PMID 42826312) is not ALS evidence and was not used.",
+          "An intrathecal formulation record (PMID 42263252) and a registry entry for intrathecal mesenchymal stem cells (NCT01771640, cell therapy, not a drug profile) were listed but not reviewed for functional outcomes.",
+          "A terminated fasciculation trial (NCT03334786) and an unknown-status nasal extracellular vesicle trial (NCT06598202) were not reviewed for functional outcomes.",
+          "Czech-language functional questionnaire validation (NCT06426030) is an instrument study with no treatment arm and was not used as drug evidence.",
+          "Open Targets and target-profile lookups were not run, so gene-level evidence for hand, respiratory and weight domains was not established.",
+          "Safety: QT prolongation, serotonergic interaction and CYP2D6-related exposure changes are the harmful directions to flag for the bulbar-profile combination; no safety conclusion is drawn from the retrieved records, and absence of respiratory-depression data in these records is not evidence of safety."
+        ]
+      }
+    }
+  ],
+  "access": "live",
+  "cache_key": "0bbe5efb9e65b9cc9f8ae453f3cf868d408f7c413fb7a359a918425ac352c216"
+}

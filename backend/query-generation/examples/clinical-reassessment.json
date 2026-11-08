@@ -1,0 +1,2219 @@
+{
+  "reports": [
+    {
+      "applies_to": [
+        "Compound::DB00740"
+      ],
+      "study_id": "PMID:8302340",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/8302340/",
+      "role": "favorable",
+      "design": "Randomized double-blind placebo-controlled trial",
+      "population": "155 people with ALS",
+      "route": "Oral riluzole",
+      "primary_endpoint": "Survival and rate of functional decline",
+      "finding": "Survival favored riluzole.",
+      "safety": "Asthenia, spasticity and aminotransferase elevations were reported.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB12243"
+      ],
+      "study_id": "PMID:28522181",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/28522181/",
+      "role": "favorable",
+      "design": "Randomized double-blind placebo-controlled phase III",
+      "population": "Selected early-stage ALS population",
+      "route": "IV infusion",
+      "primary_endpoint": "ALSFRS-R change at 24 weeks",
+      "finding": "Decline was smaller in the selected early-stage cohort.",
+      "safety": "Treatment-emergent events occurred in 84% of each arm.",
+      "other_findings": "The selected population limits generalization.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB14782"
+      ],
+      "study_id": "PMID:36129998",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/36129998/",
+      "role": "negative",
+      "design": "Randomized double-blind placebo-controlled phase III",
+      "population": "Genetically confirmed SOD1 ALS",
+      "route": "Intrathecal antisense oligonucleotide",
+      "primary_endpoint": "Week-28 ALSFRS-R change in the prespecified faster-progressing SOD1 subgroup",
+      "finding": "No significant clinical benefit at 28 weeks. Biomarkers fell.",
+      "safety": "Neurologic serious adverse events occurred in 7% of recipients.",
+      "other_findings": "CSF SOD1 and plasma neurofilament declined. Delayed-start follow-up has a different comparison.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB05025"
+      ],
+      "study_id": "PMID:38782015",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/38782015/",
+      "role": "negative",
+      "design": "Multicenter double-blind placebo-controlled phase III",
+      "population": "Early ALS, 239 in the modified intention-to-treat analysis",
+      "route": "Oral arimoclomol citrate, 400 mg three times daily",
+      "primary_endpoint": "Combined Assessment of Function and Survival at 76 weeks",
+      "finding": "No improvement in the primary function/survival endpoint.",
+      "safety": "Treatment-related events were more common. Adverse events led to discontinuation in 16% versus 5%.",
+      "other_findings": "Clinical target engagement was insufficiently characterized. A higher systemic dose raised tolerability concerns.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB06151"
+      ],
+      "study_id": "PMID:7763202",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/7763202/",
+      "role": "negative",
+      "design": "Double-blind placebo-controlled randomized trial",
+      "population": "110 ALS patients",
+      "route": "Subcutaneous 50 mg/kg daily",
+      "primary_endpoint": "12-month survival",
+      "finding": "Survival was 65% versus 54%; HR 0.74, 95% CI 0.41–1.33. Progression also showed no significant benefit.",
+      "safety": "Comparative adverse-event details were unavailable in the abstract.",
+      "other_findings": "Limb-onset subgroup HR 0.50, CI 0.24–1.04; the bulbar subgroup estimate pointed the other way. Neither establishes subgroup efficacy.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00148"
+      ],
+      "study_id": "PMID:12666111",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/12666111/",
+      "role": "negative",
+      "design": "Double-blind randomized sequential trial",
+      "population": "175 people with ALS",
+      "route": "Oral creatine monohydrate 10 g/day",
+      "primary_endpoint": "Death, persistent assisted ventilation or tracheostomy",
+      "finding": "No survival or functional benefit.",
+      "safety": "No important adverse reactions reported.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB12310"
+      ],
+      "study_id": "PMID:40409314",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/40409314/",
+      "role": "negative",
+      "design": "Randomized placebo-controlled HEALEY phase II/III regimen",
+      "population": "HEALEY ALS platform participants",
+      "route": "Weekly intravenous trehalose",
+      "primary_endpoint": "Joint rate of ALSFRS-R progression and survival over 24 weeks",
+      "finding": "No evidence of slower disease progression.",
+      "safety": "Serious adverse events were more frequent in the active arm. Investigators attributed none of seven active-arm deaths to trehalose.",
+      "other_findings": "No supportive secondary biomarker or clinical effect.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01043"
+      ],
+      "study_id": "PMID:39511965",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/39511965/",
+      "role": "negative",
+      "design": "Multicenter double-blind randomized phase IIb",
+      "population": "89 randomized adults with ALS",
+      "route": "Oral memantine up to 20 mg twice daily",
+      "primary_endpoint": "ALSFRS-R progression over 40 weeks",
+      "finding": "No significant difference in progression.",
+      "safety": "52 completed treatment. Attrition limits interpretation; the abstract does not attribute all discontinuations to toxicity.",
+      "other_findings": "Neurofilament and neuropsychiatric outcomes supplied no efficacy signal.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00656",
+        "Compound::DB01043"
+      ],
+      "study_id": "PMID:39307154",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/39307154/",
+      "role": "negative",
+      "design": "Double-blind randomized MND-SMART platform, stage-two analysis",
+      "population": "Motor neuron disease including ALS",
+      "route": "Separate oral memantine, trazodone and shared placebo arms",
+      "primary_endpoint": "ALSFRS-R slope at interim assessment; survival also assessed",
+      "finding": "Neither arm slowed functional decline or improved survival.",
+      "safety": "Serious adverse events occurred in 20% on memantine, 14% on trazodone and 13% on placebo.",
+      "other_findings": "The two active ingredients were evaluated separately.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01212"
+      ],
+      "study_id": "PMID:25297012",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/25297012/",
+      "role": "harm",
+      "design": "Multistage double-blind randomized phase III",
+      "population": "People with ALS",
+      "route": "IV ceftriaxone, stage-three dose 4 g/day",
+      "primary_endpoint": "Functional decline and survival",
+      "finding": "No phase III efficacy and a material excess of serious hepatobiliary events at the tested regimen.",
+      "safety": "Serious hepatobiliary events in 41 treated participants (12%) versus none on placebo.",
+      "other_findings": "Earlier stages suggested a slower ALSFRS-R decline. The confirmatory stage did not reproduce it.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01017"
+      ],
+      "study_id": "PMID:17980667",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/17980667/",
+      "role": "harm",
+      "design": "Double-blind placebo-controlled randomized phase III",
+      "population": "412 people with ALS",
+      "route": "Oral minocycline titrated to 400 mg/day for nine months",
+      "primary_endpoint": "Rate of ALSFRS-R decline",
+      "finding": "Function declined faster on minocycline: 1.30 versus 1.04 ALSFRS-R points/month, p=0.005.",
+      "safety": "Gastrointestinal and neurologic adverse events were also more common.",
+      "other_findings": "Mortality and FVC differences were not statistically significant. Preclinical neuroprotection did not predict the human result.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00482"
+      ],
+      "study_id": "PMID:16802291",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/16802291/",
+      "role": "negative",
+      "design": "Double-blind randomized placebo-controlled clinical trial",
+      "population": "300 people with ALS",
+      "route": "Oral celecoxib 800 mg/day",
+      "primary_endpoint": "Rate of decline of maximal voluntary isometric arm strength",
+      "finding": "No measured functional or survival benefit.",
+      "safety": "Tolerated at the studied dose without increased overall adverse events.",
+      "other_findings": "CSF PGE2 was not elevated at baseline and did not fall on treatment.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00379"
+      ],
+      "study_id": "PMID:29510461",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/29510461/",
+      "role": "favorable",
+      "design": "Double-blind randomized placebo-controlled crossover",
+      "population": "People with ALS and symptomatic cramps",
+      "route": "Oral mexiletine 150 mg twice daily",
+      "primary_endpoint": "Muscle cramp frequency",
+      "finding": "Controlled evidence supports fewer symptomatic cramps.",
+      "safety": "Reported as generally well tolerated at this dose.",
+      "other_findings": "The clinical question was cramp relief. Alex's chart does not record cramps.",
+      "clinical_question": "symptomatic cramps",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00996"
+      ],
+      "study_id": "PMID:11294919",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/11294919/",
+      "role": "negative",
+      "design": "Placebo-controlled randomized phase III",
+      "population": "People with ALS",
+      "route": "Oral gabapentin",
+      "primary_endpoint": "Decline in arm muscle strength",
+      "finding": "No strength, survival or functional benefit.",
+      "safety": "Combined phase II/III analyses showed faster FVC decline in the gabapentin group.",
+      "other_findings": "The pooled respiratory finding is separate from the phase III primary endpoint.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00273"
+      ],
+      "study_id": "PMID:12939417",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/12939417/",
+      "role": "harm",
+      "design": "Multicenter double-blind randomized placebo-controlled trial",
+      "population": "296 people with ALS",
+      "route": "Oral topiramate, up to 800 mg/day",
+      "primary_endpoint": "Rate of loss of maximal isometric arm strength",
+      "finding": "Arm strength declined faster on topiramate (p=0.012).",
+      "safety": "Weight loss, anorexia and other adverse events were more frequent. Both weakness and weight loss are relevant to Alex.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01367"
+      ],
+      "study_id": "PMID:29934198",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/29934198/",
+      "role": "negative",
+      "design": "Double-blind randomized placebo-controlled phase II",
+      "population": "People with ALS on riluzole",
+      "route": "Oral rasagiline added to riluzole",
+      "primary_endpoint": "Survival time",
+      "finding": "No significant difference in primary survival outcome.",
+      "safety": "Adverse-event frequencies were comparable; respiratory failure occurred in both arms.",
+      "other_findings": "A post hoc faster-progressor signal requires prospective confirmation.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01132"
+      ],
+      "study_id": "PMID:22715372",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/22715372/",
+      "role": "negative",
+      "design": "Double-blind randomized placebo-controlled trial",
+      "population": "People with ALS on riluzole",
+      "route": "Oral pioglitazone 45 mg/day added to riluzole",
+      "primary_endpoint": "Survival",
+      "finding": "Stopped for futility. No survival improvement.",
+      "safety": "Described as well tolerated. The trial stopped for futility.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01065"
+      ],
+      "study_id": "PMID:17014688",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/17014688/",
+      "role": "biomarker",
+      "design": "Uncontrolled human safety study with separate cell and mouse experiments",
+      "population": "31 people with sporadic ALS",
+      "route": "Rectal melatonin 300 mg/day",
+      "primary_endpoint": "Safety and circulating oxidative damage; no controlled clinical efficacy endpoint",
+      "finding": "A serum oxidative-stress marker fell. Human functional or survival benefit remains unresolved.",
+      "safety": "The authors reported tolerability during follow-up.",
+      "other_findings": "Survival extension was observed in SOD1 mice. The human measurement was serum protein carbonyls.",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01202"
+      ],
+      "study_id": "PMID:18821142",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/18821142/",
+      "role": "inconclusive",
+      "design": "Unblinded within-person pilot with a three-month baseline",
+      "population": "20 with motor neuron disease including ALS",
+      "route": "Oral levetiracetam",
+      "primary_endpoint": "Changes in cramp severity/frequency and spasticity",
+      "finding": "Cramp and phasic spasticity measures improved without a concurrent placebo group.",
+      "safety": "The authors reported good tolerability.",
+      "other_findings": "A blinded symptomatic trial would clarify the signal.",
+      "clinical_question": "symptomatic cramps"
+    },
+    {
+      "applies_to": [
+        "Compound::DB15130"
+      ],
+      "study_id": "PMID:24067398",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/24067398/",
+      "role": "harm",
+      "design": "Double-blind randomized EMPOWER phase III",
+      "population": "EMPOWER ALS trial",
+      "route": "Oral dexpramipexole",
+      "primary_endpoint": "Joint function and survival rank at 12 months",
+      "finding": "No prespecified clinical efficacy endpoint improved. Neutropenia occurred in 8% versus 2% (37 versus 8 people).",
+      "safety": "The comparative hematologic toxicity is the harm basis; the study described overall tolerability as generally good.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01017",
+        "Compound::DB00740"
+      ],
+      "study_id": "PMID:16193258",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/16193258/",
+      "role": "safety",
+      "design": "Small randomized add-on pilot",
+      "population": "Twenty ALS patients",
+      "route": "Oral minocycline 100 mg/day plus riluzole versus riluzole alone",
+      "primary_endpoint": "Combination safety; serial function and respiratory assessment",
+      "finding": "No significant adverse effects were detected in this pilot.",
+      "safety": "Twenty patients and six months of follow-up give limited power for safety.",
+      "other_findings": "The subsequent larger phase III minocycline trial documented functional harm.",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB05025"
+      ],
+      "study_id": "PMID:18551622",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/18551622/",
+      "role": "pharmacokinetic",
+      "design": "Randomized dose-ranging safety/PK trial",
+      "population": "84 people with ALS; 44 in the PK subset",
+      "route": "Oral 25, 50 or 100 mg three times daily",
+      "primary_endpoint": "Safety and tolerability",
+      "finding": "CSF concentrations rose with oral dose; exposure in the target motor neurons was not established.",
+      "safety": "Up to 300 mg/day was tolerated in this short study.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB05025"
+      ],
+      "study_id": "PMID:29367439",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/29367439/",
+      "role": "safety",
+      "design": "Blinded randomized placebo-controlled pilot",
+      "population": "38 with rapidly progressive SOD1 ALS randomized",
+      "route": "Oral arimoclomol 200 mg three times daily",
+      "primary_endpoint": "Safety and tolerability",
+      "finding": "The pilot did not establish efficacy. Secondary survival estimate HR 0.77 (95% CI 0.32–1.80).",
+      "safety": "Tolerability was acceptable in this small cohort.",
+      "other_findings": "The secondary functional and survival estimates favored treatment imprecisely. Alex has no documented SOD1 result.",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB05025"
+      ],
+      "study_id": "NCT03836716",
+      "source": "https://clinicaltrials.gov/study/NCT03836716",
+      "role": "safety",
+      "design": "Single-arm extension of ORARIALS-01",
+      "population": "120 ALS participants",
+      "route": "Oral arimoclomol",
+      "primary_endpoint": "Treatment-emergent events and laboratory safety",
+      "finding": "Open-label extension supplies longer-term safety observations without a concurrent efficacy control.",
+      "safety": "21 of 120 had serious adverse events. Attribution cannot be inferred from the count.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB06151"
+      ],
+      "study_id": "PMID:3577918",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/3577918/",
+      "role": "unreported",
+      "design": "Early human ALS intervention report; abstract unavailable",
+      "population": "ALS participants; details unavailable in indexed record",
+      "route": "N-acetylcysteine; route not verified in primary index",
+      "primary_endpoint": "Primary endpoint unavailable in accessible record",
+      "finding": "A citation was found but no usable primary clinical outcome could be abstracted.",
+      "safety": "Safety details unavailable.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB06151"
+      ],
+      "study_id": "NCT07414212",
+      "source": "https://clinicaltrials.gov/study/NCT07414212",
+      "role": "unreported",
+      "design": "Registered placebo-controlled combination trial",
+      "population": "ALS; recruiting in the consulted registry",
+      "route": "Acetylcysteine plus EH301 on background riluzole",
+      "primary_endpoint": "ALSFRS-R",
+      "finding": "Results unavailable in the registry. This registration supplies no independent evidence of administration or efficacy.",
+      "safety": "No posted safety outcomes.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01043"
+      ],
+      "study_id": "PMID:20565333",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/20565333/",
+      "role": "negative",
+      "design": "Double-blind randomized placebo-controlled single-center trial",
+      "population": "63 people with probable or definite ALS",
+      "route": "Oral memantine 20 mg/day",
+      "primary_endpoint": "12-month ALSFRS decline",
+      "finding": "No difference in primary or secondary measures.",
+      "safety": "Adverse events and laboratory changes were comparable to placebo.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01043"
+      ],
+      "study_id": "PMID:20839903",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/20839903/",
+      "role": "biomarker",
+      "design": "Open-label add-on pilot",
+      "population": "20 people with sporadic ALS on riluzole",
+      "route": "Oral memantine 10 mg twice daily plus riluzole",
+      "primary_endpoint": "Safety and CSF biomarkers; function tracked descriptively",
+      "finding": "CSF tau fell in the treated cohort. No placebo-controlled slowing of decline was demonstrated.",
+      "safety": "Reported as well tolerated.",
+      "other_findings": "Biomarker-response subgroups were exploratory.",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01017"
+      ],
+      "study_id": "PMID:15159491",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/15159491/",
+      "role": "safety",
+      "design": "Two small blinded placebo-controlled feasibility studies",
+      "population": "19 and 23 ALS participants",
+      "route": "Oral minocycline 200 mg/day or escalating to 400 mg/day",
+      "primary_endpoint": "Tolerability and feasible dose",
+      "finding": "Pilot feasibility did not establish benefit.",
+      "safety": "Laboratory elevations and a gastrointestinal-event trend occurred at the higher regimen.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01017",
+        "Compound::DB00148",
+        "Compound::DB00482"
+      ],
+      "study_id": "PMID:18608093",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/18608093/",
+      "role": "combination",
+      "design": "Randomized active-combination selection design",
+      "population": "ALS participants in a phase II selection trial",
+      "route": "Oral celecoxib/creatine versus minocycline/creatine",
+      "primary_endpoint": "Six-month ALSFRS-R decline used to select a combination",
+      "finding": "Celecoxib/creatine was selected over minocycline/creatine; effects of individual ingredients could not be isolated.",
+      "safety": "Rash was more frequent with celecoxib/creatine.",
+      "other_findings": "A historical comparison did not establish placebo-controlled benefit.",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01065"
+      ],
+      "study_id": "PMID:12220335",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/12220335/",
+      "role": "safety",
+      "design": "Early oral tolerability report",
+      "population": "ALS patients; indexed primary record has no abstract",
+      "route": "Daily oral melatonin",
+      "primary_endpoint": "Tolerability; clinical efficacy endpoint unavailable",
+      "finding": "Oral tolerability was reported. No usable comparative efficacy estimate was available.",
+      "safety": "Limited primary safety detail in the indexed report.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01065"
+      ],
+      "study_id": "PMID:33428242",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/33428242/",
+      "role": "observational",
+      "design": "Retrospective PRO-ACT database analysis",
+      "population": "ALS participants with reported melatonin use and comparison nonusers",
+      "route": "Self-reported exposure; dosing and route not standardized",
+      "primary_endpoint": "Association with time to death",
+      "finding": "An association with longer survival and slower functional decline is vulnerable to confounding and selection bias.",
+      "safety": "Safety was not the primary question.",
+      "other_findings": "Exposure was not assigned in this analysis.",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01065"
+      ],
+      "study_id": "NCT06429059",
+      "source": "https://clinicaltrials.gov/study/NCT06429059",
+      "role": "inconclusive",
+      "design": "Open-label DIGAP-stratified pilot with lead-in; no matched placebo group for melatonin",
+      "population": "14 assigned to the impaired autophagy/axonal transport stratum",
+      "route": "Melatonin; formulation not specified in registry intervention description",
+      "primary_endpoint": "ALSFRS-R from baseline through month nine",
+      "finding": "Mean ALSFRS-R was 34.4 at month three before treatment (14 measured) and 30.8 at month nine (13 measured). The design cannot establish a causal treatment effect.",
+      "safety": "One of 14 in the melatonin stratum had a serious adverse event. Causality unknown.",
+      "other_findings": "This clinical outcome is distinct from serum markers and from the PRO-ACT observational association.",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00148"
+      ],
+      "study_id": "PMID:15534251",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/15534251/",
+      "role": "negative",
+      "design": "Double-blind randomized placebo-controlled trial",
+      "population": "104 ALS patients",
+      "route": "Oral creatine 5 g/day",
+      "primary_endpoint": "Maximal voluntary isometric contraction of eight arm muscles",
+      "finding": "No measured strength or functional benefit over six months.",
+      "safety": "Creatine was well tolerated.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00148"
+      ],
+      "study_id": "PMID:18608103",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/18608103/",
+      "role": "negative",
+      "design": "Multicenter double-blind randomized placebo-controlled trial",
+      "population": "107 with probable or definite ALS",
+      "route": "Oral creatine monohydrate 5 g/day",
+      "primary_endpoint": "Quantitative strength; respiratory function and ALSFRS also assessed",
+      "finding": "Motor, respiratory and functional measures did not significantly improve.",
+      "safety": "No safety estimate used for advancement.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00148"
+      ],
+      "study_id": "PMID:11677005",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/11677005/",
+      "role": "exploratory",
+      "design": "Uncontrolled supplementation cohort",
+      "population": "ALS patients assessed repeatedly",
+      "route": "Oral loading followed by maintenance creatine",
+      "primary_endpoint": "Isometric strength and fatigue",
+      "finding": "Short-term strength increases after loading were followed by progressive decline.",
+      "safety": "Comparative safety was not established.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00148"
+      ],
+      "study_id": "PMID:12061948",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/12061948/",
+      "role": "inconclusive",
+      "design": "Nonrandomized controlled study",
+      "population": "14 treated advanced ALS patients and 13 controls",
+      "route": "Oral creatine 5 g/day",
+      "primary_endpoint": "Pulmonary function testing",
+      "finding": "Respiratory measures showed no consistent improvement; later dropout limited comparison.",
+      "safety": "Comparative adverse events were not quantified in the abstract.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00148"
+      ],
+      "study_id": "PMID:20698808",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/20698808/",
+      "role": "pharmacokinetic",
+      "design": "Phase I dose-escalation study",
+      "population": "Six ALS participants",
+      "route": "Escalating oral creatine monohydrate",
+      "primary_endpoint": "Plasma PK and brain spectroscopy",
+      "finding": "Plasma exposure rose with dose. Brain creatine MRS increased 8% (p=0.06).",
+      "safety": "No safety concerns reported in six participants.",
+      "other_findings": "Spectroscopy provides human exposure context but no evidence of clinical benefit.",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00148"
+      ],
+      "study_id": "PMID:31608711",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/31608711/",
+      "role": "exploratory",
+      "design": "Randomized active-comparator selection trial",
+      "population": "ALS participants assigned high-dose creatine or tamoxifen regimens",
+      "route": "High-dose oral creatine arm",
+      "primary_endpoint": "Selection by ALSFRS-R decline",
+      "finding": "Higher-dose tamoxifen ranked numerically ahead of creatine. No placebo group to establish efficacy.",
+      "safety": "Drug-related adverse events and discontinuations were more frequent with high-dose creatine.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB12310"
+      ],
+      "study_id": "PMID:40857020",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/40857020/",
+      "role": "safety",
+      "design": "Single-arm expanded-access protocol",
+      "population": "ALS patients in expanded access, including prior HEALEY participants",
+      "route": "Weekly IV trehalose",
+      "primary_endpoint": "Safety and biological activity; function tracked",
+      "finding": "Function declined over follow-up. No concurrent control established efficacy.",
+      "safety": "Serious adverse events and deaths occurred; investigators reported no unexpected treatment-related risk.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01212"
+      ],
+      "study_id": "PMID:23613806",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/23613806/",
+      "role": "pharmacokinetic",
+      "design": "Early stages of the later multistage randomized trial",
+      "population": "ALS participants in stages one and two",
+      "route": "IV ceftriaxone 2 or 4 g/day",
+      "primary_endpoint": "CSF exposure and tolerability for dose selection",
+      "finding": "Both doses exceeded the prespecified CSF trough threshold; no independent replicate of stage-three efficacy.",
+      "safety": "Biliary events were more frequent with ceftriaxone.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01212"
+      ],
+      "study_id": "PMID:24771634",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/24771634/",
+      "role": "pharmacokinetic",
+      "design": "Human plasma/CSF PK analysis of the same trial",
+      "population": "66 ALS participants",
+      "route": "IV ceftriaxone",
+      "primary_endpoint": "CSF concentration relative to an in-vitro-derived threshold",
+      "finding": "Both regimens maintained CSF levels above the modeled threshold. Human tissue EAAT2 engagement remained uncertain.",
+      "safety": "No separate controlled safety comparison in this analysis.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00482"
+      ],
+      "study_id": "PMID:36106817",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/36106817/",
+      "role": "combination",
+      "design": "Open-label PrimeC pilot",
+      "population": "ALS participants receiving the combination",
+      "route": "Oral ciprofloxacin/celecoxib fixed combination",
+      "primary_endpoint": "Safety and tolerability",
+      "finding": "Exploratory changes cannot isolate a celecoxib effect.",
+      "safety": "The combination was generally tolerated in this pilot.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00482"
+      ],
+      "study_id": "PMID:41837970",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/41837970/",
+      "role": "combination",
+      "design": "Blinded randomized PARADIGM phase IIb with open-label extension",
+      "population": "Adults with ALS",
+      "route": "Oral PrimeC (ciprofloxacin plus celecoxib)",
+      "primary_endpoint": "Safety and tolerability; prespecified biomarker endpoints",
+      "finding": "Signals during follow-up favor further study of the combination. The trial did not demonstrate primary clinical efficacy of celecoxib alone.",
+      "safety": "The authors reported tolerability; Alex's riluzole screen excludes ciprofloxacin.",
+      "other_findings": "Exploratory clinical outcomes and biomarkers remain combination-specific.",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00379"
+      ],
+      "study_id": "PMID:26911633",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/26911633/",
+      "role": "safety",
+      "design": "Randomized double-blind dose-ranging study",
+      "population": "Sporadic ALS",
+      "route": "Oral mexiletine 300 or 900 mg/day",
+      "primary_endpoint": "Safety and tolerability",
+      "finding": "Dose-related decreases in cramps were observed as secondary effects. Progression estimates were imprecise.",
+      "safety": "The higher dose caused frequent discontinuation.",
+      "other_findings": "Relief of cramps and change in disease progression are different outcomes.",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00379"
+      ],
+      "study_id": "PMID:25960085",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/25960085/",
+      "role": "negative",
+      "design": "Single-blind randomized add-on study",
+      "population": "60 ALS participants",
+      "route": "Oral mexiletine with riluzole versus riluzole alone",
+      "primary_endpoint": "Six-month ALSFRS-R change",
+      "finding": "No functional benefit at 300 mg/day.",
+      "safety": "Reported adverse-event proportions were 33% and 20%.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00379"
+      ],
+      "study_id": "PMID:33340120",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/33340120/",
+      "role": "biomarker",
+      "design": "Randomized double-blind short physiology study",
+      "population": "20 ALS participants",
+      "route": "Oral mexiletine or placebo",
+      "primary_endpoint": "Resting motor threshold",
+      "finding": "Electrophysiology findings do not establish slowed disability.",
+      "safety": "Four weeks of observation; long-term risks unresolved.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00996"
+      ],
+      "study_id": "PMID:8960715",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/8960715/",
+      "role": "inconclusive",
+      "design": "Randomized placebo-controlled phase II",
+      "population": "152 ALS participants",
+      "route": "Oral gabapentin 800 mg three times daily",
+      "primary_endpoint": "Slope of arm strength decline",
+      "finding": "A favorable trend did not reach significance; phase III did not confirm benefit.",
+      "safety": "Generally tolerated during this trial.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01367"
+      ],
+      "study_id": "PMID:25832828",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/25832828/",
+      "role": "biomarker",
+      "design": "Open-label screening study with historical comparisons",
+      "population": "People with ALS",
+      "route": "Oral rasagiline",
+      "primary_endpoint": "ALSFRS-R trajectory and exploratory mitochondrial biomarkers",
+      "finding": "Functional decline did not improve. Mitochondrial and apoptosis markers changed.",
+      "safety": "Nausea was reported.",
+      "other_findings": "Historical cohorts differed in symptom duration.",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01367"
+      ],
+      "study_id": "PMID:30192007",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/30192007/",
+      "role": "negative",
+      "design": "Randomized controlled trial with an augmented historical comparison",
+      "population": "People with ALS",
+      "route": "Oral rasagiline",
+      "primary_endpoint": "Average ALSFRS-R decline over 12 months",
+      "finding": "No improvement in functional slope or convincing peripheral target engagement.",
+      "safety": "Reported as well tolerated, without serious adverse events.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01367"
+      ],
+      "study_id": "PMID:38240416",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/38240416/",
+      "role": "exploratory",
+      "design": "Secondary analysis of the RAS-ALS trial",
+      "population": "Patients in the original randomized trial",
+      "route": "Oral rasagiline with background riluzole",
+      "primary_endpoint": "Exploratory heterogeneity by baseline progression and genotype",
+      "finding": "Post hoc phenotype hypotheses require prospective testing.",
+      "safety": "No independent safety cohort.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB01132"
+      ],
+      "study_id": "PMID:22830016",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/22830016/",
+      "role": "combination",
+      "design": "Randomized placebo-controlled combination pilot",
+      "population": "ALS participants on riluzole",
+      "route": "Oral pioglitazone plus tretinoin",
+      "primary_endpoint": "ALSFRS-R progression and CSF biomarkers",
+      "finding": "No significant slowing of progression. CSF changes cannot be assigned to either ingredient alone.",
+      "safety": "Limited combination data do not establish individual or local-route safety.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB15130"
+      ],
+      "study_id": "PMID:22101764",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/22101764/",
+      "role": "safety",
+      "design": "Two-part, double-blind randomized dose-ranging phase II",
+      "population": "ALS patients in the safety and dose-comparison cohorts",
+      "route": "Oral dexpramipexole",
+      "primary_endpoint": "Safety and tolerability",
+      "finding": "An exploratory high- versus low-dose functional/survival rank favored higher dose; the larger phase III trial was negative.",
+      "safety": "Reported generally well tolerated in this smaller study.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB15130"
+      ],
+      "study_id": "NCT01622088",
+      "source": "https://clinicaltrials.gov/study/NCT01622088",
+      "role": "safety",
+      "design": "Single-arm extension of EMPOWER",
+      "population": "616 ALS participants",
+      "route": "Oral dexpramipexole 300 mg/day",
+      "primary_endpoint": "Adverse events, serious events and laboratory monitoring",
+      "finding": "Extension data provide no independent controlled efficacy estimate.",
+      "safety": "152 of 616 had a serious adverse event. No concurrent comparator establishes attribution.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB15130"
+      ],
+      "study_id": "NCT00931944",
+      "source": "https://clinicaltrials.gov/study/NCT00931944",
+      "role": "safety",
+      "design": "Open-label safety extension",
+      "population": "74 ALS participants",
+      "route": "Oral dexpramipexole",
+      "primary_endpoint": "Hematology, liver, ECG and vital-sign abnormalities",
+      "finding": "Functional outcomes were secondary and uncontrolled.",
+      "safety": "The registry records laboratory and vital-sign abnormalities; comparative risk cannot be estimated.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course"
+    },
+    {
+      "applies_to": [
+        "Compound::DB00740"
+      ],
+      "study_id": "PMID:8676624",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/8676624/",
+      "role": "favorable",
+      "design": "Double-blind randomized dose-ranging trial",
+      "population": "959 with probable or definite ALS",
+      "route": "Oral riluzole 50, 100 or 200 mg/day versus placebo",
+      "primary_endpoint": "Tracheostomy-free survival",
+      "finding": "Adjusted survival analyses favored riluzole at 100 mg/day.",
+      "safety": "Adverse effects were most frequent at the higher dose.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB12243"
+      ],
+      "study_id": "PMID:25286015",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/25286015/",
+      "role": "negative",
+      "design": "Double-blind parallel placebo-controlled trial",
+      "population": "Broader ALS population than later positive trial",
+      "route": "IV infusion",
+      "primary_endpoint": "24-week ALSFRS-R change",
+      "finding": "The between-arm difference was 0.65 points, p=0.411. The later positive study selected a narrower cohort.",
+      "safety": "Safety was assessed; the comparison informs the scope of efficacy.",
+      "other_findings": "",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB11947"
+      ],
+      "study_id": "PMID:40067755",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/40067755/",
+      "role": "negative",
+      "design": "Randomized double-blind platform regimen",
+      "population": "162 in the regimen primary efficacy analysis",
+      "route": "Oral 45 mg twice daily",
+      "primary_endpoint": "Function and survival over 24 weeks",
+      "finding": "The joint progression endpoint did not improve relative to placebo. Disease rate ratio 0.99 (95% credible interval 0.80 to 1.21).",
+      "safety": "Case-specific safety and tolerability under altered delivery are unresolved.",
+      "other_findings": "A lead found in the expanded graph search has prior human testing despite its absence from the older cache.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    }
+  ],
+  "delivery": {
+    "Compound::DB05025": {
+      "exposure": {
+        "ingredient": "Compound::DB05025",
+        "supported": false,
+        "finding": "Oral dose escalation raised CSF drug levels. The phase III trial left motor-neuron HSP engagement uncertain. No measurement establishes that insufficient exposure caused its negative result.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/18551622/",
+          "https://pubmed.ncbi.nlm.nih.gov/38782015/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB05025",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB06151": {
+      "exposure": {
+        "ingredient": "Compound::DB06151",
+        "supported": false,
+        "finding": "The subcutaneous trial did not demonstrate deficient motor-neuron exposure. CSF measurements after oral dosing in Parkinson disease cannot establish an exposure deficit or an ALS target level for this regimen.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/7763202/",
+          "https://pubmed.ncbi.nlm.nih.gov/25765302/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB06151",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB01065": {
+      "exposure": {
+        "ingredient": "Compound::DB01065",
+        "supported": false,
+        "finding": "A serum oxidation marker changed during rectal treatment; neither that marker nor the uncontrolled pilot identifies a concentration needed for functional benefit.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/17014688/",
+          "https://clinicaltrials.gov/study/NCT06429059"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB01065",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB01017": {
+      "exposure": {
+        "ingredient": "Compound::DB01017",
+        "supported": false,
+        "finding": "Increasing regional exposure has no demonstrated basis for reversing the faster functional decline observed at the tested systemic regimen.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/17980667/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB01017",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB01043": {
+      "exposure": {
+        "ingredient": "Compound::DB01043",
+        "supported": false,
+        "finding": "Controlled trials at different oral doses showed no functional benefit. A small riluzole add-on study measured CSF tau, not a therapeutic receptor-occupancy deficit.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/39511965/",
+          "https://pubmed.ncbi.nlm.nih.gov/20565333/",
+          "https://pubmed.ncbi.nlm.nih.gov/20839903/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB01043",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB01367": {
+      "exposure": {
+        "ingredient": "Compound::DB01367",
+        "supported": false,
+        "finding": "Two studies gave differing peripheral biomarker signals. Neither identifies a CNS concentration shortfall responsible for the neutral survival and function results.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/29934198/",
+          "https://pubmed.ncbi.nlm.nih.gov/25832828/",
+          "https://pubmed.ncbi.nlm.nih.gov/30192007/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB01367",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB00148": {
+      "exposure": {
+        "ingredient": "Compound::DB00148",
+        "supported": false,
+        "finding": "Dose escalation changed plasma creatine and brain MRS measures. A clinically effective tissue concentration in ALS and an exposure deficit in the negative trials are undemonstrated.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/20698808/",
+          "https://pubmed.ncbi.nlm.nih.gov/12666111/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB00148",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB00482": {
+      "exposure": {
+        "ingredient": "Compound::DB00482",
+        "supported": false,
+        "finding": "CSF PGE2 did not fall. It was also not elevated at baseline. This leaves inadequate exposure, target selection and disease biology unresolved. Combination studies do not isolate celecoxib.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/16802291/",
+          "https://pubmed.ncbi.nlm.nih.gov/41837970/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB00482",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB01212": {
+      "exposure": {
+        "ingredient": "Compound::DB01212",
+        "supported": false,
+        "finding": "Both IV doses exceeded the prespecified in-vitro-derived CSF threshold. Motor-neuron engagement remained uncertain and serious hepatobiliary toxicity was observed.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/24771634/",
+          "https://pubmed.ncbi.nlm.nih.gov/25297012/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB01212",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB15130": {
+      "exposure": {
+        "ingredient": "Compound::DB15130",
+        "supported": false,
+        "finding": "The early dose-comparison signal did not replicate in EMPOWER. No demonstrated regional exposure threshold explains that result or eliminates the neutropenia risk.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/22101764/",
+          "https://pubmed.ncbi.nlm.nih.gov/24067398/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB15130",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB00273": {
+      "exposure": {
+        "ingredient": "Compound::DB00273",
+        "supported": false,
+        "finding": "Randomized treatment worsened arm strength. A higher local concentration has no established rationale for reversing that harm.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/12939417/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB00273",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB12310": {
+      "exposure": {
+        "ingredient": "Compound::DB12310",
+        "supported": false,
+        "finding": "IV dosing bypassed intestinal degradation. The HEALEY and expanded-access reports do not identify an exposure-limited ALS response. A FUS nanoparticle experiment used trehalose in the formulation and measured delivery of another cargo.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/40409314/",
+          "https://pubmed.ncbi.nlm.nih.gov/40857020/",
+          "https://pubmed.ncbi.nlm.nih.gov/40605559/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB12310",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB01132": {
+      "exposure": {
+        "ingredient": "Compound::DB01132",
+        "supported": false,
+        "finding": "The riluzole add-on trial stopped for futility; biomarker findings with concomitant tretinoin do not establish a deficient motor-neuron exposure to pioglitazone.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/22715372/",
+          "https://pubmed.ncbi.nlm.nih.gov/22830016/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB01132",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB00656": {
+      "exposure": {
+        "ingredient": "Compound::DB00656",
+        "supported": false,
+        "finding": "MND-SMART found no functional benefit from oral treatment. It did not establish low target-site exposure as the explanation.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/39307154/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB00656",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB01202": {
+      "exposure": {
+        "ingredient": "Compound::DB01202",
+        "supported": false,
+        "finding": "Uncontrolled symptomatic improvement does not establish efficacy or an exposure deficit. A controlled cramp outcome is the missing evidence.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/18821142/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB01202",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB00996": {
+      "exposure": {
+        "ingredient": "Compound::DB00996",
+        "supported": false,
+        "finding": "Phase III failed to confirm the earlier arm-strength trend. No reviewed evidence links that failure to insufficient regional exposure.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/11294919/",
+          "https://pubmed.ncbi.nlm.nih.gov/8960715/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB00996",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB00379": {
+      "exposure": {
+        "ingredient": "Compound::DB00379",
+        "supported": false,
+        "finding": "The demonstrated effect concerns cramps and the chart does not report them. The positive symptomatic comparison does not establish a need for motor-cortex delivery.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/29510461/",
+          "https://pubmed.ncbi.nlm.nih.gov/26911633/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB00379",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB00740": {
+      "exposure": {
+        "ingredient": "Compound::DB00740",
+        "supported": false,
+        "finding": "Established comparator and current therapy. A human survival benefit does not identify incremental benefit from a delivery change.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/8302340/",
+          "https://pubmed.ncbi.nlm.nih.gov/8676624/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB00740",
+        "method": "focused ultrasound with microbubbles",
+        "supported": false,
+        "drug_specific": false,
+        "site": "motor cortex",
+        "finding": "No reviewed drug-specific study showed that motor-cortex sonication corrects the relevant exposure or engagement limitation for this clinical outcome. The four-person ALS feasibility study measured temporary gadolinium enhancement.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    },
+    "Compound::DB12243": {
+      "exposure": {
+        "ingredient": "Compound::DB12243",
+        "supported": false,
+        "finding": "The clinical effect depends on the study population. Mouse ALS experiments show drug-specific increased cortical exposure with FUS, but do not demonstrate a human ALS treatment was exposure-limited.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/28522181/",
+          "https://pubmed.ncbi.nlm.nih.gov/25286015/",
+          "https://pubmed.ncbi.nlm.nih.gov/36931463/"
+        ]
+      },
+      "delivery_change": {
+        "ingredient": "Compound::DB12243",
+        "method": "focused ultrasound with microbubbles",
+        "supported": true,
+        "drug_specific": true,
+        "site": "motor cortex",
+        "finding": "Mouse data support enhanced cortical delivery of edaravone. Translation to safe, effective human CNS exposure remains unresolved.",
+        "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/36931463/",
+          "https://pubmed.ncbi.nlm.nih.gov/31558719/"
+        ]
+      }
+    }
+  },
+  "policy": {
+    "scope": "All eligible frozen DRKG compounds may enter discovery. Verified human ALS administration identifies the subset with prior trial evidence. Unknown testing status is preserved.",
+    "harm": "A controlled human finding of worse clinical function or credible consequential toxicity overrides possible benefit. Record routine tolerability, withdrawals and non-attributed events separately from this exclusion.",
+    "conflict": "Discordant controlled primary clinical results for the same therapeutic question remain unresolved. Retain the populations and regimens. Secondary, uncontrolled, biomarker, animal and observational findings cannot establish primary clinical benefit.",
+    "delivery": "For a negative trial require independent, specific evidence of inadequate exposure or engagement at the intended site and evidence that the proposed focused-ultrasound delivery of this ingredient could correct it. Generic permeability or missing measurements alone cannot satisfy either requirement.",
+    "order": "Favorable clinical evidence, then supported delivery research after a negative trial, then mechanistic discovery with case-matched safety clearance and a sourced graph rationale."
+  },
+  "search": {
+    "review_date": "2026-11-07",
+    "method": "Europe PMC title/abstract drug and alias searches, controlled and early-phase reports, ClinicalTrials.gov condition/intervention searches, targeted PK, delivery and citation follow-up. Result IDs include irrelevant matches and studies of the same cohort; findings are adjudicated in reports, never counted as votes. Citation-only and observational evidence are labeled. Comparator treatments are presented for context. This bounded English-language/indexed review can miss unpublished and unindexed trials.",
+    "ingredients": {
+      "Riluzole": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Riluzole\" OR TITLE_ABS:\"Rilutek\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 128,
+            "ids": [
+              "42508294",
+              "42902402",
+              "42716044",
+              "42666355",
+              "41293411",
+              "39960672",
+              "40409314",
+              "40968767",
+              "41132886",
+              "40836724",
+              "38053196",
+              "37396808",
+              "40034089",
+              "42615866",
+              "37228252",
+              "37219865",
+              "38782015",
+              "42013513",
+              "36237618",
+              "36211189",
+              "36705941",
+              "38308282",
+              "31853962",
+              "38585517",
+              "37269231",
+              "41553546",
+              "32481440",
+              "35798516",
+              "36716091",
+              "40170672",
+              "35673968",
+              "36277914",
+              "31280619",
+              "36120351",
+              "33017028",
+              "34048130",
+              "29653550",
+              "32043626",
+              "32242755",
+              "35006266",
+              "29672831",
+              "29379292",
+              "38011420",
+              "28406335",
+              "37344230",
+              "27694488",
+              "22419278",
+              "31131638",
+              "34120226",
+              "31384636",
+              "33431491",
+              "29352425",
+              "29525492",
+              "32651161",
+              "25960085",
+              "30578206",
+              "29934198",
+              "34477330",
+              "30048006",
+              "27353839",
+              "31354285",
+              "24447620",
+              "17253460",
+              "26910108",
+              "22715372",
+              "22513921",
+              "28801400",
+              "27477403",
+              "26234554",
+              "31152038",
+              "25125035",
+              "21706151",
+              "23797905",
+              "20839903",
+              "12076411",
+              "24067398",
+              "32627599",
+              "11771772",
+              "12061945",
+              "11687111",
+              "29367439",
+              "16193258",
+              "23421600",
+              "10796796",
+              "17891927",
+              "17993769",
+              "11090870",
+              "22378918",
+              "10967703",
+              "25595151",
+              "22169158",
+              "21813790",
+              "20363190",
+              "24093046",
+              "21936930",
+              "23453347",
+              "10631657",
+              "12067327",
+              "22830016",
+              "22985432",
+              "28705085",
+              "11465936",
+              "12021952",
+              "16036424",
+              "20864047",
+              "11018250",
+              "8302340",
+              "14960427",
+              "17852022",
+              "9120476",
+              "9111546",
+              "10457394",
+              "12807386",
+              "9561981",
+              "8676624",
+              "14581684",
+              "9178167",
+              "15517433",
+              "15204012",
+              "16401852",
+              "11677002",
+              "8959996",
+              "9665596",
+              "9851653",
+              "8858057",
+              "8873431",
+              "10636126",
+              "12061946"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Riluzole\" OR TITLE_ABS:\"Rilutek\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Riluzole&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT06676423",
+          "NCT03457753",
+          "NCT04326283",
+          "NCT00694941",
+          "NCT02238626",
+          "NCT07467746",
+          "NCT03693781",
+          "NCT01486849",
+          "NCT00542412",
+          "NCT04454840",
+          "NCT02166944",
+          "NCT01378676",
+          "NCT03679975",
+          "NCT01879241",
+          "NCT03272802",
+          "NCT02645461",
+          "NCT04518540",
+          "NCT03520517",
+          "NCT00353665",
+          "NCT04745299",
+          "NCT07174492",
+          "NCT03127267",
+          "NCT00560287",
+          "NCT07138014",
+          "NCT01277315",
+          "NCT03359538",
+          "NCT00635960",
+          "NCT04950933",
+          "NCT00403104",
+          "NCT07093268",
+          "NCT00231140",
+          "NCT07142291",
+          "NCT07414212",
+          "NCT07834450",
+          "NCT03039673",
+          "NCT00868166",
+          "NCT04820478",
+          "NCT01020331",
+          "NCT01709149",
+          "NCT05508074",
+          "NCT00818389",
+          "NCT00690118",
+          "NCT01285583",
+          "NCT00876772",
+          "NCT07813858",
+          "NCT02588677"
+        ],
+        "registry_error": null
+      },
+      "Edaravone": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Edaravone\" OR TITLE_ABS:\"MCI-186\" OR TITLE_ABS:\"Radicava\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 56,
+            "ids": [
+              "42716044",
+              "40746624",
+              "40485494",
+              "42666355",
+              "39960672",
+              "39531940",
+              "41432316",
+              "40409314",
+              "40968767",
+              "40836724",
+              "37953075",
+              "40474686",
+              "38691665",
+              "39461864",
+              "36504406",
+              "34476128",
+              "38347315",
+              "42615866",
+              "37219865",
+              "31471712",
+              "37525592",
+              "36054038",
+              "35700157",
+              "33109706",
+              "36705941",
+              "31364409",
+              "36211189",
+              "31621933",
+              "37269231",
+              "36462105",
+              "41553546",
+              "28872920",
+              "35006266",
+              "36716091",
+              "35673968",
+              "38011420",
+              "28872918",
+              "28872919",
+              "28872915",
+              "32446009",
+              "33017028",
+              "28872916",
+              "31325668",
+              "28872917",
+              "28406335",
+              "32043626",
+              "32242755",
+              "28522181",
+              "33431491",
+              "25286015",
+              "28872914",
+              "35396385",
+              "26191780",
+              "30578206",
+              "30982356",
+              "17127563"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Edaravone\" OR TITLE_ABS:\"MCI-186\" OR TITLE_ABS:\"Radicava\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 3,
+            "ids": [
+              "36931463",
+              "36647712",
+              "28703543"
+            ]
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Edaravone&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT04176224",
+          "NCT05178810",
+          "NCT00424463",
+          "NCT07467746",
+          "NCT00330681",
+          "NCT05151471",
+          "NCT04391361",
+          "NCT03272802",
+          "NCT01492686",
+          "NCT07138014",
+          "NCT04254913",
+          "NCT00415519",
+          "NCT04577404",
+          "NCT04569084",
+          "NCT05568615"
+        ],
+        "registry_error": null
+      },
+      "Tofersen": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Tofersen\" OR TITLE_ABS:\"BIIB067\" OR TITLE_ABS:\"Qalsody\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 17,
+            "ids": [
+              "41661214",
+              "42406382",
+              "40640528",
+              "42666355",
+              "42739287",
+              "40017137",
+              "40968767",
+              "42286839",
+              "41518742",
+              "41821425",
+              "39330700",
+              "39783194",
+              "36129998",
+              "39268612",
+              "38384337",
+              "32640130",
+              "36928619"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Tofersen\" OR TITLE_ABS:\"BIIB067\" OR TITLE_ABS:\"Qalsody\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 2,
+            "ids": [
+              "42865191",
+              "39645085"
+            ]
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Tofersen&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT07223723",
+          "NCT02623699",
+          "NCT07294144",
+          "NCT03070119",
+          "NCT04856982"
+        ],
+        "registry_error": null
+      },
+      "Arimoclomol": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Arimoclomol\" OR TITLE_ABS:\"Arimoclomol citrate\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 4,
+            "ids": [
+              "38782015",
+              "29367439",
+              "18551622",
+              "19938902"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Arimoclomol\" OR TITLE_ABS:\"Arimoclomol citrate\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Arimoclomol&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT03836716",
+          "NCT00561366",
+          "NCT03491462",
+          "NCT00244244",
+          "NCT00706147"
+        ],
+        "registry_error": null
+      },
+      "Acetylcysteine": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Acetylcysteine\" OR TITLE_ABS:\"N-acetylcysteine\" OR TITLE_ABS:\"NAC\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 8,
+            "ids": [
+              "17253482",
+              "18608090",
+              "15674899",
+              "15495036",
+              "8899667",
+              "7763202",
+              "3577918",
+              "7485927"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Acetylcysteine\" OR TITLE_ABS:\"N-acetylcysteine\" OR TITLE_ABS:\"NAC\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Acetylcysteine&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT04557410",
+          "NCT07414212"
+        ],
+        "registry_error": null
+      },
+      "Creatine": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Creatine\" OR TITLE_ABS:\"Creatine monohydrate\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 40,
+            "ids": [
+              "39774976",
+              "37257710",
+              "37070132",
+              "37814618",
+              "32985493",
+              "31608711",
+              "35224491",
+              "38785754",
+              "31624333",
+              "29653550",
+              "23235621",
+              "31750025",
+              "20698808",
+              "20556761",
+              "12666111",
+              "22513921",
+              "28717355",
+              "30112276",
+              "27029589",
+              "36628902",
+              "32928939",
+              "25466774",
+              "21706151",
+              "25048026",
+              "23797905",
+              "18608093",
+              "12061948",
+              "20014653",
+              "15534251",
+              "11677005",
+              "11305749",
+              "16908742",
+              "10782773",
+              "11467049",
+              "1506122",
+              "17058270",
+              "12745614",
+              "7936250",
+              "9665596",
+              "4924032"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Creatine\" OR TITLE_ABS:\"Creatine monohydrate\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Creatine&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT00069186",
+          "NCT00355576",
+          "NCT00005674",
+          "NCT01257581",
+          "NCT00070993",
+          "NCT00005766",
+          "NCT02709330"
+        ],
+        "registry_error": null
+      },
+      "Trehalose": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Trehalose\" OR TITLE_ABS:\"SLS-005\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 2,
+            "ids": [
+              "40409314",
+              "40857020"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Trehalose\" OR TITLE_ABS:\"SLS-005\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 1,
+            "ids": [
+              "40605559"
+            ]
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Trehalose&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT05136885",
+          "NCT04297683"
+        ],
+        "registry_error": null
+      },
+      "Memantine": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Memantine\" OR TITLE_ABS:\"Memantine hydrochloride\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 8,
+            "ids": [
+              "42709165",
+              "39511965",
+              "39307154",
+              "35798516",
+              "36647114",
+              "22513921",
+              "20565333",
+              "20839903"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Memantine\" OR TITLE_ABS:\"Memantine hydrochloride\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 1,
+            "ids": [
+              "38187144"
+            ]
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Memantine&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT02118727",
+          "NCT00353665",
+          "NCT00409721",
+          "NCT01020331",
+          "NCT04302870"
+        ],
+        "registry_error": null
+      },
+      "Trazodone": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Trazodone\" OR TITLE_ABS:\"Trazodone hydrochloride\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 3,
+            "ids": [
+              "39307154",
+              "35798516",
+              "36647114"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Trazodone\" OR TITLE_ABS:\"Trazodone hydrochloride\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Trazodone&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT04302870"
+        ],
+        "registry_error": null
+      },
+      "Ceftriaxone": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Ceftriaxone\" OR TITLE_ABS:\"Ceftriaxone sodium\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 10,
+            "ids": [
+              "42013406",
+              "23613806",
+              "25297012",
+              "24771634",
+              "29928656",
+              "31334681",
+              "19697382",
+              "26824413",
+              "27385750",
+              "3885582"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Ceftriaxone\" OR TITLE_ABS:\"Ceftriaxone sodium\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Ceftriaxone&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT00349622"
+        ],
+        "registry_error": null
+      },
+      "Minocycline": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Minocycline\" OR TITLE_ABS:\"Minocycline hydrochloride\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 4,
+            "ids": [
+              "16193258",
+              "17980667",
+              "18608093",
+              "15159491"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Minocycline\" OR TITLE_ABS:\"Minocycline hydrochloride\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Minocycline&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT00355576",
+          "NCT00047723"
+        ],
+        "registry_error": null
+      },
+      "Celecoxib": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Celecoxib\" OR TITLE_ABS:\"Celebrex\" OR TITLE_ABS:\"PrimeC\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 5,
+            "ids": [
+              "41837970",
+              "36106817",
+              "16802291",
+              "18608093",
+              "17058270"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Celecoxib\" OR TITLE_ABS:\"Celebrex\" OR TITLE_ABS:\"PrimeC\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Celecoxib&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT00355576",
+          "NCT05357950",
+          "NCT04090684",
+          "NCT04165850"
+        ],
+        "registry_error": null
+      },
+      "Mexiletine": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Mexiletine\" OR TITLE_ABS:\"Mexiletine hydrochloride\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 5,
+            "ids": [
+              "33340120",
+              "29510461",
+              "32867586",
+              "25960085",
+              "26911633"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Mexiletine\" OR TITLE_ABS:\"Mexiletine hydrochloride\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Mexiletine&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT01811355",
+          "NCT01849770",
+          "NCT02781454"
+        ],
+        "registry_error": null
+      },
+      "Gabapentin": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Gabapentin\" OR TITLE_ABS:\"Neurontin\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 7,
+            "ids": [
+              "28067943",
+              "22513921",
+              "11294919",
+              "9851651",
+              "8960715",
+              "12192440",
+              "10636126"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Gabapentin\" OR TITLE_ABS:\"Neurontin\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Gabapentin&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [],
+        "registry_error": null
+      },
+      "Topiramate": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Topiramate\" OR TITLE_ABS:\"Topamax\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 3,
+            "ids": [
+              "12939417",
+              "15557515",
+              "12939412"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Topiramate\" OR TITLE_ABS:\"Topamax\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 1,
+            "ids": [
+              "28703543"
+            ]
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Topiramate&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [],
+        "registry_error": null
+      },
+      "Rasagiline": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Rasagiline\" OR TITLE_ABS:\"Rasagiline mesylate\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 4,
+            "ids": [
+              "37975796",
+              "30192007",
+              "29934198",
+              "25832828"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Rasagiline\" OR TITLE_ABS:\"Rasagiline mesylate\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Rasagiline&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT01786603",
+          "NCT01879241",
+          "NCT01232738"
+        ],
+        "registry_error": null
+      },
+      "Pioglitazone": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Pioglitazone\" OR TITLE_ABS:\"Pioglitazone hydrochloride\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 5,
+            "ids": [
+              "22715372",
+              "22830016",
+              "16523797",
+              "16686095",
+              "16686096"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Pioglitazone\" OR TITLE_ABS:\"Pioglitazone hydrochloride\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Pioglitazone&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT00919555",
+          "NCT00690118"
+        ],
+        "registry_error": null
+      },
+      "Melatonin": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Melatonin\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 1,
+            "ids": [
+              "17014688"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Melatonin\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Melatonin&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT06429059"
+        ],
+        "registry_error": null
+      },
+      "Levetiracetam": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Levetiracetam\" OR TITLE_ABS:\"Keppra\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 1,
+            "ids": [
+              "18821142"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Levetiracetam\" OR TITLE_ABS:\"Keppra\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Levetiracetam&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT00324454"
+        ],
+        "registry_error": null
+      },
+      "Dexpramipexole": {
+        "publication_queries": [
+          {
+            "query": "SRC:MED AND (TITLE:\"amyotrophic lateral sclerosis\" OR TITLE:\"ALS\" OR TITLE:\"motor neuron disease\") AND (TITLE_ABS:\"Dexpramipexole\" OR TITLE_ABS:\"KNS-760704\") AND (PUB_TYPE:\"Clinical Trial\" OR TITLE:trial OR TITLE:pilot OR TITLE:randomized OR TITLE_ABS:\"open-label\" OR TITLE_ABS:\"participants\" OR TITLE_ABS:\"patients received\")",
+            "count": 5,
+            "ids": [
+              "24067398",
+              "25125035",
+              "27677562",
+              "22985432",
+              "27385750"
+            ]
+          },
+          {
+            "query": "SRC:MED AND (TITLE_ABS:\"Dexpramipexole\" OR TITLE_ABS:\"KNS-760704\") AND (TITLE_ABS:\"focused ultrasound\" OR TITLE_ABS:\"sonoporation\") AND (TITLE_ABS:\"blood-brain\" OR TITLE_ABS:\"brain delivery\" OR TITLE_ABS:\"amyotrophic lateral sclerosis\")",
+            "count": 0,
+            "ids": []
+          }
+        ],
+        "registry_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=Amyotrophic+Lateral+Sclerosis&query.intr=Dexpramipexole&filter.advanced=AREA%5BStudyType%5DINTERVENTIONAL&pageSize=100&fields=NCTId%2CBriefTitle%2COverallStatus%2CHasResults%2CInterventionName%2CCondition%2CEnrollmentCount",
+        "registry_ids": [
+          "NCT01511029",
+          "NCT00140218",
+          "NCT01536249",
+          "NCT01424176",
+          "NCT01622088",
+          "NCT00647296",
+          "NCT01424163",
+          "NCT00600873",
+          "NCT01449578",
+          "NCT00931944",
+          "NCT01281189"
+        ],
+        "registry_error": null
+      }
+    }
+  }
+}

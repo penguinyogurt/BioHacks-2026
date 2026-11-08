@@ -1,0 +1,47 @@
+{
+  "applies_with": "Compound::DB00740",
+  "policy": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+  "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f",
+  "section": "Riluzole prescribing information, section 7.1",
+  "id_source": "https://github.com/penguinyogurt/BioHacks-2026/blob/c068bb6e0d287bf3e794a01e7469d97a6e5a8fe2/artifacts/crosswalk.csv",
+  "exclude": {
+    "Compound::DB00537": "ciprofloxacin",
+    "Compound::DB00467": "enoxacin",
+    "Compound::DB00176": "fluvoxamine",
+    "Compound::DB00553": "methoxsalen",
+    "Compound::DB00379": "mexiletine",
+    "Compound::DB00730": "thiabendazole",
+    "Compound::DB08881": "vemurafenib",
+    "Compound::DB00744": "zileuton"
+  },
+  "reviewed": {
+    "Compound::DB12243": {
+      "name": "edaravone",
+      "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0ce2c1c4-2a40-485c-b7cb-96a9b85d9d11",
+      "finding": "Comparator with documented concomitant riluzole in the ALS trial (section 14); the label does not expect clinically significant CYP1A2 inhibition at recommended doses (12.3).",
+      "remaining_risks": "Hypersensitivity and sulfite reactions, including asthmatic episodes (5.1\u20135.2). Allergy history is unknown. Evidence is specific to labeled use, not hypothetical local delivery.",
+      "regulatory_status": {
+        "value": "Health Canada authorized RADICAVA for ALS; existing indication comparator",
+        "source": "https://search.open.canada.ca/qpnotes/record/hc-sc%2CMH-2022-QP-0017"
+      }
+    },
+    "Compound::DB01043": {
+      "name": "memantine",
+      "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=65c9e7bc-71f0-4113-8de1-4fcaa591735f",
+      "finding": "Section 12.3 reports minimal CYP1A2 inhibition in vitro. This supports only a narrow interaction review.",
+      "remaining_risks": "Renal function, tolerability and safety under local delivery unknown.",
+      "trial": "MND-SMART found little or no effect on functional decline at the tested dose.",
+      "trial_source": "https://pubmed.ncbi.nlm.nih.gov/39307154/"
+    }
+  },
+  "chart_exclusions": [
+    {
+      "id": "Compound::DB00996",
+      "name": "gabapentin",
+      "fact": "respiratory",
+      "case_value": "FVC 76% sitting, 61% supine",
+      "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=1045db4e-4c76-4a0d-bf12-019bd96a8f59",
+      "reason": "Conservative exclusion for reduced respiratory reserve in this case. Section 5.8 warns of respiratory depression with underlying respiratory impairment; this is a monitoring warning, not an absolute contraindication."
+    }
+  ]
+}

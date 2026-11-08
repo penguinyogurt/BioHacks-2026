@@ -1,0 +1,228 @@
+{
+  "case": {
+    "case_id": "alex",
+    "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+    "scope": "Project example case; facts are reported by the case, not independently confirmed clinical observations.",
+    "facts": {
+      "diagnosis": "Limb-onset ALS, diagnosed 2026.",
+      "current_therapy": "Riluzole 50 mg BID",
+      "respiratory": "FVC 76% sitting, 61% supine",
+      "weight": "86 → 77.5 kg, unintentional",
+      "muscle": "470 U/L (ref < 195)",
+      "swallow": "Coughs on thin liquids",
+      "hand_function": "Right pinch 3 kg, grip 14 kg",
+      "jurisdiction": "Lives in Hamilton, Ontario."
+    },
+    "pointers": {
+      "diagnosis": "patient_profile.summary",
+      "current_therapy": "patient_profile.findings[0].value",
+      "respiratory": "patient_profile.findings[1].value",
+      "weight": "patient_profile.findings[2].value",
+      "muscle": "patient_profile.findings[3].value",
+      "swallow": "patient_profile.findings[4].value",
+      "hand_function": "patient_profile.findings[5].value",
+      "jurisdiction": "patient_profile.summary"
+    }
+  },
+  "records": {
+    "Compound::DB05025": {
+      "name": "Arimoclomol",
+      "fact": "weight",
+      "warning": "Decreased weight and diarrhea occurred in the labeled NPC setting with miglustat. Further loss matters after Alex fell from 86 to 77.5 kg; incidence in ALS or local delivery is unknown.",
+      "medication_check": "The label reports no CYP1A2 inhibition or induction in vitro and flags OCT2 substrates. ORARIALS-01 stratified on stable riluzole use. Neither source establishes the safety of the proposed route.",
+      "contrary": "ORARIALS-01 found no improvement in combined function and survival; gastrointestinal events and discontinuations were more frequent with arimoclomol.",
+      "change": "A controlled functional benefit with a credible exposure rationale and tolerability despite weight loss would materially change this assessment.",
+      "action": "caution",
+      "sources": [
+        [
+          "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5feffc0e-453d-47fa-91dd-38d4952309bc",
+          "OCT2"
+        ],
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/38782015/",
+          "did not improve"
+        ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
+    },
+    "Compound::DB06151": {
+      "name": "Acetylcysteine",
+      "fact": "respiratory",
+      "warning": "The inhalation label warns about bronchospasm and an increased volume of liquefied secretions that may require suction if cough is inadequate. Reduced supine FVC makes airway clearance consequential; coughing on liquids does not prove an ineffective cough.",
+      "medication_check": "The inhalation label and ALS trial do not establish a riluzole interaction or compatibility with local administration. Respiratory obstruction from aerosol exposure is distinct from drug-induced respiratory depression.",
+      "contrary": "A 110-person ALS trial of subcutaneous acetylcysteine found no significant overall survival or progression benefit. The limb-onset subgroup estimate included no effect.",
+      "change": "A prespecified limb-onset study with measurable target engagement, respiratory tolerability and functional benefit would strengthen the case.",
+      "action": "caution",
+      "sources": [
+        [
+          "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=c90fca12-12fb-4cf6-bd6f-83bc0d95df81",
+          "bronchospasm"
+        ],
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/7763202/",
+          "subcutaneously"
+        ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
+    },
+    "Compound::DB14533": {
+      "name": "Zinc chloride",
+      "fact": "muscle",
+      "warning": "The parenteral nutrition additive carries a copper-deficiency warning including myeloneuropathy, relevant to existing weakness. Direct undiluted IV or IM injection is contraindicated for this acidic product; the case specifies neither that product nor those routes.",
+      "medication_check": "No direct riluzole combination evidence was established. Baseline copper, zinc and renal status are unknown. The labeled product is an IV admixture component.",
+      "contrary": "Zinc-depleted SOD was toxic in cultured motor neurons. That finding does not show that zinc chloride restores functional SOD1 in people with ALS.",
+      "change": "Demonstrated metal deficiency, intracellular target engagement, route-specific toxicology and benefit distinct from nutritional repletion would be needed.",
+      "action": "caution",
+      "sources": [
+        [
+          "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9a1914a0-e195-4233-c1be-bc2075580eb8",
+          "copper deficiency"
+        ],
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/10617463/",
+          "cultured motor neurons"
+        ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
+    },
+    "Compound::DB00148": {
+      "name": "Creatine",
+      "fact": "muscle",
+      "warning": "",
+      "medication_check": "The ALS trial reported no important adverse reactions in that study, but it does not establish a riluzole interaction profile or local-route safety. Elevated creatine kinase is not evidence of creatine deficiency.",
+      "contrary": "A randomized trial of 175 ALS patients found no improvement in survival or decline in function, including muscle and respiratory measures.",
+      "change": "Evidence of an exposure-dependent benefit in a prospectively defined phenotype, plus renal and formulation safety data, would change the ranking.",
+      "action": "unknown",
+      "sources": [
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/12666111/",
+          "did not affect survival"
+        ]
+      ]
+    },
+    "Compound::DB14487": {
+      "name": "Zinc acetate",
+      "fact": "hand_function",
+      "warning": "Prolonged zinc acetate use has caused copper deficiency with myeloneuropathy. New neurological weakness would be hard to distinguish from ALS progression. The oral capsule also needs a swallowing-feasibility assessment.",
+      "medication_check": "The Wilson disease label addresses copper depletion, not coadministration with riluzole for ALS. Copper and renal status and suitability for local delivery are unknown.",
+      "contrary": "The SOD metallation experiment was in motor neuron culture, not a clinical zinc acetate trial. The label concerns Wilson disease.",
+      "change": "A patient-relevant metallation deficit, comparative evidence against other zinc forms and a safety study measuring copper and neurological outcomes would change the case.",
+      "action": "caution",
+      "sources": [
+        [
+          "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2c4fb943-4b2f-273d-e063-6394a90abb47",
+          "myeloneuropathy"
+        ],
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/10617463/",
+          "cultured motor neurons"
+        ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
+    },
+    "Compound::DB01593": {
+      "name": "Zinc (elemental record)",
+      "fact": "hand_function",
+      "warning": "Excess oral zinc can deplete copper; resulting neurological deficits matter with existing hand weakness. This record does not specify a formulation.",
+      "medication_check": "The NIH zinc review is not a riluzole combination study. Neither the product nor actual metal exposure is known.",
+      "contrary": "Cellular evidence on SOD metallation does not establish human benefit for elemental zinc.",
+      "change": "Identify the actual formulation, metal status, combination data and clinical response.",
+      "action": "caution",
+      "sources": [
+        [
+          "https://ods.od.nih.gov/factsheets/Zinc-HealthProfessional/",
+          "copper"
+        ],
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/10617463/",
+          "cultured motor neurons"
+        ],
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/18525032/",
+          "neurologic disease"
+        ]
+      ],
+      "search_name": "zinc",
+      "warning_scope": "documented chart finding independent of current therapy"
+    },
+    "Compound::DB12310": {
+      "name": "Trehalose",
+      "fact": "respiratory",
+      "warning": "In HEALEY ALS, serious adverse events occurred in 16% on trehalose versus 7% on regimen-only placebo. Respiratory failure was the most common cause of death; investigators attributed no deaths to the drug. This is a signal to review in a patient with limited respiratory reserve, not proof of drug-induced respiratory depression.",
+      "medication_check": "Stratification by riluzole use is not a formal drug-interaction study. Safety of the hypothetical local route remains unknown.",
+      "contrary": "HEALEY found no evidence of slower ALS progression or significant secondary biomarker benefits at the tested exposure.",
+      "change": "A materially different exposure rationale with demonstrated benefit and reassuring respiratory outcome data would be needed.",
+      "action": "caution",
+      "sources": [
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/40409314/",
+          "No death was considered related"
+        ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
+    },
+    "Compound::DB01065": {
+      "name": "Melatonin",
+      "fact": "swallow",
+      "warning": "The Circadin prolonged-release formulation must be swallowed whole. Feasibility is uncertain in Alex, who coughs on thin liquids. This is a formulation warning, not a blanket veto on melatonin.",
+      "medication_check": "The European product information does not establish safety of combined local delivery with riluzole.",
+      "contrary": "A human ALS study of rectal melatonin reported tolerability and a biomarker change. Clinical functional benefit was not established. The whole-tablet issue concerns the separate prolonged-release oral formulation.",
+      "change": "Verify the intended formulation and riluzole interaction and find controlled ALS outcome evidence.",
+      "action": "caution",
+      "sources": [
+        [
+          "https://www.ema.europa.eu/en/documents/product-information/circadin-epar-product-information_en.pdf",
+          "prolonged-release"
+        ],
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/17014688/",
+          "rectal melatonin"
+        ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
+    },
+    "Compound::DB01017": {
+      "name": "Minocycline",
+      "fact": "diagnosis",
+      "action": "caution",
+      "warning": "Documented harm in ALS: the treated group lost 1.30 ALSFRS-R points/month versus 1.04 on placebo (p=0.005). Preserving function is directly relevant to Alex's limb-onset disease.",
+      "medication_check": "A small trial coadministered minocycline with riluzole at Alex's 50 mg twice-daily dose. It did not establish a serious drug-pair interaction or the safety of another route.",
+      "contrary": "The larger phase III trial found faster functional decline. The limited pairwise tolerability data do not resolve that harm.",
+      "change": "A materially different intervention would need strong human evidence that addresses the randomized harm finding.",
+      "sources": [
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/17980667/",
+          "harmful effect"
+        ],
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/16193258/",
+          "combined treatment"
+        ]
+      ],
+      "warning_scope": "documented chart finding independent of current therapy"
+    },
+    "Compound::DB01043": {
+      "name": "Memantine",
+      "fact": "current_therapy",
+      "action": "unknown",
+      "warning": "Kidney function and tolerability under the assumed route remain unknown.",
+      "medication_check": "The label describes minimal CYP1A2 inhibition in vitro. A pilot coadministered memantine and riluzole. Neither establishes safety for Alex under the proposed delivery assumption.",
+      "contrary": "The randomized phase 2B study found no difference in ALS progression or neuropsychiatric outcomes.",
+      "change": "A reproducible functional benefit, documented renal status and exposure-specific tolerability would change this assessment.",
+      "sources": [
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/39511965/",
+          "disease progression"
+        ],
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/20839903/",
+          "riluzole"
+        ],
+        [
+          "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=65c9e7bc-71f0-4113-8de1-4fcaa591735f",
+          "CYP1A2"
+        ]
+      ]
+    }
+  }
+}
