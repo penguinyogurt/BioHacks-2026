@@ -57,7 +57,7 @@ someone else, stop and tell your human rather than doing it anyway.
 
 | Directory | What it is | Stack |
 |---|---|---|
-| `frontend/` | **Motus** — the product. Longitudinal at-home ALS monitoring: speech, typing and handwriting tracked against a personal baseline. Landing + dashboard. | Vite · React 19 · TS · Tailwind v4 · shadcn/ui · Supabase · three |
+| `frontend/` | The product UI. Ships as **Addo Labs** — an ALS drug-discovery pipeline (patient case → profile agents → DRKG embedding → ranking → report), scripted against a sample patient. The earlier **Motus** at-home monitoring dashboard survives as its "Patient monitoring" view. **Name and product are still open: #5, #6** — don't treat either as settled. | Vite · React 19 · TS · Tailwind v4 · shadcn/ui · Supabase · three |
 | `contract/` | The `data/pipeline.json` schema, its tests, and the CLI validator. Owned by nobody, depended on by everybody. | zod · node:test |
 | `data/` | `pipeline.json` — the frozen contract plus a hand-written sample. | — |
 | `docs/` | Specs, research, decisions, status. **See "Documentation" below.** | — |
@@ -191,7 +191,7 @@ rather than editing history.
 
 ```bash
 npm install --prefix frontend          # once
-npm run dev --prefix frontend          # Motus on :5173
+npm run dev --prefix frontend          # the frontend on :5173 (next free port if taken)
 
 npm test     --prefix contract         # contract tests
 npm run validate --prefix contract -- <file>   # validate any pipeline JSON
