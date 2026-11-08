@@ -1,0 +1,2177 @@
+{
+ "meta": {
+  "model": "DRKG pretrained TransE_l2, 400d",
+  "entities": 97238,
+  "projection": "PCA-3, global, numpy",
+  "explainedVariance": [
+   0.0594,
+   0.021,
+   0.0201
+  ],
+  "relation": "DRUGBANK::target::Compound:Gene",
+  "formula": "q = e[gene] − r[target]; d(c) = ‖e[c] − q‖₂ in 400-d; profile distance = min over its genes",
+  "universe": 10551,
+  "topK": 5
+ },
+ "types": [
+  {
+   "name": "Gene",
+   "count": 39220
+  },
+  {
+   "name": "Compound",
+   "count": 24313
+  },
+  {
+   "name": "Biological Process",
+   "count": 11381
+  },
+  {
+   "name": "Side Effect",
+   "count": 5701
+  },
+  {
+   "name": "Disease",
+   "count": 5103
+  },
+  {
+   "name": "Atc",
+   "count": 4048
+  },
+  {
+   "name": "Molecular Function",
+   "count": 2884
+  },
+  {
+   "name": "Pathway",
+   "count": 1822
+  },
+  {
+   "name": "Cellular Component",
+   "count": 1391
+  },
+  {
+   "name": "Symptom",
+   "count": 415
+  },
+  {
+   "name": "Anatomy",
+   "count": 400
+  },
+  {
+   "name": "Pharmacologic Class",
+   "count": 345
+  },
+  {
+   "name": "Tax",
+   "count": 215
+  }
+ ],
+ "als": {
+  "id": "Disease::MESH:D000690",
+  "row": 25880,
+  "pos": [
+   -0.799,
+   -0.717,
+   0.292
+  ],
+  "label": "Amyotrophic Lateral Sclerosis"
+ },
+ "profiles": [
+  {
+   "lane": 0,
+   "name": "Neurotrophic rescue",
+   "genes": [
+    {
+     "symbol": "IGF1R",
+     "id": "Gene::3480",
+     "row": 162,
+     "pos": [
+      -9.305,
+      2.521,
+      -1.926
+     ],
+     "query": [
+      -2.513,
+      -6.651,
+      -3.139
+     ],
+     "targetEdges": 155,
+     "alsEdge": null
+    },
+    {
+     "symbol": "RET",
+     "id": "Gene::5979",
+     "row": 1290,
+     "pos": [
+      -9.252,
+      2.364,
+      -0.54
+     ],
+     "query": [
+      -2.46,
+      -6.808,
+      -1.752
+     ],
+     "targetEdges": 140,
+     "alsEdge": null
+    },
+    {
+     "symbol": "NTRK2",
+     "id": "Gene::4915",
+     "row": 1185,
+     "pos": [
+      -9.336,
+      3.364,
+      -1.642
+     ],
+     "query": [
+      -2.544,
+      -5.808,
+      -2.854
+     ],
+     "targetEdges": 58,
+     "alsEdge": null
+    }
+   ],
+   "unresolved": [],
+   "matches": [
+    {
+     "rank": 1,
+     "id": "Compound::DB12742",
+     "row": 3414,
+     "name": "Amuvatinib",
+     "pos": [
+      -0.126,
+      -4.126,
+      -0.22
+     ],
+     "distance": 9.623,
+     "viaGene": "RET",
+     "directEdge": true
+    },
+    {
+     "rank": 2,
+     "id": "Compound::DB14751",
+     "row": 20511,
+     "name": "DB14751",
+     "pos": [
+      0.657,
+      -3.043,
+      -0.867
+     ],
+     "distance": 9.624,
+     "viaGene": "IGF1R",
+     "directEdge": true
+    },
+    {
+     "rank": 3,
+     "id": "Compound::DB12802",
+     "row": 8919,
+     "name": "Picropodophyllin",
+     "pos": [
+      3.009,
+      -2.927,
+      0.132
+     ],
+     "distance": 9.664,
+     "viaGene": "IGF1R",
+     "directEdge": true
+    },
+    {
+     "rank": 4,
+     "id": "Compound::DB01268",
+     "row": 6283,
+     "name": "Sunitinib",
+     "pos": [
+      -2.971,
+      -7.068,
+      -4.589
+     ],
+     "distance": 9.724,
+     "viaGene": "IGF1R",
+     "directEdge": false
+    },
+    {
+     "rank": 5,
+     "id": "Compound::DB07156",
+     "row": 4730,
+     "name": "(4Z)-6-bromo-4-({[4-(pyrrolidin-1-ylmethyl)phenyl]amino}methylidene)isoquinoline-1,3(2H,4H)-dione",
+     "pos": [
+      2.457,
+      -1.865,
+      -1.385
+     ],
+     "distance": 9.747,
+     "viaGene": "IGF1R",
+     "directEdge": true
+    }
+   ],
+   "edges": [
+    {
+     "from": 162,
+     "to": 8919,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 4730,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 20511,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 9725,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 8049,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 3421,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 8485,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 4528,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 10394,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 4266,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 5433,
+     "rel": "GNBR::E+::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 8782,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 3049,
+     "rel": "GNBR::N::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 6470,
+     "rel": "GNBR::E-::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 7126,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 18140,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 4586,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 5931,
+     "rel": "GNBR::N::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 8033,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 3801,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 10139,
+     "rel": "GNBR::B::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 3874,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 162,
+     "to": 5007,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 162,
+     "to": 9709,
+     "rel": "Hetionet::CbG::Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 3414,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 6283,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 6497,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 2823,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 7028,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 8485,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 10037,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 3251,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 6290,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 8967,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 5547,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 10696,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 9550,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 4266,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 7917,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 5915,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 10914,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 8756,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 6376,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 7648,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 8108,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 3801,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 5504,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1290,
+     "to": 3100,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 6283,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 6973,
+     "rel": "GNBR::N::Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 7028,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 8485,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 5915,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 3801,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 4266,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 3629,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 5504,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 3861,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 4920,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 8108,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 7280,
+     "rel": "GNBR::E+::Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 6230,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 8686,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 5155,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 7917,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 15320,
+     "rel": "GNBR::O::Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 9881,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 1185,
+     "to": 6750,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 2427,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 1185,
+     "to": 6102,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 1185,
+     "to": 10225,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 1185,
+     "to": 10803,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    }
+   ]
+  },
+  {
+   "lane": 1,
+   "name": "Cytokine neuroinflammation",
+   "genes": [
+    {
+     "symbol": "IL6R",
+     "id": "Gene::3570",
+     "row": 9770,
+     "pos": [
+      -9.388,
+      2.867,
+      -2.198
+     ],
+     "query": [
+      -2.596,
+      -6.305,
+      -3.41
+     ],
+     "targetEdges": 14,
+     "alsEdge": null
+    },
+    {
+     "symbol": "IL1R1",
+     "id": "Gene::3554",
+     "row": 10156,
+     "pos": [
+      -10.584,
+      3.393,
+      -1.852
+     ],
+     "query": [
+      -3.792,
+      -5.779,
+      -3.064
+     ],
+     "targetEdges": 18,
+     "alsEdge": null
+    },
+    {
+     "symbol": "TNF",
+     "id": "Gene::7124",
+     "row": 483,
+     "pos": [
+      -8.168,
+      4.069,
+      -2.913
+     ],
+     "query": [
+      -1.376,
+      -5.103,
+      -4.125
+     ],
+     "targetEdges": 690,
+     "alsEdge": null
+    }
+   ],
+   "unresolved": [],
+   "matches": [
+    {
+     "rank": 1,
+     "id": "Compound::DB05744",
+     "row": 23695,
+     "name": "DB05744",
+     "pos": [
+      2.709,
+      0.122,
+      -2.558
+     ],
+     "distance": 9.668,
+     "viaGene": "TNF",
+     "directEdge": true
+    },
+    {
+     "rank": 2,
+     "id": "Compound::DB05968",
+     "row": 4974,
+     "name": "PR-104",
+     "pos": [
+      3.437,
+      -0.617,
+      -1.26
+     ],
+     "distance": 9.712,
+     "viaGene": "TNF",
+     "directEdge": true
+    },
+    {
+     "rank": 3,
+     "id": "Compound::DB05412",
+     "row": 5981,
+     "name": "Talmapimod",
+     "pos": [
+      0.603,
+      -2.104,
+      -3.337
+     ],
+     "distance": 9.777,
+     "viaGene": "TNF",
+     "directEdge": true
+    },
+    {
+     "rank": 4,
+     "id": "Compound::DB05513",
+     "row": 7131,
+     "name": "Atiprimod",
+     "pos": [
+      1.528,
+      -3.301,
+      -0.286
+     ],
+     "distance": 9.81,
+     "viaGene": "TNF",
+     "directEdge": true
+    },
+    {
+     "rank": 5,
+     "id": "Compound::DB05470",
+     "row": 6857,
+     "name": "VX-702",
+     "pos": [
+      0.379,
+      -3.214,
+      -2.955
+     ],
+     "distance": 9.858,
+     "viaGene": "TNF",
+     "directEdge": true
+    }
+   ],
+   "edges": [
+    {
+     "from": 9770,
+     "to": 12304,
+     "rel": "DGIDB::AGONIST::Gene:Compound"
+    },
+    {
+     "from": 9770,
+     "to": 5512,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9770,
+     "to": 9771,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 9770,
+     "to": 3186,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 9770,
+     "to": 5124,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 9770,
+     "to": 15524,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 10156,
+     "to": 10157,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 10156,
+     "to": 6102,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 10156,
+     "to": 9504,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 10156,
+     "to": 3049,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 10156,
+     "to": 12713,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 10156,
+     "to": 9489,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 10156,
+     "to": 4591,
+     "rel": "DGIDB::ANTAGONIST::Gene:Compound"
+    },
+    {
+     "from": 10156,
+     "to": 9999,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 10156,
+     "to": 12849,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 4974,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 5981,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 7131,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 6857,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 23695,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 7035,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 23777,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 5482,
+     "rel": "GNBR::N::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 5512,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 7280,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 3306,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 4266,
+     "rel": "GNBR::B::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 9504,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 2885,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 6480,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 5815,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 6102,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 16131,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 16581,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 3186,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 6901,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 9650,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 4884,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 483,
+     "to": 9676,
+     "rel": "GNBR::N::Compound:Gene"
+    }
+   ]
+  },
+  {
+   "lane": 2,
+   "name": "Complement blockade",
+   "genes": [
+    {
+     "symbol": "C5",
+     "id": "Gene::727",
+     "row": 1745,
+     "pos": [
+      -9.183,
+      1.763,
+      -0.792
+     ],
+     "query": [
+      -2.391,
+      -7.409,
+      -2.004
+     ],
+     "targetEdges": 46,
+     "alsEdge": null
+    },
+    {
+     "symbol": "C3",
+     "id": "Gene::718",
+     "row": 694,
+     "pos": [
+      -8.292,
+      3.114,
+      -0.878
+     ],
+     "query": [
+      -1.5,
+      -6.058,
+      -2.09
+     ],
+     "targetEdges": 46,
+     "alsEdge": "Hetionet::DaG::Disease:Gene"
+    },
+    {
+     "symbol": "C1QA",
+     "id": "Gene::712",
+     "row": 20527,
+     "pos": [
+      -8.135,
+      3.32,
+      0.042
+     ],
+     "query": [
+      -1.343,
+      -5.852,
+      -1.17
+     ],
+     "targetEdges": 23,
+     "alsEdge": null
+    }
+   ],
+   "unresolved": [],
+   "matches": [
+    {
+     "rank": 1,
+     "id": "Compound::DB09130",
+     "row": 6705,
+     "name": "Copper",
+     "pos": [
+      0.633,
+      -6.161,
+      0.884
+     ],
+     "distance": 9.898,
+     "viaGene": "C3",
+     "directEdge": true
+    },
+    {
+     "rank": 2,
+     "id": "Compound::DB03175",
+     "row": 8821,
+     "name": "Propanol",
+     "pos": [
+      2.078,
+      -4.159,
+      1.82
+     ],
+     "distance": 9.959,
+     "viaGene": "C3",
+     "directEdge": false
+    },
+    {
+     "rank": 3,
+     "id": "Compound::DB14487",
+     "row": 16972,
+     "name": "Zinc acetate",
+     "pos": [
+      -2.009,
+      -5.691,
+      -2.279
+     ],
+     "distance": 10.019,
+     "viaGene": "C3",
+     "directEdge": true
+    },
+    {
+     "rank": 4,
+     "id": "Compound::DB14533",
+     "row": 10718,
+     "name": "Lutetium (177Lu) chloride",
+     "pos": [
+      -1.676,
+      -5.849,
+      -1.927
+     ],
+     "distance": 10.024,
+     "viaGene": "C3",
+     "directEdge": true
+    },
+    {
+     "rank": 5,
+     "id": "Compound::DB06492",
+     "row": 23776,
+     "name": "Mirococept",
+     "pos": [
+      4.014,
+      -0.828,
+      1.381
+     ],
+     "distance": 10.085,
+     "viaGene": "C3",
+     "directEdge": true
+    }
+   ],
+   "edges": [
+    {
+     "from": 1745,
+     "to": 6705,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 10718,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 16972,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 7280,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 11948,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 9495,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 2427,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 2415,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 7353,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 9796,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 3874,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 10696,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 15443,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 8396,
+     "rel": "GNBR::B::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 3506,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 2731,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 10119,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 5931,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 7999,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 2919,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 5007,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 2482,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 5084,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 1745,
+     "to": 10733,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 6705,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 16972,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 10718,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 23776,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 7280,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 7824,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 15320,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 15443,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 5235,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 4317,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 7353,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 17498,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 12611,
+     "rel": "GNBR::K::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 3083,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 34206,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 694,
+     "to": 32781,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 13313,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 11221,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 12295,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 11020,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 10232,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 15405,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 10796,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 9991,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 9597,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 11416,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 12080,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 9494,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 11277,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 12311,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 12212,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 5235,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 28838,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 20527,
+     "to": 31918,
+     "rel": "GNBR::K::Compound:Gene"
+    }
+   ]
+  },
+  {
+   "lane": 3,
+   "name": "TDP-43 proteostasis",
+   "genes": [
+    {
+     "symbol": "TARDBP",
+     "id": "Gene::23435",
+     "row": 39835,
+     "pos": [
+      -8.38,
+      1.931,
+      0.714
+     ],
+     "query": [
+      -1.588,
+      -7.241,
+      -0.498
+     ],
+     "targetEdges": 9,
+     "alsEdge": "Hetionet::DaG::Disease:Gene"
+    },
+    {
+     "symbol": "MTOR",
+     "id": "Gene::2475",
+     "row": 904,
+     "pos": [
+      -8.481,
+      3.389,
+      -1.347
+     ],
+     "query": [
+      -1.689,
+      -5.783,
+      -2.559
+     ],
+     "targetEdges": 239,
+     "alsEdge": null
+    },
+    {
+     "symbol": "TFEB",
+     "id": "Gene::7942",
+     "row": 9451,
+     "pos": [
+      -9.291,
+      2.508,
+      0.876
+     ],
+     "query": [
+      -2.499,
+      -6.664,
+      -0.336
+     ],
+     "targetEdges": 4,
+     "alsEdge": null
+    }
+   ],
+   "unresolved": [],
+   "matches": [
+    {
+     "rank": 1,
+     "id": "Compound::DB12774",
+     "row": 5375,
+     "name": "Azd-8055",
+     "pos": [
+      1.169,
+      -6.041,
+      1.399
+     ],
+     "distance": 9.557,
+     "viaGene": "MTOR",
+     "directEdge": true
+    },
+    {
+     "rank": 2,
+     "id": "Compound::DB05210",
+     "row": 23592,
+     "name": "DB05210",
+     "pos": [
+      0.683,
+      -2.705,
+      -0.385
+     ],
+     "distance": 9.894,
+     "viaGene": "MTOR",
+     "directEdge": true
+    },
+    {
+     "rank": 3,
+     "id": "Compound::DB00877",
+     "row": 5931,
+     "name": "Sirolimus",
+     "pos": [
+      -2.496,
+      -7.033,
+      -3.156
+     ],
+     "distance": 9.928,
+     "viaGene": "MTOR",
+     "directEdge": true
+    },
+    {
+     "rank": 4,
+     "id": "Compound::DB05241",
+     "row": 23606,
+     "name": "DB05241",
+     "pos": [
+      1.118,
+      -1.943,
+      -1.185
+     ],
+     "distance": 10.009,
+     "viaGene": "MTOR",
+     "directEdge": true
+    },
+    {
+     "rank": 5,
+     "id": "Compound::DB11925",
+     "row": 4573,
+     "name": "Vistusertib",
+     "pos": [
+      2.757,
+      -3.888,
+      1.364
+     ],
+     "distance": 10.296,
+     "viaGene": "MTOR",
+     "directEdge": true
+    }
+   ],
+   "edges": [
+    {
+     "from": 39835,
+     "to": 5931,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 39835,
+     "to": 2427,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 39835,
+     "to": 2919,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 39835,
+     "to": 5007,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 39835,
+     "to": 10733,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 39835,
+     "to": 2955,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 39835,
+     "to": 4238,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 39835,
+     "to": 10698,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 39835,
+     "to": 2467,
+     "rel": "Hetionet::CdG::Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 5375,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 5931,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 4573,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 23592,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 23606,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 4666,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 23501,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 12385,
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
+    },
+    {
+     "from": 904,
+     "to": 5757,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 5225,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 4332,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 7028,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 5140,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 8961,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 6276,
+     "rel": "GNBR::N::Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 5007,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 4478,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 4529,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 8394,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 7455,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 11666,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 904,
+     "to": 4654,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 904,
+     "to": 7191,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 904,
+     "to": 7060,
+     "rel": "bioarx::DrugHumGen:Compound:Gene"
+    },
+    {
+     "from": 9451,
+     "to": 42623,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9451,
+     "to": 5436,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 9451,
+     "to": 9743,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    },
+    {
+     "from": 9451,
+     "to": 7170,
+     "rel": "Hetionet::CuG::Compound:Gene"
+    }
+   ]
+  },
+  {
+   "lane": 4,
+   "name": "Excitotoxicity & oxidative stress",
+   "genes": [
+    {
+     "symbol": "SLC1A2",
+     "id": "Gene::6506",
+     "row": 1293,
+     "pos": [
+      -8.419,
+      4.014,
+      0.175
+     ],
+     "query": [
+      -1.627,
+      -5.158,
+      -1.037
+     ],
+     "targetEdges": 16,
+     "alsEdge": "GNBR::J::Gene:Disease"
+    },
+    {
+     "symbol": "GRIA2",
+     "id": "Gene::2891",
+     "row": 911,
+     "pos": [
+      -8.911,
+      2.551,
+      -0.878
+     ],
+     "query": [
+      -2.119,
+      -6.621,
+      -2.09
+     ],
+     "targetEdges": 152,
+     "alsEdge": "Hetionet::DaG::Disease:Gene"
+    },
+    {
+     "symbol": "NFE2L2",
+     "id": "Gene::4780",
+     "row": 9917,
+     "pos": [
+      -8.125,
+      3.318,
+      -0.499
+     ],
+     "query": [
+      -1.333,
+      -5.854,
+      -1.711
+     ],
+     "targetEdges": 192,
+     "alsEdge": "GNBR::L::Gene:Disease"
+    }
+   ],
+   "unresolved": [],
+   "matches": [
+    {
+     "rank": 1,
+     "id": "Compound::DB05047",
+     "row": 8128,
+     "name": "CX 717",
+     "pos": [
+      0.645,
+      -1.752,
+      -1.381
+     ],
+     "distance": 8.816,
+     "viaGene": "GRIA2",
+     "directEdge": true
+    },
+    {
+     "rank": 2,
+     "id": "Compound::DB04982",
+     "row": 7587,
+     "name": "Talampanel",
+     "pos": [
+      1.247,
+      -3.033,
+      0.929
+     ],
+     "distance": 9.019,
+     "viaGene": "GRIA2",
+     "directEdge": true
+    },
+    {
+     "rank": 3,
+     "id": "Compound::DB02966",
+     "row": 6267,
+     "name": "5-Fluorowillardiine",
+     "pos": [
+      2.467,
+      -2.024,
+      0.654
+     ],
+     "distance": 9.189,
+     "viaGene": "GRIA2",
+     "directEdge": true
+    },
+    {
+     "rank": 4,
+     "id": "Compound::DB03240",
+     "row": 3570,
+     "name": "(S)-2-Amino-3-(1,3,5,7-Pentahydro-2,4-Dioxo-Cyclopenta[E]Pyrimidin-1-Yl) Proionic Acid",
+     "pos": [
+      2.95,
+      -1.599,
+      0.077
+     ],
+     "distance": 9.394,
+     "viaGene": "GRIA2",
+     "directEdge": true
+    },
+    {
+     "rank": 5,
+     "id": "Compound::DB01664",
+     "row": 3145,
+     "name": "(S)-Des-Me-Ampa",
+     "pos": [
+      2.261,
+      -0.639,
+      0.078
+     ],
+     "distance": 9.4,
+     "viaGene": "GRIA2",
+     "directEdge": true
+    }
+   ],
+   "edges": [
+    {
+     "from": 1293,
+     "to": 4600,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 1293,
+     "to": 3505,
+     "rel": "DGIDB::INHIBITOR::Gene:Compound"
+    },
+    {
+     "from": 1293,
+     "to": 8396,
+     "rel": "GNBR::B::Compound:Gene"
+    },
+    {
+     "from": 1293,
+     "to": 6302,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 1293,
+     "to": 5728,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 1293,
+     "to": 2401,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 1293,
+     "to": 32903,
+     "rel": "GNBR::O::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 8128,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 7587,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 6267,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 3570,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 3145,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 7249,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 4515,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 4921,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 8823,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 3550,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 6753,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 6563,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 5742,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 911,
+     "to": 5360,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 5884,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 8005,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 6781,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 22457,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 4665,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 7564,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 23020,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 4600,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 22933,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 911,
+     "to": 3226,
+     "rel": "DRUGBANK::target::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 3474,
+     "rel": "GNBR::E+::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 23398,
+     "rel": "GNBR::A+::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 7357,
+     "rel": "GNBR::N::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 10005,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 9650,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 16131,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 5815,
+     "rel": "GNBR::E+::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 5610,
+     "rel": "GNBR::N::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 4656,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 6705,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 6547,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 3895,
+     "rel": "GNBR::K::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 21017,
+     "rel": "GNBR::E+::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 2600,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 4211,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 3049,
+     "rel": "GNBR::E+::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 3104,
+     "rel": "GNBR::N::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 11822,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 5452,
+     "rel": "GNBR::E+::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 4238,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 8533,
+     "rel": "GNBR::E::Compound:Gene"
+    },
+    {
+     "from": 9917,
+     "to": 9504,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 9917,
+     "to": 4266,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    },
+    {
+     "from": 9917,
+     "to": 2427,
+     "rel": "DGIDB::OTHER::Gene:Compound"
+    }
+   ]
+  }
+ ],
+ "handWritten": [
+  {
+   "drug": "Mecasermin",
+   "lane": 0,
+   "source": "MATCHES",
+   "id": "Compound::DB01277",
+   "rank": 18,
+   "distance": 10.17
+  },
+  {
+   "drug": "Somatropin",
+   "lane": 0,
+   "source": "MATCHES",
+   "id": null,
+   "rank": null,
+   "distance": null
+  },
+  {
+   "drug": "Tocilizumab",
+   "lane": 1,
+   "source": "MATCHES",
+   "id": "Compound::DB06273",
+   "rank": 124,
+   "distance": 10.974
+  },
+  {
+   "drug": "Anakinra",
+   "lane": 1,
+   "source": "MATCHES",
+   "id": "Compound::DB00026",
+   "rank": 402,
+   "distance": 11.316
+  },
+  {
+   "drug": "Sarilumab",
+   "lane": 1,
+   "source": "MATCHES",
+   "id": "Compound::DB11767",
+   "rank": 364,
+   "distance": 11.275
+  },
+  {
+   "drug": "Ravulizumab",
+   "lane": 2,
+   "source": "MATCHES",
+   "id": "Compound::DB11580",
+   "rank": 1157,
+   "distance": 12.088
+  },
+  {
+   "drug": "Eculizumab",
+   "lane": 2,
+   "source": "MATCHES",
+   "id": "Compound::DB01257",
+   "rank": 44,
+   "distance": 11.153
+  },
+  {
+   "drug": "Sirolimus",
+   "lane": 3,
+   "source": "MATCHES",
+   "id": "Compound::DB00877",
+   "rank": 3,
+   "distance": 9.928
+  },
+  {
+   "drug": "Tofersen",
+   "lane": 3,
+   "source": "MATCHES",
+   "id": null,
+   "rank": null,
+   "distance": null
+  },
+  {
+   "drug": "Riluzole",
+   "lane": 4,
+   "source": "MATCHES",
+   "id": "Compound::DB00740",
+   "rank": 92,
+   "distance": 11.216
+  },
+  {
+   "drug": "Edaravone",
+   "lane": 4,
+   "source": "MATCHES",
+   "id": "Compound::DB12243",
+   "rank": 3087,
+   "distance": 13.129
+  },
+  {
+   "drug": "Ceftriaxone",
+   "lane": 4,
+   "source": "MATCHES",
+   "id": "Compound::DB01212",
+   "rank": 260,
+   "distance": 11.617
+  },
+  {
+   "drug": "Anakinra",
+   "lane": 1,
+   "source": "CANDIDATES",
+   "id": "Compound::DB00026",
+   "rank": 402,
+   "distance": 11.316
+  },
+  {
+   "drug": "Tocilizumab",
+   "lane": 1,
+   "source": "CANDIDATES",
+   "id": "Compound::DB06273",
+   "rank": 124,
+   "distance": 10.974
+  },
+  {
+   "drug": "Mecasermin",
+   "lane": 0,
+   "source": "CANDIDATES",
+   "id": "Compound::DB01277",
+   "rank": 18,
+   "distance": 10.17
+  },
+  {
+   "drug": "Ravulizumab",
+   "lane": 2,
+   "source": "CANDIDATES",
+   "id": "Compound::DB11580",
+   "rank": 1157,
+   "distance": 12.088
+  }
+ ]
+}

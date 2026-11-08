@@ -365,8 +365,8 @@ function script(p: Patient, caseInput: CaseInput): Timed[] {
 
   // 3 — embedding
   at(200, { type: 'stage', stage: 'embedding', status: 'running' })
-  step('embedding', 'tool_call', 'drkg.embed_profiles', '{\n  "model": "TransE_l2",\n  "dim": 400,\n  "profiles": 5,\n  "entity_type": "Compound"\n}', 900)
-  step('embedding', 'tool_result', 'DRKG — result', '5 profile vectors composed from target-gene and relation embeddings. Cosine search over DRKG compound entities; top neighbours kept per profile.', 1500)
+  step('embedding', 'tool_call', 'drkg.query_profiles', '{\n  "model": "TransE_l2",\n  "dim": 400,\n  "profiles": 5,\n  "query": "e[gene] − r[DRUGBANK::target::Compound:Gene]",\n  "universe": "Compound::DB* (10,551)"\n}', 900)
+  step('embedding', 'tool_result', 'DRKG — result', '15 target genes resolved to DRKG gene entities. Each gives a query point e[gene] − r[target]; every compound is scored by 400-d L2 distance and keeps its best gene per profile. Top 5 kept per profile.', 1500)
   at(400, { type: 'matches' })
   at(300, { type: 'stage', stage: 'embedding', status: 'done' })
 
