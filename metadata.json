@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6X8SAEP1YGS9J173NSBJV35",
   "strategy": "manual-commit",
   "branch": "frontend/live-agent",
-  "checkpoints_count": 9,
+  "checkpoints_count": 13,
   "files_touched": [
     "backend/agent/subagent.py",
     "docs/STATUS.md",
@@ -39,14 +39,21 @@
       "compact_transcript": "/2/transcript.jsonl",
       "content_hash": "/2/content_hash.txt",
       "prompt": "/2/prompt.txt"
+    },
+    {
+      "metadata": "/3/metadata.json",
+      "transcript": "/3/full.jsonl",
+      "compact_transcript": "/3/transcript.jsonl",
+      "content_hash": "/3/content_hash.txt",
+      "prompt": "/3/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 98,
-    "cache_creation_tokens": 74618,
-    "cache_read_tokens": 13098895,
-    "output_tokens": 24983,
-    "api_call_count": 41
+    "input_tokens": 150,
+    "cache_creation_tokens": 94817,
+    "cache_read_tokens": 16091284,
+    "output_tokens": 33944,
+    "api_call_count": 63
   },
   "redaction": {
     "replacements": 50,

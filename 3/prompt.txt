@@ -1,0 +1,17 @@
+On this page: http://localhost:5173/home/embedding there is a How to Interpret this column. I'd like to reword that
+
+---
+
+On this page: http://localhost:5173/home/embedding there is a How to Interpret this column. I'd like to reword that to be more professional
+
+---
+
+Fix the http://localhost:5173/home/graph page so that the style matches the other tabs (more translucent and not just clear white background)
+
+---
+
+Brightness · Proximity to the active query this doens't fit in the column for http://localhost:5173/home/embedding
+
+---
+
+center the graph in http://localhost:5173/home/graph more to the right when it renders
