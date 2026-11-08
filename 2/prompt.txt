@@ -1,0 +1,5 @@
+From step 3 to step 4, the page should automatically switch to step 4 once it begins to that the user doesn't miss the demo of the relationships between the graphs
+
+---
+
+Is there a way to see exactly what was returned from the web search tool calls from the Research Report page?

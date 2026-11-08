@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6X8SAEP1YGS9J173NSBJV35",
   "strategy": "manual-commit",
   "branch": "frontend/live-agent",
-  "checkpoints_count": 7,
+  "checkpoints_count": 9,
   "files_touched": [
     "backend/agent/subagent.py",
     "docs/STATUS.md",
@@ -32,24 +32,31 @@
       "compact_transcript": "/1/transcript.jsonl",
       "content_hash": "/1/content_hash.txt",
       "prompt": "/1/prompt.txt"
+    },
+    {
+      "metadata": "/2/metadata.json",
+      "transcript": "/2/full.jsonl",
+      "compact_transcript": "/2/transcript.jsonl",
+      "content_hash": "/2/content_hash.txt",
+      "prompt": "/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 72,
-    "cache_creation_tokens": 63143,
-    "cache_read_tokens": 10862170,
-    "output_tokens": 18221,
-    "api_call_count": 30
+    "input_tokens": 98,
+    "cache_creation_tokens": 74618,
+    "cache_read_tokens": 13098895,
+    "output_tokens": 24983,
+    "api_call_count": 41
   },
   "redaction": {
-    "replacements": 35,
+    "replacements": 50,
     "layers": {
       "betterleaks": 0,
       "connection_string": 0,
       "credential_key": 0,
-      "credential_value": 4,
+      "credential_value": 6,
       "credentialed_uri": 0,
-      "entropy": 31,
+      "entropy": 44,
       "key_context": 0,
       "provider_token": 0,
       "shell_stdin": 0
