@@ -3,11 +3,13 @@
   "checkpoint_id": "01M6XFHTXTGD3X3G5FM3SJXEN6",
   "strategy": "manual-commit",
   "branch": "frontend/live-agent",
-  "checkpoints_count": 7,
+  "checkpoints_count": 13,
   "files_touched": [
     ".gitignore",
     "backend/agent/api.py",
+    "backend/agent/assess.py",
     "backend/agent/chat.py",
+    "backend/agent/test_privacy.py",
     "docs/STATUS.md",
     "frontend/package-lock.json",
     "frontend/package.json",
@@ -26,24 +28,31 @@
       "compact_transcript": "/0/transcript.jsonl",
       "content_hash": "/0/content_hash.txt",
       "prompt": "/0/prompt.txt"
+    },
+    {
+      "metadata": "/1/metadata.json",
+      "transcript": "/1/full.jsonl",
+      "compact_transcript": "/1/transcript.jsonl",
+      "content_hash": "/1/content_hash.txt",
+      "prompt": "/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 158,
-    "cache_creation_tokens": 97375,
-    "cache_read_tokens": 34673588,
-    "output_tokens": 70682,
-    "api_call_count": 70
+    "input_tokens": 254,
+    "cache_creation_tokens": 153249,
+    "cache_read_tokens": 49660170,
+    "output_tokens": 102622,
+    "api_call_count": 110
   },
   "redaction": {
-    "replacements": 35,
+    "replacements": 59,
     "layers": {
       "betterleaks": 0,
       "connection_string": 0,
       "credential_key": 0,
-      "credential_value": 4,
+      "credential_value": 13,
       "credentialed_uri": 0,
-      "entropy": 31,
+      "entropy": 46,
       "key_context": 0,
       "provider_token": 0,
       "shell_stdin": 0
