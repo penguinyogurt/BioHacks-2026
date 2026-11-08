@@ -1,0 +1,21 @@
+Look into the diagnostics directory in the backend folder, there should be an html file somewhere there that allows for users to test against known symptoms of ALS. The idea of this separate test was to act as a take home assignment for users. Thus there should be another tab for this feature with a link that allows users to open this separate test. Now I want a report of the results from this test too. It just has to clearly summarize the results from the 3 tests with accuracy scores and pass/fail rates. Keep the template clean and simple. It should also be uploaded to the supabase db and saved to the reports section but with a subheading stating that they are only for test results
+
+---
+
+wher eis this implemented?
+
+---
+
+it should use the same backend as this repo just that there should be a link somewhere that allows the user to find this external test and that all these results are stored in the same supabase backend
+
+---
+
+why doesn't the link work? isn't it just html?
+
+---
+
+if i plan to deploy all this would it work then? Or should i integrate the test to have it's own child url from the addo labs parent url?
+
+---
+
+set up the child route only for the take home test. Make sure that this will work for deployment since I plan to deploy with vercel and cultr
