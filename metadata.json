@@ -1,0 +1,59 @@
+{
+  "cli_version": "0.13.1",
+  "checkpoint_id": "01M6WQ6K81JCP75YZN0H45ECTQ",
+  "strategy": "manual-commit",
+  "branch": "frontend/diagnosis",
+  "checkpoints_count": 6,
+  "files_touched": [
+    "frontend/package-lock.json",
+    "frontend/package.json",
+    "frontend/src/components/app-sidebar.tsx",
+    "frontend/src/components/background.tsx",
+    "frontend/src/components/discovery/pages.tsx",
+    "frontend/src/components/discovery/pieces.tsx",
+    "frontend/src/components/discovery/report.tsx",
+    "frontend/src/components/discovery/runs.tsx",
+    "frontend/src/components/discovery/workspace.tsx",
+    "frontend/src/components/react-bits/Dither.css",
+    "frontend/src/components/react-bits/Dither.jsx",
+    "frontend/src/components/react-bits/GradientASCII.tsx",
+    "frontend/src/lib/case-pdf.ts",
+    "frontend/src/lib/pipeline.ts",
+    "frontend/src/lib/run-store.tsx",
+    "frontend/src/lib/theme.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/Home.tsx",
+    "frontend/src/pages/Landing.tsx",
+    "frontend/tsconfig.tsbuildinfo"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 772,
+    "cache_creation_tokens": 2174889,
+    "cache_read_tokens": 163352243,
+    "output_tokens": 438335,
+    "api_call_count": 349
+  },
+  "redaction": {
+    "replacements": 4,
+    "layers": {
+      "betterleaks": 2,
+      "connection_string": 0,
+      "credential_key": 0,
+      "credential_value": 2,
+      "credentialed_uri": 0,
+      "entropy": 0,
+      "key_context": 0,
+      "provider_token": 0,
+      "shell_stdin": 0
+    }
+  }
+}

@@ -1,0 +1,47 @@
+It should be in separate pages like callio labs for each section of the flow. Also we'll update a PDF of the patient case that the agent can digest to understand the context behind the patient case
+
+---
+
+<task-notification>
+<task-id>be353ptjy</task-id>
+<tool-use-id>toolu_01BREvK6WkyCF5w6BGk6EeRh</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\be353ptjy.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for flow test" failed with exit code 255</summary>
+</task-notification>
+
+---
+
+the home page should be simpler. there is too much text on the home page
+
+---
+
+i should also be able to go back to each individual tab and step of the workflow
+
+---
+
+<task-notification>
+<task-id>b5i1e8adb</task-id>
+<tool-use-id>toolu_014d2ynaG81K3wSxLjPMLhkV</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\b5i1e8adb.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for screenshot" failed with exit code 255</summary>
+</task-notification>
+
+---
+
+get rid of the pipeline tabs for the subheadings. The pipeline should also not automatically move onto the next pipeline phase, it should be manual instead
+
+---
+
+switch the background to gradient ascii from react bits
+
+---
+
+<task-notification>
+<task-id>bsnll4f6w</task-id>
+<tool-use-id>toolu_01K96WcCLWG4SQ4NvLzkBj3g</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bsnll4f6w.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for manual-step test" failed with exit code 255</summary>
+</task-notification>
