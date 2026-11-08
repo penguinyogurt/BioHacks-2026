@@ -12,9 +12,8 @@ Launch the loopback server and open the browser:
 cd ~/Documents/BioHacks/facial-test && .venv/bin/python app.py
 ```
 
-The four challenges are Happy, Sad, Disgusted, and Neutral. After Neutral, the summary counts the latest scored attempt for each expression. A retake for face count adds no failure. Start new challenge resets the total.
+The four challenges are Happy, Sad, Disgusted, and Neutral. Ready starts a three-second countdown, followed by three seconds to hold the expression. A single captured photo passes when the requested class ranks first at 80% confidence or higher. If the detector cannot find exactly one face, the round returns to Ready without scoring it. Each scored round advances using Next expression. Stop releases the camera during a live round.
 
-Start camera requests video permission. Ready starts a three-second preparation countdown followed by three seconds to hold the expression. The app freezes one mirrored frame, sends the displayed canvas as lossless PNG to localhost, and keeps the result visible. The detector checks the whole photo before the classifier runs. Detection of zero or multiple faces requires a retake. Stop releases tracks and invalidates timers and outstanding responses. A round interrupted by a hidden tab returns to the prompt. Threshold changes apply to the next round.
 
 ## Model and input
 
@@ -30,4 +29,4 @@ CPU and the accelerated local server scored the public [scikit-image astronaut p
 
 To repeat the browser checks, keep the server running, install Playwright in a test environment, put the public test image at `assets/smoke.png`, and run `python check_round.py` from this directory with Google Chrome installed. The app saves no webcam photos. Assets, virtual environment, and caches are Git-ignored.
 
-After Neutral, the camera closes and a dedicated results screen displays the four most recently scored photos, their requested expressions and PASS/FAIL outcomes. The photos stay in browser memory for review. Use the centered Proceed To Next Test button in the master assessment, or Start new challenge in standalone mode.
+After Neutral, the camera closes and a dedicated results screen displays the four most recently scored photos, their requested expressions and PASS/FAIL outcomes. The photos stay in browser memory for review. Use the centered Proceed To Next Test button in the master assessment.

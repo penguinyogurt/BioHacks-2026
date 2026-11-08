@@ -73,9 +73,9 @@ $("begin").onclick=async()=>{
 window.addEventListener("message",e=>{
  if(!frame||e.source!==frame.contentWindow||e.origin!==origin||e.data?.suite!==steps[index].key)return;
  const done=e.data.complete===true;
- $("shell").classList.toggle("review",done && index<2);
+ $("shell").classList.toggle("review",done);
  $("outcome").textContent=done?e.data.summary:"";
- $("next").textContent=index===2?"Complete Assessment":"Proceed To Next Test";
+ $("next").textContent=index===2?"Complete Diagnostic":"Proceed To Next Test";
  $("next").hidden=!done;
 });
 $("next").onclick=()=>{
