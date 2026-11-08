@@ -2,23 +2,28 @@ import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 /**
- * The neuron, standing upright, spinning about its long axis and firing every
- * few seconds: inputs converge, the soma sparks, an amber pulse runs down
- * the axon, and the terminals release a puff of transmitter.
+ * The neuron, lying horizontally across the top of the landing page (soma on
+ * the left, terminals on the right), rolling about its long axis and firing
+ * every few seconds: inputs converge, the soma sparks, an amber pulse runs the
+ * length of the axon, and the terminals release a puff of transmitter.
+ * When the pulse reaches the terminals it reports their screen position, so the
+ * page can carry the signal on to the wordmark.
  * Model: "Neuron Cell Low-poly Simple" by vitalik.kucha, CC BY 4.0
  * (public/models/neuron.LICENSE.txt).
  */
 
 const MODEL_URL = '/models/neuron.glb'
-const MODEL_SIZE = 11 // long axis, world units: whole cell in frame
 const COLOR = '#2f5f6b' // teal ink
-const PULSE = '#f2852f' // warm amber spark against the teal membrane
+const PULSE = '#ffd84d' // light yellow spark against the teal membrane
 const OPACITY = 0.55
-const AUTO_ROTATE_SPEED = 2.2
-const SLANT_DEG = -10 // adds to the model's own lean: top-left to bottom-right
+const ROLL_SPEED = 0.35 // rad/s about the long axis
+const FILL_W = 0.8 // share of the page width the cell spans, soma to terminals
+const MAX_CROSS = 0.7 // cap on the dendrite spread, as a share of page height
+const AXIS_Y = 0.42 // where the cell's centre sits, from the top of the page
+const SHIFT_X = -0.06 // nudge left, as a share of page width
+const TILT_DEG = 14 // rising slope: soma low on the left, terminals high on the right
 
 /*
  * Landmarks in the model's own mesh coordinates (long axis = x), measured from
@@ -103,17 +108,23 @@ function terminalTips(geo: THREE.BufferGeometry, n: number) {
   return picked
 }
 
-function Neuron({ onLoaded, firing }: { onLoaded: () => void; firing: boolean }) {
+function Neuron({ onLoaded, firing, onTerminals }: { onLoaded: () => void; firing: boolean; onTerminals?: (x: number, y: number) => void }) {
   const gltf = useLoader(GLTFLoader, MODEL_URL)
-  const dpr = useThree((s) => s.viewport.dpr)
+  const { viewport, camera, gl } = useThree()
+  const dpr = viewport.dpr
+  const roll = useRef<THREE.Group>(null)
+  const drag = useRef({ active: false, y: 0, v: 0 })
 
-  const { model, center, scale } = useMemo(() => {
+  const { model, center, size } = useMemo(() => {
     const model = gltf.scene.clone(true)
     model.updateMatrixWorld(true)
     const box = new THREE.Box3().setFromObject(model)
-    const size = box.getSize(new THREE.Vector3())
-    return { model, center: box.getCenter(new THREE.Vector3()), scale: MODEL_SIZE / (Math.max(size.x, size.y, size.z) || 1) }
+    return { model, center: box.getCenter(new THREE.Vector3()), size: box.getSize(new THREE.Vector3()) }
   }, [gltf])
+  // Fit: the long axis spans the page width; the dendrite spread is capped so it can't swamp the page.
+  const scale = Math.min((viewport.width * FILL_W) / size.x, (viewport.height * MAX_CROSS) / Math.max(size.y, size.z))
+  const lift = viewport.height * (0.5 - AXIS_Y)
+  const shift = viewport.width * SHIFT_X
 
   /** Shared by every membrane material; driven from useFrame. */
   const uniforms = useMemo(
@@ -149,7 +160,10 @@ function Neuron({ onLoaded, firing }: { onLoaded: () => void; firing: boolean })
     const points = new THREE.Points(geo, mat)
     points.frustumCulled = false
     mesh?.add(points) // lives in mesh space, so it turns with the neuron
-    return { tips, points, pos, life, vel: new Float32Array(count * 3) }
+    // Where the signal leaves the cell: centre of the terminal tips, and the far end of the neuron.
+    const tipCenter = tips.reduce((a, t) => a.add(t), new THREE.Vector3()).divideScalar(Math.max(1, tips.length))
+    const endX = tips.reduce((m, t) => Math.max(m, t.x), -Infinity)
+    return { mesh, tips, tipCenter, endX, points, pos, life, vel: new Float32Array(count * 3) }
   }, [model])
 
   useEffect(() => {
@@ -186,12 +200,47 @@ function Neuron({ onLoaded, firing }: { onLoaded: () => void; firing: boolean })
     }
   }, [model, onLoaded, uniforms, sparks])
 
+  // Drag up/down to roll the cell about its long axis; a flick coasts.
+  useEffect(() => {
+    const el = gl.domElement
+    const d = drag.current
+    const down = (e: PointerEvent) => {
+      d.active = true
+      d.y = e.clientY
+      d.v = 0
+      el.style.cursor = 'grabbing'
+    }
+    const move = (e: PointerEvent) => {
+      if (!d.active || !roll.current) return
+      d.v = (e.clientY - d.y) * 0.01
+      d.y = e.clientY
+      roll.current.rotation.x += d.v
+    }
+    const up = () => {
+      d.active = false
+      el.style.cursor = 'grab'
+    }
+    el.addEventListener('pointerdown', down)
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerup', up)
+    return () => {
+      el.removeEventListener('pointerdown', down)
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerup', up)
+    }
+  }, [gl])
+
   // Firing loop: inputs converge → soma darkens → action potential runs to the terminals → release.
   const clock = useRef({ t: -1.2, next: 2.8, prevFront: -10 })
   useFrame((_, delta) => {
     sparks.points.material.uniforms.uSize.value = 5 * dpr
     const c = clock.current
     const dt = Math.min(delta, 0.05)
+    const d = drag.current
+    if (roll.current && !d.active) {
+      roll.current.rotation.x += (firing ? ROLL_SPEED : 0) * dt + d.v
+      d.v *= 0.92
+    }
     if (firing) {
       c.t += dt
       if (c.t > c.next) {
@@ -223,6 +272,13 @@ function Neuron({ onLoaded, firing }: { onLoaded: () => void; firing: boolean })
         }
       }
     })
+    // The pulse has reached the very end of the neuron: hand the terminals' screen position to the page.
+    const tc = sparks.tipCenter
+    if (onTerminals && sparks.mesh && c.prevFront < sparks.endX && front >= sparks.endX) {
+      const v = sparks.mesh.localToWorld(tc.clone()).project(camera)
+      const rect = gl.domElement.getBoundingClientRect()
+      onTerminals(rect.left + ((v.x + 1) / 2) * rect.width, rect.top + ((1 - v.y) / 2) * rect.height)
+    }
     c.prevFront = front
     for (let i = 0; i < life.length; i++) {
       if (life[i] <= 0) continue
@@ -235,35 +291,32 @@ function Neuron({ onLoaded, firing }: { onLoaded: () => void; firing: boolean })
     points.geometry.attributes.aLife.needsUpdate = true
   })
 
-  // The model's long axis is x; turn it 90° so it stands vertically (dendrites up, axon down).
+  // The model's long axis is x with the soma at −x, so as loaded the soma sits on
+  // the left and the axon runs right; roll it about that horizontal axis.
   return (
-    <group scale={scale} rotation={[0, 0, -Math.PI / 2]}>
-      <group position={[-center.x, -center.y, -center.z]}>
-        <primitive object={model} />
+    // Tilted frame: the roll happens inside it, so the cell still turns about its own length.
+    <group position={[shift, lift, 0]} rotation={[0, 0, (TILT_DEG * Math.PI) / 180]}>
+    <group ref={roll}>
+      <group scale={scale}>
+        <group position={[-center.x, -center.y, -center.z]}>
+          <primitive object={model} />
+        </group>
       </group>
+    </group>
     </group>
   )
 }
 
-/** Spin about the vertical axis only: auto-rotate, and drag left/right to turn it. */
-function Controls({ autoRotate }: { autoRotate: boolean }) {
-  const { camera, gl } = useThree()
-  const controls = useMemo(() => new OrbitControls(camera, gl.domElement), [camera, gl])
-  useEffect(() => {
-    controls.autoRotate = autoRotate
-    controls.autoRotateSpeed = AUTO_ROTATE_SPEED
-    controls.enableZoom = false
-    controls.enablePan = false
-    controls.enableDamping = true
-    controls.minPolarAngle = Math.PI / 2
-    controls.maxPolarAngle = Math.PI / 2
-    return () => controls.dispose()
-  }, [controls, autoRotate])
-  useFrame(() => controls.update())
-  return null
-}
-
-export default function NeuronViewer({ reducedMotion = false, className = '' }: { reducedMotion?: boolean; className?: string }) {
+export default function NeuronViewer({
+  reducedMotion = false,
+  className = '',
+  onTerminals,
+}: {
+  reducedMotion?: boolean
+  className?: string
+  /** Called with page coordinates each time a pulse reaches the axon terminals. */
+  onTerminals?: (x: number, y: number) => void
+}) {
   const [loaded, setLoaded] = useState(false)
   const onLoaded = useMemo(() => () => setLoaded(true), [])
   return (
@@ -271,26 +324,16 @@ export default function NeuronViewer({ reducedMotion = false, className = '' }: 
       className={`transition-opacity duration-700 ease-out motion-reduce:transition-none ${loaded ? 'opacity-100' : 'opacity-0'} ${className}`}
       style={{ cursor: 'grab' }}
     >
-      {/* Slanted frame: the spin axis tilts with it, so the cell still turns about its own length. */}
-      <div className="absolute -inset-[12%]" style={{ transform: `rotate(${SLANT_DEG}deg)` }}>
-      <Canvas
-        camera={{ position: [0, 0, 12], fov: 65 }}
-        dpr={[1, 2]}
-        gl={{ alpha: true, antialias: true }}
-        // Size from layout, not the rotated bounding box, so the scene stays centred.
-        resize={{ offsetSize: true }}
-      >
+      <Canvas camera={{ position: [0, 0, 12], fov: 40 }} dpr={[1, 2]} gl={{ alpha: true, antialias: true }}>
         <ambientLight intensity={2} />
         <directionalLight position={[8, 8, 6]} intensity={3} />
         <directionalLight position={[-8, 6, 4]} intensity={2} />
         <directionalLight position={[0, -10, 2]} intensity={1.5} />
         <pointLight position={[0, 0, 8]} intensity={2} />
-        <Controls autoRotate={!reducedMotion} />
         <Suspense fallback={null}>
-          <Neuron onLoaded={onLoaded} firing={!reducedMotion} />
+          <Neuron onLoaded={onLoaded} firing={!reducedMotion} onTerminals={onTerminals} />
         </Suspense>
       </Canvas>
-      </div>
     </div>
   )
 }
