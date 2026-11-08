@@ -19,11 +19,6 @@ import { RunProvider, useRun } from '@/lib/run-store'
 
 /** Placeholder copy for views that aren't built yet. */
 const VIEWS: Record<string, { title: string; description: string; placeholder: string }> = {
-  graph: {
-    title: 'The map behind the matches.',
-    description: 'Browse DRKG: genes, compounds, diseases and the relations the embeddings are trained on.',
-    placeholder: 'The knowledge-graph explorer is coming soon. Discovery runs already search its compound embeddings.',
-  },
   genetics: {
     title: 'What the genes rule in, and out.',
     description: 'Panel results that decide which targeted therapies apply, like SOD1-directed tofersen.',
