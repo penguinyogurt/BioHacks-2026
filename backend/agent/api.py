@@ -285,7 +285,7 @@ async def report_pdf(run_id: str):
 
 
 def pdf_filename(report: dict) -> str:
-    """'<Patient name> (<patient id>).pdf', e.g. 'Alex Moreau (alex).pdf'. The run id is inside the report."""
+    """'<Patient name> (<patient id>).pdf', e.g. 'Alex Chen (alex).pdf'. The run id is inside the report."""
     pid = report.get("patient_id") or "patient"
     name = ((report.get("patient") or {}).get("name") or "").strip()
     return f"{name} ({pid}).pdf" if name and name.lower() != pid.lower() else f"{pid}.pdf"

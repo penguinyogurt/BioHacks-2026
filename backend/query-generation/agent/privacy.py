@@ -41,7 +41,7 @@ def sensitive_terms(record: dict) -> list[str]:
             if not isinstance(v, str):
                 continue
             terms.add(v)
-            # person names: also each part ("Alex", "Moreau"), skipping titles.
+            # person names: also each part ("Alex", "Chen"), skipping titles.
             # Other identifiers (addresses, "next of kin") only as whole strings,
             # or common words would be scrubbed from every brief.
             name = v.split("(")[0].split(",")[0].strip()  # "Maria Ellis (spouse, next of kin)" -> "Maria Ellis"
@@ -51,7 +51,7 @@ def sensitive_terms(record: dict) -> list[str]:
         terms.add(med["name"])
     for trial in record.get("trials", []):
         terms.update(t for t in (trial.get("nct_id"), trial.get("name")) if t)
-    # longest first so "Alex Moreau" goes before "Alex"
+    # longest first so "Alex Chen" goes before "Alex"
     return sorted((t for t in terms if t.strip()), key=len, reverse=True)
 
 

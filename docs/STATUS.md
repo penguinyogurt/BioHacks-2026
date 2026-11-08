@@ -19,6 +19,12 @@ Last updated: **2026-11-08**
 
 ---
 
+## ⚠ ai-ddo.study is still a Porkbun parking page (2026-11-08)
+
+DNS for `ai-ddo.study` and `api.`/`www.` resolves to `pixie.porkbun.com`; HTTPS fails the
+handshake and HTTP serves Porkbun's parked page. Point the A records at the Vultr box (API)
+and Vercel (app) per `DEPLOY.md` before saying "live" on Devpost.
+
 ## The whole discovery pipeline runs live (2026-11-08, Jeremy, `frontend/live-agent`)
 
 One Run press chains three backend runs over SSE (`frontend/src/lib/agent-api.ts`),
@@ -84,7 +90,7 @@ chat only. Opus 5.5 returns empty thinking text by default, so without it there'
   a card opens its PDF in the app's own viewer straight from Supabase storage, so it
   keeps working after the agent backend is gone. Signed out, nothing is saved.
 - **Report PDFs download as `<patient name> (<patient id>).pdf`**, e.g.
-  `Alex Moreau (alex).pdf` (`api.pdf_filename`; the CORS config now exposes
+  `Alex Chen (alex).pdf` (`api.pdf_filename`; the CORS config now exposes
   `Content-Disposition` so the frontend can read it).
 - **A reload no longer loses the run.** The current run's three backend ids and the
   uploaded case PDF are kept in the browser (`frontend/src/lib/session.ts`); on load
@@ -120,7 +126,7 @@ chat only. Opus 5.5 returns empty thinking text by default, so without it there'
 - Rehearse with `VITE_AGENT_REPLAY_RUN=<run_id>`: replays a recorded run at
   real speed, no API spend. A verified one for Alex: `r20261108-021643-3a9717`
   (96 s, 5 agents, 12 profiles). It lives in `backend/agent/runs/` (gitignored).
-- **Neo — two bugs that run surfaced (not fixed):** `no_drugs.py` scrubs
+- **Neo — two bugs that run surfaced:** `no_drugs.py` scrubs
   **"TDP-43" → "[drug]"** in the synthesis summary ("involves [drug]
   proteinopathy"; 20 removals that run), so it's over-matching biology terms.
   Root cause: `_CODE` (dev-code regex) matches `TDP-43`, and the hyphen makes
@@ -128,8 +134,8 @@ chat only. Opus 5.5 returns empty thinking text by default, so without it there'
   hyphen (that lets `MN-166` through); allowlist the protein names in
   `scrub.code()`, and add a `test_privacy.py` assert that "TDP-43
   proteinopathy" scrubs 0.
-  And `backend/data/patient/alex.json` says **Alex Moreau**, while the
-  frontend case (`alex-case.ts`) says **Alex Chen**. A judge will see both names.
+  **Both fixed (#34):** `no_drugs._PROTEINS` allowlists TDP-43/HSP-70/... and
+  `test_privacy` asserts it; `alex.json` is now **Alex Chen**, matching the case file.
 
 ## Knowledge graph view = the whole DRKG (2026-11-08)
 

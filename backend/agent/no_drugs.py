@@ -64,6 +64,10 @@ def lexicon() -> tuple[re.Pattern, ...]:
 _CODE = re.compile(r"\b[A-Z]{2,5}-?\d{2,5}[A-Za-z]?\d*\b")
 _ID = re.compile(r"^(NCT\d{8}|ENSG\d+|MONDO\d*|PMID\d*)$")  # trial / target ids, not drugs
 _GENE_LIKE = re.compile(r"^[A-Z0-9]{2,6}$")  # don't scrub gene symbols such as SOD1, CHRM3, GRIN2B
+# Hyphenated protein names look like dev codes (TDP-43 ~ MN-166), so _GENE_LIKE misses them.
+# An allowlist, not a looser regex: dropping the hyphen rule would let MN-166 through.
+_PROTEINS = frozenset({"TDP-43", "HSP-27", "HSP-40", "HSP-60", "HSP-70", "HSP-90", "HSP-110",
+                       "IL-10", "IL-12", "IL-17", "IL-18", "IL-23", "IL-33", "MMP-9", "CXCL-12"})
 
 
 def scrub(text: str) -> tuple[str, int]:
@@ -74,7 +78,7 @@ def scrub(text: str) -> tuple[str, int]:
 
     def code(m: re.Match) -> str:
         nonlocal n
-        if _GENE_LIKE.match(m.group(0)) or _ID.match(m.group(0)):
+        if _GENE_LIKE.match(m.group(0)) or _ID.match(m.group(0)) or m.group(0).upper() in _PROTEINS:
             return m.group(0)
         n += 1
         return PLACEHOLDER

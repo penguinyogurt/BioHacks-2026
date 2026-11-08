@@ -8,6 +8,13 @@ If you reverse one, append the reversal; don't edit the old entry away.
 
 ---
 
+## 2026-11-08 — The product is Addo Labs, the discovery pipeline
+
+**What:** We submit as Addo Labs, the patient case → research agents → DRKG → MRgFUS-aware
+assessment pipeline. Motus survives as its "Patient monitoring" view. Closes #5 and #6.
+**Why:** the Devpost submission is already Addo Labs, and the live pipeline is the demo.
+**Rules out:** pitching Motus as the product, or a second name on stage.
+
 ## 2026-11-08 — Live stage 3 runs `drkg_scene.py` as a backend subprocess
 
 **What:** `POST /api/drkg` turns a research run's `molecular_targets` (one profile per

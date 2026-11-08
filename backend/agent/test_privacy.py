@@ -17,8 +17,8 @@ class PrivacyWall(unittest.TestCase):
     def test_identifiers_and_clinical_values_are_scrubbed(self):
         leaky = Brief(
             criterion="B2",
-            objective="Find cramp relief for Alex Moreau (DOB 1979-04-12, MRN HHS-0048213) in Hamilton, 47 years old",
-            constraints=["safe with riluzole 50 mg", "FVC 61% supine", "CK 470 U/L", "call 905-555-0142 or alex.moreau@example.com"],
+            objective="Find cramp relief for Alex Chen (DOB 1979-04-12, MRN HHS-0048213) in Hamilton, 47 years old",
+            constraints=["safe with riluzole 50 mg", "FVC 61% supine", "CK 470 U/L", "call 905-555-0142 or alex.chen@example.com"],
             avoid=["anything from Dr. Priya Raman's list", "trial NCT04297683"],
         )
         safe, n = sanitize_brief(leaky, self.terms)
@@ -67,22 +67,31 @@ class NoDrugNames(unittest.TestCase):
         self.assertEqual(n, 4)
         self.assertIn(PLACEHOLDER, out)
 
+    def test_hyphenated_protein_names_survive(self):
+        from agent.no_drugs import scrub
+
+        out, n = scrub("ALS involves TDP-43 proteinopathy; HSP-70 and HSP-90 chaperones; unlike MN-166.")
+        for kept in ["TDP-43 proteinopathy", "HSP-70", "HSP-90"]:
+            self.assertIn(kept, out)
+        self.assertNotIn("MN-166", out)
+        self.assertEqual(n, 1)
+
 
 class DrugAssessment(unittest.TestCase):
     def test_drug_researchers_get_only_a_drug_name(self):
         from agent.assess import fan_out
 
-        sends = fan_out({"drugs": [{"name": "memantine", "id": "DB01043", "notes": "Alex Moreau: weight 77.5 kg"}]})
+        sends = fan_out({"drugs": [{"name": "memantine", "id": "DB01043", "notes": "Alex Chen: weight 77.5 kg"}]})
         self.assertEqual(sends[0].arg, {"drug": {"name": "memantine", "id": "DB01043"}, "index": 0})
 
     def test_web_queries_lose_identifiers_but_keep_drug_names(self):
         from agent.privacy import identifier_terms, redact
 
         record = load_record()
-        q, n = redact("Does memantine interact with riluzole for Alex Moreau in Hamilton, QTc 452 ms?", identifier_terms(record))
+        q, n = redact("Does memantine interact with riluzole for Alex Chen in Hamilton, QTc 452 ms?", identifier_terms(record))
         self.assertIn("riluzole", q)
         self.assertIn("memantine", q)
-        for leaked in ["Alex", "Moreau", "Hamilton", "452 ms"]:
+        for leaked in ["Alex", "Chen", "Hamilton", "452 ms"]:
             self.assertNotIn(leaked, q)
         self.assertEqual(n, 3)  # full name, city, lab value
 
