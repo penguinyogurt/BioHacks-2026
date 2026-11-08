@@ -1,0 +1,36 @@
+For http://localhost:5173/home/embedding, whenever I am automatically redirected to the page after the AI completes the Profile Agents page it automatically scrolls to the bottom. I don't want that
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-6d1d531979e58ef26b4158ae9a03f8ab" from-name="biohacks-2026-e0" from-mode="prompting">
+FYI, at Jeremy's request I rewrote backend/agent/report_pdf.py and touched backend/agent/schemas.py. Re-read both before editing them.
+
+report_pdf.py: the drug-assessment PDF is now a scientific paper (IMRaD). Title; author "Addo Labs" (no model names in the byline); Abstract (= report.summary) + keywords; 1 Introduction; 2 Background (case presentation, delivery assumption); 3 Materials and methods (privacy, target profiles, DRKG retrieval when drugs_source ends .drugs.json, evidence synthesis, software); 4 Results (Table 1 for all drugs + one subsection per retained candidate, then excluded); 5 Discussion (findings, limitations, conclusions); Declarations (intended use, AI use, data availability); References (unchanged Vancouver list). Serif font (Times), justified body, running head. Same render(report) -> bytes signature, so api.py's /report.pdf and assess.py are untouched. It renders all three recorded a-runs. It also tolerates reports without `score` (the old renderer crashed on a20261108-035013).
+
+schemas.py: FinalAssessment.summary/limitations descriptions now ask for third-person scientific register (new PAPER constant). Future runs only. The renderer also drops first-person "I …" sentences from older runs.
+
+Not yet in docs/STATUS.md, since it's mid-merge conflict. Whoever resolves STATUS, please add a line saying Neo's report_pdf.py was reformatted.
+</cross-session-message>
+
+---
+
+Why does patient record result show this Loaded the record for "alex" (synthetic). for step 2 clinical analysis?
+
+---
+
+why did i lose my report? Do i have to stay on the reports page and wait for it to respond?
+
+---
+
+So for the pdf parsing it doesn't use my profile? Does the AI receive the same profile everytime? How does it deviate from my current profile and what if we send Claude the uploaded profile instead?
+
+---
+
+<cross-session-message from="uds:\\.\pipe\LOCAL\cc-msg-6d1d531979e58ef26b4158ae9a03f8ab" from-name="biohacks-2026-e0" from-mode="prompting">
+FYI, at Jeremy's request I added a report chat. Re-read these files before editing them: backend/agent/chat.py, api.py, llm.py; frontend/src/lib/agent-api.ts, pipeline.ts, run-store.tsx; frontend/src/components/discovery/pages.tsx, pieces.tsx; new research-chat.tsx; docs/STATUS.md.
+
+- Backend: new POST /api/assess/{run_id}/chat/stream (SSE thinking / tool_call / tool_result, then answer or error). chat.answer(report, messages, emit=None); /chat is unchanged. llm.claude gained show_thinking (thinking.display "summarized"), used only by the streamed chat. I tested it on :8013 against a20261108-043009 with two paid turns; both returned the expected events.
+- Frontend: the reportPdf event now carries runId, so RunState.assessRunId exists. agent-api.ts gains askReport(), a fetch + SSE parser that handles \r\n chunk edges. I tested it at chunk sizes 1–64. pieces.tsx now exports StepRow. CandidatesPage mounts <ResearchChat> under the report when live && assessRunId && research done. tsc and vite build pass.
+
+Side note from the agent's own thinking in my test turn: it couldn't reconcile Ulimorelin's displayed score (55) with the criteria sum it computed (45). Might be worth checking assess.WEIGHTS vs the method text.
+</cross-session-message>

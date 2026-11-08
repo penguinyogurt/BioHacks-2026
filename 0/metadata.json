@@ -1,0 +1,60 @@
+{
+  "cli_version": "0.13.1",
+  "checkpoint_id": "01M6XC4W95YRDGVP42JC6ZTEHD",
+  "session_id": "012c8b5a-bf0a-4555-ae4b-9af7aa79450b",
+  "strategy": "manual-commit",
+  "created_at": "2026-11-08T10:44:28.4159623Z",
+  "branch": "frontend/live-agent",
+  "checkpoints_count": 5,
+  "save_step_count": 5,
+  "files_touched": [
+    "backend/agent/api.py",
+    "backend/agent/chat.py",
+    "backend/agent/llm.py",
+    "backend/agent/report_pdf.py",
+    "backend/agent/schemas.py",
+    "docs/STATUS.md",
+    "frontend/index.html",
+    "frontend/public/favicon-32.png",
+    "frontend/public/icon-192.png",
+    "frontend/public/icon-512.png",
+    "frontend/public/site.webmanifest",
+    "frontend/src/components/discovery/pages.tsx",
+    "frontend/src/components/discovery/pieces.tsx",
+    "frontend/src/lib/agent-api.ts",
+    "frontend/src/lib/pipeline.ts",
+    "frontend/src/lib/run-store.tsx",
+    "frontend/src/lib/session.ts",
+    "frontend/src/pages/Home.tsx"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5-5",
+  "turn_id": "01eb21d7c94d",
+  "checkpoint_transcript_start": 1936,
+  "transcript_lines_at_start": 1936,
+  "compact_transcript_start": 223,
+  "token_usage": {
+    "input_tokens": 70,
+    "cache_creation_tokens": 35578,
+    "cache_read_tokens": 12788309,
+    "output_tokens": 25963,
+    "api_call_count": 30
+  },
+  "redaction": {
+    "replacements": 35,
+    "layers": {
+      "betterleaks": 0,
+      "connection_string": 0,
+      "credential_key": 0,
+      "credential_value": 4,
+      "credentialed_uri": 0,
+      "entropy": 31,
+      "key_context": 0,
+      "provider_token": 0,
+      "shell_stdin": 0
+    }
+  },
+  "session_metrics": {
+    "turn_count": 21
+  }
+}

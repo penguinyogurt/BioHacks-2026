@@ -1,0 +1,57 @@
+{
+  "cli_version": "0.13.1",
+  "checkpoint_id": "01M6XC4W95YRDGVP42JC6ZTEHD",
+  "strategy": "manual-commit",
+  "branch": "frontend/live-agent",
+  "checkpoints_count": 5,
+  "files_touched": [
+    "backend/agent/api.py",
+    "backend/agent/chat.py",
+    "backend/agent/llm.py",
+    "backend/agent/report_pdf.py",
+    "backend/agent/schemas.py",
+    "docs/STATUS.md",
+    "frontend/index.html",
+    "frontend/public/favicon-32.png",
+    "frontend/public/icon-192.png",
+    "frontend/public/icon-512.png",
+    "frontend/public/site.webmanifest",
+    "frontend/src/components/discovery/pages.tsx",
+    "frontend/src/components/discovery/pieces.tsx",
+    "frontend/src/lib/agent-api.ts",
+    "frontend/src/lib/pipeline.ts",
+    "frontend/src/lib/run-store.tsx",
+    "frontend/src/lib/session.ts",
+    "frontend/src/pages/Home.tsx"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 70,
+    "cache_creation_tokens": 35578,
+    "cache_read_tokens": 12788309,
+    "output_tokens": 25963,
+    "api_call_count": 30
+  },
+  "redaction": {
+    "replacements": 35,
+    "layers": {
+      "betterleaks": 0,
+      "connection_string": 0,
+      "credential_key": 0,
+      "credential_value": 4,
+      "credentialed_uri": 0,
+      "entropy": 31,
+      "key_context": 0,
+      "provider_token": 0,
+      "shell_stdin": 0
+    }
+  }
+}
