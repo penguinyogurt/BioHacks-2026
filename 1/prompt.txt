@@ -1,0 +1,9 @@
+do i need the public graph data from drkg? if not add it to git ignore and remove it
+
+---
+
+what is the graph inspector? isn't that the downloaded graph from the backend
+
+---
+
+I'm pretty sure i don't need graph/ at all. Can we add it to gitignore and remove it

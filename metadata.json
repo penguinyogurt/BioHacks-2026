@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6X7DQ7YSGT89GT29RSFHCX5",
   "strategy": "manual-commit",
   "branch": "frontend/live-agent",
-  "checkpoints_count": 1,
+  "checkpoints_count": 4,
   "files_touched": [
     ".gitignore",
     "backend/agent/.env.example",
@@ -53,24 +53,31 @@
       "compact_transcript": "/0/transcript.jsonl",
       "content_hash": "/0/content_hash.txt",
       "prompt": "/0/prompt.txt"
+    },
+    {
+      "metadata": "/1/metadata.json",
+      "transcript": "/1/full.jsonl",
+      "compact_transcript": "/1/transcript.jsonl",
+      "content_hash": "/1/content_hash.txt",
+      "prompt": "/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 52,
-    "cache_creation_tokens": 29980,
-    "cache_read_tokens": 9172676,
-    "output_tokens": 15269,
-    "api_call_count": 25
+    "input_tokens": 84,
+    "cache_creation_tokens": 40823,
+    "cache_read_tokens": 11671337,
+    "output_tokens": 20770,
+    "api_call_count": 38
   },
   "redaction": {
-    "replacements": 35,
+    "replacements": 50,
     "layers": {
       "betterleaks": 0,
       "connection_string": 0,
       "credential_key": 0,
-      "credential_value": 4,
+      "credential_value": 6,
       "credentialed_uri": 0,
-      "entropy": 31,
+      "entropy": 44,
       "key_context": 0,
       "provider_token": 0,
       "shell_stdin": 0
