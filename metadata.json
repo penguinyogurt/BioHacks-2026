@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6WY3FCMC4FR2VSDH93N71WE",
   "strategy": "manual-commit",
   "branch": "frontend/diagnosis",
-  "checkpoints_count": 6,
+  "checkpoints_count": 21,
   "files_touched": [
     "frontend/package-lock.json",
     "frontend/package.json",
@@ -21,8 +21,10 @@
     "frontend/src/components/overview-dashboard.tsx",
     "frontend/src/components/page-header.tsx",
     "frontend/src/index.css",
+    "frontend/src/lib/alex-case.ts",
     "frontend/src/lib/case-pdf.ts",
     "frontend/src/lib/pipeline.ts",
+    "frontend/src/lib/report-pdf.ts",
     "frontend/src/lib/run-store.tsx",
     "frontend/src/lib/sample-data.ts",
     "frontend/src/pages/Home.tsx"
@@ -41,22 +43,29 @@
       "compact_transcript": "/1/transcript.jsonl",
       "content_hash": "/1/content_hash.txt",
       "prompt": "/1/prompt.txt"
+    },
+    {
+      "metadata": "/2/metadata.json",
+      "transcript": "/2/full.jsonl",
+      "compact_transcript": "/2/transcript.jsonl",
+      "content_hash": "/2/content_hash.txt",
+      "prompt": "/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 90,
-    "cache_creation_tokens": 137581,
-    "cache_read_tokens": 3464230,
-    "output_tokens": 28380,
-    "api_call_count": 40
+    "input_tokens": 236,
+    "cache_creation_tokens": 1045043,
+    "cache_read_tokens": 53910627,
+    "output_tokens": 79412,
+    "api_call_count": 98
   },
   "redaction": {
-    "replacements": 18,
+    "replacements": 22,
     "layers": {
-      "betterleaks": 0,
+      "betterleaks": 2,
       "connection_string": 0,
       "credential_key": 0,
-      "credential_value": 4,
+      "credential_value": 6,
       "credentialed_uri": 0,
       "entropy": 14,
       "key_context": 0,
