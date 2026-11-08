@@ -97,7 +97,8 @@ export default function Home() {
     : { name: 'Demo researcher', email: 'Sign-in not configured' }
 
   return (
-    // The pipeline never changes page by itself; the user moves between steps.
+    // The user moves between steps, with one exception: a live run follows the
+    // orchestrator from analysis to the profile agents when it fans out.
     <RunProvider>
       <GoContext.Provider value={setView}>
         <Workspace view={view} setView={setView} profile={profile} onSignOut={user ? signOut : undefined} />

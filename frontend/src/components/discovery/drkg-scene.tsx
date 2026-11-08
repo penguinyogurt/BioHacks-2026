@@ -705,7 +705,7 @@ export function DrkgScene({
   onReveal,
   className,
 }: {
-  /** scene.json of a run; its binaries sit beside it. Point at a live backend's output. */
+  /** scene.json of a run: the demo's, or a live backend's /api/research/<id>/scene.json. Layout binaries always come from /drkg/. */
   src?: string
   status: StageStatus
   /** hovered profile: a light preview */

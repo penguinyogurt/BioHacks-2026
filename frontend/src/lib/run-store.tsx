@@ -1,9 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useReducer, useRef, useState, type ReactNode } from 'react'
 import type { CaseFile } from './case-pdf'
 import {
-  SAMPLE_PATIENT, STAGES, runDemoStage,
-  type AgentStep, type DrugProfile, type PipelineEvent, type StageId, type Weights,
+  DEMO_LANES, SAMPLE_PATIENT, STAGES, runDemoStage,
+  type AgentStep, type DrugProfile, type Lane, type PipelineEvent, type StageId, type Weights,
 } from './pipeline'
+import { agentAvailable, runLiveAgent } from './agent-api'
 
 /**
  * One discovery run, shared by every pipeline page (case → analysis → profiles →
@@ -29,7 +30,15 @@ export type RunState = {
   phase: 'idle' | 'running' | 'paused' | 'done'
   stages: Record<StageId, StageStatus>
   trace: TraceItem[]
+  /** live: analysis + profiles come from the research agent on :8001 · simulated: all scripted */
+  source: 'live' | 'simulated'
+  /** The parallel profile agents: one per brief in a live plan, the five scripted ones otherwise. */
+  lanes: Lane[]
   profiles: DrugProfile[]
+  error: string | null
+  /** Live runs: scene.json for stage 3 (null → the demo scene) and the backend's report PDF for stage 4. */
+  sceneSrc: string | null
+  reportPdf: string | null
   matches: boolean
   candidates: boolean
   report: boolean
@@ -39,7 +48,12 @@ const initial: RunState = {
   phase: 'idle',
   stages: { analysis: 'pending', profiles: 'pending', embedding: 'pending', research: 'pending' },
   trace: [],
+  source: 'simulated',
+  lanes: DEMO_LANES,
   profiles: [],
+  error: null,
+  sceneSrc: null,
+  reportPdf: null,
   matches: false,
   candidates: false,
   report: false,
@@ -47,7 +61,8 @@ const initial: RunState = {
 
 type Action =
   | PipelineEvent
-  | { type: 'begin' }
+  | { type: 'begin'; source: RunState['source'] }
+  | { type: 'fail'; error: string }
   | { type: 'stage-start' }
   | { type: 'stage-end'; last: boolean }
   | { type: 'reset' }
@@ -60,7 +75,20 @@ function reducer(s: RunState, a: Action): RunState {
     case 'load':
       return a.state
     case 'begin':
-      return { ...initial, phase: 'running' }
+      return { ...initial, phase: 'running', source: a.source, lanes: a.source === 'live' ? [] : DEMO_LANES }
+    case 'fail':
+      return {
+        ...s,
+        phase: 'idle',
+        error: a.error,
+        stages: Object.fromEntries(Object.entries(s.stages).map(([k, v]) => [k, v === 'running' ? 'pending' : v])) as RunState['stages'],
+      }
+    case 'lanes':
+      return { ...s, lanes: a.lanes }
+    case 'scene':
+      return { ...s, sceneSrc: a.src, matches: true }
+    case 'reportPdf':
+      return { ...s, reportPdf: a.url, candidates: true }
     case 'stage-start':
       return { ...s, phase: 'running' }
     case 'stage-end':
@@ -133,6 +161,22 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch(a)
   }, [])
 
+  /** Keep a finished run so it can be reopened from the runs page. */
+  const save = useCallback(() => {
+    const m = meta.current
+    const run: CompletedRun = {
+      id: crypto.randomUUID(),
+      date: m.when,
+      weights: m.weights,
+      goal: m.goal,
+      caseName: m.caseFile?.name ?? null,
+      caseFile: m.caseFile,
+      snapshot: snap.current,
+    }
+    setRuns((r) => [run, ...r])
+    setOpenedId(run.id)
+  }, [])
+
   const runStage = useCallback(
     (stage: StageId) => {
       const m = meta.current
@@ -144,34 +188,39 @@ export function RunProvider({ children }: { children: ReactNode }) {
         runner.current = null
         const last = stage === STAGES[STAGES.length - 1].id
         apply({ type: 'stage-end', last })
-        if (last) {
-          const run: CompletedRun = {
-            id: crypto.randomUUID(),
-            date: m.when,
-            weights: m.weights,
-            goal: m.goal,
-            caseName: m.caseFile?.name ?? null,
-            caseFile: m.caseFile,
-            snapshot: snap.current,
-          }
-          setRuns((r) => [run, ...r])
-          setOpenedId(run.id)
-        }
+        if (last) save()
       })
     },
-    [apply],
+    [apply, save],
   )
 
-  const start = useCallback(() => {
+  const starting = useRef(false)
+  // Bumped by reset/open, so a start still awaiting the health check can't resurrect itself.
+  const generation = useRef(0)
+  const start = useCallback(async () => {
+    if (starting.current) return
+    starting.current = true
     runner.current?.cancel()
+    const gen = generation.current
+    const live = await agentAvailable()
+    starting.current = false
+    if (gen !== generation.current) return
     const when = new Intl.DateTimeFormat('en-CA', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date())
     meta.current = { when, caseFile, goal, weights }
     setDate(when)
     setOpenedId(null)
     snap.current = initial
-    apply({ type: 'begin' })
-    runStage('analysis')
-  }, [apply, runStage, caseFile, goal, weights])
+    apply({ type: 'begin', source: live ? 'live' : 'simulated' })
+    if (!live) return runStage('analysis')
+    // A live run goes straight through all four stages: research agents → DRKG → drug assessment.
+    const cancel = runLiveAgent(goal, apply, (error) => {
+      runner.current = null
+      if (error) return apply({ type: 'fail', error })
+      apply({ type: 'stage-end', last: true })
+      save()
+    })
+    runner.current = { cancel, skip: () => {} }
+  }, [apply, runStage, save, caseFile, goal, weights])
 
   const advance = useCallback(() => {
     const next = nextStage(snap.current)
@@ -181,6 +230,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
   const skip = useCallback(() => runner.current?.skip(), [])
 
   const reset = useCallback(() => {
+    generation.current++
     runner.current?.cancel()
     runner.current = null
     snap.current = initial
@@ -189,6 +239,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const open = useCallback((run: CompletedRun) => {
+    generation.current++
     runner.current?.cancel()
     runner.current = null
     snap.current = run.snapshot

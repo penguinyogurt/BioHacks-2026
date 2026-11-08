@@ -8,6 +8,14 @@ If you reverse one, append the reversal; don't edit the old entry away.
 
 ---
 
+## 2026-11-08 — Live stage 3 runs `drkg_scene.py` as a backend subprocess
+
+**What:** `POST /api/drkg` turns a research run's `molecular_targets` (one profile per
+sub-agent, plan order) into `--profiles`, runs `frontend/scripts/drkg_scene.py`, serves its
+`scene.json`, and hands the top 8 searchable matches to `/api/assess` as a file.
+**Why:** one scorer for the demo and live runs, so they can't drift; file in, file out, per
+the integration rule. **Rules out:** a second TransE implementation in `backend/agent/`.
+
 ## 2026-11-08 — Reversed: the stage-3 picture is a clustered layout, not PCA-3
 
 **What:** k-means (k = 24) on PCA-50 of the 400-d vectors; islands placed by

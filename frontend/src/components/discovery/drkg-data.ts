@@ -64,10 +64,14 @@ export type DrkgScene = {
 
 export type DrkgData = { scene: DrkgScene; positions: Float32Array; types: Uint8Array; clusters: Uint8Array | null; degree: Uint32Array | null }
 
-/** A run is a folder: `scene.json` plus the binaries written beside it. Point `src` at a live backend's run. */
+/** The demo run. A live run's scene comes from the agent backend (`/api/research/<id>/scene.json`). */
 export const DEFAULT_SRC = '/drkg/scene.json'
 
-const dirOf = (src: string) => src.slice(0, src.lastIndexOf('/') + 1)
+/**
+ * The layout (points/types/clusters/degree .bin, names.json) is the same for every run: only
+ * `scene.json` changes per run. So the binaries always come from the frontend's own copy.
+ */
+const LAYOUT = '/drkg/'
 
 async function get(url: string) {
   const res = await fetch(url)
@@ -81,7 +85,7 @@ const nameCache = new Map<string, Promise<Record<string, string>>>()
 export function loadDrkg(src = DEFAULT_SRC) {
   let run = runs.get(src)
   if (run) return run
-  const base = dirOf(src)
+  const base = LAYOUT
   run = Promise.all([
     get(src).then((r) => r.json() as Promise<DrkgScene>),
     get(base + 'points.bin').then((r) => r.arrayBuffer()),
@@ -105,7 +109,7 @@ export function loadDrkg(src = DEFAULT_SRC) {
 export function loadNames(src = DEFAULT_SRC) {
   let names = nameCache.get(src)
   if (!names) {
-    names = get(dirOf(src) + 'names.json').then((r) => r.json())
+    names = get(LAYOUT + 'names.json').then((r) => r.json())
     nameCache.set(src, names)
     names.catch(() => nameCache.delete(src))
   }

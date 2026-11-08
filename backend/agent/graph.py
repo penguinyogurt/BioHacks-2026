@@ -103,6 +103,7 @@ async def plan(state: State) -> State:
         briefs.append(safe)
     briefs = briefs[:MAX_SUBAGENTS]
     _emit({"type": "plan", "data": {
+        "rationale": result.rationale,
         "briefs": [{"criterion": b.criterion, "label": label(b.criterion), "objective": b.objective} for b in briefs],
         "redactions": redactions,
     }})
@@ -183,7 +184,11 @@ async def verify(state: State) -> State:
         clean, n = scrub_model(p.model_copy(update={"evidence": keep}))
         drug_mentions += n
         verified.append((cid, clean.model_dump()))
-    _emit({"type": "verify", "data": {"kept": len(verified), "dropped_profiles": dropped_profiles, "dropped_evidence": dropped_evidence, "drug_mentions_removed": drug_mentions}})
+    # Verified HGNC targets per criterion: all the DRKG step needs, so it can start before synthesis ranks them.
+    targets: dict[str, list[str]] = {}
+    for cid, p in verified:
+        targets[cid] = list(dict.fromkeys(targets.get(cid, []) + [t["symbol"] for t in p["molecular_targets"] if t.get("symbol")]))
+    _emit({"type": "verify", "data": {"kept": len(verified), "dropped_profiles": dropped_profiles, "dropped_evidence": dropped_evidence, "drug_mentions_removed": drug_mentions, "targets": targets}})
     return {"verified": verified, "drug_mentions": drug_mentions}
 
 

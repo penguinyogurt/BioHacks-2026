@@ -19,6 +19,60 @@ Last updated: **2026-11-08**
 
 ---
 
+## The whole discovery pipeline runs live (2026-11-08, Jeremy, `frontend/live-agent`)
+
+One Run press chains three backend runs over SSE (`frontend/src/lib/agent-api.ts`),
+and the page follows each stage by itself:
+**research agents** (`/api/research`) → **DRKG** on the genes those agents named
+(`/api/drkg` → `agent/drkg.py` runs `frontend/scripts/drkg_scene.py` as a
+subprocess, so demo and live scenes use one scorer) → **drug assessment** on the
+top 8 matches (`/api/assess`, Neo's `assess.py`, unchanged) → its PDF. If `:8001`
+isn't up, it falls back to the scripted run; the badge says **Live agent** or
+**Simulated**. ~100 s + ~2 s + several minutes.
+
+Stage 3 starts at the research run's `verify` event (~60 s), not at its end: it
+only needs the verified genes, which `graph.py`'s `verify` now also emits
+(**Neo:** a second additive line). The orchestrator's ranking (`synthesize`,
+~35 s more) streams alongside and opens stage 4's trace; the assessment waits
+for both, since it reads the ranked profiles.
+
+- **Restart the backend** to pick up `/api/drkg`, and never with `uvicorn --reload`
+  (Windows: subprocesses raise NotImplementedError under it). `numpy` is new in
+  `requirements.txt`.
+- **DRKG data is per machine**: 217 MB release into `backend/.venv/data/drkg/`
+  (`DRKG_DIR`; setup lines in `backend/agent/.env.example`). First run builds a
+  cache there in seconds.
+- **Henri — two changes in `drkg_scene.py`:** `DRKG_DIR` env var (its
+  `data/raw/drkg` default predates the reorg), and compound labels fall back to
+  the committed `names.json` when the Wikidata TSV is absent. Also a real bug:
+  eigenvector signs differ between numpy builds, so a cache rebuild here
+  **mirrored islands 5 and 13** vs the committed `points.bin`. A rebuild now
+  flips local axes to match the committed bins and keeps their bytes; verified:
+  the default scene's query points reproduce exactly.
+- The scene shader assumes ≤ 5 lanes (`laneAlpha`/`uLaneTime` are length 5);
+  keep `AGENT_MAX_SUBAGENTS=5`.
+
+- **Neo — one line in your file:** `graph.py`'s `plan` event now also carries
+  `rationale`, so the UI can show the orchestrator's reasoning. Additive only.
+- The agent reads `backend/data/patient/alex.json`, **not** the PDF uploaded in
+  the browser (`VITE_AGENT_PATIENT` to change). Sending the PDF to
+  `POST /api/patients` is the obvious next step; it adds ~45 s of Opus.
+- "Five agents" is `AGENT_MAX_SUBAGENTS=5` in your local `backend/agent/.env`;
+  the planner may still pick 3–5. Lanes render from the plan, so any count works.
+- Rehearse with `VITE_AGENT_REPLAY_RUN=<run_id>`: replays a recorded run at
+  real speed, no API spend. A verified one for Alex: `r20261108-021643-3a9717`
+  (96 s, 5 agents, 12 profiles). It lives in `backend/agent/runs/` (gitignored).
+- **Neo — two bugs that run surfaced (not fixed):** `no_drugs.py` scrubs
+  **"TDP-43" → "[drug]"** in the synthesis summary ("involves [drug]
+  proteinopathy"; 20 removals that run), so it's over-matching biology terms.
+  Root cause: `_CODE` (dev-code regex) matches `TDP-43`, and the hyphen makes
+  `_GENE_LIKE` fail; `HSP-70`/`HSP-90` go the same way. Don't just drop the
+  hyphen (that lets `MN-166` through); allowlist the protein names in
+  `scrub.code()`, and add a `test_privacy.py` assert that "TDP-43
+  proteinopathy" scrubs 0.
+  And `backend/data/patient/alex.json` says **Alex Moreau**, while the
+  frontend case (`alex-case.ts`) says **Alex Chen**. A judge will see both names.
+
 ## Repo reorg (2026-11-08): only `frontend/` and `backend/` at the top
 
 `agent/`, `contract/`, `data/` → `backend/`; the six diagnostic dirs →
