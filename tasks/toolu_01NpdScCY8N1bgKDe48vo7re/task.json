@@ -1,0 +1,15 @@
+{
+  "tool_use_id": "toolu_01NpdScCY8N1bgKDe48vo7re",
+  "agent_id": "a8713a333e43b657c",
+  "subagent_type": "general-purpose",
+  "task_description": "Review DRKG generator correctness",
+  "token_usage": {
+    "input_tokens": 14,
+    "cache_creation_tokens": 98496,
+    "cache_read_tokens": 540239,
+    "output_tokens": 7106,
+    "api_call_count": 7
+  },
+  "started_at": "2026-11-08T01:00:23.2721521-05:00",
+  "completed_at": "2026-11-08T01:05:35.1846049-05:00"
+}
