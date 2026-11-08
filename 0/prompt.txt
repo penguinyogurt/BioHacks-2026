@@ -1,0 +1,140 @@
+For the landing page, I want the neuron to be horizantal around the top part of the page. Move the name to the bottom left area and have it so that the glow from the synapse propagates across the entire screen to the axon terminals and eventually to the name
+
+---
+
+<task-notification>
+<task-id>b3c8nkqu0</task-id>
+<tool-use-id>toolu_0188Df12FyUL2izCH2SjwcDE</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\b3c8nkqu0.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for landing screenshots" failed with exit code 255</summary>
+</task-notification>
+
+---
+
+reverse it the text should be on the bottom right and cell body be on the left
+
+---
+
+orange thing should be invisible until the light reaches the end of the neuron
+
+---
+
+move the neuron more to the bottom left, shift the text more to the left so that all components are more centered. The neuron could be slightly angled too
+
+---
+
+<task-notification>
+<task-id>bo2yasqp5</task-id>
+<tool-use-id>toolu_013GBuDM7qAP7ZmzvVrwiTY7</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bo2yasqp5.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for screenshots" failed with exit code 255</summary>
+</task-notification>
+
+---
+
+angle it more so that the cell body is lower and the axon terminals higher
+
+---
+
+<task-notification>
+<task-id>bgjrbspym</task-id>
+<tool-use-id>toolu_017mUCZ4u4rcA1EdzMKJiBrp</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bgjrbspym.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for screenshots" failed with exit code 255</summary>
+</task-notification>
+
+---
+
+what's in the tag for stimulated run in http://localhost:5173/home/case
+
+---
+
+remove it
+
+---
+
+For the first card header I don't like the UI or the text:Upload the patient profile.
+Add the patient’s case file as a PDF. It’s read in your browser and parsed into the profile every agent works from. How can I make this better
+
+---
+
+Add the patient’s case file as a PDF. It’s read in your browser and parsed into the profile every agent works from. This should extend further and not go to the next line
+
+---
+
+<task-notification>
+<task-id>b13qg6o66</task-id>
+<tool-use-id>toolu_016Lq6vvTFgC46hjT8ep31eR</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\b13qg6o66.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for screenshot" failed with exit code 255</summary>
+</task-notification>
+
+---
+
+For patient monitoring, it will be using the stats from this patient profile: c:\Users\jerem\Downloads\BioHacks-2026-Hacker-Package.pdf
+
+Update the graphs accordingly and remove the sample data tag.
+
+---
+
+<task-notification>
+<task-id>bxywbti44</task-id>
+<tool-use-id>toolu_01RWryDcgQD13cvCVFPvqyZv</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bxywbti44.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for screenshots" failed with exit code 255</summary>
+</task-notification>
+
+---
+
+does the pdf for step 0 actually parse the pdf? if i use another pdf will it read properly?
+
+---
+
+either have the side bar go to the edges of the screen or round the corners
+
+---
+
+<task-notification>
+<task-id>bor67medr</task-id>
+<tool-use-id>toolu_01HB5pRofRbPZjTbfiKsEZgH</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bor67medr.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for screenshot" failed with exit code 255</summary>
+</task-notification>
+
+---
+
+top header bar has to get rounded too
+
+---
+
+<task-notification>
+<task-id>b9q108rz1</task-id>
+<tool-use-id>toolu_0134y6WaSwjrweoee66gS8VS</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\b9q108rz1.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for screenshot" failed with exit code 255</summary>
+</task-notification>
+
+---
+
+I want to update every single header in the 5 steps and change the numbers from 1-5 instead of 0-4. For the headers generate ideas for professional sounding headers that explain the point of the page but isn't overly wordy or cringe
+
+---
+
+round the bottom 2 corners of the top header
+
+---
+
+<task-notification>
+<task-id>bgtgojxoz</task-id>
+<tool-use-id>toolu_01AH5ivZ4hjxKCSqBovaC2k4</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bgtgojxoz.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for screenshot" failed with exit code 255</summary>
+</task-notification>
