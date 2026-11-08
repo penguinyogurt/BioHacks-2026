@@ -88,6 +88,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/health":
             return self.reply(200,b"diagnostic-complete-v2","text/plain")
         routes={"/":(APP/"diagnostic-ui/index.html","text/html"),"/suite.js":(APP/"diagnostic-ui/suite.js","text/javascript"),
+                "/report-pdf.js":(ROOT.parent.parent/"frontend/public/take-home/report-pdf.js","application/javascript"),
                 "/trace":(ROOT/"line-test/index.html","text/html")}
         if path not in routes:
             return self.send_error(404)
