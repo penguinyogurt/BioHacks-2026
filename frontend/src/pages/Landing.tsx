@@ -56,9 +56,9 @@ export default function Landing() {
       <NeuronViewer reducedMotion={reducedMotion} className="absolute inset-y-0 right-0 z-0 w-full md:w-[62%]" />
 
       <main className="pointer-events-none absolute bottom-0 left-0 z-10 flex flex-col items-start pb-12 pl-10 md:pb-16 md:pl-16 lg:pb-20 lg:pl-20">
-        <h1 className="font-brand text-6xl leading-none tracking-tight md:text-7xl lg:text-8xl">motus</h1>
+        <h1 className="font-brand text-6xl leading-none tracking-tight md:text-7xl lg:text-8xl">addo labs</h1>
         <p className="font-serif-display mt-1 text-2xl leading-tight text-foreground/75 italic md:text-3xl lg:text-[2.1rem]">
-          early ALS detection, from how you move
+          ALS drug discovery optimization
         </p>
         <button
           type="button"

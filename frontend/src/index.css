@@ -6,7 +6,7 @@
 
 
 :root {
-  /* Motus: warm paper, ink navy, teal. Same light, quiet register as Callio Labs, its own colour. */
+  /* Addo Labs: warm paper, ink navy, teal. Same light, quiet register as Callio Labs, its own colour. */
   --background: oklch(0.966 0.008 85); /* #f6f3ed paper */
   --foreground: oklch(0.27 0.045 245); /* #13293d ink */
   --card: oklch(0.985 0.005 85 / 0.76);
@@ -123,3 +123,13 @@
   }
 }
 
+
+/* Report export: "Save as PDF" prints only the portal copy of the report. */
+.print-only { display: none; }
+@media print {
+  @page { margin: 16mm; }
+  html, body { height: auto !important; overflow: visible !important; background: #fff !important; }
+  #root { display: none !important; }
+  .print-only { display: block; color: #13293d; }
+  .print-only a { color: inherit; }
+}
