@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6WZAVQJT90Y3V4BJGRWBR8E",
   "strategy": "manual-commit",
   "branch": "repo-cleaning",
-  "checkpoints_count": 17,
+  "checkpoints_count": 27,
   "files_touched": [
     ".gitignore",
     "AGENTS.md",
@@ -202,6 +202,13 @@
       "compact_transcript": "/1/transcript.jsonl",
       "content_hash": "/1/content_hash.txt",
       "prompt": "/1/prompt.txt"
+    },
+    {
+      "metadata": "/2/metadata.json",
+      "transcript": "/2/full.jsonl",
+      "compact_transcript": "/2/transcript.jsonl",
+      "content_hash": "/2/content_hash.txt",
+      "prompt": "/2/prompt.txt"
     }
   ],
   "token_usage": {
