@@ -1,0 +1,47 @@
+For the landing page, I want the neuron to be horizantal around the top part of the page. Move the name to the bottom left area and have it so that the glow from the synapse propagates across the entire screen to the axon terminals and eventually to the name
+
+---
+
+<task-notification>
+<task-id>b3c8nkqu0</task-id>
+<tool-use-id>toolu_0188Df12FyUL2izCH2SjwcDE</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\b3c8nkqu0.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for landing screenshots" failed with exit code 255</summary>
+</task-notification>
+
+---
+
+reverse it the text should be on the bottom right and cell body be on the left
+
+---
+
+orange thing should be invisible until the light reaches the end of the neuron
+
+---
+
+move the neuron more to the bottom left, shift the text more to the left so that all components are more centered. The neuron could be slightly angled too
+
+---
+
+<task-notification>
+<task-id>bo2yasqp5</task-id>
+<tool-use-id>toolu_013GBuDM7qAP7ZmzvVrwiTY7</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bo2yasqp5.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for screenshots" failed with exit code 255</summary>
+</task-notification>
+
+---
+
+angle it more so that the cell body is lower and the axon terminals higher
+
+---
+
+<task-notification>
+<task-id>bgjrbspym</task-id>
+<tool-use-id>toolu_017mUCZ4u4rcA1EdzMKJiBrp</tool-use-id>
+<output-file>C:\Users\jerem\AppData\Local\Temp\claude\2ea77955cf64b3d5\28437234-f1be-440d-9452-c51de1bd38ab\tasks\bgjrbspym.output</output-file>
+<status>failed</status>
+<summary>Background command "Start demo-mode dev server for screenshots" failed with exit code 255</summary>
+</task-notification>
