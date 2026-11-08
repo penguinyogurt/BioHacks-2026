@@ -48,9 +48,9 @@ export function TypeGlyph({ type, size = 12, color = INK }: { type: string; size
 
 function Row({ glyph, channel, children }: { glyph: ReactNode; channel: string; children: ReactNode }) {
   return (
-    <div className="grid grid-cols-[3rem_1fr] items-center gap-x-3 py-1">
+    <div className="grid grid-cols-[3rem_minmax(0,1fr)] items-center gap-x-3 py-1">
       <div className="flex items-center gap-1">{glyph}</div>
-      <p className="text-xs leading-snug">
+      <p className="min-w-0 text-xs leading-snug break-words">
         <span className="font-medium">{channel}</span> <span className="text-muted-foreground">· {children}</span>
       </p>
     </div>
@@ -213,7 +213,7 @@ export function DrkgLegend({
                 </svg>
               }
             >
-              embedding layout{scene.meta.projection ? ` (${scene.meta.projection})` : ''}
+              <span title={scene.meta.projection ?? undefined}>clustered embedding layout</span>
             </Row>
             <Row channel="Colour" glyph={[0, 1, 2].map((i) => <span key={i} className="size-2.5 rounded-full" style={{ background: clusterColor(i, clusters[i]) }} />)}>
               cluster

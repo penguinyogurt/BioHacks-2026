@@ -450,9 +450,10 @@ const World = memo(function World(props: WorldProps) {
     geo.setAttribute('aShape', new THREE.BufferAttribute(aShape, 1))
     geo.setAttribute('aType', new THREE.BufferAttribute(Float32Array.from(types), 1))
     geo.setAttribute('aSize', new THREE.BufferAttribute(aSize, 1))
-    geo.setAttribute('aAlpha', new THREE.BufferAttribute(new Float32Array(n).fill(0.85), 1))
+    // 97k points at high alpha paint islands solid; at 0.5 density reads as texture.
+    geo.setAttribute('aAlpha', new THREE.BufferAttribute(new Float32Array(n).fill(0.5), 1))
     geo.computeBoundingSphere()
-    return new THREE.Points(geo, pointMaterial(0.75, 0.7))
+    return new THREE.Points(geo, pointMaterial(0.6, 0.7))
   }, [data, clusters, pointMaterial])
 
   useEffect(() => {
