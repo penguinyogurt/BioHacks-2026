@@ -36,3 +36,25 @@ The first command checks identical-input scores, duration on slower speech, the 
 On first launch, record the displayed passage five times in your normal voice and five times using your chosen extreme example. Replay and save each take. Refreshing or relaunching resumes at the next take. Calibration spectra are saved privately under private/speech_demo/calibration-v1.json; microphone audio stays in memory. Recalibrate score reference starts a separate draft. The current profile stays active until ten replacement takes pass validation. Cancel recalibration discards the draft. Once ready, both input cards automatically show a personal score, independent of the word-comparison reference selector.
 
 For each reliably aligned occurrence, average windowed spectral power into 32 logarithmic bands spanning 80–8000 Hz, normalize to the strongest band, and floor at −60 dB. The normal template is the mean per-band profile of the normal examples for that occurrence. The word error is mean absolute dB difference from that template. Sum the errors over usable words. Compute the normal and extreme anchors as sums of the respective groups’ mean word errors on exactly those words. Score = 1 + 99 × (input total − normal anchor) / (extreme anchor − normal anchor), displayed within 1–100, with out-of-range readings labeled. At least 7 of 14 words and three valid calibration examples per group for each contributing word are required. An anchor gap at or below 0.1 dB per contributing word is unscorable. Transcript errors, duration and MFCC-DTW remain separate; missing words reduce coverage. Scores describe similarity to the user's own example styles and are not clinical severity estimates.
+
+## FaceCheck
+
+Open **FaceCheck** from the passage comparison header. The speech page stays mounted behind the panel. **Back to speech comparison** closes the camera view and restores the existing reading inputs. FaceCheck uses the same localhost app, with its own browser-local baseline and check-in history under the original storage key. Speech calibration and recordings are separate.
+
+On a fresh checkout, cache the optional FaceCheck assets once:
+
+```sh
+cd ~/Documents/BioHacks/speech-tests-backup/speech_demo
+bash facecheck/setup.sh
+```
+
+The original [FaceCheck source](https://github.com/penguinyogurt/BioHacks-2026/tree/eb3ea975e02a7d1ddfc86e212baefa4ad9f0d2ef/facecheck) is from branch `cursor/facial-als-validation`. All seven modules are generated from that revision with Node's TypeScript stripper. Only module specifiers, CSS loading and asset locations are adapted. The browser uses MediaPipe tasks-vision 0.10.35 and the original float16 v1 landmarker. Runtime requests stay on localhost.
+
+To reproduce the port or check it against an export of that revision, use Node 24 in the facecheck directory:
+
+```sh
+node port.mjs /path/to/original/facecheck/src
+node --experimental-vm-modules verify.mjs /path/to/original/facecheck/src
+```
+
+The source's two-rep combine selects the indexed 50th percentile. Its asymmetry uses raw left/right values, while amplitude uses each session's neutral-subtracted values. Robust scoring requires at least two prior check-ins and scaled MAD above 0.01; otherwise the original flat thresholds apply.
