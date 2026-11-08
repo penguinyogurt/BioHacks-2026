@@ -1,19 +1,24 @@
-# Mirror the skills CLI writes for other agent harnesses; .claude/skills is the source of truth
-.agents/
+# ─── Secrets ──────────────────────────────────────────────────────────────
+# frontend/ reads Supabase keys from .env. Never commit one; .env.example is
+# the committed template.
+.env
+.env.*
+!.env.example
+*.local
 
+# ─── Dependencies and build output ────────────────────────────────────────
 node_modules/
 dist/
 .vite/
-*.local
-.DS_Store
+*.tsbuildinfo
 
-# Python
+# ─── Python ───────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 .venv/
 venv/
 
-# Big source data — download it, don't commit it
+# ─── Big source data — download it, don't commit it ───────────────────────
 data/raw/
 *.tsv
 *.tsv.gz
@@ -21,7 +26,52 @@ data/raw/
 *.dump
 *.pkl
 *.npy
+*.joblib
 
-# Keep the contract and generated outputs small and committed:
-# data/pipeline.json is committed on purpose.
+# Pipeline intermediates. Each Python module writes one of these; they are
+# regenerable, and `cursor/pipeline-graph-ui` has ~33 MB of them committed.
+# Don't bring that to main — merge.py's output is the only one we keep.
+data/kg_scores.json
+data/bbb_scores.json
+data/patient_filter.json
+data/graveyard.json
+artifacts/
+
+# data/pipeline.json IS committed on purpose: it is the contract plus a
+# hand-written sample, and the frontend renders it with no Python at all.
+# Keep it small — top 100 by score plus every late-stage cut, ~200 KB. The
+# 10.5 MB version on cursor/pipeline-graph-ui is not what main wants.
 !data/pipeline.json
+
+# ─── Per-person AI config ─────────────────────────────────────────────────
+# Each harness writes its own machine-local hooks and state. None of it is
+# shared, and committing it starts merge fights nobody wants mid-hackathon.
+# Anything personal you want to keep goes in .workspace/ — see its README.
+.codex/
+.cursor/
+.entire/
+.claude/settings.local.json
+.claude/worktrees/
+
+# .agents/ is a generated mirror of .claude/skills/ for non-Claude harnesses.
+# Regenerate it with `npx skills` rather than committing it.
+.agents/
+
+# NOT ignored, on purpose:
+#   .claude/skills/     the 21 vetted skills, pinned in skills-lock.json so
+#                       everyone gets the identical set (see CLAUDE.md)
+#   .claude/launch.json how to start the dev server
+#   .claude/settings.json  Entire hooks — team-wide, and every hook is
+#                       guarded with `command -v entire` so it no-ops for
+#                       anyone who hasn't installed it
+
+# Your own scratch space: notes, personal CLAUDE.md, scratch scripts, dumps.
+# Tracked exception: the README that explains what belongs here.
+# (.workspace/* not .workspace/ — git won't descend into an excluded
+# directory, so the negation below would never be reached.)
+.workspace/*
+!.workspace/README.md
+
+# ─── OS noise ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db

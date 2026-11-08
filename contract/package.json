@@ -1,0 +1,13 @@
+{
+  "name": "contract",
+  "private": true,
+  "type": "module",
+  "description": "The data/pipeline.json contract. Owned by nobody, depended on by everybody.",
+  "scripts": {
+    "test": "node --experimental-strip-types --test contract.test.ts",
+    "validate": "node --experimental-strip-types validate.ts"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  }
+}

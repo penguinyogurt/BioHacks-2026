@@ -1,0 +1,61 @@
+# Motus — early ALS detection, from how you move
+
+**BioHacks 2026.** ALS is usually caught late. The signal that something is
+changing shows up in movement — how you speak, how you type, how you write —
+months before a clinic visit scores it.
+
+Motus measures those three channels at home, against **your own baseline**,
+and shows the drift. Not "you look like an ALS patient" — "this is slower
+than you were in August, and it has been for 66 sessions."
+
+---
+
+## Run it
+
+```bash
+npm install --prefix frontend && npm run dev --prefix frontend
+```
+
+Opens on <http://localhost:5173>. The dashboard at `/home` renders
+immediately against deterministic sample data — no Supabase, no backend, no
+keys needed. It shows a **"Sample data"** badge while that's the source.
+
+Sign-in needs Supabase keys; copy `frontend/.env.example` to `frontend/.env`
+and fill them in.
+
+## What it shows
+
+180 days of at-home sessions across three domains:
+
+```
+Speech       (bulbar)       rate · DDK · pause ratio · phonation · HNR
+Typing       (fine motor)   speed · inter-key interval · hold · corrections
+Handwriting  (fine motor)   stroke velocity · jerk · pressure · spiral
+```
+
+Each feature is z-scored against the person's own first 28 days. A domain
+goes **Watch** at −1σ and **Flagged** at −2σ, and only when the change
+persists — not on one bad day. The sample tells a bulbar-onset story: speech
+drifts first, then typing, then handwriting.
+
+Nothing here is a diagnosis, and every screen says so.
+
+## Also in this repo
+
+| | |
+|---|---|
+| `contract/` | Schema + validator for `data/pipeline.json` |
+| `docs/` | Specs, research, decisions, status |
+
+Three more tracks live on branches — the drug-repurposing pipeline,
+FaceCheck, and the speech test apps. See [`AGENTS.md`](AGENTS.md) for the map.
+
+## Working here
+
+**Read [`AGENTS.md`](AGENTS.md) first**, then
+[`docs/STATUS.md`](docs/STATUS.md). Four people are working in parallel; those
+two files are how we avoid building the same thing twice.
+
+```bash
+npm test --prefix contract     # before you push anything touching the contract
+```
