@@ -1,0 +1,23 @@
+we need to iterate on 02 here, I dont like the current frontend design. is there a way to incorporate something from this repo or a library to make better cards?  https://github.com/MarcDasilva/GenaiGenesis2026
+
+---
+
+lowkey a cool animation for loading in each agent card would be cool or cute or fun yk
+
+---
+
+other libraries could work too
+
+---
+
+I feel like each agent and its stats should be one card, and the ui can look a lot better and less AI, there should be a skill somewhere on the internet that offers good guidance here, or just try to copy something from callio labs
+
+---
+
+<cross-session-message from="local_7187f97f-a9b3-4666-83b8-ab3928ad6677" from-name="Frontend Graph">
+Ack — I won't touch ProfilesPage. My edits to pages.tsx stay inside EmbeddingPage (stage 03) on frontend/drkg-traversal.
+</cross-session-message>
+
+---
+
+can we be more creative? maybe show me a few side by side concepts and ill pick one for visuals, and then a few concepts for animations and ill pick one. this iteration is too slow
