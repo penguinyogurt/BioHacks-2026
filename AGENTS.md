@@ -1,165 +1,187 @@
-# BioHacks 2026 — patient-constrained drug repurposing for ALS
+# BioHacks 2026 — repo guide for humans and AI
 
-This file is the single source of truth for both humans and agents working in
-this repo. `CLAUDE.md` imports it; Codex, Cursor and Copilot read it directly.
-If you change how the project works, change it **here**, not in a second file.
+**This file is the single source of truth.** `CLAUDE.md` imports it; Codex,
+Cursor and Copilot read it directly. If you change how the project works,
+change it **here**, not in a second file and not in a DM.
 
 Devpost closes **Sun 2026-11-08 11:30 am**; expo judging 1:30–3:00 pm. Treat
 **9:00 am Sunday** as the real deadline and leave the last two hours for the
 pitch.
 
-Full engineering spec (stages, rules, data sources, cut lines):
-<https://claude.ai/artifact/HhAjTpMb2cjAAWqJHpgVMc>
+---
+
+## Read this before you touch anything
+
+Four people are working in parallel with AI agents. The thing that has cost
+us the most time is not bugs — it is **two people building the same thing
+because neither knew what the other was doing.** We have already shipped
+three separate frontends for one project.
+
+So, in order, every session:
+
+1. **Read [`docs/STATUS.md`](docs/STATUS.md).** It says who is on what, right
+   now. It takes fifteen seconds and it is the whole point.
+2. **Check the map below** for which directory your work belongs in. If your
+   change doesn't obviously fit one, say so before writing code.
+3. **Before you stop, update `docs/STATUS.md`.** Even "I got nowhere on X"
+   is worth more to the other three than silence.
+
+If you are an agent: do steps 1 and 3 without being asked. Step 3 happens in
+the same commit as your work, not as a follow-up you forget.
 
 ---
 
-## What this is
+## What's here
 
-A five-stage elimination funnel over ~4,800 approved drugs:
+| Directory | What it is | Stack |
+|---|---|---|
+| `frontend/` | **Motus** — the product. Longitudinal at-home ALS monitoring: speech, typing and handwriting tracked against a personal baseline. Landing + dashboard. | Vite · React 19 · TS · Tailwind v4 · shadcn/ui · Supabase · three |
+| `contract/` | The `data/pipeline.json` schema, its tests, and the CLI validator. Owned by nobody, depended on by everybody. | zod · node:test |
+| `data/` | `pipeline.json` — the frozen contract plus a hand-written sample. | — |
+| `docs/` | Specs, research, decisions, status. **See "Documentation" below.** | — |
+| `.claude/skills/` | 21 pinned design/frontend skills. See `CLAUDE.md`. | — |
+| `.workspace/` | Your personal scratch, gitignored. See its README. | — |
 
-| # | Stage | Question it answers | Removes |
-|---|---|---|---|
-| 1 | `universe` | Which drugs are approved and available? | Nothing — the input set |
-| 2 | `kg_relevance` | Does it touch ALS biology? | No path to ALS in the knowledge graph |
-| 3 | `bbb` | Can it physically reach the target tissue? | Wrong side of the barrier for its target |
-| 4 | `patient_filter` | Is it safe and usable **for Alex**? | Interactions, his vulnerabilities, routes he can't manage |
-| 5 | `trial_history` | Has this already been tried and failed? | Known failures, flagged not silently dropped |
+### Work that lives on branches, not on main
 
-**Stage 4 is the original contribution.** Stages 2 and 3 integrate published
-methods. The second output — the "graveyard" — partitions failed ALS trial
-drugs into `never_arrived` (predicted barrier-negative) and `arrived_failed`
-(predicted barrier-positive). Nobody has published that partition for ALS.
+Not everything is merged. Before starting something, check whether it already
+exists here:
 
-## Architecture rule
+| Branch | What's on it |
+|---|---|
+| `cursor/pipeline-graph-ui` | The **drug-repurposing pipeline** — `bbb_model.py`, `patient_filter.py`, `merge.py`, `graveyard.py`, scored across 3,791 compounds. This is live work, not abandoned. |
+| `cursor/facial-als-validation` | **FaceCheck** (`facecheck/`) — MediaPipe facial-amplitude prototype. Spec: [`docs/FACECHECK_SPEC.md`](docs/FACECHECK_SPEC.md). |
+| `Master-UI-Neo-Face-Integration` | Speech and diagnostic test apps (`master-app/`, `speech-test-good/`, `facial-test/`, `line-test/`). **Unrelated git history** — it does not share a root with `main`. Merging it is a decision, not a chore; log it in `docs/DECISIONS.md` first. |
 
-Four Python modules each write **one JSON file** to `data/`. **Nobody imports
-anybody else's code.** Integration happens through files, which is why all
-four can be built simultaneously and a broken module doesn't block the rest.
+**Nothing above is dead.** If you think a track should be dropped, that is a
+decision — write it down, don't silently stop maintaining it.
+
+---
+
+## The rules that keep four people from colliding
+
+### One track per branch, one owner per file
+
+Two agents editing the same file in parallel is how we lose an afternoon.
+Claim your area in `docs/STATUS.md` and stay in it. If you need a change in
+somebody else's file, say so in STATUS rather than reaching in.
+
+### Don't build a second one
+
+Before creating a new app, page, module or script: **search for it first.**
+`git branch -r`, then grep. Three frontends happened because nobody looked.
+If what exists is wrong, fix or replace it deliberately and say so — don't
+leave both standing.
+
+### Integration happens through files, not imports
+
+Each module writes **one JSON file**. Nobody imports anybody else's code.
 
 ```
-kg_rank.py        → data/kg_scores.json
-bbb_model.py      → data/bbb_scores.json
-patient_filter.py → data/patient_filter.json
-merge.py          → data/pipeline.json   ← joins on InChIKey
-app/              → reads data/pipeline.json and nothing else
+the Python pipeline  → data/pipeline.json   (validated by contract/)
+FaceCheck            → facecheck.session.v3 (its own export)
+frontend/            → reads what it's given, imports no pipeline code
 ```
 
-Do not propose refactors that couple these modules. The decoupling is the
-schedule.
+This decoupling is the schedule: all four tracks can be built at once and a
+broken module doesn't block the rest. **Do not propose refactors that couple
+them.**
 
-## The contract
+### The contract is frozen
 
-`data/pipeline.json` is frozen. Its executable definition is
-[`app/src/lib/contract.ts`](app/src/lib/contract.ts); the prose version with
-field-by-field notes is [`docs/CONTRACT.md`](docs/CONTRACT.md).
+`data/pipeline.json`'s executable definition is
+[`contract/contract.ts`](contract/contract.ts); the annotated prose version is
+[`docs/CONTRACT.md`](docs/CONTRACT.md).
 
-**Check your output against it without running the frontend:**
+Check your output without running any frontend:
 
 ```bash
-npm run validate --prefix app -- path/to/your.json
+npm run validate --prefix contract -- path/to/your.json
 ```
 
-Exits non-zero with readable problems. Wire it into your own script if you
-like.
+Exits non-zero with readable problems. If the shape genuinely must change:
+update `contract/contract.ts`, update the sample in `data/pipeline.json`, run
+`npm test --prefix contract`, log it in `docs/DECISIONS.md`, and **tell the
+team in the same breath.**
 
-If the shape genuinely needs to change: update `contract.ts`, update the
-committed sample in `data/pipeline.json`, run `npm run check --prefix app`,
-and **tell the team in the same breath** — four people are writing against it.
+---
 
-## Repo map
+## Documentation — what goes in `docs/`
 
-```
-AGENTS.md              this file — repo guidance for humans and agents
-CLAUDE.md              imports this file, plus Claude-specific skill notes
-README.md              human quickstart
-docs/CONTRACT.md       the pipeline.json contract, annotated
-data/pipeline.json     the frozen contract + a hand-written sample
-app/                   the frontend (Vite + React 19 + TS + Tailwind v4)
-  src/lib/contract.ts  zod schema — the ONLY place the UI learns the shape
-  src/lib/validate.ts  CLI validator for the Python owners
-  src/components/      one component per section of the report
-.claude/skills/        21 vetted design/frontend skills (see CLAUDE.md)
-skills-lock.json       pinned skill versions — `npx skills update` to refresh
-```
+The test is simple: **would a teammate arriving tomorrow need this, and would
+they find it?** If yes, it goes in `docs/`. Not in a commit message, not in
+chat, not in your head.
+
+| File | What belongs in it | When you write it |
+|---|---|---|
+| `docs/STATUS.md` | Who is on what, blockers, what just landed. | Start and end of every session. |
+| `docs/DECISIONS.md` | Why we chose X over Y. Append-only, newest first. | Any time you make a call someone could reasonably reverse. |
+| `docs/CONTRACT.md` | The `pipeline.json` shape, annotated. | When the contract changes. |
+| `docs/<THING>_SPEC.md` | A design: what it's for, what exists, what's open. | Before building something non-trivial. |
+| `docs/<THING>_RESEARCH.md` | Findings with citations. Mark anything unverified as **unverified** — never guess an author or year. | As you research. |
+
+**Non-trivial work leaves a doc behind.** A spec before, findings after. If
+the explanation lives only in a chat window, it does not exist on Sunday
+morning when someone else has to demo it.
+
+### Decisions get logged, not argued twice
+
+`docs/DECISIONS.md` entries are three lines: what we decided, why, and what
+it rules out. A decision in the log is **settled** — don't re-litigate it
+without new information, and if you do reverse one, append the reversal
+rather than editing history.
+
+---
+
+## Branches, commits, PRs
+
+- **Branch naming: `<track>/<what>`.** Tracks are `pipeline`, `facecheck`,
+  `speech`, `frontend`, `docs`. We currently have four naming conventions in
+  flight (`cursor/…`, `codex/…`, `Master-UI-…`); new branches use this one so
+  `git branch -r` is readable.
+- **Branch per piece of work. PR into `main`.** No direct pushes to `main`.
+- **Commit messages say _why_, not what.** The diff already says what.
+- **Never leave `main` in a state where the frontend doesn't render.** A
+  broken demo costs more than a missing feature.
+- Non-trivial logic leaves **one runnable check** behind.
+  [`contract/contract.test.ts`](contract/contract.test.ts) is the pattern:
+  node's built-in test runner, no framework.
+
+---
 
 ## Commands
 
-All frontend commands run from `app/` (or add `--prefix app`):
+```bash
+npm install --prefix frontend          # once
+npm run dev --prefix frontend          # Motus on :5173
 
-| Command | What it does |
-|---|---|
-| `npm run dev` | Dev server on :5173. HMR picks up `data/pipeline.json` edits instantly. |
-| `npm run check` | Typecheck + contract tests. **Run before every push.** |
-| `npm run validate -- <file>` | Validate any pipeline JSON against the contract. |
-| `npm run build` | Typecheck + production build to `dist/`. |
-| `npm run lint` | ESLint. |
+npm test     --prefix contract         # contract tests
+npm run validate --prefix contract -- <file>   # validate any pipeline JSON
+```
 
-## Frontend
+CI (`.github/workflows/check.yml`) runs the contract tests and a frontend
+typecheck + build on every PR.
 
-Stack: Vite + React 19 + TypeScript + Tailwind v4 + `motion`. Static site, no
-backend, no router.
-
-**No shadcn/ui, no Radix, no component library.** This is one bespoke funnel,
-one card and one chart — a library would be installed to go almost entirely
-unused. Don't add one.
-
-### Decisions — settled, don't re-litigate
-
-**Layout: guided run, one screen.** The funnel runs on load; survivors land as
-cards below it; a replay control re-runs it in ~3s. Graveyard partition and
-validation sit one scroll down. A judge arriving mid-conversation sees the
-whole argument without anyone touching the laptop.
-
-**Typography: three voices, one job each.** Instrument Serif carries headings
-(h1/h2 only — it's a high-contrast display face whose thin strokes break up
-at body size, and it ships one weight, so never put `font-semibold` on a
-heading). Inter carries prose. System mono carries every number. Both faces
-are self-hosted via `@fontsource` rather than a CDN: a webfont request that
-fails at the expo table takes the whole look with it.
-
-This is the change that bought the most visual ground. Of three
-award-winning reference projects, two shipped no animation library at all —
-each bought its look with a single display typeface.
-
-**Aesthetic: dark lab console.** Deep purple-black ground, elevated surfaces,
-luminous data. Dense, tabular monospace numerals, **one** accent reserved for
-elimination. Revised 2026-11-07 from an earlier light "clinical instrument"
-direction — the earlier call optimised for a clinician's trust, this one
-optimises for a judge's attention at an expo table, which is what actually
-decides the outcome. The data discipline did not change: colour still never
-carries meaning alone, numbers are still tabular, nothing is decorative at
-the cost of being readable.
-
-**Candidate volume: top 100 + all late cuts.** `merge.py` emits the top 100 by
-`kg.score` plus **every** drug eliminated at `patient_filter` or
-`trial_history` regardless of rank. Everything cut earlier exists only as
-funnel counts. Keeps the file ~200KB and guarantees stage 4 is always fully
-visible. This is a deliberate change from the spec.
-
-### Non-negotiables
-
-- Eliminated candidates stay in `candidates[]` with `verdict` and
-  `eliminated_at` — the UI animates them leaving.
-- `filters[]` is **ordered**. Render in rule order and highlight the first
-  failure; it's the decisive one.
-- `bbb.in_domain === false` → **never render `bbb.prob`.** Show the Tanimoto
-  distance instead. Don't display a number the model can't stand behind.
-- Reason strings render **verbatim**. They're the clinical receipt; never
-  paraphrase them in JSX.
-- The funnel must not make stage 4 look trivial. Bars are log-scaled and every
-  stage gets equal dwell time, both on purpose.
-- Alex comes before the drugs. His chart values live in
-  `patient_profile` in the data, never hardcoded in a component.
-
-Audience: judges at an expo table, 90 seconds, laptop screen. Optimise for one
-legible story at arm's length, not for mobile.
+---
 
 ## Working style
 
-- **Shortest working diff.** No abstraction for one use, no config for a value
-  that never changes, no scaffolding "for later".
-- **Never leave `main` in a state where `data/pipeline.json` doesn't render.**
-  A broken demo costs more than a missing feature.
-- Non-trivial logic leaves one runnable check behind. `app/src/lib/contract.test.ts`
-  is the pattern: node's built-in test runner, no framework.
-- Branch per piece of work, PR into `main`. Commit messages say *why*, not what.
+- **Shortest working diff.** No abstraction for one use, no config for a
+  value that never changes, no scaffolding "for later".
+- Audience: judges at an expo table, 90 seconds, laptop screen. Optimise for
+  one legible story at arm's length, not for mobile.
+- Colour never carries meaning alone — pair it with a glyph, a shape or a
+  position. (Our pass/fail pair measured ΔE 7.9 for deuteranopia.)
+- Numbers are tabular. Reason strings render **verbatim** — they're the
+  clinical receipt, never paraphrase them in JSX.
+
+---
+
+## When this file is wrong
+
+It has been wrong before, and it sent two people into a directory that no
+longer existed. That is the most expensive failure mode this repo has.
+
+**If you find a drift between this file and reality, fix this file first,
+in the same PR as your change.** Not later, not in a comment. A stale
+`AGENTS.md` is worse than no `AGENTS.md`, because four agents believe it.

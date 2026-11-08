@@ -12,7 +12,7 @@ import { readFileSync } from "node:fs";
 import { parsePipeline, firstFailure, passCount } from "./contract.ts";
 
 const raw = JSON.parse(
-  readFileSync(new URL("../../../data/pipeline.json", import.meta.url), "utf8"),
+  readFileSync(new URL("../data/pipeline.json", import.meta.url), "utf8"),
 );
 
 test("the committed sample satisfies the contract", () => {

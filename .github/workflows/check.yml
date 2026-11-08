@@ -8,28 +8,40 @@ on:
   pull_request:
 
 jobs:
-  frontend:
+  contract:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
           cache: npm
-          cache-dependency-path: app/package-lock.json
+          cache-dependency-path: contract/package-lock.json
 
       - run: npm ci
-        working-directory: app
+        working-directory: contract
 
-      - name: Typecheck and contract tests
-        run: npm run check
-        working-directory: app
+      - name: Contract tests
+        run: npm test
+        working-directory: contract
 
       - name: Validate the committed pipeline.json
         run: npm run validate
-        working-directory: app
+        working-directory: contract
 
-      - name: Build
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci
+        working-directory: frontend
+
+      - name: Typecheck and build
         run: npm run build
-        working-directory: app
+        working-directory: frontend

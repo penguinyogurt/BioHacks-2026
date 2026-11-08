@@ -1,19 +1,24 @@
-# Mirror the skills CLI writes for other agent harnesses; .claude/skills is the source of truth
-.agents/
+# ─── Secrets ──────────────────────────────────────────────────────────────
+# frontend/ reads Supabase keys from .env. Never commit one; .env.example is
+# the committed template.
+.env
+.env.*
+!.env.example
+*.local
 
+# ─── Dependencies and build output ────────────────────────────────────────
 node_modules/
 dist/
 .vite/
-*.local
-.DS_Store
+*.tsbuildinfo
 
-# Python
+# ─── Python ───────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 .venv/
 venv/
 
-# Big source data — download it, don't commit it
+# ─── Big source data — download it, don't commit it ───────────────────────
 data/raw/
 *.tsv
 *.tsv.gz
@@ -21,11 +26,28 @@ data/raw/
 *.dump
 *.pkl
 *.npy
-
-# Keep the contract and generated outputs small and committed:
-# data/pipeline.json is committed on purpose.
+# data/pipeline.json is committed on purpose: it is the contract plus a
+# hand-written sample, and the frontend renders it with no Python at all.
 !data/pipeline.json
 
-# Recorded demo videos — large binaries, regenerate with tools/record-demo.mjs
-demo/
-tools/node_modules/
+# ─── Per-person AI config ─────────────────────────────────────────────────
+# Each harness writes its own machine-local hooks and state. None of it is
+# shared, and committing it starts merge fights nobody wants mid-hackathon.
+# Anything personal you want to keep goes in .workspace/ — see its README.
+.agents/
+.codex/
+.cursor/
+.entire/
+.claude/settings.json
+.claude/settings.local.json
+
+# Your own scratch space: notes, personal CLAUDE.md, scratch scripts, dumps.
+# Tracked exception: the README that explains what belongs here.
+# (.workspace/* not .workspace/ — git won't descend into an excluded
+# directory, so the negation below would never be reached.)
+.workspace/*
+!.workspace/README.md
+
+# ─── OS noise ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db

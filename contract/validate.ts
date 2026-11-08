@@ -1,8 +1,8 @@
 /**
  * Validate any pipeline JSON against the contract, from the command line.
  *
- *   npm run validate --prefix app -- ../data/pipeline.json
- *   npm run validate --prefix app            # defaults to data/pipeline.json
+ *   npm run validate --prefix contract -- path/to/your.json
+ *   npm run validate --prefix contract            # defaults to data/pipeline.json
  *
  * This exists so the Python module owners can check merge.py output without
  * running the frontend. Exit code 1 on failure, so it drops into a script.
@@ -14,7 +14,7 @@ import { parsePipeline } from "./contract.ts";
 
 // fileURLToPath, not URL.pathname: on Windows the latter yields "/C:/..."
 // which resolves to a nonexistent "C:\C:\..." path.
-const DEFAULT = fileURLToPath(new URL("../../../data/pipeline.json", import.meta.url));
+const DEFAULT = fileURLToPath(new URL("../data/pipeline.json", import.meta.url));
 const target = process.argv[2] ? resolve(process.argv[2]) : DEFAULT;
 
 let raw: unknown;
