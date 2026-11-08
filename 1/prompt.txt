@@ -1,0 +1,1 @@
+compare and contrast the benefits of using next.js instead of pure react for this frontend
