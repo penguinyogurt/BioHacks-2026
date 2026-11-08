@@ -62,9 +62,18 @@ async function capture(id){
   const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/png"));
   if(id!==epoch)return;
   request=new AbortController();
-  const response=await fetch(API+"/photo",{method:"POST",body:blob,signal:request.signal});
+  if(!blob)throw Error("Could not capture a photo. Press Ready to try again.");
+  let response;
+  try{
+   response=await fetch(API+"/photo",{method:"POST",body:blob,signal:request.signal});
+  }catch{
+   throw Error("Cannot reach the facial scoring server. Start the scoring server, then press Ready.");
+  }
+  if(!response.ok){
+   if(response.status===503)throw Error("Facial scoring is unavailable. Check the model setup, then press Ready.");
+   throw Error("The facial scoring server returned error "+response.status+". Press Ready to retry.");
+  }
   const data=await response.json();if(id!==epoch)return;
-  if(!response.ok)throw Error(data.error||"Inference failed");
   $("prompt").textContent=rounds[index][0]+" — captured photo";
   if(data.faces!==1){prompt();$("prompt").textContent="We need one face in view. Look at the camera, then press Ready.";return}
   const target=rounds[index][0], probs=data.probabilities;
@@ -90,7 +99,7 @@ async function capture(id){
   $("reviewTitle").focus();
   if(parent!==window)parent.postMessage({suite:"facial",complete:true,summary:total,results:{threshold:PASS_THRESHOLD,rounds:scores}},SUITE);
  }
- }catch(e){if(id===epoch){prompt();$("prompt").textContent="Photo could not be scored. Press Ready when you are in view."}}
+ }catch(e){if(id===epoch){prompt();$("prompt").textContent=e instanceof SyntaxError?"The scoring server returned an unreadable result. Check the server address.":e.message}}
 }
 $("ready").onclick=()=>{
  if(phase!=="prompt")return;
