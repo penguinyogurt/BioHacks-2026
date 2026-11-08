@@ -13,6 +13,7 @@ import { EmptyStage, PatientCard, STEPS, StageHeader, StepNav, Trace, useGo } fr
 import { DrkgScene } from './drkg-scene'
 import { DEFAULT_SRC, useDrkg } from './drkg-data'
 import { ProfileGrid } from './profile-card'
+import { ResearchChat } from './research-chat'
 
 type Go = (view: string) => void
 
@@ -446,6 +447,8 @@ export function CandidatesPage() {
           </div>
         </div>
       )}
+      {/* Keyed by run, so a new or reopened run starts a fresh conversation. */}
+      {live && state.assessRunId && state.stages.research === 'done' ? <ResearchChat key={state.assessRunId} runId={state.assessRunId} /> : null}
       <StepNav view="candidates" />
     </div>
   )

@@ -312,6 +312,40 @@ async def assessment_chat(run_id: str, body: ChatRequest):
         raise HTTPException(504, "the agent took too long; try a narrower question")
 
 
+@app.post("/api/assess/{run_id}/chat/stream")
+async def assessment_chat_stream(run_id: str, body: ChatRequest):
+    """/chat as SSE, so the UI can show the agent working: `thinking` {text}, `tool_call`
+    {tool, query, redactions}, `tool_result` {tool, content}, then one `answer` (the /chat
+    payload) or `error` {message}. POST, so read it with fetch, not EventSource."""
+    if body.messages[-1].role != "user":
+        raise HTTPException(422, "the last message must be the user's question")
+    report = await _assessment(run_id)
+    queue: asyncio.Queue[dict] = asyncio.Queue()
+
+    async def work():
+        try:
+            out = await asyncio.wait_for(chat.answer(report, [m.model_dump() for m in body.messages], queue.put_nowait), 180)
+            queue.put_nowait({"type": "answer", "data": out})
+        except asyncio.TimeoutError:
+            queue.put_nowait({"type": "error", "data": {"message": "The agent took too long; try a narrower question."}})
+        except Exception as e:
+            queue.put_nowait({"type": "error", "data": {"message": f"{type(e).__name__}: {e}"[:400]}})
+
+    task = asyncio.create_task(work())
+
+    async def events():
+        try:
+            while True:
+                e = await queue.get()
+                yield {"event": e["type"], "data": json.dumps(e["data"])}
+                if e["type"] in ("answer", "error"):
+                    return
+        finally:
+            task.cancel()  # the client closed the page mid-answer: stop paying for it
+
+    return EventSourceResponse(events())
+
+
 @app.get("/api/research")
 async def list_runs():
     live = [{"run_id": r.run_id, "status": r.status, "question": r.question} for r in RUNS.values()]

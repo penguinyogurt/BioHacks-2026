@@ -54,11 +54,31 @@ const VERDICT: Record<string, string> = {
   not_recommended: 'Not recommended',
 }
 
+/** The three backend runs behind one pipeline run. Saved as they're created, so a reload can resume. */
+export type LiveIds = { research?: string; drkg?: string; assess?: string }
+
 /**
  * Run the whole pipeline live (or replay it). `onEnd` fires once, with an error message if
  * any stage failed. Returns a cancel function.
+ *
+ * `resume`: ids of runs that already exist (e.g. after a page reload). They aren't started
+ * again; their events are fetched from the backend, which sends every past event on connect,
+ * so the whole run rebuilds in a moment and then continues live. `onIds` reports each id as
+ * soon as it exists.
  */
-export function runLiveAgent(question: string, emit: (e: PipelineEvent) => void, onEnd: (error?: string) => void) {
+export function runLiveAgent(
+  question: string,
+  emit: (e: PipelineEvent) => void,
+  onEnd: (error?: string) => void,
+  resume: LiveIds = {},
+  onIds: (ids: LiveIds) => void = () => {},
+) {
+  const ids: LiveIds = { ...resume }
+  const got = (k: keyof LiveIds, id: string) => {
+    ids[k] = id
+    onIds({ ...ids })
+    return id
+  }
   const sources = new Set<EventSource>()
   let closed = false
   let ended = false
@@ -284,13 +304,13 @@ export function runLiveAgent(question: string, emit: (e: PipelineEvent) => void,
   }
 
   async function main() {
-    const researchId = REPLAY[0] ?? (await post('/api/research', { question, patient_id: AGENT_PATIENT }))
+    const researchId = got('research', REPLAY[0] ?? resume.research ?? (await post('/api/research', { question, patient_id: AGENT_PATIENT })))
     const researchDone = stream(researchId, research)
     researchDone.catch(() => {}) // awaited below; this only stops an "unhandled" warning meanwhile
     // Stage 3 starts at `verify`, not at the end of the run.
     const profiles = await Promise.race([targets, researchDone.then(() => Promise.reject(new Error('The research run ended without verifying any profiles.')))])
     if (closed) return
-    const drkgId = REPLAY[1] ?? (await post('/api/drkg', { research_run_id: researchId, patient_id: AGENT_PATIENT, profiles }))
+    const drkgId = got('drkg', REPLAY[1] ?? resume.drkg ?? (await post('/api/drkg', { research_run_id: researchId, patient_id: AGENT_PATIENT, profiles })))
     const found = await stream(drkgId, drkg)
     // The assessment reads the run's ranked profiles, so it waits for the synthesis too.
     await researchDone
@@ -300,10 +320,10 @@ export function runLiveAgent(question: string, emit: (e: PipelineEvent) => void,
       step('embedding', 'output', 'Replay ends here', 'No recorded drug assessment in VITE_AGENT_REPLAY_RUN, so stage 4 is skipped rather than started as a paid run.')
       return end()
     }
-    const assessId = REPLAY[2] ?? (await post('/api/assess', { patient_id: AGENT_PATIENT, drugs_path: found.drugs_path, research_run_id: researchId }))
+    const assessId = got('assess', REPLAY[2] ?? resume.assess ?? (await post('/api/assess', { patient_id: AGENT_PATIENT, drugs_path: found.drugs_path, research_run_id: researchId })))
     await stream(assessId, assess)
     if (closed) return
-    emit({ type: 'reportPdf', url: `${AGENT_URL}/api/research/${assessId}/report.pdf` })
+    emit({ type: 'reportPdf', url: `${AGENT_URL}/api/research/${assessId}/report.pdf`, runId: assessId })
     emit({ type: 'report' })
     emit({ type: 'stage', stage: 'research', status: 'done' })
     end()
@@ -318,4 +338,64 @@ export function runLiveAgent(question: string, emit: (e: PipelineEvent) => void,
     ended = true
     sources.forEach((s) => s.close())
   }
+}
+
+// ------------------------------------------------------------ report chat --
+
+export type ChatTurn = { role: 'user' | 'assistant'; content: string }
+export type ChatReference = { n: number; citation: string; url: string; pmid?: string }
+export type ChatAnswer = {
+  answer: string
+  references: ChatReference[]
+  searches: { tool: string; query: string }[]
+  dropped_citations: number
+  query_redactions: number
+}
+
+const CHAT_TOOL: Record<string, string> = { pubmed_search: 'PubMed search', web_research: 'Web research' }
+
+/**
+ * Ask the ranking agent a follow-up about a finished assessment (POST /api/assess/<id>/chat/stream).
+ * Stateless: send the whole conversation. Its thinking and tool use arrive as `AgentStep`s through
+ * `onStep` while it works; resolves with the final answer, rejects on an `error` event.
+ */
+export async function askReport(runId: string, messages: ChatTurn[], onStep: (s: AgentStep) => void, signal?: AbortSignal): Promise<ChatAnswer> {
+  const r = await fetch(`${AGENT_URL}/api/assess/${runId}/chat/stream`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages }),
+    signal,
+  })
+  if (!r.ok || !r.body) throw new Error(`${r.status}: ${(await r.json().catch(() => ({}))).detail ?? r.statusText}`)
+  const reader = r.body.pipeThrough(new TextDecoderStream()).getReader()
+  let buf = ''
+  for (;;) {
+    const { value, done } = await reader.read()
+    if (done) break
+    // sse-starlette ends lines with \r\n; a lone \r at a chunk edge may be half of one.
+    buf += value
+    const tail = buf.endsWith('\r') ? '\r' : ''
+    buf = buf.slice(0, buf.length - tail.length).replace(/\r\n?/g, '\n') + tail
+    let cut: number
+    while ((cut = buf.indexOf('\n\n')) >= 0) {
+      const block = buf.slice(0, cut)
+      buf = buf.slice(cut + 2)
+      let event = 'message'
+      let data = ''
+      for (const line of block.split('\n')) {
+        if (line.startsWith('event:')) event = line.slice(6).trim()
+        else if (line.startsWith('data:')) data += line.slice(5).trimStart()
+      }
+      if (!data) continue // keep-alive comment
+      const d = JSON.parse(data)
+      if (event === 'answer') return d as ChatAnswer
+      if (event === 'error') throw new Error(d.message ?? 'The agent failed.')
+      const tool = CHAT_TOOL[d.tool] ?? d.tool
+      if (event === 'thinking') onStep({ type: 'thinking', label: 'Thinking', content: d.text })
+      else if (event === 'tool_call')
+        onStep({ type: 'tool_call', label: `${tool} · ${d.query}`, content: json(d.redactions ? { query: d.query, identifiers_removed: d.redactions } : { query: d.query }) })
+      else if (event === 'tool_result') onStep({ type: 'tool_result', label: `${tool} — result`, content: d.content })
+    }
+  }
+  throw new Error('The agent closed the connection without an answer.')
 }

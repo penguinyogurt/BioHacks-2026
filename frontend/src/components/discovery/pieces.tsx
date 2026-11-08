@@ -151,7 +151,7 @@ export function EmptyStage({ view }: { view: string }) {
   )
 }
 
-function StepRow({ item }: { item: TraceItem }) {
+export function StepRow({ item }: { item: TraceItem }) {
   const [open, setOpen] = useState(false)
   const Icon = STEP_ICON[item.step.type]
   return (

@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { AsciiBackground } from '@/components/background'
 import OverviewDashboard from '@/components/overview-dashboard'
@@ -105,6 +106,12 @@ export default function Home() {
 
 function Workspace({ view, setView, profile, onSignOut }: { view: string; setView: (v: string) => void; profile: Profile; onSignOut?: () => void }) {
   const { state, reset } = useRun()
+  // Every view shares this one scroll container, so without a reset a page opens at the
+  // previous page's scroll position (e.g. the bottom, after a live run moves on by itself).
+  const scroller = useRef<HTMLElement>(null)
+  useLayoutEffect(() => {
+    scroller.current?.scrollTo({ top: 0 })
+  }, [view])
 
   const select = (v: string) => {
     if (v === 'new-run') {
@@ -137,7 +144,7 @@ function Workspace({ view, setView, profile, onSignOut }: { view: string; setVie
           style={{ '--sidebar-width': 'calc(var(--spacing) * 72)', '--header-height': 'calc(var(--spacing) * 12)' } as React.CSSProperties}
         >
           <AppSidebar active={view} onSelect={select} profile={profile} onSignOut={onSignOut} steps={steps} />
-          <SidebarInset className="min-h-0 overflow-y-auto !bg-transparent">
+          <SidebarInset ref={scroller} className="min-h-0 overflow-y-auto !bg-transparent">
             <header className="sticky top-0 z-10 flex rounded-xl h-(--header-height) shrink-0 items-center gap-2 border-b border-border bg-background/60 backdrop-blur-md">
               <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
                 <SidebarTrigger className="-ml-1" />

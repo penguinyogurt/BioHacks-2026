@@ -9,6 +9,7 @@ appeared in this report or in a search this turn survive, numbered per answer.
 import asyncio
 import json
 import os
+from typing import Callable
 
 import httpx
 from langchain.agents import create_agent
@@ -59,7 +60,18 @@ def _report_for_prompt(report: dict) -> dict:
     return slim
 
 
-async def answer(report: dict, messages: list[dict]) -> dict:
+PREVIEW_CHARS = 2000  # of each tool result, as shown in the chat's trace
+
+
+def _blocks(msg: AIMessage) -> list[dict]:
+    return [b for b in msg.content if isinstance(b, dict)] if isinstance(msg.content, list) else [{"type": "text", "text": msg.content}]
+
+
+async def answer(report: dict, messages: list[dict], emit: Callable[[dict], None] | None = None) -> dict:
+    """Answer the last user turn. `emit` (optional) receives the agent's steps as they happen:
+    thinking {text} · tool_call {tool, query, redactions} · tool_result {tool, content}. Queries are
+    shown after redaction, i.e. exactly what left this process."""
+    say = emit or (lambda e: None)
     record = load_record(report["patient_id"])
     terms = identifier_terms(record)
     papers: dict[str, dict] = {r["pmid"]: {"citation": r["citation"], "url": r["url"]} for r in report.get("references", []) if r.get("pmid")}
@@ -77,12 +89,16 @@ async def answer(report: dict, messages: list[dict]) -> dict:
         safe, n = redact(query, terms)
         budget["redactions"] += n
         searches.append({"tool": "pubmed", "query": safe})
+        say({"type": "tool_call", "data": {"tool": "pubmed_search", "query": safe, "redactions": n}})
         try:
             found = await asyncio.to_thread(pubmed.search, safe, 6)
         except httpx.HTTPError as e:
+            say({"type": "tool_result", "data": {"tool": "pubmed_search", "content": f"PubMed error: {e}"}})
             return f"PubMed error: {e}"
         papers.update({p["pmid"]: p for p in found})
-        return "\n".join(f"PMID:{p['pmid']} {p['citation']}" for p in found) or "No PubMed results; try broader terms."
+        out = "\n".join(f"PMID:{p['pmid']} {p['citation']}" for p in found) or "No PubMed results; try broader terms."
+        say({"type": "tool_result", "data": {"tool": "pubmed_search", "content": out[:PREVIEW_CHARS]}})
+        return out
 
     @tool
     async def web_research(question: str) -> str:
@@ -93,20 +109,34 @@ async def answer(report: dict, messages: list[dict]) -> dict:
         safe, n = redact(question, terms)
         budget["redactions"] += n
         searches.append({"tool": "web", "query": safe})
+        say({"type": "tool_call", "data": {"tool": "web_research", "query": safe, "redactions": n}})
         text, sources, _ = await web_search(f"Answer concisely with facts and sources: {safe}", 3, "chat: web_research")
         found = await asyncio.to_thread(pubmed.summaries, pubmed.pmids_in_urls([s["url"] for s in sources]))
         papers.update(found)
         cites = "\n".join(f"PMID:{p['pmid']} {p['citation']}" for p in found.values())
-        return text + "\n\nSources:\n" + "\n".join(s["url"] for s in sources[:6]) + (f"\n\nCitable PubMed records:\n{cites}" if cites else "")
+        out = text + "\n\nSources:\n" + "\n".join(s["url"] for s in sources[:6]) + (f"\n\nCitable PubMed records:\n{cites}" if cites else "")
+        say({"type": "tool_result", "data": {"tool": "web_research", "content": out[:PREVIEW_CHARS]}})
+        return out
 
-    agent = create_agent(claude(ORCHESTRATOR_MODEL), [pubmed_search, web_research], name="assessment_chat",
+    agent = create_agent(claude(ORCHESTRATOR_MODEL, show_thinking=emit is not None), [pubmed_search, web_research], name="assessment_chat",
                          system_prompt=SYSTEM.format(p=PUBMED_PER_TURN, w=WEB_PER_TURN, record=json.dumps(record, indent=1),
                                                      report=json.dumps(_report_for_prompt(report), indent=1)))
     history = [HumanMessage(m["content"]) if m["role"] == "user" else AIMessage(m["content"]) for m in messages[-MAX_TURNS:]]
-    out = await agent.ainvoke({"messages": history},
-                              config={"run_name": f"assessment chat {report['run_id']}", "recursion_limit": 2 * (PUBMED_PER_TURN + WEB_PER_TURN) + 6})
-    last = out["messages"][-1]
-    text = last.content if isinstance(last.content, str) else "".join(b.get("text", "") for b in last.content if isinstance(b, dict) and b.get("type") == "text")
+    last: AIMessage | None = None
+    async for update in agent.astream({"messages": history}, stream_mode="updates",
+                                      config={"run_name": f"assessment chat {report['run_id']}", "recursion_limit": 2 * (PUBMED_PER_TURN + WEB_PER_TURN) + 6}):
+        for node_out in update.values():
+            for msg in node_out.get("messages", []) if isinstance(node_out, dict) else []:
+                if not isinstance(msg, AIMessage):
+                    continue
+                last = msg
+                for b in _blocks(msg):
+                    if b.get("type") == "thinking" and b.get("thinking", "").strip():
+                        say({"type": "thinking", "data": {"text": b["thinking"].strip()}})
+                    elif b.get("type") == "text" and msg.tool_calls and b.get("text", "").strip():
+                        # text alongside a tool call is the agent narrating its next step, not the answer
+                        say({"type": "thinking", "data": {"text": b["text"].strip()}})
+    text = "".join(b.get("text", "") for b in _blocks(last) if b.get("type") == "text") if last else ""
     (text,), refs, dropped = resolve_citations([text], papers)
     return {"answer": text, "references": [r.model_dump() for r in refs], "searches": searches,
             "dropped_citations": dropped, "query_redactions": budget["redactions"]}

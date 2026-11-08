@@ -4,7 +4,8 @@ import {
   DEMO_LANES, SAMPLE_PATIENT, STAGES, runDemoStage,
   type AgentStep, type DrugProfile, type Lane, type PipelineEvent, type StageId, type Weights,
 } from './pipeline'
-import { agentAvailable, runLiveAgent } from './agent-api'
+import { agentAvailable, runLiveAgent, type LiveIds } from './agent-api'
+import { clearRun, loadCase, loadRun, saveCase, saveRun, type SavedRun } from './session'
 
 /**
  * One discovery run, shared by every pipeline page (case → analysis → profiles →
@@ -39,6 +40,8 @@ export type RunState = {
   /** Live runs: scene.json for stage 3 (null → the demo scene) and the backend's report PDF for stage 4. */
   sceneSrc: string | null
   reportPdf: string | null
+  /** Live runs: the drug-assessment run id, which the report chat (/api/assess/<id>/chat) talks about. */
+  assessRunId: string | null
   matches: boolean
   candidates: boolean
   report: boolean
@@ -54,6 +57,7 @@ const initial: RunState = {
   error: null,
   sceneSrc: null,
   reportPdf: null,
+  assessRunId: null,
   matches: false,
   candidates: false,
   report: false,
@@ -88,7 +92,7 @@ function reducer(s: RunState, a: Action): RunState {
     case 'scene':
       return { ...s, sceneSrc: a.src, matches: true }
     case 'reportPdf':
-      return { ...s, reportPdf: a.url, candidates: true }
+      return { ...s, reportPdf: a.url, assessRunId: a.runId, candidates: true }
     case 'stage-start':
       return { ...s, phase: 'running' }
     case 'stage-end':
@@ -143,7 +147,12 @@ const Ctx = createContext<Store | null>(null)
 
 export function RunProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initial)
-  const [caseFile, setCaseFile] = useState<CaseFile | null>(null)
+  const [caseFile, setCaseFileState] = useState<CaseFile | null>(null)
+  // The upload is kept in the browser, so a reload doesn't lose it (lib/session.ts).
+  const setCaseFile = useCallback((f: CaseFile | null) => {
+    setCaseFileState(f)
+    void saveCase(f)
+  }, [])
   const [goal, setGoal] = useState(DEFAULT_GOAL)
   const [weights, setWeights] = useState<Weights>({ fit: true, safety: true, cost: true, availability: true, acceptance: true })
   const [date, setDate] = useState('')
@@ -194,6 +203,50 @@ export function RunProvider({ children }: { children: ReactNode }) {
     [apply, save],
   )
 
+  /** Run (or resume) the live pipeline, saving its backend ids as they appear so a reload can pick it up. */
+  const launch = useCallback(
+    (saved: SavedRun) => {
+      saveRun(saved)
+      const cancel = runLiveAgent(
+        saved.goal,
+        apply,
+        (error) => {
+          runner.current = null
+          if (error) return apply({ type: 'fail', error })
+          apply({ type: 'stage-end', last: true })
+          save()
+        },
+        saved.ids,
+        (ids: LiveIds) => saveRun({ ...saved, ids }),
+      )
+      runner.current = { cancel, skip: () => {} }
+    },
+    [apply, save],
+  )
+
+  // After a reload (or a discarded tab): bring back the case file and the live run, if any.
+  // The backend replays every event of a run on connect, so the run rebuilds at once,
+  // finished stages and report included, and nothing is started or paid for twice.
+  useEffect(() => {
+    let alive = true
+    void (async () => {
+      const file = await loadCase()
+      if (!alive) return
+      if (file) setCaseFileState(file)
+      const saved = loadRun()
+      if (!saved?.ids.research || snap.current.phase !== 'idle') return
+      meta.current = { when: saved.when, caseFile: file, goal: saved.goal, weights: saved.weights }
+      setDate(saved.when)
+      setGoal(saved.goal)
+      setWeights(saved.weights)
+      apply({ type: 'begin', source: 'live' })
+      launch(saved)
+    })()
+    return () => {
+      alive = false
+    }
+  }, [apply, launch])
+
   const starting = useRef(false)
   // Bumped by reset/open, so a start still awaiting the health check can't resurrect itself.
   const generation = useRef(0)
@@ -211,16 +264,11 @@ export function RunProvider({ children }: { children: ReactNode }) {
     setOpenedId(null)
     snap.current = initial
     apply({ type: 'begin', source: live ? 'live' : 'simulated' })
+    clearRun()
     if (!live) return runStage('analysis')
     // A live run goes straight through all four stages: research agents → DRKG → drug assessment.
-    const cancel = runLiveAgent(goal, apply, (error) => {
-      runner.current = null
-      if (error) return apply({ type: 'fail', error })
-      apply({ type: 'stage-end', last: true })
-      save()
-    })
-    runner.current = { cancel, skip: () => {} }
-  }, [apply, runStage, save, caseFile, goal, weights])
+    launch({ ids: {}, goal, when, weights })
+  }, [apply, runStage, launch, caseFile, goal, weights])
 
   const advance = useCallback(() => {
     const next = nextStage(snap.current)
@@ -230,6 +278,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
   const skip = useCallback(() => runner.current?.skip(), [])
 
   const reset = useCallback(() => {
+    clearRun()
     generation.current++
     runner.current?.cancel()
     runner.current = null
@@ -244,7 +293,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     runner.current = null
     snap.current = run.snapshot
     dispatch({ type: 'load', state: run.snapshot })
-    setCaseFile(run.caseFile)
+    setCaseFileState(run.caseFile)
     setGoal(run.goal)
     setWeights(run.weights)
     setDate(run.date)

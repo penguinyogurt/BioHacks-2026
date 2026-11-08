@@ -41,6 +41,25 @@ for both, since it reads the ranked profiles.
 it's public data only). The profile cards' "Evidence returned" row shows it.
 `chars` now counts that text rather than the repr of MCP's content list.
 
+**Neo — `report_pdf.py` was rewritten (Jeremy's request):** the assessment PDF is now
+a scientific paper (IMRaD: abstract, methods incl. DRKG retrieval, Table 1 + one
+subsection per candidate, discussion, declarations, Vancouver references; serif,
+justified). Same `render(report) -> bytes`, so `/report.pdf` and `assess.py` are
+untouched; it also renders old reports without `score`. `schemas.py`'s summary and
+limitations now ask for third-person scientific register (future runs only).
+
+**Report chat (Jeremy's request):** the Research report page has an "Ask about this report"
+chat under the PDF once a live assessment finishes (`frontend/src/components/discovery/research-chat.tsx`).
+It streams from a new `POST /api/assess/<id>/chat/stream` (SSE: `thinking`, `tool_call`,
+`tool_result`, then `answer`/`error`); the old `/chat` is unchanged. **Neo:** `chat.answer()`
+takes an optional `emit`, tool calls are emitted after redaction (what actually left), and
+`llm.claude(..., show_thinking=True)` sets `thinking.display: "summarized"` for the streamed
+chat only. Opus 5.5 returns empty thinking text by default, so without it there's no visible reasoning.
+
+- **A reload no longer loses the run.** The current run's three backend ids and the
+  uploaded case PDF are kept in the browser (`frontend/src/lib/session.ts`); on load
+  the app reconnects and the backend replays every event, so finished stages and the
+  report come back with nothing re-run. "Clear run" forgets it.
 - **Restart the backend** to pick up `/api/drkg`, and never with `uvicorn --reload`
   (Windows: subprocesses raise NotImplementedError under it). `numpy` is new in
   `requirements.txt`.
