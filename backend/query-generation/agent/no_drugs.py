@@ -42,7 +42,7 @@ _KEEP = {"glutamate", "creatine", "sodium", "potassium", "calcium", "magnesium",
 def lexicon() -> tuple[re.Pattern, ...]:
     names: set[str] = set(_STATIC)
     from agent.config import ROOT
-    for ingredient in json.loads((ROOT/"examples/als-study-cache.json").read_text())["ingredients"]:
+    for ingredient in json.loads((ROOT/"examples/als-study-cache.json").read_text(encoding="utf-8"))["ingredients"]:
         names.update([ingredient["name"].lower(),*(n.lower() for n in ingredient["aliases"])])
     names = {n for n in names if len(n) >= 4 and n not in _KEEP}
     # Multi-word names first ("botulinum toxin" before "botulinum").

@@ -121,8 +121,8 @@ def write_outputs(report, out, load_agent):
         return f"[{names[node]}]({node.split('::')[1]}.md)"
     dossier_ids=set(report["trial_gate"]["evidence"]) | {item["id"] for item in report["advanced"]}
     for node in sorted(dossier_ids):
-        (folder / (node.split("::")[1]+".md")).write_text(dossier(report,node,load_agent))
-    (folder/"query-traces.md").write_text(trace_report(report))
+        (folder / (node.split("::")[1]+".md")).write_text(dossier(report,node,load_agent),encoding="utf-8")
+    (folder/"query-traces.md").write_text(trace_report(report),encoding="utf-8")
     gate = report["trial_gate"]
     strict = report["aggregation"]
     lines = ["# ALS discovery and human-outcome reassessment", "",
@@ -206,7 +206,7 @@ def write_outputs(report, out, load_agent):
             "| Lead | Compound | Internal ranking score | Decision |","|---:|---|---:|---|"]
     for row in report["discovery_leads"]:
         lines.append(f"| {row['rank']} | {names[row['id']]} ({row['id']}) | {row['internal_ranking_score']:.4f} | {row['disposition']} |")
-    (folder/"summary.md").write_text("\n".join(lines)+"\n")
+    (folder/"summary.md").write_text("\n".join(lines)+"\n",encoding="utf-8")
 
 
 def trace_report(report):

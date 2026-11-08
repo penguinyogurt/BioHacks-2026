@@ -957,6 +957,40 @@
       "other_findings": "A lead found in the expanded graph search has prior human testing despite its absence from the older cache.",
       "clinical_question": "ALS disease course",
       "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB03614"
+      ],
+      "study_id": "PMID:30636701",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/30636701/",
+      "role": "negative",
+      "design": "Randomized placebo-controlled phase II/III trial",
+      "population": "373 people with ALS, duration up to 36 months",
+      "route": "Intramuscular methylcobalamin 25 mg or 50 mg",
+      "primary_endpoint": "Time to death or full ventilation support; ALSFRS-R change to week 182",
+      "finding": "No significant difference in either primary endpoint.",
+      "safety": "Treatment-related adverse events were similar and low in all groups.",
+      "other_findings": "Post-hoc, patients entered within 12 months of onset had a longer time to the primary event and less ALSFRS-R decline.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
+    },
+    {
+      "applies_to": [
+        "Compound::DB03614"
+      ],
+      "study_id": "PMID:35532908",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/35532908/",
+      "role": "favorable",
+      "design": "Randomized double-blind placebo-controlled phase 3 trial",
+      "population": "130 people with ALS within 1 year of onset, moderate progression, %FVC above 60",
+      "route": "Intramuscular methylcobalamin 50 mg twice weekly for 16 weeks",
+      "primary_endpoint": "ALSFRS-R change to week 16",
+      "finding": "ALSFRS-R declined 1.97 points less than placebo at week 16 (95% CI 0.44-3.50).",
+      "safety": "The incidence of adverse events was similar between groups.",
+      "other_findings": "Enrollment was limited to early-stage disease; the earlier broader trial missed its primary endpoints.",
+      "clinical_question": "ALS disease course",
+      "basis": "controlled human intervention"
     }
   ],
   "delivery": {

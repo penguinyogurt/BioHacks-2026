@@ -48,7 +48,7 @@ def fixture():
          "current_therapy":"therapy", "swallow":"Coughs on thin liquids"}}
     s = {"applies_with":MED, "policy":"fixture", "source":LINK, "exclude":{},
          "reviewed":{u:{"finding":"narrow review","source":LINK} for u in (U,A)}}
-    original = json.loads((ROOT/"examples/als-study-cache.json").read_text())
+    original = json.loads((ROOT/"examples/als-study-cache.json").read_text(encoding="utf-8"))
     study = dict(original["studies"][0], tested_ingredients=["Form A"], source=LINK, study_id="PMID:1")
     def ingredient(node,name,aliases):
         return dict(id=node,name=name,aliases=aliases,classification="Investigational in ALS")
@@ -63,7 +63,7 @@ class PatientGateTests(unittest.TestCase):
         clinical = {"reports":[{"applies_to":[A],"role":"favorable","basis":"controlled human intervention",
             "source":LINK,"clinical_question":"ALS function", **{f:"fixture" for f in
             ("design","population","route","primary_endpoint","finding","safety")}}]}
-        policy = json.loads((ROOT/"examples/fallback-policy.json").read_text())
+        policy = json.loads((ROOT/"examples/fallback-policy.json").read_text(encoding="utf-8"))
         records = {n:{"action":"reviewed","sources":[[LINK,"fixture"]], "patient_safety_screen":{
                       "status":"pass","finding":"case assessed","sources":[LINK]}} for n in (A,U)}
         chart = {"case":copy.deepcopy(p), "records":records}

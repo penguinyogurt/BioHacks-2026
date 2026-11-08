@@ -209,6 +209,16 @@
       "identity_source": "https://go.drugbank.com/drugs/DB11947",
       "classification": "Investigational in ALS",
       "classification_source": null
+    },
+    {
+      "id": "Compound::DB03614",
+      "name": "Mecobalamin",
+      "aliases": [
+        "Methylcobalamin"
+      ],
+      "identity_source": "https://go.drugbank.com/drugs/DB03614",
+      "classification": "Investigational in ALS",
+      "classification_source": null
     }
   ],
   "studies": [
@@ -654,6 +664,48 @@
       "administration_evidence": "The investigators report participants treated in the active and placebo arms.",
       "outcome": "negative",
       "result": "No significant benefit on joint function and survival. Disease rate ratio 0.99 (95% credible interval 0.80 to 1.21)."
+    },
+    {
+      "study_id": "PMID:30636701",
+      "registry_ids": [
+        "NCT00444613"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/30636701/",
+      "title": "Ultra-high-dose methylcobalamin in amyotrophic lateral sclerosis: a long-term phase II/III randomised controlled study.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "373 people with ALS, duration up to 36 months",
+      "tested_ingredients": [
+        "Mecobalamin"
+      ],
+      "formulation": "Intramuscular methylcobalamin 25 mg or 50 mg versus placebo",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Mecobalamin. No significant difference in either primary endpoint.",
+      "outcome": "negative",
+      "result": "No significant differences in time to death or full ventilation support or in ALSFRS-R change to week 182 (minimal p=0.087). Benefit appeared only in a post-hoc subgroup entered within 12 months of onset."
+    },
+    {
+      "study_id": "PMID:35532908",
+      "registry_ids": [
+        "NCT03548311"
+      ],
+      "source": "https://pubmed.ncbi.nlm.nih.gov/35532908/",
+      "title": "Efficacy and Safety of Ultrahigh-Dose Methylcobalamin in Early-Stage Amyotrophic Lateral Sclerosis: A Randomized Clinical Trial.",
+      "evidence_kind": "primary publication",
+      "human_als": true,
+      "interventional": true,
+      "administered": true,
+      "population": "130 people with ALS within 1 year of onset, moderate progression, %FVC above 60",
+      "tested_ingredients": [
+        "Mecobalamin"
+      ],
+      "formulation": "Intramuscular methylcobalamin 50 mg twice weekly versus placebo for 16 weeks",
+      "status": "completed",
+      "administration_evidence": "The investigators report on-treatment observations for Mecobalamin. ALSFRS-R declined less than on placebo.",
+      "outcome": "positive",
+      "result": "ALSFRS-R at week 16 was 1.97 points better than placebo (-2.66 vs -4.63; 95% CI 0.44-3.50; P=.01). Adverse events were similar."
     }
   ],
   "formulation_checks": [

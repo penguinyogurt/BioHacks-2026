@@ -24,8 +24,8 @@ def decide(studies, delivery=None, administered=None):
 
 class EvidenceTests(unittest.TestCase):
     def test_minocycline_harm_supersedes_earlier_tolerability_and_high_score(self):
-        clinical = json.loads((ROOT/"examples/clinical-reassessment.json").read_text())
-        old = json.loads((ROOT/"snapshots/alex-gated.json").read_text())
+        clinical = json.loads((ROOT/"examples/clinical-reassessment.json").read_text(encoding="utf-8"))
+        old = json.loads((ROOT/"snapshots/alex-gated.json").read_text(encoding="utf-8"))
         row = old["fallback"]["final"][1]
         self.assertEqual(row["id"], "Compound::DB01017")
         self.assertGreater(row["score"], 0.5)
@@ -74,10 +74,10 @@ class EvidenceTests(unittest.TestCase):
         from ranking.intersection import NAMES
         root = ROOT / "examples"
         node = "Compound::DB01017"
-        clinical = json.loads((root/"clinical-reassessment.json").read_text())
-        catalog = json.loads((root/"als-study-cache.json").read_text())
+        clinical = json.loads((root/"clinical-reassessment.json").read_text(encoding="utf-8"))
+        catalog = json.loads((root/"als-study-cache.json").read_text(encoding="utf-8"))
         decision = assess(node,[s for s in catalog["studies"] if "Minocycline" in s["tested_ingredients"]],clinical)
-        policy = json.loads((root/"fallback-policy.json").read_text())
+        policy = json.loads((root/"fallback-policy.json").read_text(encoding="utf-8"))
         decision["review"] = {"action":"reviewed","patient_safety_screen":
                               {"status":"pass","sources":[PMID],"finding":"fixture screen"}}
         for drop_agent in (False, True):
