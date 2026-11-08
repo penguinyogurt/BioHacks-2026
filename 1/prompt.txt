@@ -1,0 +1,1 @@
+Option 1 i just want to see the tool calls specifically. Make sure that after the agent responds it the chat always goes to the bottom so that the streaming is clear and it doesn't get stuck on a tool call
