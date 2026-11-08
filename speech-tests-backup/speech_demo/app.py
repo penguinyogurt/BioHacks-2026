@@ -7,6 +7,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.request import urlopen
 
+import facecheck_routes
 import calibration as cal
 from engine import PASSAGE, ROOT, compare
 
@@ -30,6 +31,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.headers.get("Host")!=URL[7:]:
             return self.send_error(403)
+        if self.path.startswith("/facecheck/"):
+            return facecheck_routes.serve(self)
         if self.path=="/calibration":
             with LOCK:
                 state=cal.current_state()

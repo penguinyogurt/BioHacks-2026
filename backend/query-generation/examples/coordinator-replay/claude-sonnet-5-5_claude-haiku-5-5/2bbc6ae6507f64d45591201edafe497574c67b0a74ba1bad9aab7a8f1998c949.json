@@ -1,0 +1,207 @@
+{
+  "model": "claude-haiku-5-5",
+  "profiles": [
+    {
+      "therapeutic_goal": "Provide a non-sedating, low-exposure neuroprotective oral agent that can be given as a liquid or dispersible formulation, with no meaningful effect on appetite, respiratory drive, muscle enzymes, or hand-dependent administration.",
+      "mechanism_of_action": "A small-molecule free-radical scavenger that lowers oxidative and lipid-peroxidation stress in motor neurons and their supporting tissue. It should be dosed as a liquid oral suspension or other non-dexterity-dependent formulation, with clinically modest systemic exposure and no CNS depressant activity.",
+      "molecular_targets": [
+        {
+          "symbol": "ROS",
+          "desired_action": "modulate",
+          "rationale": "Oxidative stress is a recognized contributor to motor neuron injury in ALS, so reducing reactive oxygen species burden is a plausible protective strategy. Activity must not come with sedation or respiratory depression."
+        }
+      ],
+      "pathways": [
+        "oxidative stress and lipid peroxidation",
+        "motor neuron survival signaling"
+      ],
+      "site_of_action": [
+        "spinal cord anterior horn motor neurons",
+        "systemic circulation with CNS penetration"
+      ],
+      "required_properties": [
+        "liquid oral suspension or other formulation usable with possible swallowing difficulty (hypothesis only)",
+        "no dexterity-dependent administration step",
+        "no appetite-suppressing or weight-reducing effect",
+        "no CK-raising or myopathic signal",
+        "no respiratory depressant activity",
+        "CNS-penetrant at neuroprotective exposure"
+      ],
+      "avoid_properties": [
+        "respiratory depressants",
+        "sedating agents",
+        "agents that suppress appetite or cause weight loss",
+        "agents that raise muscle enzymes or cause myopathy",
+        "agents that impair swallowing or increase aspiration risk",
+        "narrow therapeutic index with high interaction liability"
+      ],
+      "lessons_from_failures": [
+        "Free-radical scavengers have shown limited efficacy in ALS, so their value may be mainly as a tolerable adjunct rather than a disease-modifying agent.",
+        "Interaction magnitude, exposure in severe bulbar disease, and liquid-formulation tolerability are not established in the receipts and remain unknown."
+      ],
+      "target_validation": "mechanistic",
+      "confidence": 0.4,
+      "evidence": [
+        {
+          "source": "pubmed",
+          "id": "38691665",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38691665/",
+          "claim": "A 2024 review describes a liquid oral suspension formulation of a free-radical scavenging ALS agent, relevant to the swallowing-difficulty hypothesis."
+        }
+      ]
+    }
+  ],
+  "dead_ends": [],
+  "rejected": [],
+  "events": [
+    {
+      "type": "subagent_started",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "criterion": "safety-interactions-class",
+        "objective": "Identify candidate drug classes and individual agents for ALS repurposing and flag pharmacological interactions and tolerability concerns relevant to a profile of reduced respiratory reserve, unintentional weight loss, raised muscle-enzyme levels, possible swallowing difficulty with liquids (hypothesis only), and impaired hand function. No active index therapy is assumed, so evaluate intrinsic tolerability rather than interactions with a current index therapy. Report where interaction magnitude, exposure or route-specific tolerability is unknown rather than inferring it.",
+        "constraints": [
+          "Favor agents with a tolerability profile compatible with limited respiratory reserve",
+          "Favor agents with minimal effect on appetite or body weight",
+          "Favor agents with minimal muscle toxicity or effect on muscle-enzyme levels",
+          "Favor formulations usable with possible swallowing difficulty, such as liquid, dispersible, or non-oral forms, treating the swallowing impairment as a hypothesis",
+          "Favor formulations that do not require fine hand dexterity to administer",
+          "State explicitly when interaction or tolerability evidence is absent or uncertain"
+        ],
+        "avoid": [
+          "Respiratory depressants",
+          "Agents that cause or worsen muscle weakness",
+          "Agents that cause myopathy or raise muscle-enzyme levels",
+          "Agents that suppress appetite or cause weight loss",
+          "Agents that impair swallowing or increase aspiration risk, such as strongly sedating or anticholinergic drugs",
+          "Agents with a narrow therapeutic index and significant interaction liability"
+        ]
+      }
+    },
+    {
+      "type": "tool_call",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "tool": "search_pubmed",
+        "args": {
+          "query": "amyotrophic lateral sclerosis drug repurposing adverse events weight loss respiratory function tolerability",
+          "max_results": 6
+        }
+      }
+    },
+    {
+      "type": "tool_call",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "tool": "search_pubmed",
+        "args": {
+          "query": "amyotrophic lateral sclerosis trial discontinuation adverse events respiratory depression sedation",
+          "max_results": 6
+        }
+      }
+    },
+    {
+      "type": "tool_call",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "tool": "search_als_trials",
+        "args": {
+          "status": "TERMINATED",
+          "max_results": 8
+        }
+      }
+    },
+    {
+      "type": "tool_result",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "tool": "search_pubmed",
+        "chars": 2,
+        "error": false,
+        "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "type": "tool_result",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "tool": "search_pubmed",
+        "chars": 2,
+        "error": false,
+        "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "type": "tool_result",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "tool": "search_als_trials",
+        "chars": 4243,
+        "error": false,
+        "content_sha256": "86458875412cd03c8aef6946fd98ce33955820be7b0abad6947f9b090cf69790"
+      }
+    },
+    {
+      "type": "tool_call",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "tool": "search_pubmed",
+        "args": {
+          "query": "edaravone oral suspension amyotrophic lateral sclerosis safety swallowing",
+          "max_results": 5
+        }
+      }
+    },
+    {
+      "type": "tool_call",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "tool": "search_pubmed",
+        "args": {
+          "query": "tofersen intrathecal amyotrophic lateral sclerosis safety adverse events myelitis",
+          "max_results": 5
+        }
+      }
+    },
+    {
+      "type": "tool_result",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "tool": "search_pubmed",
+        "chars": 312,
+        "error": false,
+        "content_sha256": "5c909e650d1b1be6095f96128541d40d2d43b8916466a49d30db5bc3651f918d"
+      }
+    },
+    {
+      "type": "tool_result",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "tool": "search_pubmed",
+        "chars": 322,
+        "error": false,
+        "content_sha256": "b1d67c25f2995038420051b2102043ded4811f9bd0acd157ff185202bb293b15"
+      }
+    },
+    {
+      "type": "subagent_finished",
+      "criterion": "safety-interactions-class",
+      "data": {
+        "profiles": 2,
+        "goals": [
+          "Provide a non-sedating, low-exposure neuroprotective oral agent that can be given as a liquid or dispersible formulation, with no meaningful effect on appetite, respiratory drive, muscle enzymes, or hand-dependent administration.",
+          ""
+        ],
+        "targets": [
+          [
+            "ROS"
+          ],
+          []
+        ],
+        "dead_ends": []
+      }
+    }
+  ],
+  "access": "live",
+  "cache_key": "2bbc6ae6507f64d45591201edafe497574c67b0a74ba1bad9aab7a8f1998c949"
+}

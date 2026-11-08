@@ -1,0 +1,7 @@
+/data
+reports/
+*.npy
+*.npz
+*.tar.gz
+agent/.env
+/.venv

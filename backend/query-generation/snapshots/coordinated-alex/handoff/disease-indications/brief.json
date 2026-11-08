@@ -1,0 +1,40 @@
+{
+  "dispatched_brief": {
+    "criterion": "disease-indications",
+    "objective": "Find agents with evidence for slowing functional decline or prolonging survival in amyotrophic lateral sclerosis, including approved, trial-stage and off-label evidence, noting the trial phenotype and the strength of the evidence.",
+    "goal_provenance": "research objective",
+    "facts": [
+      {
+        "field": "diagnosis",
+        "pointer": "patient_profile.summary",
+        "status": "reported",
+        "concept": "als",
+        "quote": "Amyotrophic Lateral Sclerosis",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      }
+    ],
+    "constraints": [
+      "Evidence in amyotrophic lateral sclerosis populations",
+      "Report trial phase, phenotype enrolled and outcome measures (functional scale, survival)",
+      "Distinguish approved use from investigational or off-label evidence"
+    ],
+    "avoid": [
+      "Evidence from non-ALS motor neuron conditions presented as ALS evidence",
+      "Extrapolating group-level results to individual response"
+    ],
+    "unknowns": [
+      "Individual response and applicable trial phenotype.",
+      "The record does not state the patient's own treatment priorities."
+    ],
+    "mechanism_scope": "",
+    "planner": "claude"
+  },
+  "local_source_quotes": {
+    "diagnosis": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.summary",
+      "quote": "Limb-onset ALS, diagnosed 2026."
+    }
+  }
+}

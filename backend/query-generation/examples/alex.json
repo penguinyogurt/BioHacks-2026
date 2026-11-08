@@ -1,0 +1,25 @@
+{
+  "case_id": "alex",
+  "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+  "scope": "Project example case; facts are reported by the case, not independently confirmed clinical observations.",
+  "facts": {
+    "diagnosis": "Limb-onset ALS, diagnosed 2026.",
+    "current_therapy": "Riluzole 50 mg BID",
+    "respiratory": "FVC 76% sitting, 61% supine",
+    "weight": "86 → 77.5 kg, unintentional",
+    "muscle": "470 U/L (ref < 195)",
+    "swallow": "Coughs on thin liquids",
+    "hand_function": "Right pinch 3 kg, grip 14 kg",
+    "jurisdiction": "Lives in Hamilton, Ontario."
+  },
+  "pointers": {
+    "diagnosis": "patient_profile.summary",
+    "current_therapy": "patient_profile.findings[0].value",
+    "respiratory": "patient_profile.findings[1].value",
+    "weight": "patient_profile.findings[2].value",
+    "muscle": "patient_profile.findings[3].value",
+    "swallow": "patient_profile.findings[4].value",
+    "hand_function": "patient_profile.findings[5].value",
+    "jurisdiction": "patient_profile.summary"
+  }
+}

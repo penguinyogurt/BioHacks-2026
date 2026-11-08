@@ -1,0 +1,9 @@
+langgraph==1.2.20
+langchain-anthropic==1.7.10
+pydantic==2.14.3
+python-dotenv==1.2.4
+httpx==0.28.1
+numpy==2.4.6
+langchain==1.4.9
+langchain-mcp-adapters==0.3.2
+mcp==1.30.0

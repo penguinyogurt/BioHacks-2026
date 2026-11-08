@@ -1,0 +1,281 @@
+{
+  "project": "ALS drug discovery and reassessment",
+  "coordinator": {
+    "source_revision": "99458b4321133d93242b2f29ab744d2c85caab58",
+    "stages": [
+      "load_patient",
+      "plan",
+      "research × 5",
+      "verify",
+      "synthesize"
+    ],
+    "planner": "claude",
+    "planner_model": "claude-sonnet-5-5"
+  },
+  "model_workers": "claude-haiku-5-5",
+  "pool": {
+    "verified_als_in_scored_pool": 16,
+    "unknown_als_testing_in_scored_pool": 10524,
+    "rule": "Exact DRKG Compound::DB plus five digits; one canonical DrugBank ID each. No unverified alias merges.",
+    "canonical_count": 10551,
+    "eligible_count": 10540,
+    "exclusions": {
+      "Compound::DB00740": {
+        "name": "Riluzole",
+        "reason": "Current therapy",
+        "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json"
+      },
+      "Compound::DB00537": {
+        "name": "ciprofloxacin",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00467": {
+        "name": "enoxacin",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00176": {
+        "name": "fluvoxamine",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00553": {
+        "name": "methoxsalen",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00379": {
+        "name": "mexiletine",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00730": {
+        "name": "thiabendazole",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB08881": {
+        "name": "vemurafenib",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00744": {
+        "name": "zileuton",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00996": {
+        "id": "Compound::DB00996",
+        "name": "gabapentin",
+        "fact": "respiratory",
+        "case_value": "FVC 76% sitting, 61% supine",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=1045db4e-4c76-4a0d-bf12-019bd96a8f59",
+        "reason": "Conservative exclusion for reduced respiratory reserve in this case. Section 5.8 warns of respiratory depression with underlying respiratory impairment; this is a monitoring warning, not an absolute contraindication."
+      }
+    }
+  },
+  "assumption": "Adequate local delivery is a research assumption. Passive BBB permeability is outside ranking. Exposure, engagement and focused-ultrasound feasibility require separate evidence.",
+  "prior_testing": "bounded evidence annotation",
+  "advanced": [],
+  "discovery_leads": [
+    {
+      "id": "Compound::DB11846",
+      "rank": 1,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.264,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB00624",
+      "rank": 2,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.22,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB03614",
+      "rank": 3,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.20842105263157895,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB02530",
+      "rank": 4,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.198,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB03128",
+      "rank": 5,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.18857142857142856,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB00877",
+      "rank": 6,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.18,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB11094",
+      "rank": 7,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.17217391304347826,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB00313",
+      "rank": 8,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.165,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB00908",
+      "rank": 9,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.14666666666666667,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB08844",
+      "rank": 10,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.14142857142857143,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB00536",
+      "rank": 11,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.13655172413793104,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB00661",
+      "rank": 12,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.132,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB00181",
+      "rank": 13,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.12774193548387097,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB09421",
+      "rank": 14,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.12375,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB01037",
+      "rank": 15,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.12,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB00156",
+      "rank": 16,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.11,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB00514",
+      "rank": 17,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.10702702702702703,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB08834",
+      "rank": 18,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.10421052631578948,
+      "disposition": "unresolved patient safety"
+    },
+    {
+      "id": "Compound::DB14509",
+      "rank": 19,
+      "study_status": "unverified in bounded cache",
+      "internal_ranking_score": 0.10153846153846154,
+      "disposition": "unresolved patient safety"
+    }
+  ],
+  "strict": {
+    "status": "five-way ranking unavailable",
+    "abstained": [
+      "disease-indications",
+      "genes-targets",
+      "safety-interactions-class",
+      "pathways-processes",
+      "symptoms-function"
+    ],
+    "supported_sizes": {
+      "disease-indications": 0,
+      "genes-targets": 0,
+      "safety-interactions-class": 0,
+      "pathways-processes": 0,
+      "symptoms-function": 0
+    },
+    "top_k": 100,
+    "list_sizes": {
+      "disease-indications": 0,
+      "genes-targets": 0,
+      "safety-interactions-class": 0,
+      "pathways-processes": 0,
+      "symptoms-function": 0
+    },
+    "pairwise_overlap": {
+      "disease-indications / genes-targets": 0,
+      "disease-indications / safety-interactions-class": 0,
+      "disease-indications / pathways-processes": 0,
+      "disease-indications / symptoms-function": 0,
+      "genes-targets / safety-interactions-class": 0,
+      "genes-targets / pathways-processes": 0,
+      "genes-targets / symptoms-function": 0,
+      "safety-interactions-class / pathways-processes": 0,
+      "safety-interactions-class / symptoms-function": 0,
+      "pathways-processes / symptoms-function": 0
+    },
+    "five_way_overlap": 0,
+    "final": [],
+    "cleared_count": 0,
+    "blocking_reason": "No investigational ingredient cleared both the human outcomes and case safety rules."
+  },
+  "fallback": {
+    "evaluated": 10540,
+    "cleared": 0,
+    "final": []
+  },
+  "statuses": {
+    "discovery prediction only; no supported rationale for advancement": 10505,
+    "negative efficacy; retained only": 10,
+    "unresolved patient safety": 19,
+    "excluded for human harm": 4,
+    "unresolved": 2
+  },
+  "distances_recalculated": [
+    105400,
+    84320
+  ],
+  "category_files": {
+    "disease-indications": "handoff/disease-indications/",
+    "genes-targets": "handoff/genes-targets/",
+    "safety-interactions-class": "handoff/safety-interactions-class/",
+    "pathways-processes": "handoff/pathways-processes/",
+    "symptoms-function": "handoff/symptoms-function/"
+  },
+  "full_output": "reports/alex-coordinated.json"
+}

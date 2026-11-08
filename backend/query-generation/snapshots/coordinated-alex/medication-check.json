@@ -1,0 +1,219 @@
+{
+  "summary": {
+    "disease-indications": {
+      "brief_changed": false,
+      "queries": [
+        3,
+        3
+      ],
+      "max_paired_l2": 0.0,
+      "changed_retrieval_ranks": 0,
+      "changed_fusion_ranks": 0
+    },
+    "genes-targets": {
+      "brief_changed": false,
+      "queries": [
+        1,
+        1
+      ],
+      "max_paired_l2": 0.0,
+      "changed_retrieval_ranks": 0,
+      "changed_fusion_ranks": 0
+    },
+    "safety-interactions-class": {
+      "brief_changed": true,
+      "queries": [
+        2,
+        0
+      ],
+      "max_paired_l2": null,
+      "changed_retrieval_ranks": 10540,
+      "changed_fusion_ranks": 1
+    },
+    "pathways-processes": {
+      "brief_changed": false,
+      "queries": [
+        1,
+        1
+      ],
+      "max_paired_l2": 0.0,
+      "changed_retrieval_ranks": 0,
+      "changed_fusion_ranks": 0
+    },
+    "symptoms-function": {
+      "brief_changed": false,
+      "queries": [
+        3,
+        3
+      ],
+      "max_paired_l2": 0.0,
+      "changed_retrieval_ranks": 0,
+      "changed_fusion_ranks": 0
+    }
+  },
+  "removed_queries": [
+    "e[Gene::1544] + r[DGIDB::INHIBITOR::Gene:Compound]",
+    "e[Gene::1544] - r[GNBR::N::Compound:Gene]"
+  ],
+  "baseline_pool": 10540,
+  "natural_newly_eligible": [
+    "Compound::DB00176",
+    "Compound::DB00379",
+    "Compound::DB00467",
+    "Compound::DB00537",
+    "Compound::DB00553",
+    "Compound::DB00730",
+    "Compound::DB00744",
+    "Compound::DB08881"
+  ],
+  "case_exclusions": [
+    {
+      "Compound::DB00740": {
+        "name": "Riluzole",
+        "reason": "Current therapy",
+        "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json"
+      },
+      "Compound::DB00537": {
+        "name": "ciprofloxacin",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00467": {
+        "name": "enoxacin",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00176": {
+        "name": "fluvoxamine",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00553": {
+        "name": "methoxsalen",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00379": {
+        "name": "mexiletine",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00730": {
+        "name": "thiabendazole",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB08881": {
+        "name": "vemurafenib",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00744": {
+        "name": "zileuton",
+        "reason": "Exclude named compounds with a verified label warning for increased riluzole exposure under this conservative research screen. A label warning does not establish an adverse event or an absolute contraindication.",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      },
+      "Compound::DB00996": {
+        "id": "Compound::DB00996",
+        "name": "gabapentin",
+        "fact": "respiratory",
+        "case_value": "FVC 76% sitting, 61% supine",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=1045db4e-4c76-4a0d-bf12-019bd96a8f59",
+        "reason": "Conservative exclusion for reduced respiratory reserve in this case. Section 5.8 warns of respiratory depression with underlying respiratory impairment; this is a monitoring warning, not an absolute contraindication."
+      }
+    },
+    {
+      "Compound::DB00996": {
+        "id": "Compound::DB00996",
+        "name": "gabapentin",
+        "fact": "respiratory",
+        "case_value": "FVC 76% sitting, 61% supine",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=1045db4e-4c76-4a0d-bf12-019bd96a8f59",
+        "reason": "Conservative exclusion for reduced respiratory reserve in this case. Section 5.8 warns of respiratory depression with underlying respiratory impairment; this is a monitoring warning, not an absolute contraindication."
+      }
+    }
+  ],
+  "safety_or_score_changes": {
+    "Compound::DB00148": [
+      {
+        "case_review": "unknown",
+        "ddi_edges": [],
+        "penalty": 0.0,
+        "score": 0.36,
+        "disposition": "negative efficacy; retained only"
+      },
+      {
+        "case_review": "unreviewed",
+        "ddi_edges": [],
+        "penalty": 0.0,
+        "score": 0.36,
+        "disposition": "negative efficacy; retained only"
+      }
+    ],
+    "Compound::DB01017": [
+      {
+        "case_review": "caution",
+        "ddi_edges": [
+          [
+            "Compound::DB00740",
+            "DRUGBANK::ddi-interactor-in::Compound:Compound",
+            "Compound::DB01017"
+          ]
+        ],
+        "penalty": 0.04,
+        "score": 0.11839999999999998,
+        "disposition": "excluded for human harm"
+      },
+      {
+        "case_review": "caution",
+        "ddi_edges": [],
+        "penalty": 0.04,
+        "score": 0.11839999999999998,
+        "disposition": "excluded for human harm"
+      }
+    ],
+    "Compound::DB01043": [
+      {
+        "case_review": "unknown",
+        "ddi_edges": [],
+        "penalty": 0.0,
+        "score": 0.2823076923076923,
+        "disposition": "negative efficacy; retained only"
+      },
+      {
+        "case_review": "unreviewed",
+        "ddi_edges": [],
+        "penalty": 0.0,
+        "score": 0.1523076923076923,
+        "disposition": "negative efficacy; retained only"
+      }
+    ],
+    "Compound::DB01065": [
+      {
+        "case_review": "caution",
+        "ddi_edges": [
+          [
+            "Compound::DB00740",
+            "DRUGBANK::ddi-interactor-in::Compound:Compound",
+            "Compound::DB01065"
+          ]
+        ],
+        "penalty": 0.04,
+        "score": 0.19294117647058823,
+        "disposition": "unresolved"
+      },
+      {
+        "case_review": "caution",
+        "ddi_edges": [],
+        "penalty": 0.04,
+        "score": 0.19294117647058823,
+        "disposition": "unresolved"
+      }
+    ]
+  },
+  "advanced": [
+    [],
+    []
+  ],
+  "omitted": "All baseline concern ranks disappear. Complete record-by-record deltas are in reports/alex-coordinated-medication-check.json."
+}

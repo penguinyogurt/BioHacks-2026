@@ -1,0 +1,603 @@
+{
+  "local_source_ledger": {
+    "diagnosis": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.summary",
+      "quote": "Limb-onset ALS, diagnosed 2026."
+    }
+  },
+  "searches": [
+    {
+      "kind": "primary literature search",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+randomized+survival+function%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json",
+      "status": "found",
+      "records": [
+        {
+          "id": "42780196",
+          "title": "Case Report: Autologous bone marrow mononuclear cell transplantation improved motor function in a patient with amyotrophic lateral sclerosis.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42780196/"
+        },
+        {
+          "id": "42508294",
+          "title": "Huoling Shengji granule in amyotrophic lateral sclerosis: A multicenter, randomized, double-blind, riluzole-controlled trial.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42508294/"
+        },
+        {
+          "id": "42709218",
+          "title": "Early weight loss predicts poorer prognosis and highlights limitations of predictive energy equations in amyotrophic lateral sclerosis.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42709218/"
+        },
+        {
+          "id": "42751965",
+          "title": "Comparing Missing Data Strategies for Generalized Pairwise Comparisons in Randomized Clinical Trials: A Simulation Study.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42751965/"
+        },
+        {
+          "id": "42301686",
+          "title": "Efficacy of Sodium Phenylbutyrate-Taurursodiol in Amyotrophic Lateral Sclerosis: A Systematic Review and Meta-Analysis.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42301686/"
+        }
+      ],
+      "sha256": "895a23ff4d244a0753f7e8dc949fc9eb1ab472258e97c2e91c9edff3ae7fceb8",
+      "fetched_at": "2026-11-08T05:57:18.407256+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "registry search",
+      "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=survival+ALSFRS-R&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus",
+      "status": "found",
+      "records": [
+        {
+          "id": "NCT07322003",
+          "title": "Pridopidine Phase 3 Study to Evaluate Efficacy and Safety in ALS",
+          "status": "RECRUITING",
+          "url": "https://clinicaltrials.gov/study/NCT07322003"
+        },
+        {
+          "id": "NCT04885374",
+          "title": "China Amyotrophic Lateral Sclerosis Registry of Patients With Traditional Chinese Medicine",
+          "status": "RECRUITING",
+          "url": "https://clinicaltrials.gov/study/NCT04885374"
+        },
+        {
+          "id": "NCT03626012",
+          "title": "A Study to Assess the Safety, Tolerability, and Pharmacokinetics of BIIB078 in Adults With C9ORF72-Associated Amyotrophic Lateral Sclerosis",
+          "status": "COMPLETED",
+          "url": "https://clinicaltrials.gov/study/NCT03626012"
+        },
+        {
+          "id": "NCT00072709",
+          "title": "Study Evaluating TCH346 and Placebo Administered Once Daily in Patients With Amyotrophic Lateral Sclerosis (ALS)",
+          "status": "COMPLETED",
+          "url": "https://clinicaltrials.gov/study/NCT00072709"
+        },
+        {
+          "id": "NCT05178810",
+          "title": "Study to Investigate the Efficacy and Safety of FAB122 (Daily Oral Edaravone) in Patients With Amyotrophic Lateral Sclerosis",
+          "status": "COMPLETED",
+          "url": "https://clinicaltrials.gov/study/NCT05178810"
+        }
+      ],
+      "sha256": "878bd9844f5358306b867aae1b33215ccb3fb12203fe3db1df7ec9e10c54040b",
+      "fetched_at": "2026-11-08T05:57:18.496518+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "label search",
+      "url": "https://api.fda.gov/drug/label.json?search=indications_and_usage%3A%22amyotrophic+lateral+sclerosis%22&limit=3",
+      "status": "found",
+      "records": [
+        {
+          "id": "0a4ad0db-ce67-4724-91d2-88258c2cc9f8",
+          "title": "",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0a4ad0db-ce67-4724-91d2-88258c2cc9f8"
+        },
+        {
+          "id": "0ce2c1c4-2a40-485c-b7cb-96a9b85d9d11",
+          "title": "EDARAVONE",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0ce2c1c4-2a40-485c-b7cb-96a9b85d9d11"
+        },
+        {
+          "id": "10c8d5e6-cb9f-402d-ab8e-65c1aa049e89",
+          "title": "",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=10c8d5e6-cb9f-402d-ab8e-65c1aa049e89"
+        }
+      ],
+      "sha256": "a40d384d0d5c9b74d4d819bf31fda20a264c8c606f945eedd0be3f23c11fe35d",
+      "fetched_at": "2026-11-08T05:57:19.103769+00:00",
+      "access": "live"
+    },
+    {
+      "kind": "reviewed primary records",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A8302340+OR+EXT_ID%3A25286015+OR+EXT_ID%3A28522181%29&resultType=core&format=json&pageSize=3",
+      "status": "found",
+      "records": [
+        {
+          "id": "28522181",
+          "title": "Safety and efficacy of edaravone in well defined patients with amyotrophic lateral sclerosis: a randomised, double-blind, placebo-controlled trial.",
+          "marker": "ALSFRS-R",
+          "matched": true,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28522181/"
+        },
+        {
+          "id": "25286015",
+          "title": "Confirmatory double-blind, parallel-group, placebo-controlled study of efficacy and safety of edaravone (MCI-186) in amyotrophic lateral sclerosis patients.",
+          "marker": "ALSFRS-R",
+          "matched": true,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/25286015/"
+        },
+        {
+          "id": "8302340",
+          "title": "A controlled trial of riluzole in amyotrophic lateral sclerosis. ALS/Riluzole Study Group.",
+          "marker": "survival",
+          "matched": true,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/8302340/"
+        }
+      ],
+      "sha256": "32d6dbee20c1eae2c42a67b38892a941f2d6dbf0e778ca8b271d1d60ba776b52",
+      "fetched_at": "2026-11-08T05:57:19.836206+00:00",
+      "access": "live"
+    }
+  ],
+  "findings": [
+    {
+      "id": "28522181",
+      "role": "support",
+      "finding": "A selected early ALS population showed a functional endpoint benefit.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28522181/"
+    },
+    {
+      "id": "25286015",
+      "role": "contrary",
+      "finding": "A broader trial did not show a significant functional difference. Population and regimen matter.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/25286015/"
+    },
+    {
+      "id": "8302340",
+      "role": "support",
+      "finding": "A controlled human trial supports using ALS survival as a disease-level outcome.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/8302340/"
+    },
+    {
+      "id": "profile-0-8302340",
+      "role": "hosted research finding",
+      "finding": "A randomized, double-blind, placebo-controlled trial in 155 outpatients with ALS (100 mg daily dosing, stratified by bulbar or limb onset) reported a survival advantage at 12 months (74% vs 58% alive, P=0.014) and slower decline in muscle strength, with the survival benefit concentrated in bulbar-onset disease.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/8302340/"
+    },
+    {
+      "id": "profile-0-25286015",
+      "role": "hosted research finding",
+      "finding": "A 36-week confirmatory trial of a free-radical scavenger in an unselected ALS population (n=206) did not show a significant ALSFRS-R difference over 24 weeks of treatment (difference 0.65, P=0.411), which is contrary evidence for population-level efficacy in that class.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/25286015/"
+    },
+    {
+      "id": "profile-1-28522181",
+      "role": "hosted research finding",
+      "finding": "A phase 3 randomised, double-blind, placebo-controlled trial of a free-radical scavenger was designed for patients with early-stage ALS (disease duration 2 years or less, grade 1 or 2 on the Japan ALS Severity Classification, El Escorial definite or probable) selected on post-hoc criteria, with ALSFRS-R change at 24 weeks as the primary outcome; retrieved text does not include the final results.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28522181/"
+    },
+    {
+      "id": "profile-1-25286015",
+      "role": "hosted research finding",
+      "finding": "The confirmatory trial used ALSFRS-R change over 24 weeks as its primary efficacy endpoint and found no significant difference between active and placebo arms, with similar adverse event rates in both groups.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/25286015/"
+    },
+    {
+      "id": "profile-1-NCT05178810",
+      "role": "hosted research finding",
+      "finding": "A completed ALS registry trial of an oral formulation of a free-radical scavenger is listed, with status only retrieved and no outcome data in the receipt.",
+      "url": "https://clinicaltrials.gov/study/NCT05178810"
+    }
+  ],
+  "hosted": {
+    "model": "claude-haiku-5-5",
+    "profiles": [
+      {
+        "therapeutic_goal": "Slow ALS progression and prolong survival in people with ALS, with the strongest evidence in early-stage or bulbar-onset disease, by lowering glutamate-driven motor neuron excitotoxicity.",
+        "mechanism_of_action": "A CNS-penetrant agent that dampens excessive glutamatergic signalling onto spinal and bulbar motor neurons, most plausibly by reducing presynaptic glutamate release and by modulating voltage-gated sodium channels that sustain pathological firing. The intended effect is to reduce excitotoxic calcium load and slow loss of motor neuron function.",
+        "molecular_targets": [
+          {
+            "symbol": "voltage-gated sodium channels (SCN family)",
+            "desired_action": "modulate",
+            "rationale": "Blocking persistent sodium current limits sustained depolarisation and glutamate release from hyperexcitable motor neurons, which is the proposed excitotoxic driver in ALS."
+          },
+          {
+            "symbol": "presynaptic glutamate release machinery",
+            "desired_action": "inhibit",
+            "rationale": "Reducing glutamate release from corticospinal and bulbar inputs lowers excitotoxic stress on vulnerable motor neurons; a controlled ALS trial linked this class to longer survival."
+          }
+        ],
+        "pathways": [
+          "glutamatergic synaptic transmission",
+          "excitotoxicity",
+          "voltage-gated sodium channel signalling in motor neurons"
+        ],
+        "site_of_action": [
+          "spinal cord lower motor neurons",
+          "bulbar motor nuclei",
+          "motor cortex corticospinal terminals"
+        ],
+        "required_properties": [
+          "CNS-penetrant",
+          "oral formulation with chronic daily dosing",
+          "evidence in ALS populations with ALSFRS-R or survival endpoints reported",
+          "phase 3 or registrational ALS evidence"
+        ],
+        "avoid_properties": [
+          "evidence drawn only from non-ALS motor neuron conditions presented as ALS evidence",
+          "claims of individual benefit extrapolated from group-level survival results",
+          "hepatic transaminase elevation (monitor liver enzymes)",
+          "asthenia and spasticity as dose-limiting effects"
+        ],
+        "lessons_from_failures": [
+          "Antiglutamate mechanisms showed a modest, population-level survival benefit in a small early trial (n=155), so effect size is small and needs large trials to confirm.",
+          "The survival benefit was strongest in bulbar-onset disease and was attenuated at the end of the placebo-controlled period, so phenotype and follow-up length matter.",
+          "Mechanism-level benefit has not been reproduced in every ALS population, so generic glutamate blockade should not be assumed to help all patients."
+        ],
+        "target_validation": "clinical",
+        "confidence": 0.6,
+        "evidence": [
+          {
+            "source": "pubmed",
+            "id": "8302340",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8302340/",
+            "claim": "A randomized, double-blind, placebo-controlled trial in 155 outpatients with ALS (100 mg daily dosing, stratified by bulbar or limb onset) reported a survival advantage at 12 months (74% vs 58% alive, P=0.014) and slower decline in muscle strength, with the survival benefit concentrated in bulbar-onset disease."
+          },
+          {
+            "source": "pubmed",
+            "id": "25286015",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25286015/",
+            "claim": "A 36-week confirmatory trial of a free-radical scavenger in an unselected ALS population (n=206) did not show a significant ALSFRS-R difference over 24 weeks of treatment (difference 0.65, P=0.411), which is contrary evidence for population-level efficacy in that class."
+          }
+        ]
+      },
+      {
+        "therapeutic_goal": "Slow functional decline measured by ALSFRS-R in early-stage ALS by reducing oxidative and free-radical injury to motor neurons, with the most credible use in a defined early-disease population.",
+        "mechanism_of_action": "A systemically given agent that scavenges lipid peroxyl and other reactive oxygen species generated during motor neuron degeneration, reducing oxidative damage to membranes and proteins. Benefit is expected to depend on early treatment, defined eligibility, and an infusion or oral regimen that keeps exposure stable across the trial schedule.",
+        "molecular_targets": [
+          {
+            "symbol": "reactive oxygen species (free radicals)",
+            "desired_action": "inhibit",
+            "rationale": "Oxidative injury is a proposed driver of motor neuron loss, and reducing it may slow functional decline if treatment starts early in the disease course."
+          }
+        ],
+        "pathways": [
+          "oxidative stress response",
+          "lipid peroxidation",
+          "motor neuron degeneration"
+        ],
+        "site_of_action": [
+          "spinal cord motor neurons",
+          "systemic circulation with CNS exposure"
+        ],
+        "required_properties": [
+          "ALS-specific trial evidence with ALSFRS-R as the primary outcome",
+          "defined early-disease eligibility (for example disease duration 2 years or less, El Escorial definite or probable ALS)",
+          "regimen with defined treatment cycles"
+        ],
+        "avoid_properties": [
+          "evidence from non-ALS motor neuron conditions presented as ALS evidence",
+          "group-level trial results applied as if they predict individual response",
+          "reliance on post-hoc subgroup benefit without prospective confirmation"
+        ],
+        "lessons_from_failures": [
+          "The same antioxidant mechanism was negative in a broader confirmatory trial, so population selection and regimen drive whether benefit appears.",
+          "A post-hoc early-stage subgroup showed larger effect than the full population, and a prospective trial was needed to test it; the prospective result is not in the retrieved abstract text.",
+          "Oxidative-stress targeting alone has not shown robust benefit across all ALS patients, so it is best treated as a population-specific hypothesis."
+        ],
+        "target_validation": "clinical",
+        "confidence": 0.35,
+        "evidence": [
+          {
+            "source": "pubmed",
+            "id": "28522181",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28522181/",
+            "claim": "A phase 3 randomised, double-blind, placebo-controlled trial of a free-radical scavenger was designed for patients with early-stage ALS (disease duration 2 years or less, grade 1 or 2 on the Japan ALS Severity Classification, El Escorial definite or probable) selected on post-hoc criteria, with ALSFRS-R change at 24 weeks as the primary outcome; retrieved text does not include the final results."
+          },
+          {
+            "source": "pubmed",
+            "id": "25286015",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25286015/",
+            "claim": "The confirmatory trial used ALSFRS-R change over 24 weeks as its primary efficacy endpoint and found no significant difference between active and placebo arms, with similar adverse event rates in both groups."
+          },
+          {
+            "source": "clinicaltrials",
+            "id": "NCT05178810",
+            "url": "https://clinicaltrials.gov/study/NCT05178810",
+            "claim": "A completed ALS registry trial of an oral formulation of a free-radical scavenger is listed, with status only retrieved and no outcome data in the receipt."
+          }
+        ]
+      }
+    ],
+    "dead_ends": [
+      "Huoling Shengji granule (traditional Chinese medicine) randomized riluzole-controlled trial (PMID 42508294): only the title was retrieved; no ALSFRS-R or survival results were available, so no evidence is claimed.",
+      "Autologous bone marrow mononuclear cell transplantation case report (PMID 42780196): a single-patient case report, not a trial, and was not used as ALS evidence.",
+      "Pridopidine phase 3 study (NCT07322003) is recruiting; only registry status was retrieved, so no efficacy evidence is claimed.",
+      "TCH346 study (NCT00072709) is completed, but no outcome or results were retrieved from the receipt.",
+      "Systematic review and meta-analysis of a combined sodium phenylbutyrate and taurursodiol approach (PMID 42301686) appeared in search but its abstract was not fetched, so its pooled survival or ALSFRS-R findings are not used.",
+      "Early weight loss and energy-equation study (PMID 42709218) concerns prognosis and nutrition, not a drug, and is excluded.",
+      "Missing-data simulation for generalized pairwise comparisons (PMID 42751965) is a methods paper and is not evidence of drug efficacy.",
+      "China ALS registry of traditional Chinese medicine (NCT04885374): registry only, with no outcome data.",
+      "Contrary evidence: the confirmatory antioxidant trial (PMID 25286015) showed no significant ALSFRS-R benefit, so oxidative-stress targeting is not established across unselected ALS populations.",
+      "Unresolved: the early-stage antioxidant trial (PMID 28522181) was selected on post-hoc criteria; its prospective result is not in the retrieved abstract, so the strength of benefit in that subgroup is unconfirmed.",
+      "Safety direction to flag for the glutamate-release class: hepatic transaminase elevation, asthenia and spasticity (PMID 8302340); no safety conclusion is drawn from structural similarity to other agents.",
+      "Non-drug options such as nutritional support, ventilation and rehabilitation were not searched and are outside the drug profile scope."
+    ],
+    "rejected": [],
+    "events": [
+      {
+        "type": "subagent_started",
+        "criterion": "disease-indications",
+        "data": {
+          "criterion": "disease-indications",
+          "objective": "Find agents with evidence for slowing functional decline or prolonging survival in amyotrophic lateral sclerosis, including approved, trial-stage and off-label evidence, noting the trial phenotype and the strength of the evidence.",
+          "constraints": [
+            "Evidence in amyotrophic lateral sclerosis populations",
+            "Report trial phase, phenotype enrolled and outcome measures (functional scale, survival)",
+            "Distinguish approved use from investigational or off-label evidence"
+          ],
+          "avoid": [
+            "Evidence from non-ALS motor neuron conditions presented as ALS evidence",
+            "Extrapolating group-level results to individual response"
+          ]
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "disease-indications",
+        "data": {
+          "tool": "fetch_pubmed_abstract",
+          "args": {
+            "pmid": "28522181"
+          }
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "disease-indications",
+        "data": {
+          "tool": "fetch_pubmed_abstract",
+          "args": {
+            "pmid": "25286015"
+          }
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "disease-indications",
+        "data": {
+          "tool": "fetch_pubmed_abstract",
+          "args": {
+            "pmid": "8302340"
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "disease-indications",
+        "data": {
+          "tool": "fetch_pubmed_abstract",
+          "chars": 4291,
+          "error": false,
+          "content_sha256": "f6019d4c3b014b652218cc7867a3b50f5fd2e75d000dba054f666302e64557b3"
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "disease-indications",
+        "data": {
+          "tool": "fetch_pubmed_abstract",
+          "chars": 2001,
+          "error": false,
+          "content_sha256": "52b15259197fb2fd2e05222e0aeee9ba24f72b6847104a69e0a562e065a4a829"
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "disease-indications",
+        "data": {
+          "tool": "fetch_pubmed_abstract",
+          "chars": 3297,
+          "error": false,
+          "content_sha256": "8a8888c016b9617a5f8bb9242e58efc1226e8250a14dd223b42101bbad4f85d6"
+        }
+      },
+      {
+        "type": "subagent_finished",
+        "criterion": "disease-indications",
+        "data": {
+          "profiles": 2,
+          "goals": [
+            "Slow ALS progression and prolong survival in people with ALS, with the strongest evidence in early-stage or bulbar-onset disease, by lowering glutamate-driven motor neuron excitotoxicity.",
+            "Slow functional decline measured by ALSFRS-R in early-stage ALS by reducing oxidative and free-radical injury to motor neurons, with the most credible use in a defined early-disease population."
+          ],
+          "targets": [
+            [
+              "voltage-gated sodium channels (SCN family)",
+              "presynaptic glutamate release machinery"
+            ],
+            [
+              "reactive oxygen species (free radicals)"
+            ]
+          ],
+          "dead_ends": [
+            "Huoling Shengji granule (traditional Chinese medicine) randomized riluzole-controlled trial (PMID 42508294): only the title was retrieved; no ALSFRS-R or survival results were available, so no evidence is claimed.",
+            "Autologous bone marrow mononuclear cell transplantation case report (PMID 42780196): a single-patient case report, not a trial, and was not used as ALS evidence.",
+            "Pridopidine phase 3 study (NCT07322003) is recruiting; only registry status was retrieved, so no efficacy evidence is claimed.",
+            "TCH346 study (NCT00072709) is completed, but no outcome or results were retrieved from the receipt.",
+            "Systematic review and meta-analysis of a combined sodium phenylbutyrate and taurursodiol approach (PMID 42301686) appeared in search but its abstract was not fetched, so its pooled survival or ALSFRS-R findings are not used.",
+            "Early weight loss and energy-equation study (PMID 42709218) concerns prognosis and nutrition, not a drug, and is excluded.",
+            "Missing-data simulation for generalized pairwise comparisons (PMID 42751965) is a methods paper and is not evidence of drug efficacy.",
+            "China ALS registry of traditional Chinese medicine (NCT04885374): registry only, with no outcome data.",
+            "Contrary evidence: the confirmatory antioxidant trial (PMID 25286015) showed no significant ALSFRS-R benefit, so oxidative-stress targeting is not established across unselected ALS populations.",
+            "Unresolved: the early-stage antioxidant trial (PMID 28522181) was selected on post-hoc criteria; its prospective result is not in the retrieved abstract, so the strength of benefit in that subgroup is unconfirmed.",
+            "Safety direction to flag for the glutamate-release class: hepatic transaminase elevation, asthenia and spasticity (PMID 8302340); no safety conclusion is drawn from structural similarity to other agents.",
+            "Non-drug options such as nutritional support, ventilation and rehabilitation were not searched and are outside the drug profile scope."
+          ]
+        }
+      }
+    ],
+    "access": "replay",
+    "cache_key": "8343957d1e0aaa77c59402c56691b7a5f2adf0fd428ef8f11bf9f1365d228ccc"
+  },
+  "unmapped": [],
+  "reason": null,
+  "queries": [
+    {
+      "anchor": "Disease::MESH:D000690",
+      "traversals": [
+        {
+          "relation": "DRUGBANK::treats::Compound:Disease",
+          "forward": false,
+          "glossary": {
+            "Relation-name": "DRUGBANK::treats::Compound:Disease",
+            "Data-source": "DRUGBANK",
+            "Connected entity-types": "Compound:Disease",
+            "Interaction-type": "Compound treats the disease",
+            "Description": "We extract  the  associated  conditions  related  to  compound entities in the drugbank.",
+            "Reference for the description": ""
+          },
+          "row": 24
+        }
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/8302340/",
+        "https://pubmed.ncbi.nlm.nih.gov/25286015/",
+        "https://pubmed.ncbi.nlm.nih.gov/28522181/",
+        "https://clinicaltrials.gov/study/NCT05178810"
+      ],
+      "fact": {
+        "field": "diagnosis",
+        "pointer": "patient_profile.summary",
+        "status": "reported",
+        "concept": "als",
+        "quote": "Amyotrophic Lateral Sclerosis",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation",
+        "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+        "mapping": "reported",
+        "ids": [
+          "Disease::MESH:D000690"
+        ]
+      },
+      "finding_ids": [
+        "8302340",
+        "profile-0-8302340",
+        "profile-0-25286015",
+        "profile-1-28522181",
+        "profile-1-25286015",
+        "profile-1-NCT05178810"
+      ],
+      "desired_action": "treat",
+      "goal": "treat diagnosed ALS; look for disease-course outcomes",
+      "anchor_label": "Amyotrophic Lateral Sclerosis",
+      "anchor_row": 25880,
+      "derivation": [],
+      "formula": "e[Disease::MESH:D000690] - r[DRUGBANK::treats::Compound:Disease]"
+    },
+    {
+      "anchor": "Disease::MESH:D000690",
+      "traversals": [
+        {
+          "relation": "GNBR::T::Compound:Disease",
+          "forward": false,
+          "glossary": {
+            "Relation-name": "GNBR::T::Compound:Disease",
+            "Data-source": "GNBR",
+            "Connected entity-types": "Compound:Disease",
+            "Interaction-type": "treatment/therapy (including investigatory)",
+            "Description": "",
+            "Reference for the description": ""
+          },
+          "row": 35
+        }
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/8302340/",
+        "https://pubmed.ncbi.nlm.nih.gov/25286015/",
+        "https://pubmed.ncbi.nlm.nih.gov/28522181/",
+        "https://clinicaltrials.gov/study/NCT05178810"
+      ],
+      "fact": {
+        "field": "diagnosis",
+        "pointer": "patient_profile.summary",
+        "status": "reported",
+        "concept": "als",
+        "quote": "Amyotrophic Lateral Sclerosis",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation",
+        "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+        "mapping": "reported",
+        "ids": [
+          "Disease::MESH:D000690"
+        ]
+      },
+      "finding_ids": [
+        "8302340",
+        "profile-0-8302340",
+        "profile-0-25286015",
+        "profile-1-28522181",
+        "profile-1-25286015",
+        "profile-1-NCT05178810"
+      ],
+      "desired_action": "treat",
+      "goal": "treat diagnosed ALS; look for disease-course outcomes",
+      "anchor_label": "Amyotrophic Lateral Sclerosis",
+      "anchor_row": 25880,
+      "derivation": [],
+      "formula": "e[Disease::MESH:D000690] - r[GNBR::T::Compound:Disease]"
+    },
+    {
+      "anchor": "Disease::MESH:D000690",
+      "traversals": [
+        {
+          "relation": "Hetionet::CtD::Compound:Disease",
+          "forward": false,
+          "glossary": {
+            "Relation-name": "Hetionet::CtD::Compound:Disease",
+            "Data-source": "HETIONET",
+            "Connected entity-types": "Compound:Disease",
+            "Interaction-type": "treatment",
+            "Description": "",
+            "Reference for the description": ""
+          },
+          "row": 68
+        }
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/8302340/",
+        "https://pubmed.ncbi.nlm.nih.gov/25286015/",
+        "https://pubmed.ncbi.nlm.nih.gov/28522181/",
+        "https://clinicaltrials.gov/study/NCT05178810"
+      ],
+      "fact": {
+        "field": "diagnosis",
+        "pointer": "patient_profile.summary",
+        "status": "reported",
+        "concept": "als",
+        "quote": "Amyotrophic Lateral Sclerosis",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation",
+        "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+        "mapping": "reported",
+        "ids": [
+          "Disease::MESH:D000690"
+        ]
+      },
+      "finding_ids": [
+        "8302340",
+        "profile-0-8302340",
+        "profile-0-25286015",
+        "profile-1-28522181",
+        "profile-1-25286015",
+        "profile-1-NCT05178810"
+      ],
+      "desired_action": "treat",
+      "goal": "treat diagnosed ALS; look for disease-course outcomes",
+      "anchor_label": "Amyotrophic Lateral Sclerosis",
+      "anchor_row": 25880,
+      "derivation": [],
+      "formula": "e[Disease::MESH:D000690] - r[Hetionet::CtD::Compound:Disease]"
+    }
+  ]
+}

@@ -1,0 +1,377 @@
+{
+  "local_source_ledger": {
+    "current_therapy": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[0].value",
+      "quote": "Not taking Riluzole 50 mg BID"
+    },
+    "respiratory": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[1].value",
+      "quote": "FVC 76% sitting, 61% supine"
+    },
+    "weight": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[2].value",
+      "quote": "86 \u2192 77.5 kg, unintentional"
+    },
+    "muscle": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[3].value",
+      "quote": "470 U/L (ref < 195)"
+    },
+    "swallow": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[4].value",
+      "quote": "Coughs on thin liquids"
+    },
+    "hand_function": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.findings[5].value",
+      "quote": "Right pinch 3 kg, grip 14 kg"
+    }
+  },
+  "searches": [
+    {
+      "kind": "primary literature search",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+safety+tolerability%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json",
+      "status": "found",
+      "records": [
+        {
+          "id": "42735682",
+          "title": "N-of-1 investigational study of a novel antisense oligonucleotide drug in CHCHD10-related ALS shows early signs of efficacy.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42735682/"
+        },
+        {
+          "id": "42751043",
+          "title": "From Vision to Validation: The Journey of Tofersen in Superoxide Dismutase 1 Gene-Associated Amyotrophic Lateral Sclerosis.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42751043/"
+        },
+        {
+          "id": "42406382",
+          "title": "Antisense Oligonucleotide Tofersen Distribution in the Central Nervous System of SOD1-ALS Autopsy Tissue Donors.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42406382/"
+        },
+        {
+          "id": "42716044",
+          "title": "Safety, tolerability, and efficacy of RIPK1 inhibitor, SAR443820, in amyotrophic lateral sclerosis (HIMALAYA): a multicentre, randomised, double-blind, placebo-controlled, phase 2 trial.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42716044/"
+        },
+        {
+          "id": "41837970",
+          "title": "Safety and Efficacy of PrimeC in Amyotrophic Lateral Sclerosis: The PARADIGM Randomized Clinical Trial.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41837970/"
+        }
+      ],
+      "sha256": "7e80e9b689b7574b4bb810685100639307a896ba916e461c9db7519d29dc0d0f",
+      "fetched_at": "2026-11-08T05:25:55.324523+00:00",
+      "access": "cached"
+    },
+    {
+      "kind": "registry search",
+      "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=tolerability&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus",
+      "status": "found",
+      "records": [
+        {
+          "id": "NCT06454682",
+          "title": "An IIT Clinical Study to Evaluate the Safety and Efficacy of a Single Intrathecal Injection of RJK002 in Patients With ALS",
+          "status": "ACTIVE_NOT_RECRUITING",
+          "url": "https://clinicaltrials.gov/study/NCT06454682"
+        },
+        {
+          "id": "NCT06726577",
+          "title": "TP04HN106 in the Treatment of Patients With Amyotrophic Lateral Sclerosis",
+          "status": "RECRUITING",
+          "url": "https://clinicaltrials.gov/study/NCT06726577"
+        },
+        {
+          "id": "NCT04948645",
+          "title": "A Phase 1 Study to Investigate the Safety and Pharmacokinetics of Fosigotifator in Patients With Amyotrophic Lateral Sclerosis",
+          "status": "TERMINATED",
+          "url": "https://clinicaltrials.gov/study/NCT04948645"
+        },
+        {
+          "id": "NCT03755167",
+          "title": "A Follow up Study to Protocol 101/2 - Continued Treatment by IPL344 IV",
+          "status": "SUSPENDED",
+          "url": "https://clinicaltrials.gov/study/NCT03755167"
+        },
+        {
+          "id": "NCT01640067",
+          "title": "Human Neural Stem Cell Transplantation in Amyotrophic Lateral Sclerosis (ALS)",
+          "status": "COMPLETED",
+          "url": "https://clinicaltrials.gov/study/NCT01640067"
+        }
+      ],
+      "sha256": "9996d46f02d5049caf1f11199fec20d5484f2edab0b0aa91cf08980e07c51612",
+      "fetched_at": "2026-11-08T05:25:55.431551+00:00",
+      "access": "cached"
+    },
+    {
+      "kind": "label search",
+      "url": "https://api.fda.gov/drug/label.json?search=indications_and_usage%3A%22amyotrophic+lateral+sclerosis%22&limit=3",
+      "status": "found",
+      "records": [
+        {
+          "id": "0a4ad0db-ce67-4724-91d2-88258c2cc9f8",
+          "title": "",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0a4ad0db-ce67-4724-91d2-88258c2cc9f8"
+        },
+        {
+          "id": "0ce2c1c4-2a40-485c-b7cb-96a9b85d9d11",
+          "title": "EDARAVONE",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0ce2c1c4-2a40-485c-b7cb-96a9b85d9d11"
+        },
+        {
+          "id": "10c8d5e6-cb9f-402d-ab8e-65c1aa049e89",
+          "title": "",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=10c8d5e6-cb9f-402d-ab8e-65c1aa049e89"
+        }
+      ],
+      "sha256": "a40d384d0d5c9b74d4d819bf31fda20a264c8c606f945eedd0be3f23c11fe35d",
+      "fetched_at": "2026-11-08T05:57:19.103769+00:00",
+      "access": "cached"
+    }
+  ],
+  "findings": [
+    {
+      "id": "profile-0-38691665",
+      "role": "hosted research finding",
+      "finding": "A 2024 review describes a liquid oral suspension formulation of a free-radical scavenging ALS agent, relevant to the swallowing-difficulty hypothesis.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38691665/"
+    }
+  ],
+  "hosted": {
+    "model": "claude-haiku-5-5",
+    "profiles": [
+      {
+        "therapeutic_goal": "Provide a non-sedating, low-exposure neuroprotective oral agent that can be given as a liquid or dispersible formulation, with no meaningful effect on appetite, respiratory drive, muscle enzymes, or hand-dependent administration.",
+        "mechanism_of_action": "A small-molecule free-radical scavenger that lowers oxidative and lipid-peroxidation stress in motor neurons and their supporting tissue. It should be dosed as a liquid oral suspension or other non-dexterity-dependent formulation, with clinically modest systemic exposure and no CNS depressant activity.",
+        "molecular_targets": [
+          {
+            "symbol": "ROS",
+            "desired_action": "modulate",
+            "rationale": "Oxidative stress is a recognized contributor to motor neuron injury in ALS, so reducing reactive oxygen species burden is a plausible protective strategy. Activity must not come with sedation or respiratory depression."
+          }
+        ],
+        "pathways": [
+          "oxidative stress and lipid peroxidation",
+          "motor neuron survival signaling"
+        ],
+        "site_of_action": [
+          "spinal cord anterior horn motor neurons",
+          "systemic circulation with CNS penetration"
+        ],
+        "required_properties": [
+          "liquid oral suspension or other formulation usable with possible swallowing difficulty (hypothesis only)",
+          "no dexterity-dependent administration step",
+          "no appetite-suppressing or weight-reducing effect",
+          "no CK-raising or myopathic signal",
+          "no respiratory depressant activity",
+          "CNS-penetrant at neuroprotective exposure"
+        ],
+        "avoid_properties": [
+          "respiratory depressants",
+          "sedating agents",
+          "agents that suppress appetite or cause weight loss",
+          "agents that raise muscle enzymes or cause myopathy",
+          "agents that impair swallowing or increase aspiration risk",
+          "narrow therapeutic index with high interaction liability"
+        ],
+        "lessons_from_failures": [
+          "Free-radical scavengers have shown limited efficacy in ALS, so their value may be mainly as a tolerable adjunct rather than a disease-modifying agent.",
+          "Interaction magnitude, exposure in severe bulbar disease, and liquid-formulation tolerability are not established in the receipts and remain unknown."
+        ],
+        "target_validation": "mechanistic",
+        "confidence": 0.4,
+        "evidence": [
+          {
+            "source": "pubmed",
+            "id": "38691665",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38691665/",
+            "claim": "A 2024 review describes a liquid oral suspension formulation of a free-radical scavenging ALS agent, relevant to the swallowing-difficulty hypothesis."
+          }
+        ]
+      }
+    ],
+    "dead_ends": [],
+    "rejected": [],
+    "events": [
+      {
+        "type": "subagent_started",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "criterion": "safety-interactions-class",
+          "objective": "Identify candidate drug classes and individual agents for ALS repurposing and flag pharmacological interactions and tolerability concerns relevant to a profile of reduced respiratory reserve, unintentional weight loss, raised muscle-enzyme levels, possible swallowing difficulty with liquids (hypothesis only), and impaired hand function. No active index therapy is assumed, so evaluate intrinsic tolerability rather than interactions with a current index therapy. Report where interaction magnitude, exposure or route-specific tolerability is unknown rather than inferring it.",
+          "constraints": [
+            "Favor agents with a tolerability profile compatible with limited respiratory reserve",
+            "Favor agents with minimal effect on appetite or body weight",
+            "Favor agents with minimal muscle toxicity or effect on muscle-enzyme levels",
+            "Favor formulations usable with possible swallowing difficulty, such as liquid, dispersible, or non-oral forms, treating the swallowing impairment as a hypothesis",
+            "Favor formulations that do not require fine hand dexterity to administer",
+            "State explicitly when interaction or tolerability evidence is absent or uncertain"
+          ],
+          "avoid": [
+            "Respiratory depressants",
+            "Agents that cause or worsen muscle weakness",
+            "Agents that cause myopathy or raise muscle-enzyme levels",
+            "Agents that suppress appetite or cause weight loss",
+            "Agents that impair swallowing or increase aspiration risk, such as strongly sedating or anticholinergic drugs",
+            "Agents with a narrow therapeutic index and significant interaction liability"
+          ]
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "amyotrophic lateral sclerosis drug repurposing adverse events weight loss respiratory function tolerability",
+            "max_results": 6
+          }
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "amyotrophic lateral sclerosis trial discontinuation adverse events respiratory depression sedation",
+            "max_results": 6
+          }
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_als_trials",
+          "args": {
+            "status": "TERMINATED",
+            "max_results": 8
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_pubmed",
+          "chars": 2,
+          "error": false,
+          "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_pubmed",
+          "chars": 2,
+          "error": false,
+          "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_als_trials",
+          "chars": 4243,
+          "error": false,
+          "content_sha256": "86458875412cd03c8aef6946fd98ce33955820be7b0abad6947f9b090cf69790"
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "edaravone oral suspension amyotrophic lateral sclerosis safety swallowing",
+            "max_results": 5
+          }
+        }
+      },
+      {
+        "type": "tool_call",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "tofersen intrathecal amyotrophic lateral sclerosis safety adverse events myelitis",
+            "max_results": 5
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_pubmed",
+          "chars": 312,
+          "error": false,
+          "content_sha256": "5c909e650d1b1be6095f96128541d40d2d43b8916466a49d30db5bc3651f918d"
+        }
+      },
+      {
+        "type": "tool_result",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "tool": "search_pubmed",
+          "chars": 322,
+          "error": false,
+          "content_sha256": "b1d67c25f2995038420051b2102043ded4811f9bd0acd157ff185202bb293b15"
+        }
+      },
+      {
+        "type": "subagent_finished",
+        "criterion": "safety-interactions-class",
+        "data": {
+          "profiles": 2,
+          "goals": [
+            "Provide a non-sedating, low-exposure neuroprotective oral agent that can be given as a liquid or dispersible formulation, with no meaningful effect on appetite, respiratory drive, muscle enzymes, or hand-dependent administration.",
+            ""
+          ],
+          "targets": [
+            [
+              "ROS"
+            ],
+            []
+          ],
+          "dead_ends": []
+        }
+      }
+    ],
+    "access": "replay",
+    "cache_key": "2bbc6ae6507f64d45591201edafe497574c67b0a74ba1bad9aab7a8f1998c949"
+  },
+  "unmapped": [
+    {
+      "proposal": {
+        "goal": "flag CYP1A2 inhibition as a potential interaction",
+        "anchor": "CYP1A2",
+        "kind": "gene",
+        "action": "inhibit",
+        "risk": true,
+        "requires": [
+          "9316860",
+          "label"
+        ]
+      },
+      "reason": "Missing affirmative brief fact or verified primary source."
+    },
+    {
+      "target": {
+        "symbol": "ROS",
+        "desired_action": "modulate",
+        "rationale": "Oxidative stress is a recognized contributor to motor neuron injury in ALS, so reducing reactive oxygen species burden is a plausible protective strategy. Activity must not come with sedation or respiratory depression."
+      },
+      "reason": "No equivalent signed predicate in this release"
+    }
+  ],
+  "reason": "Unscored: no verified, type-compatible research mapping.",
+  "queries": []
+}
