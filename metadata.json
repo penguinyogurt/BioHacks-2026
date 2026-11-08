@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6X6ZSXM57QYKX7PMFF8Z87W",
   "strategy": "manual-commit",
   "branch": "frontend/live-agent",
-  "checkpoints_count": 9,
+  "checkpoints_count": 10,
   "files_touched": [
     "AGENTS.md",
     "backend/agent/.env.example",
@@ -37,14 +37,21 @@
       "compact_transcript": "/0/transcript.jsonl",
       "content_hash": "/0/content_hash.txt",
       "prompt": "/0/prompt.txt"
+    },
+    {
+      "metadata": "/1/metadata.json",
+      "transcript": "/1/full.jsonl",
+      "compact_transcript": "/1/transcript.jsonl",
+      "content_hash": "/1/content_hash.txt",
+      "prompt": "/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 318,
-    "cache_creation_tokens": 442246,
-    "cache_read_tokens": 33119204,
-    "output_tokens": 129776,
-    "api_call_count": 148
+    "input_tokens": 324,
+    "cache_creation_tokens": 477843,
+    "cache_read_tokens": 33294636,
+    "output_tokens": 130850,
+    "api_call_count": 151
   },
   "redaction": {
     "replacements": 35,
