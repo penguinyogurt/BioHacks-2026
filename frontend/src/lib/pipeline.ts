@@ -73,7 +73,12 @@ export type DrugProfile = {
   targets: string[]
   modality: string
   constraints: string[]
+  /** Live runs only: each sub-agent returns 1–3 distinct strategies. */
+  strategies?: { goal: string; targets: string[] }[]
 }
+
+/** One parallel profile agent. Scripted runs have the five below; live runs get one per brief in the plan. */
+export type Lane = { lane: number; name: string; criterion?: string; objective?: string }
 
 export const PROFILES: DrugProfile[] = [
   {
@@ -117,6 +122,8 @@ export const PROFILES: DrugProfile[] = [
     constraints: ['Must not duplicate riluzole / edaravone', 'No CYP1A2 inhibition'],
   },
 ]
+
+export const DEMO_LANES: Lane[] = PROFILES.map(({ lane, name }) => ({ lane, name }))
 
 export type Match = { drug: string; lane: number; cosine: number; x: number; y: number; note?: string }
 
@@ -310,6 +317,10 @@ export function rank(candidates: Candidate[], weights: Weights) {
 export type PipelineEvent =
   | { type: 'stage'; stage: StageId; status: 'running' | 'done' }
   | { type: 'step'; stage: StageId; lane?: number; step: AgentStep }
+  | { type: 'lanes'; lanes: Lane[] }
+  /** Live runs: the stage-3 scene computed from the agents' targets, and the stage-4 report PDF. */
+  | { type: 'scene'; src: string }
+  | { type: 'reportPdf'; url: string; runId: string }
   | { type: 'profile'; profile: DrugProfile }
   | { type: 'matches' }
   | { type: 'candidates' }

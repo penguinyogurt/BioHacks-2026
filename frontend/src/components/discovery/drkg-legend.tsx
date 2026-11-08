@@ -50,8 +50,9 @@ function Row({ glyph, channel, children }: { glyph: ReactNode; channel: string; 
   return (
     <div className="grid grid-cols-[3rem_minmax(0,1fr)] items-center gap-x-3 py-1">
       <div className="flex items-center gap-1">{glyph}</div>
-      <p className="min-w-0 text-xs leading-snug break-words">
-        <span className="font-medium">{channel}</span> <span className="text-muted-foreground">· {children}</span>
+      <p className="min-w-0 text-xs leading-snug text-pretty">
+        <span className="block font-medium">{channel}</span>
+        <span className="block text-muted-foreground">{children}</span>
       </p>
     </div>
   )
@@ -202,7 +203,7 @@ export function DrkgLegend({
           </Section>
           <Separator />
 
-          <Section title="How to read it">
+          <Section title="Visual encoding">
             <Row
               channel="Position"
               glyph={
@@ -213,22 +214,22 @@ export function DrkgLegend({
                 </svg>
               }
             >
-              <span title={scene.meta.projection ?? undefined}>clustered embedding layout</span>
+              <span title={scene.meta.projection ?? undefined}>Clustered embedding projection</span>
             </Row>
             <Row channel="Colour" glyph={[0, 1, 2].map((i) => <span key={i} className="size-2.5 rounded-full" style={{ background: clusterColor(i, clusters[i]) }} />)}>
-              cluster
+              Embedding cluster
             </Row>
             <Row channel="Shape" glyph={NAMED.map((t) => <TypeGlyph key={t} type={t} size={11} />)}>
-              entity type
+              Entity type
             </Row>
             <Row
               channel="Size"
               glyph={[1, 2, 3].map((i) => <span key={i} className="rounded-full bg-foreground/50" style={{ width: 2 + i * 2.5, height: 2 + i * 2.5 }} />)}
             >
-              graph degree, log
+              Node degree (log scale)
             </Row>
             <Row channel="Brightness" glyph={[0.2, 0.55, 1].map((o) => <span key={o} className="size-2.5 rounded-full bg-foreground" style={{ opacity: o }} />)}>
-              closeness to the active query
+              Proximity to the active query
             </Row>
             {degree ? (
               <div className="mt-2.5 flex items-end justify-between gap-2 text-[11px] text-muted-foreground tabular-nums">

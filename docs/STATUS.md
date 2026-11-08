@@ -19,14 +19,95 @@ Last updated: **2026-11-08**
 
 ---
 
+## The whole discovery pipeline runs live (2026-11-08, Jeremy, `frontend/live-agent`)
+
+One Run press chains three backend runs over SSE (`frontend/src/lib/agent-api.ts`),
+and the page follows each stage by itself:
+**research agents** (`/api/research`) → **DRKG** on the genes those agents named
+(`/api/drkg` → `agent/drkg.py` runs `frontend/scripts/drkg_scene.py` as a
+subprocess, so demo and live scenes use one scorer) → **drug assessment** on the
+top 8 matches (`/api/assess`, Neo's `assess.py`, unchanged) → its PDF. If `:8001`
+isn't up, it falls back to the scripted run; the badge says **Live agent** or
+**Simulated**. ~100 s + ~2 s + several minutes.
+
+Stage 3 starts at the research run's `verify` event (~60 s), not at its end: it
+only needs the verified genes, which `graph.py`'s `verify` now also emits
+(**Neo:** a second additive line). The orchestrator's ranking (`synthesize`,
+~35 s more) streams alongside and opens stage 4's trace; the assessment waits
+for both, since it reads the ranked profiles.
+
+**Neo — `subagent.py`:** each `tool_result` event now carries `preview`, the first
+1,500 characters of what the tool returned (sub-agents never see the patient, so
+it's public data only). The profile cards' "Evidence returned" row shows it.
+`chars` now counts that text rather than the repr of MCP's content list.
+
+**Neo — `report_pdf.py` was rewritten (Jeremy's request):** the assessment PDF is now
+a scientific paper (IMRaD: abstract, methods incl. DRKG retrieval, Table 1 + one
+subsection per candidate, discussion, declarations, Vancouver references; serif,
+justified). Same `render(report) -> bytes`, so `/report.pdf` and `assess.py` are
+untouched; it also renders old reports without `score`. `schemas.py`'s summary and
+limitations now ask for third-person scientific register (future runs only).
+
+**Report chat (Jeremy's request):** the Research report page has an "Ask about this report"
+chat under the PDF once a live assessment finishes (`frontend/src/components/discovery/research-chat.tsx`).
+It streams from a new `POST /api/assess/<id>/chat/stream` (SSE: `thinking`, `tool_call`,
+`tool_result`, then `answer`/`error`); the old `/chat` is unchanged. **Neo:** `chat.answer()`
+takes an optional `emit`, tool calls are emitted after redaction (what actually left), and
+`llm.claude(..., show_thinking=True)` sets `thinking.display: "summarized"` for the streamed
+chat only. Opus 5.5 returns empty thinking text by default, so without it there's no visible reasoning.
+
+- **A reload no longer loses the run.** The current run's three backend ids and the
+  uploaded case PDF are kept in the browser (`frontend/src/lib/session.ts`); on load
+  the app reconnects and the backend replays every event, so finished stages and the
+  report come back with nothing re-run. "Clear run" forgets it.
+- **Restart the backend** to pick up `/api/drkg`, and never with `uvicorn --reload`
+  (Windows: subprocesses raise NotImplementedError under it). `numpy` is new in
+  `requirements.txt`.
+- **DRKG data is per machine**: 217 MB release into `backend/.venv/data/drkg/`
+  (`DRKG_DIR`; setup lines in `backend/agent/.env.example`). First run builds a
+  cache there in seconds.
+- **Henri — two changes in `drkg_scene.py`:** `DRKG_DIR` env var (its
+  `data/raw/drkg` default predates the reorg), and compound labels fall back to
+  the committed `names.json` when the Wikidata TSV is absent. Also a real bug:
+  eigenvector signs differ between numpy builds, so a cache rebuild here
+  **mirrored islands 5 and 13** vs the committed `points.bin`. A rebuild now
+  flips local axes to match the committed bins and keeps their bytes; verified:
+  the default scene's query points reproduce exactly.
+- The scene shader assumes ≤ 5 lanes (`laneAlpha`/`uLaneTime` are length 5);
+  keep `AGENT_MAX_SUBAGENTS=5`.
+
+- **Neo — one line in your file:** `graph.py`'s `plan` event now also carries
+  `rationale`, so the UI can show the orchestrator's reasoning. Additive only.
+- The agent reads `backend/data/patient/alex.json`, **not** the PDF uploaded in
+  the browser (`VITE_AGENT_PATIENT` to change). Sending the PDF to
+  `POST /api/patients` is the obvious next step; it adds ~45 s of Opus.
+- "Five agents" is `AGENT_MAX_SUBAGENTS=5` in your local `backend/agent/.env`;
+  the planner may still pick 3–5. Lanes render from the plan, so any count works.
+- Rehearse with `VITE_AGENT_REPLAY_RUN=<run_id>`: replays a recorded run at
+  real speed, no API spend. A verified one for Alex: `r20261108-021643-3a9717`
+  (96 s, 5 agents, 12 profiles). It lives in `backend/agent/runs/` (gitignored).
+- **Neo — two bugs that run surfaced (not fixed):** `no_drugs.py` scrubs
+  **"TDP-43" → "[drug]"** in the synthesis summary ("involves [drug]
+  proteinopathy"; 20 removals that run), so it's over-matching biology terms.
+  Root cause: `_CODE` (dev-code regex) matches `TDP-43`, and the hyphen makes
+  `_GENE_LIKE` fail; `HSP-70`/`HSP-90` go the same way. Don't just drop the
+  hyphen (that lets `MN-166` through); allowlist the protein names in
+  `scrub.code()`, and add a `test_privacy.py` assert that "TDP-43
+  proteinopathy" scrubs 0.
+  And `backend/data/patient/alex.json` says **Alex Moreau**, while the
+  frontend case (`alex-case.ts`) says **Alex Chen**. A judge will see both names.
+
 ## Knowledge graph view = the whole DRKG (2026-11-08)
 
 Sidebar → **Knowledge graph** is a searchable explorer of all 97,238 DRKG
 entities, on the same 24-island layout as stage 3. Search any name or id,
 click to see full relation counts, graph neighbours (walkable) and the 10
 nearest same-type entities in 400-d TransE. Data: `frontend/scripts/drkg_graph.py`
-→ `frontend/public/drkg/graph/` (~20 MB, committed so the demo laptop needs no
-download). Things to know before demoing it:
+→ `frontend/public/drkg/graph/` (~20 MB). **Untracked since `frontend/live-agent`
+(gitignored, Jeremy's call):** without the shards the page still renders the canvas
+and name search, but no neighbour inspector. Rebuild them on the demo laptop with
+`python frontend/scripts/drkg_graph.py` (needs the raw DRKG release). Merging
+that branch deletes them from main. Things to know before demoing it:
 
 - **Neighbour lists are capped at 44 per entity** (curated sources first);
   relation counts are always the full numbers. The inspector says "showing X of Y".

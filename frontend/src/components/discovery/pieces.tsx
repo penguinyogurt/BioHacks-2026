@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
-import { ArrowLeft, ArrowRight, Brain, Check, ChevronRight, Circle, FastForward, Loader2, MessageSquare, Play, RotateCcw, Terminal, Wrench, Zap } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Brain, Check, ChevronRight, Circle, FastForward, Loader2, MessageSquare, Play, Radio, RotateCcw, Terminal, Wrench, Zap } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -31,15 +31,27 @@ const STEP_TONE = { thinking: 'text-chart-4', tool_call: 'text-[#c9732a]', tool_
 export function StageHeader({ step, title, description }: { step: string; title: string; description?: string }) {
   const { state, skip, reset, runs, openedId } = useRun()
   const opened = runs.find((r) => r.id === openedId)
+  // A live agent can't be fast-forwarded; the scripted stages after it still can.
+  const liveRunning = state.source === 'live' && state.phase === 'running'
   return (
+    <>
     <PageHeader
-      eyebrow={`Pipeline / ${step}`}
+      eyebrow={`Discovery / ${step}`}
       title={title}
       description={description}
       actions={
         <>
           {opened ? <Badge variant="outline" className="font-normal">Run · {opened.date}</Badge> : null}
-          {state.phase === 'running' ? (
+          {state.phase !== 'idle' ? (
+            <Badge variant="outline" className="gap-1.5 font-normal">
+              {state.source === 'live' ? <><Radio className="size-3" aria-hidden /> Live agent</> : <><Circle className="size-2.5" aria-hidden /> Simulated</>}
+            </Badge>
+          ) : null}
+          {liveRunning ? (
+            <Button size="sm" variant="outline" onClick={reset}>
+              <RotateCcw aria-hidden /> Clear run
+            </Button>
+          ) : state.phase === 'running' ? (
             <Button size="sm" variant="outline" onClick={skip}>
               <FastForward aria-hidden /> Finish this step
             </Button>
@@ -51,12 +63,18 @@ export function StageHeader({ step, title, description }: { step: string; title:
         </>
       }
     />
+    {state.error ? (
+      <p role="alert" className="rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive ring-1 ring-destructive/30">
+        The agent run stopped: {state.error}
+      </p>
+    ) : null}
+    </>
   )
 }
 
 /**
- * Previous / next step, at the foot of every step page. The pipeline never moves
- * on by itself: when the next step hasn't run yet, Next runs it.
+ * Previous / next step, at the foot of every step page. When the next step hasn't
+ * run yet, Next runs it (a live run goes from analysis to profiles on its own).
  */
 export function StepNav({ view }: { view: string }) {
   const go = useGo()
@@ -133,14 +151,14 @@ export function EmptyStage({ view }: { view: string }) {
   )
 }
 
-function StepRow({ item }: { item: TraceItem }) {
+export function StepRow({ item }: { item: TraceItem }) {
   const [open, setOpen] = useState(false)
   const Icon = STEP_ICON[item.step.type]
   return (
     <div className="border-b border-border/60 last:border-b-0">
       <button type="button" onClick={() => setOpen((v) => !v)} className="flex w-full items-center gap-2 px-3 py-1.5 text-left hover:bg-foreground/[0.03]">
         <ChevronRight className={cn('size-3 shrink-0 text-muted-foreground transition-transform', open && 'rotate-90')} aria-hidden />
-        {item.lane !== undefined ? <span className="size-1.5 shrink-0 rounded-full" style={{ background: LANE_COLORS[item.lane] }} /> : null}
+        {item.lane !== undefined ? <span className="size-1.5 shrink-0 rounded-full" style={{ background: LANE_COLORS[item.lane % LANE_COLORS.length] }} /> : null}
         <Icon className={cn('size-3.5 shrink-0', STEP_TONE[item.step.type])} aria-hidden />
         <span className="truncate text-xs">{item.step.label}</span>
       </button>

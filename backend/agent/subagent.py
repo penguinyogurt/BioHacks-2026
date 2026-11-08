@@ -103,6 +103,16 @@ async def _run(brief: Brief, emit: Callable[[dict], None]) -> SubagentResult:
         return result or SubagentResult(profiles=[], dead_ends=["Sub-agent ended without a structured answer."])
 
 
+PREVIEW_CHARS = 1500
+
+
+def _text(content) -> str:
+    """A tool message's content as plain text: MCP tools can return a list of content blocks."""
+    if isinstance(content, list):
+        return "\n".join(b.get("text", "") if isinstance(b, dict) else str(b) for b in content)
+    return str(content)
+
+
 def _handle(update: dict, brief: Brief, emit: Callable[[dict], None], notes: list[str]) -> SubagentResult | None:
     result = None
     for node_out in update.values():
@@ -115,7 +125,10 @@ def _handle(update: dict, brief: Brief, emit: Callable[[dict], None], notes: lis
                         emit({"type": "tool_call", "criterion": brief.criterion, "data": {"tool": call["name"], "args": call["args"]}})
             elif isinstance(msg, ToolMessage) and msg.name != "SubagentResult":
                 notes.append(f"[{msg.name}] {str(msg.content)[:2500]}")
-                emit({"type": "tool_result", "criterion": brief.criterion, "data": {"tool": msg.name, "chars": len(str(msg.content)), "error": msg.status == "error"}})
+                # preview: what the tool actually returned, so the UI can show it. Sub-agents never see
+                # the patient, so this is public literature/trial/target data only.
+                text = _text(msg.content)
+                emit({"type": "tool_result", "criterion": brief.criterion, "data": {"tool": msg.name, "chars": len(text), "error": msg.status == "error", "preview": text[:PREVIEW_CHARS]}})
         if node_out.get("structured_response") is not None:
             result = node_out["structured_response"]
     return result

@@ -11,6 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { PageHeader } from '@/components/page-header'
 import { useGo } from '@/components/discovery/pieces'
+import { useRun } from '@/lib/run-store'
 import { cn } from '@/lib/utils'
 import { ALSFRS, ALSFRS_DOMAINS, ALSFRS_SLOPE, FLAGS, FVC, HAND, PATIENT, SPEECH, TESTS, WEIGHT } from '@/lib/alex-case'
 
@@ -20,7 +21,10 @@ import { ALSFRS, ALSFRS_DOMAINS, ALSFRS_SLOPE, FLAGS, FVC, HAND, PATIENT, SPEECH
  * Every number is stated in the case file (see lib/alex-case.ts).
  */
 
-/** Patients with monitoring data. Only Alex's file has longitudinal measurements so far. */
+/**
+ * Patients with monitoring data. Only Alex's file has longitudinal measurements so far,
+ * transcribed in lib/alex-case.ts, and they're shown only once that file has been uploaded.
+ */
 const PATIENTS = [
   {
     id: 'alex-chen',
@@ -38,22 +42,41 @@ const initials = (name: string) => name.split(' ').map((w) => w[0]).join('').sli
 const monthLabel = (m: number) =>
   new Intl.DateTimeFormat('en-CA', { month: 'short', year: 'numeric' }).format(new Date(2024, 5 + m, 1))
 
+/** The patients whose case file has been uploaded this session (Patient case page). Empty until then. */
+function useUploadedPatients() {
+  const { caseFile } = useRun()
+  const uploaded = caseFile?.patient.label.trim().toLowerCase()
+  return { patients: uploaded ? PATIENTS.filter((p) => p.name.toLowerCase() === uploaded) : [], uploadedName: caseFile?.patient.label ?? null }
+}
+
 export default function OverviewDashboard() {
   const [params, setParams] = useSearchParams()
-  const patient = PATIENTS.find((p) => p.id === params.get('p'))
+  const { patients, uploadedName } = useUploadedPatients()
+  const patient = patients.find((p) => p.id === params.get('p'))
   // The selection lives in the URL, so browser back returns to the list.
-  return patient ? <PatientView onBack={() => setParams({})} /> : <PatientPicker onPick={(id) => setParams({ p: id })} />
+  return patient ? (
+    <PatientView onBack={() => setParams({})} />
+  ) : (
+    <PatientPicker patients={patients} uploadedName={uploadedName} onPick={(id) => setParams({ p: id })} />
+  )
 }
 
 /* ------------------------------------------------------------- picker */
 
-function PatientPicker({ onPick }: { onPick: (id: string) => void }) {
+function PatientPicker({ patients, uploadedName, onPick }: { patients: typeof PATIENTS; uploadedName: string | null; onPick: (id: string) => void }) {
   const go = useGo()
   return (
     <div className="mx-auto max-w-[1440px] space-y-3 text-sm">
-      <PageHeader eyebrow="Library / Patient monitoring" title="Patients" description="Choose a patient to see how their measurements are changing." />
+      <PageHeader
+        eyebrow="Library / Patient monitoring"
+        title="Patients"
+        description={patients.length ? 'Choose a patient to see how their measurements are changing.' : 'No patients yet. Upload a case PDF to start monitoring.'}
+      />
+      {uploadedName && !patients.length ? (
+        <p className="text-muted-foreground">{uploadedName}’s case file has no longitudinal measurements to monitor.</p>
+      ) : null}
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-        {PATIENTS.map((p) => (
+        {patients.map((p) => (
           <button
             key={p.id}
             type="button"

@@ -133,7 +133,7 @@ export function AppSidebar({
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Pipeline</SidebarGroupLabel>
+          <SidebarGroupLabel>Discovery</SidebarGroupLabel>
           <SidebarMenu>
             {NAV_PIPELINE.map((item) => (
               <SidebarMenuItem key={item.value}>

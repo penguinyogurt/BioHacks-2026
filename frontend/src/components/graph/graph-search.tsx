@@ -106,7 +106,7 @@ export function GraphSearch({
               else input.current?.blur()
             }
           }}
-          className="h-10 w-full rounded-lg bg-popover pr-16 pl-9 text-sm shadow-xs ring-1 ring-border outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-search-cancel-button]:hidden"
+          className="h-10 w-full rounded-lg bg-card pr-16 backdrop-blur-md pl-9 text-sm shadow-xs ring-1 ring-border outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-search-cancel-button]:hidden"
         />
         <div className="absolute top-1/2 right-2 flex -translate-y-1/2 items-center gap-1">
           {query ? (

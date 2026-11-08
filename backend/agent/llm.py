@@ -32,10 +32,14 @@ def _limiter(model: str) -> InMemoryRateLimiter | None:
     return _limiters[model]
 
 
-def claude(model: str, effort: str | None = None) -> ChatAnthropic:
+def claude(model: str, effort: str | None = None, show_thinking: bool = False) -> ChatAnthropic:
     # Thinking is left at its default (adaptive; it can't be disabled on these
     # models). Effort is the depth/speed control. No temperature: rejected.
+    # show_thinking: thinking blocks otherwise arrive empty (display "omitted" is the
+    # default on these models); "summarized" returns a readable summary, for UIs that show it.
+    extra = {"thinking": {"type": "adaptive", "display": "summarized"}} if show_thinking else {}
     return ChatAnthropic(
+        **extra,
         model=model,
         api_key=ANTHROPIC_API_KEY,
         max_tokens=16000,

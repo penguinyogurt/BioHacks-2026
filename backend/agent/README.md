@@ -129,6 +129,8 @@ event loop that can't spawn the MCP subprocesses.
 | POST | `/api/research` body `{"question"?: string, "patient_id"?: string}` | `{run_id, events_url, report_url}` |
 | GET | `/api/research/{run_id}/events` | SSE stream: all past events, then live. Recorded runs replay from `agent/runs/`; `?replay_speed=1` keeps original timing |
 | GET | `/api/research/{run_id}` | `{status, report, error}` |
+| POST | `/api/drkg` body `{"research_run_id": string, "profiles"?: [{lane, name, criterion, targets}]}` (profiles from the research run's `verify` event let it start before synthesis) | `{run_id, events_url, report_url, scene_url}`. Stage 3: the run's target genes → DRKG matches (`drkg.py`, no LLM, ~2 s). Report: `{candidates, drugs_path, scene_url}`; pass `drugs_path` to `/api/assess` |
+| GET | `/api/research/{run_id}/scene.json` | the stage-3 scene for a DRKG run (layout binaries are the frontend's `/drkg/*.bin`) |
 | GET | `/api/research` | live + recorded run ids |
 | POST | `/api/assess/{run_id}/chat` body `{"messages": [{"role": "user"|"assistant", "content": string}]}` | `{answer, references, searches, dropped_citations, query_redactions}`: ask the ranking agent about a finished assessment |
 | GET | `/api/health` | key present, models, tracing on/off |

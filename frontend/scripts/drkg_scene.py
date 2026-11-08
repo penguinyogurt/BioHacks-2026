@@ -46,6 +46,7 @@ from __future__ import annotations
 import argparse
 import collections
 import json
+import os
 import re
 import subprocess
 import sys
@@ -55,7 +56,8 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
-RAW = ROOT / "data" / "raw" / "drkg"
+# DRKG_DIR: where the raw release was extracted (the agent backend keeps it in backend/.venv/data/drkg).
+RAW = Path(os.environ["DRKG_DIR"]) if os.environ.get("DRKG_DIR") else ROOT / "data" / "raw" / "drkg"
 CACHE = RAW / "cache"
 OUT = ROOT / "frontend" / "public" / "drkg"
 PIPELINE_TS = ROOT / "frontend" / "src" / "lib" / "pipeline.ts"
@@ -179,7 +181,29 @@ def load_triples(ent: dict[str, int], rel: dict[str, int], force: bool) -> tuple
     return h, r, t
 
 
-def build_layout(E: np.ndarray) -> dict:
+def build_layout(E: np.ndarray, ref: np.ndarray | None = None) -> dict:
+    """`ref`: an existing points.bin. Eigenvector signs are arbitrary and differ between numpy/LAPACK
+    builds, so a rebuild on another machine can mirror an island; with `ref`, each local axis is
+    flipped to agree with it, and the cached layout then matches the committed picture."""
+    L = _build_layout(E)
+    if ref is None or ref.shape != L["pts"].shape:
+        return L
+    lab, flipped = L["labels"], 0
+    for k in range(K_CLUSTERS):
+        m = lab == k
+        off_new = L["pts"][m] / L["s"] - L["centre"][k]
+        off_ref = ref[m] / L["s"] - L["centre"][k]
+        for j in range(3):
+            if (off_new[:, j] * off_ref[:, j]).sum() < 0:
+                L["local_W"][k][:, j] *= -1
+                flipped += 1
+    if flipped:
+        L = _build_layout(E, L["local_W"])
+        print(f"layout: flipped {flipped} local axes to match the existing points.bin", file=sys.stderr)
+    return L
+
+
+def _build_layout(E: np.ndarray, fixed_W: np.ndarray | None = None) -> dict:
     mu = E.mean(axis=0)
     X = E - mu
     evals, evecs = np.linalg.eigh(X.T @ X / len(E))
@@ -193,7 +217,7 @@ def build_layout(E: np.ndarray) -> dict:
     for k in range(K_CLUSTERS):
         res = Z[labels == k] - C[k]
         ev, vec = np.linalg.eigh(res.T @ res / len(res))
-        Wk = vec[:, np.argsort(ev)[::-1][:3]]
+        Wk = vec[:, np.argsort(ev)[::-1][:3]] if fixed_W is None else fixed_W[k]
         local_W.append(Wk)
         local_s.append(rho[k] / max(np.percentile(np.linalg.norm(res @ Wk, axis=1), 90), 1e-9))
     raw3 = np.empty((len(E), 3))
@@ -248,6 +272,13 @@ def load_labels(ent: dict[str, int]) -> tuple[dict[str, str], dict[str, list[str
                 db, name = (x.strip().strip('"').removesuffix('"@en') for x in line.rstrip("\n").split("\t", 1))
                 if f"Compound::{db}" in ent:
                     label.setdefault(f"Compound::{db}", name)
+    elif (OUT / "names.json").exists():
+        # The committed hover labels were built with the Wikidata names, so a machine without
+        # the TSV (e.g. the agent backend) still names compounds the same way the demo does.
+        by_row = {str(i): k for k, i in ent.items() if k.startswith("Compound::")}
+        for row, name in json.loads((OUT / "names.json").read_text(encoding="utf-8")).items():
+            if row in by_row:
+                label.setdefault(by_row[row], name)
     else:
         print(f"warning: {wiki} missing; most biologic/investigational compounds stay unnamed", file=sys.stderr)
     for k, v in label.items():
@@ -315,7 +346,11 @@ def main() -> int:
     relayout = args.relayout or not (CACHE / "layout.npz").exists() or not all((OUT / f).exists() for f in LAYOUT_BINS)
     H, Rr, T = load_triples(ent, rel, force=args.relayout)
     if relayout:
-        L = build_layout(np.asarray(E, dtype=np.float64))
+        old = OUT / "points.bin"
+        ref = np.frombuffer(old.read_bytes(), "<f4").reshape(-1, 3) if old.exists() else None
+        L = build_layout(np.asarray(E, dtype=np.float64), ref)
+        if ref is not None and ref.shape == L["pts"].shape and np.abs(ref - L["pts"]).max() < 1e-3:
+            L["pts"] = ref.copy()  # same layout up to float noise: keep the committed bytes
         np.savez(CACHE / "layout.npz", **{k: v for k, v in L.items() if k not in ("labels", "pts")})
         counts = collections.Counter(kinds).most_common()
         type_index = {k: i for i, (k, _) in enumerate(counts)}

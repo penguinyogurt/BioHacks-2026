@@ -32,7 +32,7 @@ from pydantic import BaseModel, Field
 from sse_starlette.sse import EventSourceResponse
 
 from agent.config import ANTHROPIC_API_KEY, DEFAULT_PATIENT, PATIENT_DIR, LANGSMITH_PROJECT, ROOT, MAX_CONCURRENCY, ORCHESTRATOR_MODEL, RUN_TIMEOUT_S, RUNS_DIR, SUBAGENT_MODEL, tracing_enabled
-from agent import assess, chat
+from agent import assess, chat, drkg
 from agent.graph import DEFAULT_QUESTION, graph
 from agent.ingest import PATIENT_ID, IngestError, parse_pdf, save, summary
 
@@ -124,6 +124,61 @@ async def start_research(body: ResearchRequest):
     run = RUNS[run_id] = Run(run_id=run_id, question=(body.question or DEFAULT_QUESTION).strip(), patient_id=body.patient_id)
     asyncio.create_task(execute(run))
     return {"run_id": run_id, "events_url": f"/api/research/{run_id}/events", "report_url": f"/api/research/{run_id}"}
+
+
+class DrkgProfile(BaseModel):
+    lane: int
+    name: str
+    criterion: str = ""
+    targets: list[str]
+
+
+class DrkgRequest(BaseModel):
+    research_run_id: str = ""
+    patient_id: str = DEFAULT_PATIENT
+    # The sub-agents' verified targets, straight from the research run's `verify` event, so
+    # matching starts while the orchestrator is still ranking. Without them, research_run_id
+    # must name a finished run and its report's profiles are used.
+    profiles: list[DrkgProfile] | None = None
+
+
+async def execute_drkg(run: Run, profiles: list[dict], research_run_id: str) -> None:
+    await run.push({"type": "run_started", "data": {"kind": "drkg", "research_run_id": research_run_id}})
+    pushes: list[asyncio.Task] = []
+    try:
+        summary = await drkg.run(run.run_id, profiles, lambda e: pushes.append(asyncio.create_task(run.push(e))), research_run_id, run.patient_id)
+        await asyncio.gather(*pushes)
+        run.report, run.status = summary, "done"
+        await run.push({"type": "run_finished", "data": {"candidates": len(summary["candidates"])}})
+    except Exception as e:
+        await asyncio.gather(*pushes, return_exceptions=True)
+        run.status, run.error = "error", f"{type(e).__name__}: {e}"[:500]
+        await run.push({"type": "error", "data": {"message": run.error}})
+
+
+@app.post("/api/drkg")
+async def start_drkg(body: DrkgRequest):
+    """Stage 3: match the sub-agents' target genes to DrugBank compounds in DRKG. No LLM calls."""
+    if body.profiles:
+        profiles, patient_id = [p.model_dump() for p in body.profiles], body.patient_id
+    else:
+        report = (await get_run(body.research_run_id))["report"] if body.research_run_id else None
+        if not report or "profiles" not in report:
+            raise HTTPException(409, "give profiles, or a research run that has produced a report")
+        profiles, patient_id = drkg.profiles_from(report), report.get("patient_id", body.patient_id)
+    run_id = time.strftime("d%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6]
+    run = RUNS[run_id] = Run(run_id=run_id, question="drkg matching", patient_id=patient_id)
+    asyncio.create_task(execute_drkg(run, profiles, body.research_run_id))
+    return {"run_id": run_id, "events_url": f"/api/research/{run_id}/events", "report_url": f"/api/research/{run_id}", "scene_url": f"/api/research/{run_id}/scene.json"}
+
+
+@app.get("/api/research/{run_id}/scene.json")
+async def drkg_scene(run_id: str):
+    """The stage-3 scene for a DRKG run. Its layout binaries are the frontend's own /drkg/*.bin."""
+    path = RUNS_DIR / f"{run_id}.scene.json"
+    if not path.is_file() or not path.resolve().is_relative_to(RUNS_DIR.resolve()):
+        raise HTTPException(404, "no DRKG scene for this run")
+    return Response(path.read_bytes(), media_type="application/json")
 
 
 class AssessRequest(BaseModel):
@@ -255,6 +310,40 @@ async def assessment_chat(run_id: str, body: ChatRequest):
         return await asyncio.wait_for(chat.answer(report, [m.model_dump() for m in body.messages]), 180)
     except asyncio.TimeoutError:
         raise HTTPException(504, "the agent took too long; try a narrower question")
+
+
+@app.post("/api/assess/{run_id}/chat/stream")
+async def assessment_chat_stream(run_id: str, body: ChatRequest):
+    """/chat as SSE, so the UI can show the agent working: `thinking` {text}, `tool_call`
+    {tool, query, redactions}, `tool_result` {tool, content}, then one `answer` (the /chat
+    payload) or `error` {message}. POST, so read it with fetch, not EventSource."""
+    if body.messages[-1].role != "user":
+        raise HTTPException(422, "the last message must be the user's question")
+    report = await _assessment(run_id)
+    queue: asyncio.Queue[dict] = asyncio.Queue()
+
+    async def work():
+        try:
+            out = await asyncio.wait_for(chat.answer(report, [m.model_dump() for m in body.messages], queue.put_nowait), 180)
+            queue.put_nowait({"type": "answer", "data": out})
+        except asyncio.TimeoutError:
+            queue.put_nowait({"type": "error", "data": {"message": "The agent took too long; try a narrower question."}})
+        except Exception as e:
+            queue.put_nowait({"type": "error", "data": {"message": f"{type(e).__name__}: {e}"[:400]}})
+
+    task = asyncio.create_task(work())
+
+    async def events():
+        try:
+            while True:
+                e = await queue.get()
+                yield {"event": e["type"], "data": json.dumps(e["data"])}
+                if e["type"] in ("answer", "error"):
+                    return
+        finally:
+            task.cancel()  # the client closed the page mid-answer: stop paying for it
+
+    return EventSourceResponse(events())
 
 
 @app.get("/api/research")

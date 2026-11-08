@@ -230,10 +230,16 @@ class AssessedDrug(BaseModel):
     source_urls: list[str] = Field(default_factory=list, description="Non-PubMed URLs from the fact sheets or web_research backing this assessment")
 
 
+# The report is laid out as a scientific paper (report_pdf.py): summary is its abstract.
+PAPER = ("Scientific register: third person, past tense for what was done, no first person ('I', 'we'), "
+         "and no remarks about your own tools, searches or budget.")
+
+
 class FinalAssessment(BaseModel):
-    summary: str = Field(description="4-6 sentences: the delivery rationale (why poorly BBB-penetrant drugs + MRgFUS), how candidates were found, and the top candidates. " + CITE)
+    summary: str = Field(description="The report's abstract, 5-7 sentences: the delivery rationale (why poorly BBB-penetrant drugs + MRgFUS), "
+                                      "how candidates were found, the top candidates and the main conclusion. " + PAPER + " " + CITE)
     ranked: list[AssessedDrug] = Field(description="Every drug, best first")
-    limitations: str = Field(description="2-4 sentences specific to this run's evidence gaps. " + CITE)
+    limitations: str = Field(description="2-4 sentences specific to this run's evidence gaps. " + PAPER + " " + CITE)
 
 
 class Paper(BaseModel):

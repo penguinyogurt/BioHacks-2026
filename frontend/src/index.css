@@ -49,7 +49,8 @@
 @theme inline {
   --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-brand: "Sora", "Geist Variable", sans-serif;
+  --font-brand: "Fraunces Variable", Georgia, serif;
+  --font-mono: "Martian Mono Variable", ui-monospace, monospace;
   --font-serif-display: "Instrument Serif", Georgia, serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -105,7 +106,7 @@
 }
 
 @layer components {
-  .font-brand { font-family: var(--font-brand); font-weight: 600; letter-spacing: -0.035em; }
+  .font-brand { font-family: var(--font-brand); font-weight: 560; letter-spacing: -0.025em; font-variation-settings: "SOFT" 100, "WONK" 0; }
   .font-serif-display { font-family: var(--font-serif-display); font-weight: 400; }
 
   .eyebrow {

@@ -5,13 +5,15 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/componen
 import { cn } from '@/lib/utils'
 import { readCasePdf } from '@/lib/case-pdf'
 import { buildReportPdf } from '@/lib/report-pdf'
-import { PROFILES, SAMPLE_PATIENT } from '@/lib/pipeline'
+import { PROFILES, SAMPLE_PATIENT, type StageId } from '@/lib/pipeline'
 import { useRun } from '@/lib/run-store'
+import { AGENT_PATIENT } from '@/lib/agent-api'
 import { LANE_COLORS } from './lanes'
-import { EmptyStage, PatientCard, STEPS, StageHeader, StepNav, Trace } from './pieces'
+import { EmptyStage, PatientCard, STEPS, StageHeader, StepNav, Trace, useGo } from './pieces'
 import { DrkgScene } from './drkg-scene'
-import { useDrkg } from './drkg-data'
+import { DEFAULT_SRC, useDrkg } from './drkg-data'
 import { ProfileGrid } from './profile-card'
+import { ResearchChat } from './research-chat'
 
 type Go = (view: string) => void
 
@@ -140,17 +142,50 @@ export function CasePage({ go }: { go: Go }) {
   )
 }
 
+/**
+ * A live run moves on by itself: when `stage` starts, follow it to `view`, `delay` ms after
+ * `ready` (e.g. once the DRKG scene has finished drawing). Fires only on that transition,
+ * so going back to an earlier page stays put. Once due, the move survives the stage
+ * finishing in the meantime (DRKG takes ~2 s, less than some delays).
+ */
+function useFollow(stage: StageId, view: string, ready = true, delay = 0) {
+  const { state } = useRun()
+  const go = useGo()
+  const status = state.stages[stage]
+  const live = state.source === 'live'
+  const was = useRef(status)
+  const [due, setDue] = useState(false)
+  useEffect(() => {
+    if (!ready) return
+    if (live && was.current === 'pending' && status !== 'pending') setDue(true)
+    was.current = status
+  }, [live, status, ready])
+  useEffect(() => {
+    if (!due) return
+    const t = setTimeout(() => go(view), delay)
+    return () => clearTimeout(t)
+    // `go` is a new function every render (Home's setView); `due` makes this fire once anyway.
+  }, [due, view, delay])
+}
+
 /* -------------------------------------------------------- 01 patient analysis */
 
 export function AnalysisPage() {
   const { state, caseFile } = useRun()
-  const summary = state.trace.find((t) => t.stage === 'analysis' && t.step.type === 'output')
+  const live = state.source === 'live'
+  const summary = state.trace.find((t) => t.stage === 'analysis' && t.step.type === 'output' && (t.step.label === 'Patient summary' || t.step.label === 'Research plan'))
+  // The moment the orchestrator sends its briefs to the sub-agents, follow it to their page.
+  useFollow('profiles', 'profiles')
   return (
     <div className="mx-auto max-w-[1440px] space-y-3 text-sm">
       <StageHeader
         step="02 · Patient analysis"
         title="Clinical picture"
-        description="The analysis agent summarises the key findings and checks the genetics against NCBI and ClinVar."
+        description={
+          live
+            ? 'The orchestrator reads the full record, picks the mechanisms and symptoms that matter for this patient, and writes one sanitised brief per sub-agent.'
+            : 'The analysis agent summarises the key findings and checks the genetics against NCBI and ClinVar.'
+        }
       />
       {state.stages.analysis === 'pending' ? (
         <EmptyStage view="analysis" />
@@ -169,13 +204,13 @@ export function AnalysisPage() {
             ) : null}
           </div>
           <div className="space-y-3 lg:col-span-7">
-            <Trace stage="analysis" title="Analysis agent" />
+            <Trace stage="analysis" title={live ? 'Orchestrator' : 'Analysis agent'} />
             {summary ? (
               <Card className="gap-2 [--card-spacing:--spacing(5)]">
                 <CardHeader>
-                  <CardTitle className="text-lg font-normal">Patient summary</CardTitle>
+                  <CardTitle className="text-lg font-normal">{summary.step.label}</CardTitle>
                 </CardHeader>
-                <CardContent><p>{summary.step.content}</p></CardContent>
+                <CardContent><p className="whitespace-pre-line">{summary.step.content}</p></CardContent>
               </Card>
             ) : null}
           </div>
@@ -188,16 +223,37 @@ export function AnalysisPage() {
 
 /* ---------------------------------------------------------- 02 profile agents */
 
+const COUNT = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']
+
 export function ProfilesPage() {
   const { state } = useRun()
+  const n = state.lanes.length
+  const count = COUNT[n] ?? String(n)
+  const ranked = state.trace.find((t) => t.step.label === 'Ranked for this patient')
+  // Straight to the DRKG page the moment stage 3 starts, so the traversal is watched from its first frame.
+  useFollow('embedding', 'embedding')
   return (
     <div className="mx-auto max-w-[1600px] space-y-3 text-sm">
       <StageHeader
         step="03 · Profile agents"
-        title="Five therapeutic hypotheses"
-        description="Five agents run in parallel, each defining the drug that would test one disease mechanism in this patient."
+        title={`${count} therapeutic hypotheses`}
+        description={`${count} agents run in parallel, each defining the drug that would test one disease mechanism in this patient.`}
       />
-      {state.stages.profiles === 'pending' ? <EmptyStage view="profiles" /> : <ProfileGrid />}
+      {state.stages.profiles === 'pending' ? (
+        <EmptyStage view="profiles" />
+      ) : (
+        <>
+        <ProfileGrid />
+        {ranked ? (
+          <Card className="gap-2 [--card-spacing:--spacing(5)]">
+            <CardHeader>
+              <CardTitle className="text-lg font-normal">Ranked for this patient</CardTitle>
+            </CardHeader>
+            <CardContent><p className="whitespace-pre-line">{ranked.step.content}</p></CardContent>
+          </Card>
+        ) : null}
+        </>
+      )}
       <StepNav view="profiles" />
     </div>
   )
@@ -207,7 +263,12 @@ export function ProfilesPage() {
 
 export function EmbeddingPage() {
   const { state } = useRun()
-  const { data } = useDrkg()
+  const live = state.source === 'live'
+  // Live: the scene the backend computed from the agents' own target genes. Until it lands, nothing.
+  const src = live ? state.sceneSrc : DEFAULT_SRC
+  const { data } = useDrkg(src ?? DEFAULT_SRC)
+  // Arriving while the stage is still working means the user should watch the traversal draw.
+  const [fresh] = useState(state.stages.embedding !== 'done')
   const [focus, setFocus] = useState<number | null>(null)
   const [selected, setSelected] = useState<number | null>(null)
   const [revealed, setRevealed] = useState(0)
@@ -217,7 +278,10 @@ export function EmbeddingPage() {
     window.addEventListener('keydown', esc)
     return () => window.removeEventListener('keydown', esc)
   }, [selected])
-  const profiles = data?.scene.profiles ?? []
+  const profiles = src ? (data?.scene.profiles ?? []) : []
+  const placeholder = live ? state.lanes : PROFILES
+  // Move on to the report once every profile has been drawn, with a beat to take it in.
+  useFollow('research', 'candidates', profiles.length > 0 && revealed >= profiles.length, 3000)
   return (
     <div className="mx-auto max-w-[1440px] space-y-3 text-sm">
       <StageHeader
@@ -229,16 +293,26 @@ export function EmbeddingPage() {
         <EmptyStage view="embedding" />
       ) : (
         <div className="space-y-3">
+          {src ? (
           <DrkgScene
-              status={state.stages.embedding}
+              key={src}
+              src={src}
+              status={fresh && state.stages.embedding === 'done' ? 'running' : state.stages.embedding}
               focusLane={focus}
               selectedLane={selected}
               onSelectLane={setSelected}
               onReveal={setRevealed}
               className="h-[38rem]"
             />
+          ) : (
+            <Card className="h-[38rem] [--card-spacing:--spacing(6)]">
+              <CardContent className="flex h-full items-center justify-center gap-2 text-muted-foreground">
+                <Loader2 className="size-4 animate-spin" aria-hidden /> Scoring the agents’ target genes against every DrugBank compound in DRKG…
+              </CardContent>
+            </Card>
+          )}
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-            {(profiles.length ? profiles : PROFILES.map((p) => ({ lane: p.lane, name: p.name, matches: [], unresolved: [] }))).map((p, i) => (
+            {(profiles.length ? profiles : placeholder.map((p) => ({ lane: p.lane, name: p.name, matches: [], unresolved: [] }))).map((p, i) => (
               <button
                 type="button"
                 key={p.lane}
@@ -254,7 +328,7 @@ export function EmbeddingPage() {
                   selected !== null && selected !== p.lane && 'opacity-60',
                 )}
               >
-                <p className="flex items-center gap-1.5 font-medium"><span className="size-2 rounded-full" style={{ background: LANE_COLORS[p.lane] }} /> {p.name}</p>
+                <p className="flex items-center gap-1.5 font-medium"><span className="size-2 rounded-full" style={{ background: LANE_COLORS[p.lane % LANE_COLORS.length] }} /> {p.name}</p>
                 {revealed > i ? (
                   <>
                     <ul className="mt-1.5 space-y-0.5">
@@ -290,21 +364,40 @@ export function EmbeddingPage() {
 
 export function CandidatesPage() {
   const { state, weights, date, caseFile } = useRun()
+  const live = state.source === 'live'
   const patient = caseFile?.patient ?? SAMPLE_PATIENT
   // The agent's report, as a PDF for the browser's own viewer (same as the case file in step 0).
   const [url, setUrl] = useState<string | null>(null)
+  const [pdfError, setPdfError] = useState<string | null>(null)
   // Each URL is created and revoked by the same effect run, so StrictMode's
   // mount → unmount → mount can't revoke the one the viewer is still showing.
   useEffect(() => {
     if (!state.report) return
-    const u = buildReportPdf({ patient, weights, date, caseName: caseFile?.name })
-    setUrl(u)
+    let u: string | null = null
+    let gone = false
+    setPdfError(null)
+    if (live && state.reportPdf) {
+      // The backend's PDF is served as an attachment; fetched as a blob, the browser shows it inline.
+      fetch(state.reportPdf)
+        .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
+        .then((b) => {
+          if (gone) return
+          u = URL.createObjectURL(new Blob([b], { type: 'application/pdf' }))
+          setUrl(u)
+        })
+        .catch((e: Error) => !gone && setPdfError(`Couldn’t load the report PDF (${e.message}). The ranking is in the trace.`))
+    } else if (!live) {
+      u = buildReportPdf({ patient, weights, date, caseName: caseFile?.name })
+      setUrl(u)
+    }
     return () => {
-      URL.revokeObjectURL(u)
+      gone = true
+      if (u) URL.revokeObjectURL(u)
       setUrl(null)
     }
-  }, [state.report, patient, weights, date, caseFile?.name])
-  const filename = `Addo report - ${patient.label}.pdf`
+  }, [state.report, state.reportPdf, live, patient, weights, date, caseFile?.name])
+  // A live report is about the backend's patient record, not the case parsed in the browser.
+  const filename = `Addo report - ${live ? AGENT_PATIENT : patient.label}.pdf`
   return (
     <div className="mx-auto max-w-[1440px] space-y-3 text-sm">
       <StageHeader
@@ -344,12 +437,18 @@ export function CandidatesPage() {
               </Card>
             ) : (
               <Card className="[--card-spacing:--spacing(6)]">
-                <CardContent className="flex items-center gap-2 text-muted-foreground"><Loader2 className="size-4 animate-spin" aria-hidden /> Writing the report…</CardContent>
+                {pdfError ? (
+                  <CardContent className="text-destructive" role="alert">{pdfError}</CardContent>
+                ) : (
+                  <CardContent className="flex items-center gap-2 text-muted-foreground"><Loader2 className="size-4 animate-spin" aria-hidden /> Writing the report…</CardContent>
+                )}
               </Card>
             )}
           </div>
         </div>
       )}
+      {/* Keyed by run, so a new or reopened run starts a fresh conversation. */}
+      {live && state.assessRunId && state.stages.research === 'done' ? <ResearchChat key={state.assessRunId} runId={state.assessRunId} /> : null}
       <StepNav view="candidates" />
     </div>
   )
