@@ -1,0 +1,15 @@
+{
+  "tool_use_id": "toolu_018oxBh7vbqviXPYk4AvcU3T",
+  "agent_id": "a201e0ce3c0d824de",
+  "subagent_type": "fork",
+  "task_description": "Build 3D DRKG traversal scene",
+  "token_usage": {
+    "input_tokens": 235,
+    "cache_creation_tokens": 252903,
+    "cache_read_tokens": 35341945,
+    "output_tokens": 161186,
+    "api_call_count": 109
+  },
+  "started_at": "2026-11-08T00:52:09.4296845-05:00",
+  "completed_at": "2026-11-08T02:35:55.0493926-05:00"
+}
