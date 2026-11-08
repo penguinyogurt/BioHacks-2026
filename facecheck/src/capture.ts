@@ -1,12 +1,9 @@
 import { startRecording, stopRecording } from "./render";
 import {
-  COUNTDOWN_MS,
   EXPRESSIONS,
   HOLD_MS,
-  INSTRUCTION_MS,
   NEUTRAL_CUE,
   NEUTRAL_HOLD_MS,
-  RELAX_MS,
   REPS_PER_EXPRESSION,
   type BlendshapeVector,
   type CaptureId,
@@ -57,31 +54,26 @@ async function hold(ms: number): Promise<BlendshapeVector> {
   return peakVector(stopRecording());
 }
 
-export type Phase = "instruction" | "countdown" | "hold" | "relax";
-export type Prompt = (phase: Phase, label: string, cue: string) => void;
+export type Phase = "instruction" | "hold";
+export type Prompt = (phase: Phase, label: string, cue: string, rep: number, repsTotal: number) => void;
+/** Shows a button with this label and resolves when the person clicks it — the person paces the whole protocol. */
+export type WaitForAdvance = (buttonLabel: string) => Promise<void>;
 
-export async function runProtocol(onPrompt: Prompt): Promise<Record<CaptureId, BlendshapeVector>> {
+export async function runProtocol(onPrompt: Prompt, waitForAdvance: WaitForAdvance): Promise<Record<CaptureId, BlendshapeVector>> {
   const result = {} as Record<CaptureId, BlendshapeVector>;
 
-  onPrompt("instruction", "Neutral", NEUTRAL_CUE);
-  await sleep(INSTRUCTION_MS);
-  onPrompt("hold", "Neutral", NEUTRAL_CUE);
+  onPrompt("instruction", "Neutral", NEUTRAL_CUE, 1, 1);
+  await waitForAdvance("Capture neutral face");
+  onPrompt("hold", "Neutral", NEUTRAL_CUE, 1, 1);
   result.neutral = await hold(NEUTRAL_HOLD_MS);
 
   for (const { id, label, cue } of EXPRESSIONS) {
-    onPrompt("instruction", label, cue);
-    await sleep(INSTRUCTION_MS);
-    onPrompt("countdown", label, cue);
-    await sleep(COUNTDOWN_MS);
-
     const reps: BlendshapeVector[] = [];
     for (let rep = 0; rep < REPS_PER_EXPRESSION; rep++) {
-      onPrompt("hold", label, cue);
+      onPrompt("instruction", label, cue, rep + 1, REPS_PER_EXPRESSION);
+      await waitForAdvance(rep === 0 ? `Capture ${label}` : `Capture ${label} again`);
+      onPrompt("hold", label, cue, rep + 1, REPS_PER_EXPRESSION);
       reps.push(await hold(HOLD_MS));
-      if (rep < REPS_PER_EXPRESSION - 1) {
-        onPrompt("relax", label, cue);
-        await sleep(RELAX_MS);
-      }
     }
     result[id] = medianVector(reps);
   }

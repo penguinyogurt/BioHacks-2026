@@ -5,6 +5,7 @@ import type { BlendshapeVector } from "./protocol";
 let recordBuffer: BlendshapeVector[] | null = null;
 let started = false;
 let lastFaceSeenAt = 0;
+let meshVisible = true;
 
 /** Start buffering blendshape samples from the shared detect loop. */
 export function startRecording(): void {
@@ -20,6 +21,10 @@ export function stopRecording(): BlendshapeVector[] {
 
 export function faceCurrentlyVisible(): boolean {
   return performance.now() - lastFaceSeenAt < 500;
+}
+
+export function setMeshVisible(visible: boolean): void {
+  meshVisible = visible;
 }
 
 /** One continuous detect+draw loop shared by the live mesh overlay and expression capture. */
@@ -43,14 +48,14 @@ export function startRenderLoop(video: HTMLVideoElement, canvas: HTMLCanvasEleme
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (landmarks) {
       lastFaceSeenAt = performance.now();
-      drawingUtils.drawConnectors(landmarks, FaceLandmarker.FACE_LANDMARKS_TESSELATION, {
-        color: "rgba(111, 211, 160, 0.25)",
-        lineWidth: 1,
-      });
-      drawingUtils.drawConnectors(landmarks, FaceLandmarker.FACE_LANDMARKS_CONTOURS, {
-        color: "#6fd3a0",
-        lineWidth: 1.5,
-      });
+      // Just the face/eye/brow/lip outlines, not the full 478-point triangulated
+      // mesh -- that covered too much of the face to read expressions behind it.
+      if (meshVisible) {
+        drawingUtils.drawConnectors(landmarks, FaceLandmarker.FACE_LANDMARKS_CONTOURS, {
+          color: "rgba(255, 255, 255, 0.55)",
+          lineWidth: 1,
+        });
+      }
     }
 
     if (recordBuffer && blendshapes) recordBuffer.push(blendshapes);

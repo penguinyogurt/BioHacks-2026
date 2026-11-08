@@ -1,7 +1,7 @@
 import "./style.css";
 import { loadFaceLandmarker } from "./landmarker";
-import { faceCurrentlyVisible, startRenderLoop } from "./render";
-import { runProtocol, type Phase, type Prompt } from "./capture";
+import { faceCurrentlyVisible, setMeshVisible, startRenderLoop } from "./render";
+import { runProtocol, type Phase, type Prompt, type WaitForAdvance } from "./capture";
 import { appendSession, clearStore, loadStore, saveBaseline, type Session } from "./storage";
 import {
   compareSession,
@@ -19,26 +19,40 @@ const statusEl = document.getElementById("status") as HTMLDivElement;
 const resultsEl = document.getElementById("results") as HTMLDivElement;
 const promptEl = document.getElementById("prompt") as HTMLDivElement;
 const promptTextEl = document.getElementById("prompt-text") as HTMLSpanElement;
+const promptAdvanceEl = document.getElementById("prompt-advance") as HTMLButtonElement;
 const btnBaseline = document.getElementById("btn-baseline") as HTMLButtonElement;
 const btnCheckin = document.getElementById("btn-checkin") as HTMLButtonElement;
 const btnReset = document.getElementById("btn-reset") as HTMLButtonElement;
 const faceIndicator = document.getElementById("face-indicator") as HTMLDivElement;
 const faceIndicatorText = document.getElementById("face-indicator-text") as HTMLSpanElement;
+const chkMesh = document.getElementById("chk-mesh") as HTMLInputElement;
 
 function setStatus(text: string) {
   statusEl.textContent = text;
 }
 
-function showPrompt(phase: Phase, label: string, cue: string) {
+function showPrompt(phase: Phase, label: string, cue: string, rep: number, repsTotal: number) {
   promptEl.classList.remove("hidden");
-  const phaseText =
-    phase === "instruction" ? cue : phase === "countdown" ? "Get ready…" : phase === "relax" ? "Relax, then again…" : "Hold it!";
-  promptTextEl.textContent = `${label} — ${phaseText}`;
+  const repTag = repsTotal > 1 ? ` (${rep}/${repsTotal})` : "";
+  const phaseText = phase === "instruction" ? cue : "Hold it!";
+  promptTextEl.textContent = `${label}${repTag} — ${phaseText}`;
 }
 
 function hidePrompt() {
   promptEl.classList.add("hidden");
+  promptAdvanceEl.classList.add("hidden");
 }
+
+/** Shows the advance button and resolves the next time it's clicked. The person controls the pace. */
+const waitForAdvance: WaitForAdvance = (buttonLabel) =>
+  new Promise((resolve) => {
+    promptAdvanceEl.textContent = buttonLabel;
+    promptAdvanceEl.classList.remove("hidden");
+    promptAdvanceEl.onclick = () => {
+      promptAdvanceEl.classList.add("hidden");
+      resolve();
+    };
+  });
 
 function refreshButtons() {
   const store = loadStore();
@@ -75,23 +89,21 @@ function renderComparisons(cmp: SessionComparison, baseline: Session, store: Ret
     .map((e: ExpressionComparison) => {
       const lead = e.topBlendshapes[0];
 
-      const leadBar = lead
-        ? `
+      const leadBar = `
         <div class="lead-compare">
-          <span class="lead-name">${humanize(lead.name)}</span>
+          <span class="lead-name">${humanize(lead.name)} — <em>${lead.descriptor}</em></span>
           <div class="bshape-bars">
             <div class="bar baseline" style="width:${lead.baseline * 100}%"></div>
             <div class="bar current" style="width:${lead.current * 100}%"></div>
           </div>
         </div>
-        <p class="legend"><span class="dot baseline"></span> baseline <span class="dot current"></span> this check-in</p>`
-        : `<p class="legend">No tracked muscle moved enough at baseline for this expression.</p>`;
+        <p class="legend"><span class="dot baseline"></span> baseline <span class="dot current"></span> this check-in</p>`;
 
       const detailRows = e.topBlendshapes
         .map(
           (b) => `
         <div class="bshape-row">
-          <span class="bshape-name">${humanize(b.name)}</span>
+          <span class="bshape-name">${humanize(b.name)}<br /><em class="descriptor">${b.descriptor}</em></span>
           <div class="bshape-bars">
             <div class="bar baseline" style="width:${b.baseline * 100}%"></div>
             <div class="bar current" style="width:${b.current * 100}%"></div>
@@ -180,8 +192,8 @@ async function runSession(mode: "baseline" | "checkin") {
   btnReset.disabled = true;
   setStatus(mode === "baseline" ? "Recording baseline…" : "Running check-in…");
 
-  const onPrompt: Prompt = (phase, label, cue) => showPrompt(phase, label, cue);
-  const expressions = await runProtocol(onPrompt);
+  const onPrompt: Prompt = (phase, label, cue, rep, repsTotal) => showPrompt(phase, label, cue, rep, repsTotal);
+  const expressions = await runProtocol(onPrompt, waitForAdvance);
   hidePrompt();
 
   const session: Session = { capturedAt: new Date().toISOString(), expressions };
@@ -247,6 +259,9 @@ async function init() {
     faceIndicator.classList.toggle("lost", !visible);
     faceIndicatorText.textContent = visible ? "tracking" : "no face detected";
   }, 300);
+  chkMesh.addEventListener("change", () => setMeshVisible(chkMesh.checked));
+  setMeshVisible(chkMesh.checked);
+
   setStatus("Ready.");
   btnBaseline.disabled = false;
   refreshButtons();

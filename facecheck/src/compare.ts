@@ -8,16 +8,16 @@ import {
 } from "./protocol";
 import type { ExpressionCapture } from "./storage";
 
-/** Only blendshapes that actually moved at baseline count toward the amplitude index. */
-const ACTIVE_THRESHOLD = 0.12;
-const TOP_N = 6;
+/** Below this, a baseline reading is too close to zero to divide by meaningfully. */
+const STABILITY_THRESHOLD = 0.04;
 
 export type BlendshapeDelta = {
   name: string;
   baseline: number;
   current: number;
-  /** Fraction below baseline; positive = weaker than baseline, negative = stronger. */
+  /** Fraction below baseline; positive = weaker than baseline, negative = stronger. Clamped to [-1, 1.5]. */
   relativeDrop: number;
+  descriptor: string;
 };
 
 /** "mouthSmileLeft" -> "Mouth smile (left)" */
@@ -33,6 +33,15 @@ export function humanize(name: string): string {
   }
   const words = base.replace(/^_/, "").replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase();
   return words.charAt(0).toUpperCase() + words.slice(1) + suffix;
+}
+
+/** Plain-language read of a single blendshape's relative drop. */
+function descriptorFor(relativeDrop: number): string {
+  if (relativeDrop >= 0.35) return "much less expressive";
+  if (relativeDrop >= 0.15) return "less expressive";
+  if (relativeDrop >= -0.15) return "about the same";
+  if (relativeDrop >= -0.35) return "more expressive";
+  return "much more expressive";
 }
 
 export type Severity = "normal" | "mild" | "reduced";
@@ -84,29 +93,23 @@ function mad(values: number[], center: number): number {
   return median(values.map((v) => Math.abs(v - center)));
 }
 
-/** The active muscle set for this expression: curated AUs that actually moved at this person's baseline. */
-function activeSetFor(id: ExpressionId, baselineNet: BlendshapeVector): string[] {
-  const curated = EXPRESSION_PRIMARY_BLENDSHAPES[id].filter((n) => (baselineNet[n] ?? 0) >= ACTIVE_THRESHOLD);
-  if (curated.length >= 2) return curated;
-  // Fallback for a person whose baseline barely activated the textbook AUs for this expression:
-  // use whatever moved most, so the metric still means something.
-  return Object.keys(baselineNet)
-    .filter((n) => (baselineNet[n] ?? 0) >= ACTIVE_THRESHOLD)
-    .sort((a, b) => baselineNet[b] - baselineNet[a])
-    .slice(0, TOP_N);
+/** Relative drop with a stability guard (baseline too close to zero to divide by) and a sanity clamp. */
+function relativeDrop(baseline: number, current: number): number {
+  if (baseline < STABILITY_THRESHOLD) return 0;
+  const raw = (baseline - current) / baseline;
+  return Math.max(-1, Math.min(1.5, raw));
 }
 
-/** Mean relative drop over the active muscle set, on neutral-normalized vectors. */
+/**
+ * Mean relative drop over this expression's curated AU set, on neutral-normalized
+ * vectors. Always uses the full curated set (not a subset filtered by activity) so
+ * the "N tracked muscles" count a person sees stays constant session to session —
+ * muscles that barely moved just contribute ~0 instead of disappearing.
+ */
 function expressionAmplitudeIndex(id: ExpressionId, baseline: ExpressionCapture, current: ExpressionCapture): number {
   const baselineNet = netVector(baseline[id], baseline.neutral);
   const currentNet = netVector(current[id], current.neutral);
-  const active = activeSetFor(id, baselineNet);
-  if (active.length === 0) return 0;
-  const drops = active.map((n) => {
-    const b = baselineNet[n] ?? 0;
-    const c = currentNet[n] ?? 0;
-    return b === 0 ? 0 : (b - c) / b;
-  });
+  const drops = EXPRESSION_PRIMARY_BLENDSHAPES[id].map((n) => relativeDrop(baselineNet[n] ?? 0, currentNet[n] ?? 0));
   return drops.reduce((sum, d) => sum + d, 0) / drops.length;
 }
 
@@ -139,16 +142,15 @@ function compareExpressionDetailed(
   const label = EXPRESSIONS.find((e) => e.id === id)?.label ?? id;
   const baselineNet = netVector(baseline[id], baseline.neutral);
   const currentNet = netVector(current[id], current.neutral);
-  const active = activeSetFor(id, baselineNet);
 
-  const topBlendshapes: BlendshapeDelta[] = active
+  const topBlendshapes: BlendshapeDelta[] = EXPRESSION_PRIMARY_BLENDSHAPES[id]
     .map((name) => {
       const b = baselineNet[name] ?? 0;
       const c = currentNet[name] ?? 0;
-      return { name, baseline: b, current: c, relativeDrop: b === 0 ? 0 : (b - c) / b };
+      const drop = relativeDrop(b, c);
+      return { name, baseline: b, current: c, relativeDrop: drop, descriptor: descriptorFor(drop) };
     })
-    .sort((a, b) => b.baseline - a.baseline)
-    .slice(0, TOP_N);
+    .sort((a, b) => b.baseline - a.baseline);
 
   const asymmetry: AsymmetryReading[] = ASYMMETRY_PAIRS.map((pair) => {
     const baselineAI = asymmetryIndex(baseline[id], pair);

@@ -2,14 +2,18 @@ export type ExpressionId = "happy" | "sad" | "angry" | "surprised" | "disgust";
 export type CaptureId = ExpressionId | "neutral";
 
 export const EXPRESSIONS: { id: ExpressionId; label: string; cue: string }[] = [
-  { id: "happy", label: "Happy", cue: "Smile as big as you can" },
-  { id: "sad", label: "Sad", cue: "Frown, corners of the mouth down" },
-  { id: "angry", label: "Angry", cue: "Scowl, brows pulled down" },
-  { id: "surprised", label: "Surprised", cue: "Raise your eyebrows, open your mouth" },
-  { id: "disgust", label: "Disgust", cue: "Wrinkle your nose" },
+  { id: "happy", label: "Happy", cue: "Smile — as big and exaggerated as you can" },
+  { id: "sad", label: "Sad", cue: "Frown, corners of the mouth pulled down, as far as you can" },
+  { id: "angry", label: "Angry", cue: "Scowl, brows pulled down hard" },
+  { id: "surprised", label: "Surprised", cue: "Raise your eyebrows as high as you can, open your mouth wide" },
+  { id: "disgust", label: "Disgust", cue: "Wrinkle your nose as much as you can" },
 ];
 
 export const NEUTRAL_CUE = "Relax your face completely — neutral expression";
+
+/** Shown with every expression instruction; the amplitude index only means something if the gesture is exaggerated. */
+export const EXPRESSIVENESS_REMINDER =
+  "Go bigger than feels natural — a subtle version of the expression won't register as different from a weaker one.";
 
 /**
  * The blendshapes each expression is actually defined by, loosely mapped to
@@ -43,11 +47,11 @@ export const ASYMMETRY_PAIRS = [
   "noseSneer",
 ] as const;
 
-export const HOLD_MS = 2000;
+// Each phase advances on an explicit button click rather than a fixed timer --
+// someone with reduced facial/motor control may need longer to get into
+// position than a fixed countdown allows.
+export const HOLD_MS = 2200;
 export const REPS_PER_EXPRESSION = 2;
-export const RELAX_MS = 700;
-export const COUNTDOWN_MS = 1500;
-export const INSTRUCTION_MS = 1400;
 export const NEUTRAL_HOLD_MS = 1800;
 
 /** Minimum number of sessions (baseline + check-ins) before switching from a flat

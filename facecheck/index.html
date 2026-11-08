@@ -18,6 +18,12 @@
           tracking is sensitive enough to be a validation layer for the
           slurred-speech check.
         </p>
+        <p class="sub instructions">
+          Take your time getting into each expression — nothing advances on a
+          timer, you click when you're ready. Go as big and exaggerated as
+          you can for each one; a subtle expression won't read as different
+          from a weak one.
+        </p>
       </header>
 
       <section class="camera-section">
@@ -26,6 +32,7 @@
           <canvas id="overlay"></canvas>
           <div id="prompt" class="prompt hidden">
             <span id="prompt-text"></span>
+            <button id="prompt-advance" class="prompt-advance hidden"></button>
           </div>
           <div id="face-indicator" class="face-indicator hidden">
             <span class="dot-indicator"></span> <span id="face-indicator-text">tracking</span>
@@ -33,6 +40,11 @@
         </div>
 
         <div id="status" class="status">Loading face model…</div>
+
+        <label class="mesh-toggle">
+          <input type="checkbox" id="chk-mesh" checked />
+          Show face mesh overlay
+        </label>
 
         <div class="actions">
           <button id="btn-baseline" disabled>Record baseline</button>
