@@ -1,10 +1,20 @@
 import "./style.css";
 import { loadFaceLandmarker } from "./landmarker";
-import { runProtocol, type Prompt } from "./capture";
+import { faceCurrentlyVisible, startRenderLoop } from "./render";
+import { runProtocol, type Phase, type Prompt } from "./capture";
 import { appendSession, clearStore, loadStore, saveBaseline, type Session } from "./storage";
-import { compareSession, humanize, severityOf, SEVERITY_LABEL, type ExpressionComparison } from "./compare";
+import {
+  compareSession,
+  humanize,
+  sessionAmplitudeIndex,
+  severityOf,
+  SEVERITY_LABEL,
+  type ExpressionComparison,
+  type SessionComparison,
+} from "./compare";
 
 const video = document.getElementById("video") as HTMLVideoElement;
+const overlay = document.getElementById("overlay") as HTMLCanvasElement;
 const statusEl = document.getElementById("status") as HTMLDivElement;
 const resultsEl = document.getElementById("results") as HTMLDivElement;
 const promptEl = document.getElementById("prompt") as HTMLDivElement;
@@ -12,14 +22,17 @@ const promptTextEl = document.getElementById("prompt-text") as HTMLSpanElement;
 const btnBaseline = document.getElementById("btn-baseline") as HTMLButtonElement;
 const btnCheckin = document.getElementById("btn-checkin") as HTMLButtonElement;
 const btnReset = document.getElementById("btn-reset") as HTMLButtonElement;
+const faceIndicator = document.getElementById("face-indicator") as HTMLDivElement;
+const faceIndicatorText = document.getElementById("face-indicator-text") as HTMLSpanElement;
 
 function setStatus(text: string) {
   statusEl.textContent = text;
 }
 
-function showPrompt(phase: "instruction" | "countdown" | "hold", label: string, cue: string) {
+function showPrompt(phase: Phase, label: string, cue: string) {
   promptEl.classList.remove("hidden");
-  const phaseText = phase === "instruction" ? cue : phase === "countdown" ? "Get ready…" : "Hold it!";
+  const phaseText =
+    phase === "instruction" ? cue : phase === "countdown" ? "Get ready…" : phase === "relax" ? "Relax, then again…" : "Hold it!";
   promptTextEl.textContent = `${label} — ${phaseText}`;
 }
 
@@ -37,8 +50,7 @@ function pct(x: number): string {
   return `${(x * 100).toFixed(0)}%`;
 }
 
-function overallBlurb(overall: number): string {
-  const severity = severityOf(overall);
+function overallBlurb(severity: ReturnType<typeof severityOf>): string {
   if (severity === "normal") {
     return "Movement across all five expressions is close to your baseline — within normal session-to-session noise.";
   }
@@ -48,12 +60,19 @@ function overallBlurb(overall: number): string {
   return "Facial movement is noticeably weaker than your baseline across expressions. One session can be noisy (lighting, distance, fatigue) — repeat before treating this as a trend.";
 }
 
-function renderComparisons(expressions: ExpressionComparison[], overall: number) {
-  const overallSeverity = severityOf(overall);
+function basisBlurb(basis: "robust" | "flat", priorCount: number, z?: number): string {
+  if (basis === "robust") {
+    return `Statistical read: ${z! >= 0 ? "+" : ""}${z!.toFixed(1)}σ from your own history (${priorCount} prior check-ins).`;
+  }
+  const need = Math.max(0, 2 - priorCount);
+  return `Rule-of-thumb read (flat % threshold) — record ${need > 0 ? `${need} more check-in${need > 1 ? "s" : ""}` : "one more check-in"} to switch to a statistical read against your own history.`;
+}
 
-  const cards = expressions
-    .map((e) => {
-      const severity = severityOf(e.amplitudeIndex);
+function renderComparisons(cmp: SessionComparison, baseline: Session, store: ReturnType<typeof loadStore>) {
+  const priorCount = store.sessions.length - 1; // excluding the session we just recorded, which is already appended
+
+  const cards = cmp.expressions
+    .map((e: ExpressionComparison) => {
       const lead = e.topBlendshapes[0];
 
       const leadBar = lead
@@ -66,7 +85,7 @@ function renderComparisons(expressions: ExpressionComparison[], overall: number)
           </div>
         </div>
         <p class="legend"><span class="dot baseline"></span> baseline <span class="dot current"></span> this check-in</p>`
-        : "";
+        : `<p class="legend">No tracked muscle moved enough at baseline for this expression.</p>`;
 
       const detailRows = e.topBlendshapes
         .map(
@@ -91,10 +110,10 @@ function renderComparisons(expressions: ExpressionComparison[], overall: number)
         .join("");
 
       return `
-      <article class="expr-card severity-${severity}">
+      <article class="expr-card severity-${e.severity}">
         <header>
           <h3>${e.label}</h3>
-          <span class="badge badge-${severity}">${SEVERITY_LABEL[severity]}</span>
+          <span class="badge badge-${e.severity}">${SEVERITY_LABEL[e.severity]}</span>
         </header>
         ${leadBar}
         <details>
@@ -107,28 +126,28 @@ function renderComparisons(expressions: ExpressionComparison[], overall: number)
     .join("");
 
   resultsEl.innerHTML = `
-    <div class="overall-card severity-${overallSeverity}">
+    <div class="overall-card severity-${cmp.overallSeverity}">
       <div class="overall-top">
-        <span class="badge badge-${overallSeverity} large">${SEVERITY_LABEL[overallSeverity]}</span>
-        <span class="overall-number">${pct(overall)} <span class="overall-number-label">average amplitude drop</span></span>
+        <span class="badge badge-${cmp.overallSeverity} large">${SEVERITY_LABEL[cmp.overallSeverity]}</span>
+        <span class="overall-number">${pct(cmp.overallAmplitudeIndex)} <span class="overall-number-label">average amplitude drop</span></span>
       </div>
-      <p class="overall-blurb">${overallBlurb(overall)}</p>
+      <p class="overall-blurb">${overallBlurb(cmp.overallSeverity)}</p>
+      <p class="basis-blurb">${basisBlurb(cmp.overallBasis, priorCount, cmp.overallZ)}</p>
     </div>
     <div class="expr-grid">${cards}</div>
-    ${renderHistory()}
+    ${renderHistory(baseline, store)}
   `;
 }
 
-function renderHistory() {
-  const store = loadStore();
-  if (!store.baseline || store.sessions.length === 0) return "";
+function renderHistory(baseline: Session, store: ReturnType<typeof loadStore>) {
+  if (store.sessions.length === 0) return "";
   const rows = store.sessions
     .map((s) => {
-      const { overallAmplitudeIndex } = compareSession(store.baseline!.expressions, s.expressions);
-      const severity = severityOf(overallAmplitudeIndex);
+      const value = sessionAmplitudeIndex(baseline.expressions, s.expressions);
+      const severity = severityOf(value);
       return `<tr>
         <td>${new Date(s.capturedAt).toLocaleString()}</td>
-        <td>${pct(overallAmplitudeIndex)}</td>
+        <td>${pct(value)}</td>
         <td><span class="badge badge-${severity} small">${SEVERITY_LABEL[severity]}</span></td>
       </tr>`;
     })
@@ -139,7 +158,7 @@ function renderHistory() {
       <table>
         <thead><tr><th>Date</th><th>Avg. amplitude drop</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>${new Date(store.baseline.capturedAt).toLocaleString()}</td><td>—</td><td class="baseline-tag">baseline</td></tr>
+          <tr><td>${new Date(baseline.capturedAt).toLocaleString()}</td><td>—</td><td class="baseline-tag">baseline</td></tr>
           ${rows}
         </tbody>
       </table>
@@ -162,7 +181,7 @@ async function runSession(mode: "baseline" | "checkin") {
   setStatus(mode === "baseline" ? "Recording baseline…" : "Running check-in…");
 
   const onPrompt: Prompt = (phase, label, cue) => showPrompt(phase, label, cue);
-  const expressions = await runProtocol(video, onPrompt);
+  const expressions = await runProtocol(onPrompt);
   hidePrompt();
 
   const session: Session = { capturedAt: new Date().toISOString(), expressions };
@@ -172,13 +191,12 @@ async function runSession(mode: "baseline" | "checkin") {
     setStatus("Baseline recorded. Run a check-in any time to compare against it.");
     resultsEl.innerHTML = "";
   } else {
-    appendSession(session);
     const store = loadStore();
-    const { expressions: comparisons, overallAmplitudeIndex } = compareSession(
-      store.baseline!.expressions,
-      expressions,
-    );
-    renderComparisons(comparisons, overallAmplitudeIndex);
+    const priorCaptures = store.sessions.map((s) => s.expressions);
+    const cmp = compareSession(store.baseline!.expressions, priorCaptures, expressions);
+    appendSession(session);
+    const updatedStore = loadStore();
+    renderComparisons(cmp, store.baseline!, updatedStore);
     setStatus("Check-in complete.");
   }
 
@@ -222,6 +240,13 @@ async function init() {
     setStatus(`Could not load the face model (needs internet on first load): ${describeError(err)}`);
     return;
   }
+  startRenderLoop(video, overlay);
+  faceIndicator.classList.remove("hidden");
+  setInterval(() => {
+    const visible = faceCurrentlyVisible();
+    faceIndicator.classList.toggle("lost", !visible);
+    faceIndicatorText.textContent = visible ? "tracking" : "no face detected";
+  }, 300);
   setStatus("Ready.");
   btnBaseline.disabled = false;
   refreshButtons();

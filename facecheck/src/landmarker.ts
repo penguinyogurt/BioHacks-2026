@@ -2,6 +2,7 @@ import {
   FaceLandmarker,
   FilesetResolver,
   type FaceLandmarkerResult,
+  type NormalizedLandmark,
 } from "@mediapipe/tasks-vision";
 import type { BlendshapeVector } from "./protocol";
 
@@ -28,16 +29,19 @@ export async function loadFaceLandmarker(): Promise<FaceLandmarker> {
   return landmarker;
 }
 
-/** Runs detection for the current video frame and returns the blendshape vector, if a face was found. */
-export function detectBlendshapes(
-  video: HTMLVideoElement,
-  timestampMs: number,
-): BlendshapeVector | null {
-  if (!landmarker) return null;
+export type DetectionResult = {
+  landmarks: NormalizedLandmark[] | null;
+  blendshapes: BlendshapeVector | null;
+};
+
+/** Runs detection for the current video frame; returns landmarks and blendshapes if a face was found. */
+export function detect(video: HTMLVideoElement, timestampMs: number): DetectionResult {
+  if (!landmarker) return { landmarks: null, blendshapes: null };
   const result: FaceLandmarkerResult = landmarker.detectForVideo(video, timestampMs);
+  const landmarks = result.faceLandmarks?.[0] ?? null;
   const categories = result.faceBlendshapes?.[0]?.categories;
-  if (!categories || categories.length === 0) return null;
-  const vector: BlendshapeVector = {};
-  for (const c of categories) vector[c.categoryName] = c.score;
-  return vector;
+  const blendshapes = categories
+    ? Object.fromEntries(categories.map((c) => [c.categoryName, c.score]))
+    : null;
+  return { landmarks, blendshapes };
 }

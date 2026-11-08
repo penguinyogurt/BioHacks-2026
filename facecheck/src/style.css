@@ -86,7 +86,10 @@ video {
 #overlay {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
+  transform: scaleX(-1);
 }
 
 .prompt {
@@ -103,6 +106,36 @@ video {
 
 .prompt.hidden {
   display: none;
+}
+
+.face-indicator {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(15, 13, 26, 0.7);
+  font-size: 0.7rem;
+  color: var(--ok);
+}
+
+.face-indicator.hidden {
+  display: none;
+}
+
+.face-indicator.lost {
+  color: var(--warn);
+}
+
+.dot-indicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0.4rem currentColor;
 }
 
 .status {
@@ -183,6 +216,13 @@ button.ghost {
   margin: 0.75rem 0 0;
   color: var(--ink-soft);
   line-height: 1.5;
+}
+
+.basis-blurb {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  font-family: ui-monospace, monospace;
 }
 
 .badge {

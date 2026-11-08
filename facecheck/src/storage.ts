@@ -1,6 +1,6 @@
-import type { BlendshapeVector, ExpressionId } from "./protocol";
+import type { BlendshapeVector, CaptureId } from "./protocol";
 
-export type ExpressionCapture = Record<ExpressionId, BlendshapeVector>;
+export type ExpressionCapture = Record<CaptureId, BlendshapeVector>;
 
 export type Session = {
   capturedAt: string;
@@ -12,7 +12,9 @@ type Store = {
   sessions: Session[];
 };
 
-const KEY = "facecheck:v1";
+// v2: sessions now include a "neutral" capture. Bumped so old v1 data
+// (missing neutral) doesn't crash the comparison code -- it's just dropped.
+const KEY = "facecheck:v2";
 
 export function loadStore(): Store {
   const raw = localStorage.getItem(KEY);
