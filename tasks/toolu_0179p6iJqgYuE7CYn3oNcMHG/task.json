@@ -1,0 +1,15 @@
+{
+  "tool_use_id": "toolu_0179p6iJqgYuE7CYn3oNcMHG",
+  "agent_id": "a0ad1a202eca5e457",
+  "subagent_type": "fork",
+  "task_description": "Generate DRKG scene data",
+  "token_usage": {
+    "input_tokens": 17,
+    "cache_creation_tokens": 32020,
+    "cache_read_tokens": 1767983,
+    "output_tokens": 24131,
+    "api_call_count": 9
+  },
+  "started_at": "2026-11-08T00:52:03.9918352-05:00",
+  "completed_at": "2026-11-08T00:56:39.8256059-05:00"
+}

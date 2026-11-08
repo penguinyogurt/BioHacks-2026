@@ -1,0 +1,149 @@
+your job is to work on the visualization for the DRKG step, I want the visualization to look something like this: https://github.com/tophuu/Overseer . something very visually impressive and clean, and need an animation of it being traversed live in terms of both embeddings and edges, are there any decision blockers here? ie what params we are taking? try to solve autonomously, im handing this off to you. ideally, you can find a skill on the internet to help you or a library for this. good luck
+
+---
+
+utilize subagents to ship as fast as we can
+
+---
+
+<task-notification>
+<task-id>bqz6ma2me</task-id>
+<tool-use-id>toolu_01SSS1LDyWWT6rTbsjv9HEH8</tool-use-id>
+<output-file>C:\Users\admin\AppData\Local\Temp\claude\4540a4bf5d8bef42\7187f97f-a9b3-4666-83b8-ab3928ad6677\tasks\bqz6ma2me.output</output-file>
+<status>completed</status>
+<summary>Background command "Download DRKG release and Hetionet node names" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>b05t01q3s</task-id>
+<tool-use-id>toolu_01FYWqCstvJtu8GMtMTBzZF3</tool-use-id>
+<output-file>C:\Users\admin\AppData\Local\Temp\claude\4540a4bf5d8bef42\7187f97f-a9b3-4666-83b8-ab3928ad6677\tasks\b05t01q3s.output</output-file>
+<status>completed</status>
+<summary>Background command "Install frontend dependencies" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<cross-session-message from="local_f1537014-5b19-40e1-9317-7e2e10bf07ac" from-name="Root">
+Coordination from the parent session: you have a sibling fork, "Blockers" (local_d9d69f1c…), also working in frontend/, so please claim before you edit. Run `gh issue edit 13 --add-assignee @me` now, and #9 too if you'll wire real DRKG vectors. The DRKG/embedding work is yours: new viz components, the stage-3 "embedding" section of components/discovery/pages.tsx and pieces.tsx, MATCHES in lib/pipeline.ts, and the 'graph' view in pages/Home.tsx. Keep edits to shared files (pages.tsx, pipeline.ts, run-store.tsx, Home.tsx) narrow to your stage, because other stages live in the same files. Don't edit AGENTS.md: PR #17 (docs/agents-frontend-drift) is open from the parent session. Dev server: take the next free port; 5173–5176 are already in use.
+</cross-session-message>
+<cross-session-message from="local_f1537014-5b19-40e1-9317-7e2e10bf07ac" from-name="Root">
+#9 and #13 are now assigned to penguinyogurt on GitHub; the parent session claimed them for you, so you don't need to. A comment on #13 says the claim covers the stage-3 DRKG visualization and that picking among the three existing graphs is still open. Blockers has confirmed it will stay out of your files. When you stop, close #9/#13 or comment on where you left them.
+</cross-session-message>
+
+---
+
+<task-notification>
+<task-id>a0ad1a202eca5e457</task-id>
+<tool-use-id>toolu_0179p6iJqgYuE7CYn3oNcMHG</tool-use-id>
+<output-file>C:\Users\admin\AppData\Local\Temp\claude\4540a4bf5d8bef42\7187f97f-a9b3-4666-83b8-ab3928ad6677\tasks\a0ad1a202eca5e457.output</output-file>
+<status>completed</status>
+<summary>Agent "Generate DRKG scene data" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>The data files are generated and the built-in checks pass. Most top-5 matches are investigational compounds. Of Jeremy's four hand-written stage-4 candidates, only Mecasermin ranks inside its profile's top 20; the other three rank 124, 402 and 1157. Nothing is committed.
+
+**Files written** (only these are mine):
+- `frontend/scripts/drkg_scene.py`
+- `frontend/public/drkg/points.bin` (1139.5 KB)
+- `frontend/public/drkg/types.bin` (95.0 KB)
+- `frontend/public/drkg/names.json` (980.7 KB)
+- `frontend/public/drkg/scene.json` (39.5 KB)
+
+`git status` also shows a modified `docs/DECISIONS.md`, a `frontend/public/drkg-synthetic/` folder and `frontend/src/components/discovery/drkg-data.ts`. Those come from you or the scene fork.
+
+**Rerun** (about 50 s; needs `data/raw/drkg/`):
+```
+PYTHONIOENCODING=utf-8 python frontend/scripts/drkg_scene.py
+```
+
+**Summary as printed:**
+```
+check: IL6R's DrugBank-target compounds best rank 17/10551 (Tocilizumab, Sarilumab)
+entities 97238  universe 10551 Compound::DB  relation DRUGBANK::target::Compound:Gene
+explained variance PC1-3 [0.0594, 0.021, 0.0201]  (sum 0.1005)
+
+[0] Neurotrophic rescue  genes [('IGF1R', 155, None), ('RET', 140, None), ('NTRK2', 58, None)]  unresolved []  edges drawn 72
+   1. Amuvatinib                     d=  9.623  via RET     direct=True
+   2. DB14751                        d=  9.624  via IGF1R   direct=True
+   3. Picropodophyllin               d=  9.664  via IGF1R   direct=True
+   4. Sunitinib                      d=  9.724  via IGF1R   direct=False
+   5. (4Z)-6-bromo-4-({[4-(pyrrolidi d=  9.747  via IGF1R   direct=True
+
+[1] Cytokine neuroinflammation  genes [('IL6R', 14, None), ('IL1R1', 18, None), ('TNF', 690, None)]  unresolved []  edges drawn 39
+   1. DB05744                        d=  9.668  via TNF     direct=True
+   2. PR-104                         d=  9.712  via TNF     direct=True
+   3. Talmapimod                     d=  9.777  via TNF     direct=True
+   4. Atiprimod                      d=  9.810  via TNF     direct=True
+   5. VX-702                         d=  9.858  via TNF     direct=True
+
+[2] Complement blockade  genes [('C5', 46, None), ('C3', 46, 'Hetionet::DaG::Disease:Gene'), ('C1QA', 23, None)]  unresolved []  edges drawn 58
+   1. Copper                         d=  9.898  via C3      direct=True
+   2. Propanol                       d=  9.959  via C3      direct=False
+   3. Zinc acetate                   d= 10.019  via C3      direct=True
+   4. Lutetium (177Lu) chloride      d= 10.024  via C3      direct=True
+   5. Mirococept                     d= 10.085  via C3      direct=True
+
+[3] TDP-43 proteostasis  genes [('TARDBP', 9, 'Hetionet::DaG::Disease:Gene'), ('MTOR', 239, None), ('TFEB', 4, None)]  unresolved []  edges drawn 37
+   1. Azd-8055                       d=  9.557  via MTOR    direct=True
+   2. DB05210                        d=  9.894  via MTOR    direct=True
+   3. Sirolimus                      d=  9.928  via MTOR    direct=True
+   4. DB05241                        d= 10.009  via MTOR    direct=True
+   5. Vistusertib                    d= 10.296  via MTOR    direct=True
+
+[4] Excitotoxicity &amp; oxidative stress  genes [('SLC1A2', 16, 'GNBR::J::Gene:Disease'), ('GRIA2', 152, 'Hetionet::DaG::Disease:Gene'), ('NFE2L2', 192, 'GNBR::L::Gene:Disease')]  unresolved []  edges drawn 55
+   1. CX 717                         d=  8.816  via GRIA2   direct=True
+   2. Talampanel                     d=  9.019  via GRIA2   direct=True
+   3. 5-Fluorowillardiine            d=  9.189  via GRIA2   direct=True
+   4. (S)-2-Amino-3-(1,3,5,7-Pentahy d=  9.394  via GRIA2   direct=True
+   5. (S)-Des-Me-Ampa                d=  9.400  via GRIA2   direct=True
+
+hand-written drugs, rank within their lane's profile:
+   MATCHES    lane 0 Mecasermin   Compound::DB01277      rank 18  d=10.17
+   MATCHES    lane 0 Somatropin   NOT IN DRKG/names      rank None  d=None
+   MATCHES    lane 1 Tocilizumab  Compound::DB06273      rank 124  d=10.974
+   MATCHES    lane 1 Anakinra     Compound::DB00026      rank 402  d=11.316
+   MATCHES    lane 1 Sarilumab    Compound::DB11767      rank 364  d=11.275
+   MATCHES    lane 2 Ravulizumab  Compound::DB11580      rank 1157  d=12.088
+   MATCHES    lane 2 Eculizumab   Compound::DB01257      rank 44  d=11.153
+   MATCHES    lane 3 Sirolimus    Compound::DB00877      rank 3  d=9.928
+   MATCHES    lane 3 Tofersen     NOT IN DRKG/names      rank None  d=None
+   MATCHES    lane 4 Riluzole     Compound::DB00740      rank 92  d=11.216
+   MATCHES    lane 4 Edaravone    Compound::DB12243      rank 3087  d=13.129
+   MATCHES    lane 4 Ceftriaxone  Compound::DB01212      rank 260  d=11.617
+   CANDIDATES lane 1 Anakinra     Compound::DB00026      rank 402  d=11.316
+   CANDIDATES lane 1 Tocilizumab  Compound::DB06273      rank 124  d=10.974
+   CANDIDATES lane 0 Mecasermin   Compound::DB01277      rank 18  d=10.17
+   CANDIDATES lane 2 Ravulizumab  Compound::DB11580      rank 1157  d=12.088
+
+   points.bin     1139.5 KB
+   types.bin        95.0 KB
+   names.json      980.7 KB
+   scene.json       39.5 KB
+runtime 48.5s
+```
+
+**The blocker evidence:**
+- Sirolimus is the only hand-written match in its profile's real top 5.
+- Two hand-written drugs have no DRKG compound or no resolvable name. Tofersen has no compound row in this release, which agrees with Levi's README. Somatropin didn't resolve by name.
+
+**What the scene needs to handle:**
+- **Thin 3D projection.** The first three axes carry only 10.05% of the variance (5.9 / 2.1 / 2.0%), so the screen has to say that distances come from the full 400-d vectors.
+- **Long names.** Some match names are long IUPAC strings, so the scene must truncate them.
+- **Unnamed matches.** Three matches have no name source at all (DB14751, DB05744, DB05210 in the summary; DB05241 also prints as a bare ID). Those labels fall back to the bare DrugBank ID.
+- **Sparse disease links.** Only C3, TARDBP, SLC1A2, GRIA2 and NFE2L2 have a direct edge to the ALS node (`alsEdge`); the others are null.
+
+**Where I deviated:**
+1. **Extra name source.** I added Wikidata's DrugBank-ID property (P715), cached in the gitignored `data/raw/drkg/wikidata-drugbank-names.tsv`. Without it most matches, including tocilizumab and anakinra, were bare DrugBank IDs. It's optional: the script warns and carries on if the file is missing, and the curl command is in its docstring.
+2. **More name sources.** Levi's `ingredient_names` from `agentic-query-generation` is also used, and compound labels get their first letter capitalised.
+3. **Hover names trimmed.** `names.json` leaves out Gene Ontology terms (biological process, molecular function, cellular component) to stay under 1 MB.
+4. **Edge count.** `targetEdges` counts every DRKG triple between a compound and that gene, across all sources, not unique compounds.
+
+The scene format is exactly as specified, with no other changes.</result>
+<usage><subagent_tokens>212544</subagent_tokens><tool_uses>9</tool_uses><duration_ms>280071</duration_ms></usage>
+</task-notification>
+
+---
+
+can we parallelize better and speed up here?
