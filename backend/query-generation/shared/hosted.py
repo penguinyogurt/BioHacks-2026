@@ -14,7 +14,7 @@ from agent.subagent import run_subagent
 
 def persist(path, value):
     path.parent.mkdir(parents=True,exist_ok=True)
-    with NamedTemporaryFile(mode="w",dir=path.parent,delete=False) as tmp:
+    with NamedTemporaryFile(mode="w",encoding="utf-8",dir=path.parent,delete=False) as tmp:
         json.dump(value,tmp,indent=2)
     Path(tmp.name).replace(path)
 
@@ -34,7 +34,7 @@ def live_research(brief, receipts, findings, cache_dir, replay_only=False):
     key = hashlib.sha256(json.dumps([SUBAGENT_MODEL,brief,packet],sort_keys=True).encode()).hexdigest()
     path = cache_dir/(key+".json")
     if path.exists():
-        return dict(compact(json.loads(path.read_text())),access="replay")
+        return dict(compact(json.loads(path.read_text(encoding="utf-8"))),access="replay")
     if replay_only:
         raise ValueError("Hosted research replay missing for "+brief["criterion"]+"; use a live run to populate it.")
     events=[]

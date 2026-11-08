@@ -30,7 +30,7 @@ def cached(fn):
             return json.loads(path.read_text(encoding="utf-8"))
         result = fn(*args, **kwargs)
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
-        with NamedTemporaryFile(mode="w",dir=CACHE_DIR,delete=False) as temp:
+        with NamedTemporaryFile(mode="w",encoding="utf-8",dir=CACHE_DIR,delete=False) as temp:
             json.dump(result,temp)
         Path(temp.name).replace(path)
         return result

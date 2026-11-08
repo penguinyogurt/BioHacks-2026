@@ -26,7 +26,7 @@ SNAPSHOT = "snapshots/alex-outcomes.json"
 
 
 def load(path):
-    return json.loads((ROOT / path).read_text())
+    return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
 def verify_inputs():
@@ -225,7 +225,7 @@ def main():
                  advanced=[r["advanced"] for r in (control,variant)])
     out = ROOT / "reports/alex-audit.json"
     out.parent.mkdir(exist_ok=True)
-    out.write_text(json.dumps(audit, indent=2, allow_nan=False)+"\n")
+    out.write_text(json.dumps(audit, indent=2, allow_nan=False)+"\n",encoding="utf-8")
     print("Matched snapshot control. Fixed pool:",len(control["eligible_ids"]))
     for name, result in agents.items():
         print(name,len(result["query_pairs"]),"query pairs; max L2",

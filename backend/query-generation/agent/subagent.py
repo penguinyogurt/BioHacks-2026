@@ -56,6 +56,10 @@ How to work:
   (e.g. "CNS-penetrant" for a cortical target, "peripherally restricted" when CNS exposure would harm).
 - Every profile needs at least one evidence item whose id and url came from a tool result:
   PMID, NCT id, or Open Targets Ensembl id. Never invent ids or urls.
+- For EACH molecular target, cite at least one PubMed paper (search_pubmed, then fetch_pubmed_abstract) whose
+  abstract names that gene together with the action you propose (e.g. "knockdown of TARDBP", "SLC1A2 upregulation").
+  An Open Targets association shows a gene is relevant to ALS, not which direction to push it, so it can't be the
+  only evidence for a target. Use a specific desired_action when the paper states one; "modulate" only when it doesn't.
 - Stop after at most {max_calls} tool calls, then answer and list your dead ends."""
 
 

@@ -6,7 +6,7 @@ from shared.query import query
 
 
 def write_json(path,value):
-    path.write_text(json.dumps(value,indent=2,allow_nan=False)+"\n")
+    path.write_text(json.dumps(value,indent=2,allow_nan=False)+"\n",encoding="utf-8")
 
 
 def save_handoff(report, path):
