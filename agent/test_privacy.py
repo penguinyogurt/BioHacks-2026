@@ -68,5 +68,75 @@ class NoDrugNames(unittest.TestCase):
         self.assertIn(PLACEHOLDER, out)
 
 
+class DrugAssessment(unittest.TestCase):
+    def test_drug_researchers_get_only_a_drug_name(self):
+        from agent.assess import fan_out
+
+        sends = fan_out({"drugs": [{"name": "memantine", "id": "DB01043", "notes": "Alex Moreau: weight 77.5 kg"}]})
+        self.assertEqual(sends[0].arg, {"drug": {"name": "memantine", "id": "DB01043"}, "index": 0})
+
+    def test_web_queries_lose_identifiers_but_keep_drug_names(self):
+        from agent.privacy import identifier_terms, redact
+
+        record = load_record()
+        q, n = redact("Does memantine interact with riluzole for Alex Moreau in Hamilton, QTc 452 ms?", identifier_terms(record))
+        self.assertIn("riluzole", q)
+        self.assertIn("memantine", q)
+        for leaked in ["Alex", "Moreau", "Hamilton", "452 ms"]:
+            self.assertNotIn(leaked, q)
+        self.assertEqual(n, 3)  # full name, city, lab value
+
+    def test_drug_list_formats(self):
+        import json
+        import tempfile
+        from pathlib import Path
+
+        from agent.assess import load_drugs
+
+        levi = {"ingredient_names": {"Compound::DB01043": "Memantine"}, "aggregation": {"final": []},
+                "fallback": {"final": [{"id": "Compound::DB01043", "score": 0.5, "review": {"action": "caution"}}]}}
+        for data, want in [(levi, ["Memantine"]), (["riluzole", {"name": "edaravone", "id": "x"}, "Riluzole"], ["riluzole", "edaravone"])]:
+            with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+                json.dump(data, f)
+            self.assertEqual([d["name"] for d in load_drugs(Path(f.name))], want)
+        self.assertTrue(load_drugs(Path(__file__).parents[1] / "data" / "pipeline.json"))
+
+    def test_coordinated_pipeline_output(self):
+        import json
+        import tempfile
+        from pathlib import Path
+        from unittest import mock
+
+        from agent import assess
+
+        data = {"ingredient_names": {"Compound::DB00624": "Testosterone", "Compound::DB11846": "Compound::DB11846", "Compound::DB01065": "Melatonin"},
+                "advanced": [], "reassessments": {
+                    "Compound::DB01065": {"category": "unresolved", "disposition": "unresolved", "decisive": [{"finding": "marker fell"}]},
+                    "Compound::DB12243": {"category": "unresolved", "disposition": "established treatment; comparator only"}},
+                "discovery_leads": [{"id": "Compound::DB11846", "rank": 1, "disposition": "unresolved patient safety"},
+                                    {"id": "Compound::DB00624", "rank": 2, "disposition": "unresolved patient safety"}]}
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+            json.dump(data, f)
+        with mock.patch.object(assess, "drugbank_names", lambda ids: {"DB11846": "Creatinine"}):
+            drugs = assess.load_drugs(Path(f.name))
+        self.assertEqual([d["name"] for d in drugs], ["Melatonin", "Creatinine", "Testosterone"])  # comparator dropped
+        self.assertEqual(json.loads(drugs[1]["notes"])["pipeline"], "discovery lead")
+
+    def test_report_renders_as_pdf(self):
+        from agent.report_pdf import render
+        from agent.schemas import DrugDossier, DrugReport, ReportDrug
+
+        drug = ReportDrug(index=0, rank=1, name="memantine", verdict="use_with_caution", fit_score=0.4,
+                          evidence_strength="human_als_mixed_or_negative", pros=["oral solution → easy to swallow"],
+                          cons=["MEDALS trial negative"], rationale="Weak evidence; tolerable.", source_urls=["https://example.org/a"],
+                          dossier=DrugDossier(name="memantine", mechanism="NMDA receptor antagonist (GRIN1/GRIN2B)", als_evidence="negative"))
+        report = DrugReport(run_id="t", created_at="2026-11-08T00:00:00", patient_id="alex", drugs_source="inline", research_run_id="",
+                            models={"orchestrator": "o", "researcher": "r"}, langsmith_project=None, summary="One drug — μ and ≥ render.",
+                            drugs=[drug], comparison_notes="n/a", open_questions=["check QTc"], web={}, warnings=["Research aid."]).model_dump()
+        pdf = render(report)
+        self.assertTrue(pdf.startswith(b"%PDF-"))
+        self.assertGreater(len(pdf), 2000)
+
+
 if __name__ == "__main__":
     unittest.main()

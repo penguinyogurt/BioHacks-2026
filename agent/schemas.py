@@ -165,3 +165,76 @@ class ResearchReport(BaseModel):
     dead_ends: list[str]
     privacy: dict[str, int]
     warnings: list[str]
+
+
+# ── drug assessment (assess.py): pipeline drugs → ranked report ─────────────
+# Runs after the drug matcher. Drug names are expected here; patient data still
+# never reaches the per-drug researchers or the web.
+class Source(BaseModel):
+    url: str
+    title: str = ""
+
+
+class DrugDossier(BaseModel):
+    """Patient-free fact sheet one researcher builds for one drug from web search."""
+    name: str
+    mechanism: str = Field(description="Mechanism of action in 1-3 sentences")
+    molecular_targets: list[str] = Field(default_factory=list, description="HGNC symbols of the main targets")
+    approved_indications: list[str] = Field(default_factory=list)
+    als_evidence: str = Field(description="What human and preclinical ALS evidence shows, with trial outcomes")
+    als_trials: list[str] = Field(default_factory=list, description="ALS trials as 'NCT id or name: phase, n, outcome'")
+    formulations: list[str] = Field(default_factory=list, description="e.g. 'oral tablet', 'oral solution', 'IV', 'intrathecal'")
+    cns_penetration: str = Field("", description="Does it reach the brain/spinal cord, and how well")
+    common_adverse_effects: list[str] = Field(default_factory=list)
+    serious_risks: list[str] = Field(default_factory=list, description="Boxed warnings, respiratory depression, QT, hepatotoxicity...")
+    interactions: list[str] = Field(default_factory=list, description="CYP substrate/inhibitor/inducer status and notable drug interactions")
+    contraindications: list[str] = Field(default_factory=list)
+    availability: str = Field("", description="Approval status and availability in Canada and the US")
+    cost: str = Field("", description="Rough cost / coverage, if found")
+    sources: list[Source] = Field(default_factory=list, description="Only URLs that appeared in the search results")
+
+
+class AssessedDrug(BaseModel):
+    index: int = Field(description="Index into the dossiers list")
+    verdict: Literal["strong_candidate", "worth_discussing", "use_with_caution", "not_recommended"]
+    fit_score: float = Field(ge=0, le=1, description="How well it fits THIS patient, 0-1")
+    evidence_strength: Literal["approved_for_als", "human_als_positive", "human_als_mixed_or_negative", "preclinical_als", "mechanistic_only"]
+    matched_profiles: list[str] = Field(default_factory=list, description="Target profiles it matches, as 'criterion id: target action'")
+    symptoms_addressed: list[str] = Field(default_factory=list, description="This patient's symptoms or problems it could help")
+    pros: list[str]
+    cons: list[str]
+    patient_specific_risks: list[str] = Field(default_factory=list, description="Interactions with current meds, genetics, labs, function (e.g. swallowing, breathing)")
+    monitoring: list[str] = Field(default_factory=list, description="What a clinician would monitor if tried")
+    rationale: str = Field(description="2-4 sentences: why this rank for this patient")
+    source_urls: list[str] = Field(default_factory=list, description="URLs from the dossiers or web_research results backing this assessment")
+
+
+class FinalAssessment(BaseModel):
+    summary: str = Field(description="4-6 sentence overview for the clinician")
+    ranked: list[AssessedDrug] = Field(description="Every drug, best fit first")
+    comparison_notes: str = Field(description="How the top options compare and combine, including overlaps and conflicts")
+    open_questions: list[str] = Field(default_factory=list, description="What a clinician should check before acting")
+
+
+class ReportDrug(AssessedDrug):
+    rank: int
+    name: str
+    drug_id: str = ""
+    pipeline_notes: str = ""
+    dossier: DrugDossier
+
+
+class DrugReport(BaseModel):
+    run_id: str
+    created_at: str
+    patient_id: str
+    drugs_source: str
+    research_run_id: str
+    models: dict[str, str]
+    langsmith_project: str | None
+    summary: str
+    drugs: list[ReportDrug]
+    comparison_notes: str
+    open_questions: list[str]
+    web: dict[str, int]
+    warnings: list[str]
