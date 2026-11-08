@@ -1,0 +1,1 @@
+pull latest, and lets get the frontend up and running locally
