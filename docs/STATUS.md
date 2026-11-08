@@ -73,6 +73,23 @@ for both, since it reads the ranked profiles.
   And `backend/data/patient/alex.json` says **Alex Moreau**, while the
   frontend case (`alex-case.ts`) says **Alex Chen**. A judge will see both names.
 
+## Knowledge graph view = the whole DRKG (2026-11-08)
+
+Sidebar → **Knowledge graph** is a searchable explorer of all 97,238 DRKG
+entities, on the same 24-island layout as stage 3. Search any name or id,
+click to see full relation counts, graph neighbours (walkable) and the 10
+nearest same-type entities in 400-d TransE. Data: `frontend/scripts/drkg_graph.py`
+→ `frontend/public/drkg/graph/` (~20 MB, committed so the demo laptop needs no
+download). Things to know before demoing it:
+
+- **Neighbour lists are capped at 44 per entity** (curated sources first);
+  relation counts are always the full numbers. The inspector says "showing X of Y".
+- **Rerunning the generator needs network once:** it fetches MeSH disease names
+  from NLM (`id.nlm.nih.gov`, cached in `data/raw/drkg/cache/`). Offline it still
+  runs, with bare MeSH ids.
+- Typing **"als"** jumps to Amyotrophic Lateral Sclerosis (a small alias map in
+  `graph-data.ts`); otherwise ALS-gene prefixes win.
+
 ## Repo reorg (2026-11-08): only `frontend/` and `backend/` at the top
 
 `agent/`, `contract/`, `data/` → `backend/`; the six diagnostic dirs →

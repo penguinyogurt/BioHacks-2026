@@ -18,6 +18,7 @@ Run:  python -m agent.api      (port 8001; AGENT_PORT to change)
 import asyncio
 import json
 import os
+import re
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -25,11 +26,13 @@ from dataclasses import dataclass, field
 import uvicorn
 from fastapi import FastAPI, File, Form, HTTPException, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from typing import Literal
+
+from pydantic import BaseModel, Field
 from sse_starlette.sse import EventSourceResponse
 
 from agent.config import ANTHROPIC_API_KEY, DEFAULT_PATIENT, PATIENT_DIR, LANGSMITH_PROJECT, ROOT, MAX_CONCURRENCY, ORCHESTRATOR_MODEL, RUN_TIMEOUT_S, RUNS_DIR, SUBAGENT_MODEL, tracing_enabled
-from agent import assess, drkg
+from agent import assess, chat, drkg
 from agent.graph import DEFAULT_QUESTION, graph
 from agent.ingest import PATIENT_ID, IngestError, parse_pdf, save, summary
 
@@ -146,7 +149,7 @@ async def execute_drkg(run: Run, profiles: list[dict], research_run_id: str) -> 
         summary = await drkg.run(run.run_id, profiles, lambda e: pushes.append(asyncio.create_task(run.push(e))), research_run_id, run.patient_id)
         await asyncio.gather(*pushes)
         run.report, run.status = summary, "done"
-        await run.push({"type": "run_finished", "data": {"drugs": len(summary["drugs"])}})
+        await run.push({"type": "run_finished", "data": {"candidates": len(summary["candidates"])}})
     except Exception as e:
         await asyncio.gather(*pushes, return_exceptions=True)
         run.status, run.error = "error", f"{type(e).__name__}: {e}"[:500]
@@ -269,11 +272,44 @@ async def get_run(run_id: str):
 @app.get("/api/research/{run_id}/report.pdf")
 async def report_pdf(run_id: str):
     """The drug assessment as a PDF (assessment runs only)."""
+    report = await _assessment(run_id)
+    return Response(assess.render_pdf(report), media_type="application/pdf",
+                    headers={"Content-Disposition": f'attachment; filename="drug-assessment-{report["patient_id"]}-{run_id}.pdf"'})
+
+
+class ChatMessage(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=8000)
+
+
+class ChatRequest(BaseModel):
+    messages: list[ChatMessage] = Field(min_length=1, description="The conversation so far; the last one is the user's question")
+
+
+async def _assessment(run_id: str) -> dict:
+    """A finished assessment from an API run (jsonl) or a CLI run (<id>.drugs.json)."""
+    if not re.fullmatch(r"[\w-]+", run_id):
+        raise HTTPException(404, "unknown run")
+    cli = RUNS_DIR / f"{run_id}.drugs.json"
+    if cli.exists():
+        return json.loads(cli.read_text(encoding="utf-8"))
     report = (await get_run(run_id))["report"]
     if not report or "drugs" not in report:
         raise HTTPException(404, "no finished drug assessment for this run")
-    return Response(assess.render_pdf(report), media_type="application/pdf",
-                    headers={"Content-Disposition": f'attachment; filename="drug-assessment-{report["patient_id"]}-{run_id}.pdf"'})
+    return report
+
+
+@app.post("/api/assess/{run_id}/chat")
+async def assessment_chat(run_id: str, body: ChatRequest):
+    """Ask the ranking agent about one finished assessment. Stateless: send the whole
+    conversation each time and append the reply. Returns {answer, references, searches}."""
+    if body.messages[-1].role != "user":
+        raise HTTPException(422, "the last message must be the user's question")
+    report = await _assessment(run_id)
+    try:
+        return await asyncio.wait_for(chat.answer(report, [m.model_dump() for m in body.messages]), 180)
+    except asyncio.TimeoutError:
+        raise HTTPException(504, "the agent took too long; try a narrower question")
 
 
 @app.get("/api/research")

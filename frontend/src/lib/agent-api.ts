@@ -12,7 +12,7 @@
  *   3    POST /api/drkg       the agents' verified target genes → DRKG TransE queries → DrugBank matches
  *        drkg_started · drkg_profile · report         → stage 'embedding', 'scene'
  *   4    POST /api/assess     after both 2's ranking and 3: web research per matched drug → Opus ranks them
- *        drug_research_* · web_search · report        → stage 'research', 'reportPdf'
+ *        drug_research_* · web_search · pubmed_search · citation_revision · report → stage 'research', 'reportPdf'
  */
 import type { AgentStep, DrugProfile, PipelineEvent, StageId } from './pipeline'
 
@@ -31,7 +31,7 @@ type AgentEvent = { t_ms: number; type: string; criterion?: string; data: Record
 const EVENT_TYPES = [
   'run_started', 'patient_loaded', 'plan', 'subagent_started', 'tool_call', 'tool_result', 'budget_exhausted', 'subagent_finished', 'verify',
   'drkg_started', 'drkg_log', 'drkg_profile',
-  'assess_loaded', 'drug_research_started', 'web_search', 'drug_research_finished', 'drug_research_failed', 'web_research',
+  'assess_loaded', 'drug_research_started', 'web_search', 'drug_research_finished', 'drug_research_failed', 'web_research', 'pubmed_search', 'citation_revision',
   'report', 'run_finished', 'error',
 ]
 
@@ -225,7 +225,7 @@ export function runLiveAgent(question: string, emit: (e: PipelineEvent) => void,
         break
       }
       case 'report': {
-        const drugs: { name: string; lane: number; profile: string; via_gene: string; drkg_rank: number }[] = d.drugs ?? []
+        const drugs: { name: string; lane: number; profile: string; via_gene: string; drkg_rank: number }[] = d.candidates ?? d.drugs ?? [] // recordings made before the rename used "drugs"
         drugs.forEach((x) => drugLane.set(x.name, x.lane))
         step('embedding', 'output', `${drugs.length} drugs for the research agent`, drugs.map((x) => `${x.name} — ${x.profile}, rank ${x.drkg_rank} via ${x.via_gene}`).join('\n'))
         emit({ type: 'scene', src: `${AGENT_URL}${d.scene_url}` })
@@ -261,9 +261,17 @@ export function runLiveAgent(question: string, emit: (e: PipelineEvent) => void,
       case 'web_research':
         step('research', 'tool_call', 'web_research · orchestrator', json({ question: d.question }))
         break
+      case 'pubmed_search':
+        step('research', 'tool_call', 'pubmed_search · orchestrator', json({ query: d.query }))
+        break
+      case 'citation_revision':
+        step('research', 'thinking', 'Adding citations', `${d.uncited_lines} claim${d.uncited_lines === 1 ? '' : 's'} had no PubMed citation; the orchestrator is revising them.`)
+        break
       case 'report': {
-        const ranked: { rank: number; name: string; verdict: string; fit_score: number; rationale: string }[] = d.drugs ?? []
-        step('research', 'output', 'Ranking', ranked.map((x) => `${x.rank}. ${x.name} — ${VERDICT[x.verdict] ?? x.verdict} · fit ${Math.round(x.fit_score * 100)}`).join('\n'))
+        // score is 0–100 from the six criteria (older recordings had a 0–1 fit_score instead)
+        const ranked: { rank: number; name: string; verdict: string; score?: number; fit_score?: number; headline?: string }[] = d.drugs ?? []
+        const score = (x: (typeof ranked)[number]) => x.score ?? Math.round((x.fit_score ?? 0) * 100)
+        step('research', 'output', 'Ranking', ranked.map((x) => `${x.rank}. ${x.name} — ${VERDICT[x.verdict] ?? x.verdict} · ${score(x)}/100${x.headline ? `\n   ${x.headline}` : ''}`).join('\n'))
         if (d.summary) step('research', 'output', 'Summary', d.summary)
         break
       }

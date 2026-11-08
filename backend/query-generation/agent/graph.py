@@ -28,7 +28,7 @@ class State(TypedDict, total=False):
 def read_case(path):
     """The coordinator boundary owns the single decode of the input chart."""
     import json
-    record=json.loads(path.read_text())
+    record=json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(record.get("facts"),dict) or not record.get("source"):
         raise ValueError("A sourced case with structured facts is required")
     return record

@@ -17,6 +17,10 @@ ACTIONS = {
     "antagonize":[("DGIDB::ANTAGONIST::Gene:Compound",True),("GNBR::A-::Compound:Gene",False)],
     "block":[("DGIDB::BLOCKER::Gene:Compound",True),("DGIDB::CHANNEL BLOCKER::Gene:Compound",True)],
     "inhibit":[("DGIDB::INHIBITOR::Gene:Compound",True),("GNBR::N::Compound:Gene",False)],
+    # "modulate" claims no direction, so unsigned target/binding relations are an
+    # exact match for it -- unlike standing in for a signed action above.
+    "modulate":[("DGIDB::MODULATOR::Gene:Compound",True),("DGIDB::ALLOSTERIC MODULATOR::Gene:Compound",True),
+                ("DRUGBANK::target::Compound:Gene",False),("Hetionet::CbG::Compound:Gene",False)],
 }
 
 

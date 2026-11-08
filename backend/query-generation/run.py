@@ -80,9 +80,9 @@ def run(graph,profile,review,k,catalog,terms,policy,leader_catalog,offline,clini
     from shared.research_sources import Sources
     from shared.retrieval import apply_safety_review
     if protocols is None:
-        protocols = json.loads((ROOT/"examples/research-protocols.json").read_text())
+        protocols = json.loads((ROOT/"examples/research-protocols.json").read_text(encoding="utf-8"))
     if sources is None:
-        sources = Sources(json.loads((ROOT/"examples/research-receipts.json").read_text()),refresh=not offline,replay_only=offline)
+        sources = Sources(json.loads((ROOT/"examples/research-receipts.json").read_text(encoding="utf-8")),refresh=not offline,replay_only=offline)
 
     def worker(brief):
         name = brief["criterion"]
@@ -173,20 +173,20 @@ def main():
     if not args.offline:download(args.data)
     graph=Graph(args.data)
     from shared.terms import Terms
-    catalog = json.loads(args.trials.read_text())
+    catalog = json.loads(args.trials.read_text(encoding="utf-8"))
     terms = Terms.load(args.data, graph, catalog, args.offline)
     from agent.graph import read_case
     profile = read_case(args.profile)
-    config = (json.loads(args.review.read_text()),args.top_k,catalog,terms,json.loads(args.policy.read_text()),
-              json.loads(args.leader_review.read_text()))
-    clinical = json.loads(args.clinical.read_text())
-    previous = json.loads(args.previous.read_text())
+    config = (json.loads(args.review.read_text(encoding="utf-8")),args.top_k,catalog,terms,json.loads(args.policy.read_text(encoding="utf-8")),
+              json.loads(args.leader_review.read_text(encoding="utf-8")))
+    clinical = json.loads(args.clinical.read_text(encoding="utf-8"))
+    previous = json.loads(args.previous.read_text(encoding="utf-8"))
     from shared.research_sources import Sources
     from shared.hosted import persist
     plan_file=hosted_cache/"plans.json"
     if plan_file.is_file() and args.planner!="local":
-        plan_cache=json.loads(plan_file.read_text())
-    saved = json.loads((ROOT/"examples/research-receipts.json").read_text())
+        plan_cache=json.loads(plan_file.read_text(encoding="utf-8"))
+    saved = json.loads((ROOT/"examples/research-receipts.json").read_text(encoding="utf-8"))
     report = run(graph,profile,*config,args.offline,clinical,previous,
                  sources=Sources(saved,refresh=not args.offline,replay_only=args.offline),planner_mode=args.planner,plan_cache=plan_cache,hosted_cache=hosted_cache)
     if plan_cache and not args.offline:
@@ -205,14 +205,14 @@ def main():
             persist(plan_file,plan_cache)
         save_report(altered,other)
         result = compare(graph,report,altered)
-        args.output.with_name(args.output.stem+"-medication-check.json").write_text(json.dumps(result,indent=2)+"\n")
+        args.output.with_name(args.output.stem+"-medication-check.json").write_text(json.dumps(result,indent=2)+"\n",encoding="utf-8")
         print(json.dumps(result["summary"],indent=2))
 
 
 def save_report(report, path):
     path.parent.mkdir(parents=True,exist_ok=True)
     from tempfile import NamedTemporaryFile
-    with NamedTemporaryFile(mode="w",dir=path.parent,delete=False) as tmp:
+    with NamedTemporaryFile(mode="w",encoding="utf-8",dir=path.parent,delete=False) as tmp:
         json.dump(report,tmp,indent=2,allow_nan=False)
     os.replace(tmp.name,path)
     print("Strict intersection:",report["aggregation"]["status"])

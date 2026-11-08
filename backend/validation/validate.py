@@ -121,7 +121,7 @@ def read_reviews(path, key):
 
 
 def score(a):
-    key = json.loads(a.key.read_text())
+    key = json.loads(a.key.read_text(encoding="utf-8"))
     if a.first.samefile(a.second):
         raise ValueError("Supply two independent sheets")
     x, first = read_reviews(a.first,key)

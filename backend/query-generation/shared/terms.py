@@ -73,7 +73,7 @@ class Terms:
             if hashlib.sha256(path.read_bytes()).hexdigest() != sha:
                 raise ValueError("Vocabulary checksum mismatch: " + name)
         terms = cls()
-        with (root / "hetionet-nodes.tsv").open() as f:
+        with (root / "hetionet-nodes.tsv").open(encoding="utf-8") as f:
             for row in csv.DictReader(f, delimiter="\t"):
                 node = row["id"]
                 if node in graph.entities:

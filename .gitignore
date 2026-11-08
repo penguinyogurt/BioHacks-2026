@@ -87,3 +87,10 @@ patients.csv
 patient-scores.png
 component-weights.png
 conclusion.txt
+
+# Raw DRKG release, caches and archives (data/raw/drkg is a junction to ~600 MB).
+# Never `git add -A` in a worktree that has it.
+data/raw/
+
+# DRKG explorer shards: generated, ~20 MB. Rebuild with `python frontend/scripts/drkg_graph.py`.
+frontend/public/drkg/graph/

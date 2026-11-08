@@ -169,7 +169,8 @@ class Sources:
         verbs={"increase_expression":r"upregulat|up-regulat|increas.{0,30}expression|induc.{0,24}expression",
                "reduce_expression":r"knockdown|knock.down|silenc|lower.{0,20}(mRNA|expression)",
                "inhibit":r"inhibit", "activate":r"activat", "agonize":r"(?<!ant)agonis",
-               "antagonize":r"antagonis","block":r"block"}
+               "antagonize":r"antagonis","block":r"block",
+               "modulate":r"modulat|target|bind|regulat|restor|normali[sz]"}
         if not pmids or direction not in verbs:
             return None
         search="SRC:MED AND ("+" OR ".join("EXT_ID:"+pid for pid in sorted(pmids))+") AND TITLE_ABS:"+symbol

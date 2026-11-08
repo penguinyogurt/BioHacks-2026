@@ -42,7 +42,7 @@ def download(root):
 
 def mapping(path):
     result={}
-    with path.open() as f:
+    with path.open(encoding="utf-8") as f:
         for name,idx in csv.reader(f,delimiter="\t"):
             if name in result: raise ValueError(f"Duplicate identifier in {path}")
             result[name]=int(idx)
@@ -52,7 +52,7 @@ def mapping(path):
 
 class Graph:
     def __init__(self, root):
-        manifest=json.loads(Path(__file__).with_name("release.json").read_text())
+        manifest=json.loads(Path(__file__).with_name("release.json").read_text(encoding="utf-8"))
         for name,expected in manifest.items():
             digest=hashlib.sha256()
             with (root/name).open("rb") as f:
@@ -65,7 +65,7 @@ class Graph:
         if self.E.shape!=(len(self.entities),400) or self.R.shape!=(len(self.relations),400):
             raise ValueError("Index and pretrained matrix shapes disagree")
         if not all(np.isfinite(m).all() for m in (self.E,self.R)): raise ValueError("Nonfinite embedding")
-        with (root/FILES[1]).open() as f:
+        with (root/FILES[1]).open(encoding="utf-8") as f:
             self.gloss={r["Relation-name"]:r for r in csv.DictReader(f,delimiter="\t")}
         if self.relations.keys()!=self.gloss.keys(): raise ValueError("Incomplete relation glossary")
         self.types={}; buffers={r:array("i") for r in self.relations}
@@ -79,7 +79,7 @@ class Graph:
         types=[n.partition("::")[0] for n in self.names]
         self.quarantined={}
         self.triples=0
-        with (root/FILES[0]).open() as f:
+        with (root/FILES[0]).open(encoding="utf-8") as f:
             for line in f:
                 h,r,t=line.rstrip("\r\n").split("\t")
                 i,j=self.entities[h],self.entities[t]

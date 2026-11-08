@@ -37,11 +37,13 @@ named drugs, this step turns them into a ranked report for the patient:
 
 ```
 POST /api/assess ─► load (record + drug list + latest research run's target profiles)
-                    ─Send()─► researcher ×N, one per drug: Sonnet + Claude web search, sees ONE DRUG NAME only
-                              → DrugDossier (mechanism, ALS trials, side effects, CYP/interactions, formulations, availability, cost)
-                    ─► assess: Opus with the record + profiles + dossiers; may ask `web_research` follow-ups
-                              (patient identifiers are stripped from the question first)
-                    ─► DrugReport: drugs ranked with verdict, fit, pros, cons, patient-specific risks, monitoring, sources
+                    ─Send()─► researcher ×N, one per drug: Haiku + Claude web search, sees ONE DRUG NAME only
+                              → DrugDossier (mechanism, ALS trials, CNS penetration, side effects, CYP, formulations, cost)
+                              + PubMed papers for "<drug> AND ALS" and "<drug> AND BBB/CSF" (NCBI E-utilities)
+                    ─► assess: Sonnet with the record + profiles + dossiers + background MRgFUS/BBB papers;
+                              tools `pubmed_search` and `web_research` (patient identifiers stripped from queries)
+                    ─► DrugReport: candidates scored /100 (mechanism and MRgFUS delivery gain x2, safety, cost,
+                              availability, acceptance), exclusions, limitations, numbered PubMed references
 ```
 
 ```bash
@@ -57,10 +59,33 @@ named via PubChem), an older query-generation report, `data/pipeline.json`
 `{"drugs": ["memantine", "riluzole"]}`, then the same events/report URLs as research runs, plus
 `GET /api/research/{run_id}/report.pdf` for the PDF.
 
-Cited URLs must have come back from a real search; any others are dropped
-and counted in `report.web.dropped_urls`. Searches use Claude's
-`web_search` server tool, not Google, and need web search enabled for the
-API key's organization.
+The ranking favours drugs with a CNS mechanism that cross the blood-brain barrier
+poorly on their own, since MRgFUS opening is what gets them in; novel leads get extra weight.
+
+Citations: the orchestrator writes `[PMID:n]` after claims; `resolve_citations` keeps only PMIDs
+that came back from a PubMed search or a fact sheet in this run, numbers them in reading order and
+builds the References list (dropped ones are counted in `report.web.dropped_citations`). Cited URLs
+must also have come back from a real search. Web searches use Claude's `web_search` server tool and
+need web search enabled for the API key's organization; PubMed needs no key (`NCBI_API_KEY` raises
+the rate limit).
+
+**Chat with the ranking agent** about a finished assessment (CLI or API run):
+
+```
+POST /api/assess/{run_id}/chat
+{"messages": [{"role": "user", "content": "Why is GABA ranked first?"}]}
+→ {"answer": "...[1]...", "references": [{"n": 1, "citation": "...", "url": "...", "pmid": "..."}],
+   "searches": [{"tool": "pubmed", "query": "..."}], "dropped_citations": 0, "query_redactions": 0}
+```
+
+Stateless: send the whole conversation each time (user/assistant turns, last 20 kept) and append the
+reply. The agent sees the record and the report, may run 4 PubMed and 2 web searches per answer
+(identifiers stripped), and its `[PMID:n]` citations are verified and numbered per answer like the report's.
+Takes ~10-40 s; 504 after 180 s. `GET /api/research/{run_id}/report.pdf` also serves CLI runs now.
+
+The PDF follows the research-agent discovery-report template: summary, patient context, method,
+ranked candidates (meta line, rationale, evidence/safety/cost/availability/acceptance), excluded,
+limitations, references. Re-render any run with `python -m agent.report_pdf agent/runs/<id>.drugs.json`.
 
 ## Setup (once)
 
@@ -104,9 +129,10 @@ event loop that can't spawn the MCP subprocesses.
 | POST | `/api/research` body `{"question"?: string, "patient_id"?: string}` | `{run_id, events_url, report_url}` |
 | GET | `/api/research/{run_id}/events` | SSE stream: all past events, then live. Recorded runs replay from `agent/runs/`; `?replay_speed=1` keeps original timing |
 | GET | `/api/research/{run_id}` | `{status, report, error}` |
-| POST | `/api/drkg` body `{"research_run_id": string, "profiles"?: [{lane, name, criterion, targets}]}` (profiles from the research run's `verify` event let it start before synthesis) | `{run_id, events_url, report_url, scene_url}`. Stage 3: the run's target genes → DRKG matches (`drkg.py`, no LLM, ~2 s). Report: `{drugs, drugs_path, scene_url}`; pass `drugs_path` to `/api/assess` |
+| POST | `/api/drkg` body `{"research_run_id": string, "profiles"?: [{lane, name, criterion, targets}]}` (profiles from the research run's `verify` event let it start before synthesis) | `{run_id, events_url, report_url, scene_url}`. Stage 3: the run's target genes → DRKG matches (`drkg.py`, no LLM, ~2 s). Report: `{candidates, drugs_path, scene_url}`; pass `drugs_path` to `/api/assess` |
 | GET | `/api/research/{run_id}/scene.json` | the stage-3 scene for a DRKG run (layout binaries are the frontend's `/drkg/*.bin`) |
 | GET | `/api/research` | live + recorded run ids |
+| POST | `/api/assess/{run_id}/chat` body `{"messages": [{"role": "user"|"assistant", "content": string}]}` | `{answer, references, searches, dropped_citations, query_redactions}`: ask the ranking agent about a finished assessment |
 | GET | `/api/health` | key present, models, tracing on/off |
 
 Event types, in order: `run_started` · `patient_loaded` · `plan` ·

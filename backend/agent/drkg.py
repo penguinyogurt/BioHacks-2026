@@ -6,7 +6,8 @@
                      (q = e[gene] − r[DRUGBANK::target], 400-d L2 over every DrugBank compound,
                       min over the profile's genes, top 5; method in docs/DECISIONS.md)
                   ─► runs/<id>.scene.json   the stage-3 picture, for the frontend
-                     runs/<id>.drugs.json   the top matches, for the drug assessment (POST /api/assess)
+                     runs/<id>.candidates.json  the top matches, for the drug assessment (POST /api/assess drugs_path).
+                     Not .drugs.json: that name means a finished assessment report (api._assessment).
 
 The scoring lives in that one script, run as a subprocess (file in, file out), so the demo's
 precomputed scene and a live run can't drift apart. Needs numpy and the raw DRKG release in
@@ -65,7 +66,7 @@ async def run(run_id: str, profiles: list[dict], emit: Callable[[dict], None], r
     if not any(p["targets"] for p in profiles):
         raise ValueError("the research run has no molecular targets to look up")
     RUNS_DIR.mkdir(parents=True, exist_ok=True)
-    src, out, drugs_out = (RUNS_DIR / f"{run_id}.{x}" for x in ("profiles.json", "scene.json", "drugs.json"))
+    src, out, drugs_out = (RUNS_DIR / f"{run_id}.{x}" for x in ("profiles.json", "scene.json", "candidates.json"))
     src.write_text(json.dumps(profiles, indent=1), encoding="utf-8")
     emit({"type": "drkg_started", "data": {"profiles": profiles, "research_run_id": research_run_id}})
 
@@ -105,7 +106,8 @@ async def run(run_id: str, profiles: list[dict], emit: Callable[[dict], None], r
     summary = {
         "run_id": run_id, "research_run_id": research_run_id, "patient_id": patient_id,
         "scene_url": f"/api/research/{run_id}/scene.json",
-        "drugs_path": drugs_out.relative_to(ROOT).as_posix(), "drugs": drugs,
+        "drugs_path": drugs_out.relative_to(ROOT).as_posix(),
+        "candidates": drugs,  # not "drugs": api._assessment() reads a report with "drugs" as a finished assessment
         "universe": scene["meta"]["universe"], "formula": scene["meta"]["formula"],
     }
     emit({"type": "report", "data": summary})
