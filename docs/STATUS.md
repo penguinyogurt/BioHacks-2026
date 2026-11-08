@@ -8,7 +8,7 @@ four people on three different AI harnesses have exactly one medium in
 common, which is this repo. So the board is a file, and the protocol below
 is what makes it work.
 
-Last updated: **2026-11-07**
+Last updated: **2026-11-08**
 
 ---
 
@@ -52,6 +52,7 @@ A board full of "fixed a typo" is a board nobody reads.
 | Levi | speech | `Master-UI-Neo-Face-Integration` | Speech + diagnostic test apps | No spec in `docs/` yet |
 | Levi | discovery | `agentic-query-generation` | **Five real DRKG query agents + rank intersection** (`backend/query-generation/`). Overlaps Jeremy — see the warning below | No merge base with `main` |
 | Henri | repo | `main` | Cleanup, specs, this board | — |
+| Neo | discovery | `agent/research-backend` | Research agent (`agent/`): Claude orchestrator + parallel sub-agents → ALS target profiles. **Merge with Levi's DRKG agents** — plan in `RESEARCH_AGENT_HANDOFF.md` | PR open; needs a teammate to own the merge |
 
 > Names are from git history. Fix them if they're wrong.
 
@@ -119,6 +120,7 @@ not the sample. Full citations in [`FUS_RESEARCH.md`](FUS_RESEARCH.md).
 
 ## Done
 
+- **2026-11-08** · Neo · Research agent backend in `agent/` (PR from `agent/research-backend`): orchestrator plans ALS criteria, up to 8 Claude sub-agents return drug-free target profiles, verified + ranked, SSE API, PDF chart ingest, LangSmith tracing. Handoff: `RESEARCH_AGENT_HANDOFF.md`.
 - **2026-11-07** · Henri · Repo cleanup: `app/` and `web/` deleted, contract
   extracted to `contract/`, `.gitignore` rewritten (`.env` was exposed),
   `.workspace/` added, CI deleted — run `npm test --prefix contract` yourself.

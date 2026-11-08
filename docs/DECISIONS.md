@@ -8,6 +8,17 @@ If you reverse one, append the reversal; don't edit the old entry away.
 
 ---
 
+## 2026-11-08 — Research sub-agents describe drugs, they don't name them
+
+**What:** `agent/` sub-agents return target profiles (HGNC targets + desired
+action, pathways, site, constraints, evidence) and never drug names; a
+separate matcher (DRKG / embeddings) turns profiles into drugs.
+**Why:** an LLM naming drugs pre-empts and biases the matching step, and
+lands on the same famous handful every time. Profiles are also what Levi's
+DRKG agents need as anchors.
+**Rules out:** sub-agents with drug-level tools, or drug names in profile
+text (`no_drugs.py` scrubs them). Drug-level tools stay for the matcher.
+
 ## 2026-11-07 — `frontend/` (Motus) is the only frontend
 
 **What:** Deleted `app/` (Vite drug-funnel UI) and `web/` (a Next 16 rebuild
