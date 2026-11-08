@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import { CartesianGrid, LabelList, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts'
 import { ArrowRight, Download, FileText, Loader2, Play, Upload, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ChartContainer } from '@/components/ui/chart'
 import { cn } from '@/lib/utils'
 import { readCasePdf } from '@/lib/case-pdf'
 import { buildReportPdf } from '@/lib/report-pdf'
-import { MATCHES, PROFILE_POINTS, PROFILES, SAMPLE_PATIENT } from '@/lib/pipeline'
+import { PROFILES, SAMPLE_PATIENT } from '@/lib/pipeline'
 import { useRun } from '@/lib/run-store'
 import { LANE_COLORS } from './lanes'
 import { EmptyStage, PatientCard, STEPS, StageHeader, StepNav, Trace } from './pieces'
+import { DrkgScene } from './drkg-scene'
+import { useDrkg } from './drkg-data'
 import { ProfileGrid } from './profile-card'
 
 type Go = (view: string) => void
@@ -207,69 +207,78 @@ export function ProfilesPage() {
 
 export function EmbeddingPage() {
   const { state } = useRun()
-  const drugs = MATCHES.map((m) => ({ ...m }))
+  const { data } = useDrkg()
+  const [focus, setFocus] = useState<number | null>(null)
+  const [selected, setSelected] = useState<number | null>(null)
+  const [revealed, setRevealed] = useState(0)
+  useEffect(() => {
+    if (selected === null) return
+    const esc = (e: KeyboardEvent) => e.key === 'Escape' && setSelected(null)
+    window.addEventListener('keydown', esc)
+    return () => window.removeEventListener('keydown', esc)
+  }, [selected])
+  const profiles = data?.scene.profiles ?? []
   return (
     <div className="mx-auto max-w-[1440px] space-y-3 text-sm">
       <StageHeader
         step="04 · DRKG embedding"
         title="Matching profiles to known drugs"
-        description="Each profile is placed in the DRKG knowledge graph and matched to its nearest compounds by cosine similarity."
+        description="Each profile's target genes are walked through the DRKG graph, then translated into the TransE embedding space (e[gene] − r[target]); the nearest DrugBank compounds by 400-d L2 distance become candidates."
       />
       {state.stages.embedding === 'pending' ? (
         <EmptyStage view="embedding" />
       ) : (
-        <div className="grid gap-3 lg:grid-cols-12">
-          <div className="space-y-3 lg:col-span-8">
-            <div className={cn('rounded-xl bg-card p-4 ring-1 ring-border backdrop-blur-md transition-opacity', !state.matches && 'opacity-40')}>
-              <p className="text-xs text-muted-foreground">DRKG TransE embedding space · 2D projection</p>
-              <ChartContainer config={{}} className="aspect-auto h-[22rem] w-full">
-                <ScatterChart margin={{ top: 12, right: 32, bottom: 4, left: 0 }}>
-                  <CartesianGrid strokeDasharray="3 6" />
-                  <XAxis type="number" dataKey="x" domain={[-3.5, 3.5]} hide />
-                  <YAxis type="number" dataKey="y" domain={[-3.5, 3.5]} hide />
-                  <ZAxis range={[60, 60]} />
-                  <Tooltip
-                    cursor={false}
-                    content={({ payload }) => {
-                      const d = payload?.[0]?.payload as (typeof drugs)[number] | undefined
-                      if (!d?.drug) return null
-                      return <div className="rounded-md border bg-popover px-2 py-1 text-xs shadow-sm"><strong>{d.drug}</strong> · cosine {d.cosine.toFixed(2)}</div>
-                    }}
-                  />
-                  {PROFILE_POINTS.map((p) => (
-                    <Scatter key={`p${p.lane}`} data={[p]} fill={LANE_COLORS[p.lane]} shape="diamond" isAnimationActive={false}>
-                      <ZAxis range={[220, 220]} />
-                    </Scatter>
-                  ))}
-                  {state.matches
-                    ? PROFILES.map((p) => (
-                        <Scatter key={`d${p.lane}`} data={drugs.filter((d) => d.lane === p.lane)} fill={LANE_COLORS[p.lane]} fillOpacity={0.55} isAnimationActive={false}>
-                          <LabelList dataKey="drug" position="right" style={{ fontSize: 10, fill: 'var(--muted-foreground)' }} />
-                        </Scatter>
-                      ))
-                    : null}
-                </ScatterChart>
-              </ChartContainer>
-              <p className="text-[0.6875rem] text-muted-foreground">◆ profile vector · ● nearest compounds by cosine similarity</p>
-            </div>
-            <Trace stage="embedding" title="Embedding job" maxH="max-h-56" />
-          </div>
-          <div className="space-y-3 lg:col-span-4">
-            {PROFILES.map((p) => (
-              <div key={p.lane} className="rounded-lg bg-card p-3 text-xs ring-1 ring-border backdrop-blur-md">
+        <div className="space-y-3">
+          <DrkgScene
+              status={state.stages.embedding}
+              focusLane={focus}
+              selectedLane={selected}
+              onSelectLane={setSelected}
+              onReveal={setRevealed}
+              className="h-[38rem]"
+            />
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+            {(profiles.length ? profiles : PROFILES.map((p) => ({ lane: p.lane, name: p.name, matches: [], unresolved: [] }))).map((p, i) => (
+              <button
+                type="button"
+                key={p.lane}
+                disabled={revealed <= i}
+                aria-pressed={selected === p.lane}
+                onClick={() => setSelected((s) => (s === p.lane ? null : p.lane))}
+                onMouseEnter={() => revealed > i && setFocus(p.lane)}
+                onMouseLeave={() => setFocus(null)}
+                className={cn(
+                  'block w-full rounded-lg bg-card p-3 text-left text-xs ring-1 ring-border backdrop-blur-md transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-default',
+                  focus === p.lane && selected === null && 'ring-ring/60',
+                  selected === p.lane && 'ring-2 ring-ring',
+                  selected !== null && selected !== p.lane && 'opacity-60',
+                )}
+              >
                 <p className="flex items-center gap-1.5 font-medium"><span className="size-2 rounded-full" style={{ background: LANE_COLORS[p.lane] }} /> {p.name}</p>
-                {state.matches ? (
-                  <ul className="mt-1.5 space-y-0.5">
-                    {MATCHES.filter((m) => m.lane === p.lane).map((m) => (
-                      <li key={m.drug} className="flex justify-between gap-2"><span>{m.drug}</span><span className="text-muted-foreground tabular-nums">{m.cosine.toFixed(2)}</span></li>
-                    ))}
-                  </ul>
+                {revealed > i ? (
+                  <>
+                    <ul className="mt-1.5 space-y-0.5">
+                      {p.matches.map((m) => (
+                        <li key={m.id} className="flex items-baseline gap-2">
+                          <span className="w-3 text-muted-foreground tabular-nums">{m.rank}</span>
+                          <span className="min-w-0 truncate" title={m.name}>{m.name}</span>
+                          <span className="shrink-0 text-[0.6875rem] text-muted-foreground" title={m.directEdge ? `Has a DRKG edge to ${m.viaGene}` : `Found by embedding distance from ${m.viaGene} only`}>
+                            {m.directEdge ? '↔' : '≈'} {m.viaGene}
+                          </span>
+                          <span className="ml-auto shrink-0 text-muted-foreground tabular-nums">{m.distance.toFixed(2)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    {p.unresolved.length ? <p className="mt-1 text-[0.6875rem] text-muted-foreground">No DRKG target edges: {p.unresolved.join(', ')}</p> : null}
+                  </>
                 ) : (
                   <p className="mt-1.5 text-muted-foreground">Searching…</p>
                 )}
-              </div>
+              </button>
             ))}
           </div>
+          <p className="px-1 text-[0.6875rem] text-muted-foreground">↔ has a DRKG edge to the gene · ≈ found by embedding only · 400-d L2, lower is closer · click a profile to focus it, Esc to clear</p>
+          <Trace stage="embedding" title="Embedding job" maxH="max-h-56" />
         </div>
       )}
       <StepNav view="embedding" />
