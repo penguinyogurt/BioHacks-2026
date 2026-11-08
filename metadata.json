@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6XC4W95YRDGVP42JC6ZTEHD",
   "strategy": "manual-commit",
   "branch": "frontend/live-agent",
-  "checkpoints_count": 9,
+  "checkpoints_count": 12,
   "files_touched": [
     "backend/agent/api.py",
     "backend/agent/chat.py",
@@ -39,14 +39,21 @@
       "compact_transcript": "/1/transcript.jsonl",
       "content_hash": "/1/content_hash.txt",
       "prompt": "/1/prompt.txt"
+    },
+    {
+      "metadata": "/2/metadata.json",
+      "transcript": "/2/full.jsonl",
+      "compact_transcript": "/2/transcript.jsonl",
+      "content_hash": "/2/content_hash.txt",
+      "prompt": "/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 192,
-    "cache_creation_tokens": 168794,
-    "cache_read_tokens": 28129089,
-    "output_tokens": 82463,
-    "api_call_count": 85
+    "input_tokens": 224,
+    "cache_creation_tokens": 177740,
+    "cache_read_tokens": 30104079,
+    "output_tokens": 88522,
+    "api_call_count": 98
   },
   "redaction": {
     "replacements": 59,

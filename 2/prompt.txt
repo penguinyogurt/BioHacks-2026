@@ -1,0 +1,9 @@
+Update the thumbnail so that the background is transparent not white
+
+---
+
+where does it even use these assets?
+
+---
+
+i don't think it updated at all
