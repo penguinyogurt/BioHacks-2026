@@ -1,0 +1,15 @@
+{
+  "tool_use_id": "toolu_01BB649qeLHQA1BW2BAmmuTv",
+  "agent_id": "af578ca29ee7aa444",
+  "subagent_type": "general-purpose",
+  "task_description": "Build + motion correctness review",
+  "token_usage": {
+    "input_tokens": 50,
+    "cache_creation_tokens": 134725,
+    "cache_read_tokens": 2672842,
+    "output_tokens": 24220,
+    "api_call_count": 24
+  },
+  "started_at": "2026-11-08T01:32:28.3374447-05:00",
+  "completed_at": "2026-11-08T01:49:08.5914615-05:00"
+}
