@@ -19,25 +19,37 @@ three separate frontends for one project.
 
 So, in order, every session:
 
-1. **Read [`docs/STATUS.md`](docs/STATUS.md).** It is the shared task board:
-   what is claimed, what is open, what is done. Fifteen seconds.
-2. **Claim before you write code** — put your name on the line, commit
-   *just that file*, push immediately. Not on the board yet? Add it and
-   claim it in the same push. A claim that lands after your work is
-   worthless. Small stuff is exempt; the board says where the line is.
+1. **See what's taken.** Fifteen seconds:
+   ```bash
+   gh issue list                 # everything open
+   gh issue list --assignee ""   # unclaimed only
+   ```
+2. **Claim before you write code** — assign yourself. Assignment is
+   server-side, so two of you can't both get it:
+   ```bash
+   gh issue edit <n> --add-assignee @me
+   ```
+   Not an issue yet? `gh issue create` it, then assign. That *is* the claim;
+   don't go looking for permission. **Small stuff is exempt** — reading,
+   answering, a typo, anything under ~10 minutes. Claim when you're about to
+   create a file, change a shared one, or settle somewhere for a while.
 3. **Check the map below** for which directory your work belongs in. If your
    change doesn't obviously fit one, say so before writing code.
-4. **Before you stop, update the board.** Move your line to Done, or back to
-   Open with one line on where you left it. Even "I got nowhere on X" is
+4. **Before you stop**, close it (`gh issue close <n> -c "what landed"`) or
+   unassign and comment where you left it. Even "I got nowhere on X" is
    worth more to the other three than silence.
+
+Findings that aren't tasks — a number that turned out wrong, two people
+colliding — go in [`docs/STATUS.md`](docs/STATUS.md). Issues are the work;
+STATUS is what we learned.
 
 **If you are an agent, steps 1, 2 and 4 are not optional and you do them
 without being asked.** You are one of several agents working this repo at
-the same time, driven by different people on different harnesses, and you
-cannot see the others. The board is the only thing that stops two of you
-writing the same file from opposite directions. If a task you were about to
-start is already claimed by someone else, stop and tell your human rather
-than doing it anyway.
+the same time — Claude, Codex, Cursor and a Copilot bot have all committed
+here — driven by different people, and you cannot see the others. The issue
+list is the only thing that stops two of you writing the same file from
+opposite directions. If what you were about to start is already assigned to
+someone else, stop and tell your human rather than doing it anyway.
 
 ---
 

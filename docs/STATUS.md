@@ -1,76 +1,23 @@
-# Status — the shared task board
+# Findings — what we learned the hard way
 
-**This is the one place work is claimed.** Read it at the start of every
-session. Claim before you write code. Release when you stop.
+**Tasks are not here any more.** Work is claimed in GitHub Issues:
 
-There is no task framework to install — `gh` isn't on these machines and
-four people on three different AI harnesses have exactly one medium in
-common, which is this repo. So the board is a file, and the protocol below
-is what makes it work.
+```bash
+gh issue list                  # what's open
+gh issue list --assignee ""    # what's free
+gh issue edit <n> --add-assignee @me
+```
+
+This file is for the other thing: numbers that turned out wrong, two people
+colliding, traps that cost someone an hour. Things you need *before* you
+pitch or before you merge, which don't belong in a task.
+
+Add to it when you find one. It's cheaper than the next person finding it
+again.
 
 Last updated: **2026-11-08**
 
 ---
-
-## How to claim (all of it)
-
-1. **`git pull`** — then put your name on the line you want, in **In flight**.
-2. **Commit just this file and push immediately.** Don't bundle the claim
-   with your work; the claim is worthless if it lands an hour later.
-   ```bash
-   git pull && git add docs/STATUS.md && git commit -m "claim: <task>" && git push
-   ```
-3. **If the push is rejected**, someone claimed something while you typed.
-   `git pull --rebase`, check your task is still free, push again.
-4. **When you stop** — done, blocked, or bored — move the line to **Done** or
-   back to **Open**, with one line on where you left it. A task parked
-   silently is the same as a task nobody did.
-
-If two of you end up on the same line anyway, that's a conflict in one
-markdown row. Keep both names, talk, move on.
-
-**Your task isn't on the board?** Most won't be. Add the line and claim it
-in the same push — that *is* the claim. Don't go looking for permission.
-
-**When not to claim.** Claiming costs a push, so it has to buy something.
-Skip it for anything another person could not plausibly start at the same
-time: reading code, answering a question, a typo, a one-line fix, anything
-under ~10 minutes. Claim when you're about to **create a file, change a
-shared one, or work somewhere for a while** — that's when collisions happen.
-A board full of "fixed a typo" is a board nobody reads.
-
----
-
-## In flight — claimed, don't touch
-
-| Who | Track | Branch | Task | Blocked on |
-|---|---|---|---|---|
-| Jeremy | discovery | `main` | FUS discovery pipeline — scripted end to end. See `DISCOVERY_SPEC.md` | A live backend behind `runDemoPipeline` |
-| Jeremy | frontend | `main` | Motus dashboard — overview landed, 15 views still placeholders | Supabase keys |
-| Neo | pipeline | `cursor/pipeline-graph-ui` | Drug pipeline — BBB + patient filter scored over 3,791 compounds | — |
-| Neo | facecheck | `cursor/facial-als-validation` | FaceCheck MediaPipe prototype | `FACECHECK_SPEC.md` §2 gaps |
-| Levi | speech | `Master-UI-Neo-Face-Integration` | Speech + diagnostic test apps | No spec in `docs/` yet |
-| Levi | discovery | `agentic-query-generation` | **Five real DRKG query agents + rank intersection** (`backend/query-generation/`). Overlaps Jeremy — see the warning below | No merge base with `main` |
-| Henri | repo | `main` | Cleanup, specs, this board | — |
-| Neo | discovery | `agent/research-backend` | Research agent (`agent/`): Claude orchestrator + parallel sub-agents → ALS target profiles. **Merge with Levi's DRKG agents** — plan in `RESEARCH_AGENT_HANDOFF.md` | PR open; needs a teammate to own the merge |
-
-> Names are from git history. Fix them if they're wrong.
-
-## Open — unclaimed, grab one
-
-Ordered roughly by what hurts most if it's still open on Sunday morning.
-
-| Track | Task | Why it matters |
-|---|---|---|
-| **decision** | **Pick the product: discovery pipeline or Motus.** Both ship on `main`, in one sidebar, sharing nothing else | 90 seconds, one argument. Everything below depends on this |
-| **decision** | **Pick the name.** Code says *Addo Labs*, landing page says *motus* | A judge sees both in one scroll |
-| discovery | Wire the graveyard's `never_arrived` bucket in as the FUS candidate pool | It already exists in `data/pipeline.json` and is exactly the right set — `DISCOVERY_SPEC.md` §1 |
-| discovery | Real citations for the Sunnybrook MRgFUS claim; be precise about human vs proposed | The whole pitch rests on it, and someone will ask |
-| pipeline | Port the Python onto a branch cut from `main` (leave `data/*.json` and `artifacts/` behind) | `main` has no pipeline code today |
-| speech | Write `docs/SPEECH_SPEC.md` | The only track with no spec — nobody else can pick it up |
-| frontend | Decide demo mode: signed-in or sample data | Sample works today with no keys |
-| facecheck | Decide: own page, or a tab in the app | `FACECHECK_SPEC.md` §7 |
-| discovery | A real backend behind `runDemoPipeline` — stretch | The seam is clean; don't collapse it under time pressure |
 
 ## ⚠ Two people are building the same pipeline right now
 
@@ -90,6 +37,13 @@ base with `main`.
 Whoever picks this up: the cheapest win in the repo is making Jeremy's
 `PipelineEvent` stream come from Levi's agents instead of a timer. The seam
 already exists. Talk before either of you builds further.
+
+**Neo** has a third piece, `agent/` (PR #4): a Claude orchestrator that plans
+ALS criteria and runs parallel LLM sub-agents that return drug-free *target
+profiles* (genes + desired action, pathways, site). These are the anchors
+Levi's DRKG agents need, and its SSE stream is a live source for Jeremy's
+`PipelineEvent`s. How to combine all three without building a fourth:
+[`RESEARCH_AGENT_HANDOFF.md`](RESEARCH_AGENT_HANDOFF.md).
 
 ## Found while auditing — read before you pitch
 
@@ -117,18 +71,6 @@ not the sample. Full citations in [`FUS_RESEARCH.md`](FUS_RESEARCH.md).
    `GraphCanvas`, Henri's stale `KnowledgeGraph.tsx`, and a "coming soon"
    placeholder on `main`. FaceCheck: Neo's TS original and Levi's JS port.
    Pick one of each.
-
-## Done
-
-- **2026-11-08** · Neo · Research agent backend in `agent/` (PR from `agent/research-backend`): orchestrator plans ALS criteria, up to 8 Claude sub-agents return drug-free target profiles, verified + ranked, SSE API, PDF chart ingest, LangSmith tracing. Handoff: `RESEARCH_AGENT_HANDOFF.md`.
-- **2026-11-07** · Henri · Repo cleanup: `app/` and `web/` deleted, contract
-  extracted to `contract/`, `.gitignore` rewritten (`.env` was exposed),
-  `.workspace/` added, CI deleted — run `npm test --prefix contract` yourself.
-- **2026-11-07** · Henri · `DISCOVERY_SPEC.md` written from Jeremy's pitch.
-- **2026-11-07** · Jeremy · Discovery pipeline UI + Motus dashboard merged
-  (PRs #1, #2).
-
----
 
 ## If main gives you a `tsconfig.tsbuildinfo` conflict — read this first
 

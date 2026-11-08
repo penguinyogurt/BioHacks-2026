@@ -6,7 +6,7 @@ For: whoever merges this with Levi's `backend/query-generation/`
 
 The goal: **one discovery engine**. Keep the **main research agent**
 (orchestrator) as it is, and combine the **best parts of both** sub-agent
-designs. Don't keep two pipelines standing side by side. `docs/STATUS.md`
+designs. Don't keep two pipelines standing side by side. issue #7
 already notes that we have built the same thing twice.
 
 ---
