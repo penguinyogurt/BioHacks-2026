@@ -3,7 +3,7 @@
   "checkpoint_id": "01M6X2FB2HZVBAFK1AGTXZMS1Z",
   "strategy": "manual-commit",
   "branch": "frontend/drkg-traversal",
-  "checkpoints_count": 1,
+  "checkpoints_count": 4,
   "files_touched": [
     "frontend/src/components/discovery/drkg-legend.tsx",
     "frontend/src/components/discovery/drkg-scene.tsx"
@@ -15,25 +15,32 @@
       "compact_transcript": "/0/transcript.jsonl",
       "content_hash": "/0/content_hash.txt",
       "prompt": "/0/prompt.txt"
+    },
+    {
+      "metadata": "/1/metadata.json",
+      "transcript": "/1/full.jsonl",
+      "compact_transcript": "/1/transcript.jsonl",
+      "content_hash": "/1/content_hash.txt",
+      "prompt": "/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 6,
-    "cache_creation_tokens": 2499,
-    "cache_read_tokens": 876347,
-    "output_tokens": 997,
-    "api_call_count": 3
+    "input_tokens": 18,
+    "cache_creation_tokens": 11529,
+    "cache_read_tokens": 2472751,
+    "output_tokens": 5452,
+    "api_call_count": 9
   },
   "redaction": {
-    "replacements": 303,
+    "replacements": 681,
     "layers": {
       "betterleaks": 0,
       "connection_string": 0,
       "credential_key": 0,
-      "credential_value": 0,
+      "credential_value": 23,
       "credentialed_uri": 0,
-      "entropy": 362,
-      "key_context": 5,
+      "entropy": 900,
+      "key_context": 13,
       "provider_token": 0,
       "shell_stdin": 0
     }
