@@ -7,10 +7,12 @@ const rounds=[
  ["Neutral","relax your brow and mouth","Relax your face now"]
 ];
 let index=0, phase="off", stream=null, epoch=0, timeout, request;
+const snapshots=new Array(rounds.length);
 const outcomes=new Array(rounds.length).fill(null);
 function state(value){
  $("summary").hidden=true;
  phase=value;
+ if(parent!==window)parent.postMessage({suite:"facial",complete:false},"http://127.0.0.1:8772");
  $("start").hidden=value!=="off"; $("stop").hidden=value==="off";
  $("ready").hidden=value!=="prompt"; $("again").hidden=value!=="result"; $("next").hidden=value!=="result";
  $("threshold").disabled=!["off","prompt","result"].includes(value);
@@ -65,12 +67,21 @@ async function capture(id,limit){
   let info=target+": "+conf.toFixed(2)+"% · Threshold: "+limit+"%";
   if(top!==target)info+=" · Top prediction: "+top+" ("+(probs[top]*100).toFixed(2)+"%)";
   const passed=top===target&&conf>=limit;
+ if(snapshots[index])URL.revokeObjectURL(snapshots[index]);
+ snapshots[index]=URL.createObjectURL(blob);
  outcomes[index]=passed;
  finish(passed?"PASS":"FAIL",info);
  if(index===rounds.length-1){
-  $("summary").textContent="Challenge complete · "+outcomes.filter(Boolean).length+" of "+rounds.length+" expressions correct";
-  $("summary").hidden=false;
-  $("next").textContent="Start new challenge";
+  const total=outcomes.filter(Boolean).length+" of "+rounds.length+" expressions correct";
+  stop();$("challenge").hidden=true;$("reviewPage").hidden=false;$("totalRight").textContent=total;
+  $("photos").replaceChildren(...rounds.map(([label],i)=>{
+   const card=document.createElement("figure"),img=document.createElement("img"),caption=document.createElement("figcaption"),badge=document.createElement("small");
+   img.src=snapshots[i];img.alt=label+" round, scored photo";
+   caption.textContent=label;badge.textContent=outcomes[i]?"PASS":"FAIL";badge.dataset.pass=String(outcomes[i]);
+   caption.append(badge);card.append(img,caption);return card
+  }));
+  $("reviewTitle").focus();$("restart").hidden=parent!==window;
+  if(parent!==window)parent.postMessage({suite:"facial",complete:true,summary:total},"http://127.0.0.1:8772");
  }
  }catch(e){if(id===epoch){$("prompt").textContent=rounds[index][0]+" — captured photo";finish("Retake",e.message,false)}}
 }
@@ -92,3 +103,9 @@ $("again").onclick=prompt;
 $("next").onclick=()=>{if(index===rounds.length-1){index=0;outcomes.fill(null);$("next").textContent="Next expression"}else{index++}prompt()};
 window.addEventListener("pagehide",stop);
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&["countdown","expression"].includes(phase)){epoch++;clearTimeout(timeout);prompt()}});
+
+$("restart").onclick=()=>{
+ for(const url of snapshots)if(url)URL.revokeObjectURL(url);
+ snapshots.fill(null);outcomes.fill(null);index=0;$("photos").replaceChildren();
+ $("reviewPage").hidden=true;$("challenge").hidden=false;stop();$("start").focus();
+};

@@ -2,7 +2,7 @@
 set -eu
 cd "$(dirname "$0")"
 python3 -m venv .venv
-.venv/bin/python -m pip install numpy scipy vosk
+.venv/bin/python -m pip install numpy scipy vosk pocketsphinx
 dest=private/speech_demo
 mkdir -p "$dest"
 if [ ! -d "$dest/vosk-model-small-en-us-0.15" ]; then

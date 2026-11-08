@@ -63,15 +63,18 @@ class Handler(BaseHTTPRequestHandler):
 if __name__=="__main__":
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cpu",action="store_true")
+    parser.add_argument("--no-browser",action="store_true")
     args=parser.parse_args()
     try:
         server=ThreadingHTTPServer(("127.0.0.1",8771),Handler)
     except OSError as exc:
         if exc.errno!=errno.EADDRINUSE or urlopen(URL+"/health",timeout=2).read()!=HEALTH:
             raise
-        webbrowser.open(URL)
+        if not args.no_browser:
+            webbrowser.open(URL)
     else:
         server.model=Predictor("cpu" if args.cpu else None)
         print(f"POSTER++ ready on {server.model.device}: {URL}",flush=True)
-        threading.Timer(.4,lambda:webbrowser.open(URL)).start()
+        if not args.no_browser:
+            threading.Timer(.4,lambda:webbrowser.open(URL)).start()
         server.serve_forever()

@@ -1,15 +1,70 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Passage word check</title>
-<style>*{box-sizing:border-box}body{max-width:790px;margin:auto;padding:32px 20px;background:#f8f6ef;color:#183837;font:16px/1.5 system-ui}h1{font:2.8rem Georgia;margin:0}blockquote{font:1.6rem/1.55 Georgia;margin:20px 0}section{background:white;border:1px solid #c9d6d0;border-radius:12px;padding:20px;margin:14px 0}button,select{font:inherit;padding:8px;border-radius:6px;border:1px solid #78958f;background:white}button{color:white;background:#205952;cursor:pointer}audio{width:100%;margin-top:12px}label{display:inline-block;margin:4px 8px 4px 0}strong{font-size:2.4rem}li{margin:.35rem 0}</style>
-<main><h1>Passage word check</h1><blockquote>__PASSAGE__</blockquote>
-<section><button id="mic">Record reading</button> <label>Upload WAV <input id="upload" type="file" accept=".wav,audio/wav"></label><br>
+<style>*{box-sizing:border-box}body{max-width:790px;margin:auto;padding:32px 20px;background:#f8f6ef;color:#183837;font:16px/1.5 system-ui}h1{font:2.8rem Georgia;margin:0}blockquote{font:1.6rem/1.55 Georgia;margin:20px 0}section{background:white;border:1px solid #c9d6d0;border-radius:12px;padding:20px;margin:14px 0}button,select{font:inherit;padding:8px;border-radius:6px;border:1px solid #78958f;background:white}button{color:white;background:#205952;cursor:pointer}audio{width:100%;margin-top:12px}label{display:inline-block;margin:4px 8px 4px 0}strong{font-size:2.4rem}li{margin:.35rem 0}#reviewWords{display:flex;gap:6px;flex-wrap:wrap}#reviewWords button{background:#e6f3e9;color:#174b39;border-bottom:3px solid #438162}#reviewWords .wrong{background:#fff0e5;color:#78361b;border-color:#bd6937}#reviewWords .uncertain{outline:2px dashed #825a90;outline-offset:1px}#reviewWords [aria-pressed=true]{box-shadow:0 0 0 3px #283c61}#total{font-weight:650}[hidden]{display:none!important}#passageDone{text-align:center;padding:28px}#more{min-width:190px;font-size:1.15rem;padding:12px 24px}#reviewPage h1,#overall,#reviewName,#passageLinks{text-align:center}#passageLinks{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:20px 0}#passageLinks [aria-pressed=true]{outline:3px solid #a4bcab;outline-offset:2px}#reviewPage{margin:auto;max-width:740px}#reviewPage strong{font-size:1.6rem}</style>
+<main id="readingPage"><h1>Passage word check</h1><p id="total"></p><blockquote id="passage"></blockquote>
+<section id="passageDone" hidden><h2 id="doneTitle" tabindex="-1"></h2><p id="nextName"></p><button id="more">Next passage</button></section>
+<section id="inputs"><button id="mic">Record reading</button> <label>Upload WAV <input id="upload" type="file" accept=".wav,audio/wav"></label><br>
 <label>Synthetic sample <select id="sample"><option value="">Choose a reading</option><option value="baseline">Standard pace</option><option value="slower">Slower reading</option><option value="edited">Skipped and replaced words</option></select></label>
 <audio id="player" controls></audio><p role="status" id="status">Record or choose audio to score it locally.</p></section>
-<section id="result" hidden aria-live="polite"><strong id="count"></strong><p id="summary"></p><p id="scale"></p><h2>Recognized words</h2><p id="transcript"></p><ul id="events"></ul><small>A recognizer can mishear a word. The score measures transcript differences.</small></section></main>
+</main><main id="reviewPage" hidden><h1 id="reviewTitle" tabindex="-1">Speech results</h1><p id="overall"></p><nav id="passageLinks" aria-label="Review a passage"></nav><h2 id="reviewName"></h2><section id="result" hidden aria-live="polite"><strong id="count"></strong><p id="summary"></p><p id="scale"></p><h2>Review words</h2><p>Select a word to hear the macOS reference first, then the corresponding word from your reading. Skipped words play only the reference; extra words play only your recording. Green means matched, orange means an edit, and a dashed outline marks low confidence or uncertain placement.</p><div id="reviewWords"></div><p id="wordDetail" aria-live="polite"></p><h2>Recognized words</h2><p id="transcript"></p><ul id="events"></ul><small>A recognizer can mishear a word. The score measures transcript differences.</small></section><button id="restart" hidden>Start new reading</button></main>
 <script>
 const $=id=>document.getElementById(id);
 let recorder,ctx,version=0,url,timer;
-function showError(e){$("status").textContent=e.message||String(e)}
+const passages=__PASSAGES__, readings=new Map(), references=new Map();
+let current=0,playing=[],playVersion=0;
+const prefix=i=>i?"p"+i+"-":"";
+function stopWords(){playVersion++;for(const src of playing){try{src.stop()}catch{}}playing=[]}
+function switchPassage(i){
+ stopWords();version++;current=i;$("passage").textContent=passages[i][1];
+ $("total").textContent="Passage "+(i+1)+" of "+passages.length+" · "+passages[i][0];
+ $("player").pause();$("player").removeAttribute("src");$("player").load();$("upload").value="";$("sample").value="";
+ $("passageDone").hidden=true;$("inputs").hidden=false;
+ $("status").textContent="Record or choose audio to score this passage locally.";
+}
+function discardCurrent(){
+ stopWords();const old=readings.get(current);if(old)URL.revokeObjectURL(old.url);
+ readings.delete(current);
+}
+function selectReview(i){
+ stopWords();current=i;$("reviewName").textContent=passages[i][0];render(readings.get(i));
+ [...$("passageLinks").children].forEach((b,j)=>b.setAttribute("aria-pressed",String(j===i)));
+}
+function showReview(){
+ const errors=[...readings.values()].reduce((n,r)=>n+r.s.errors,0);
+ const words=[...readings.values()].reduce((n,r)=>n+r.s.words,0);
+ const summary=errors+" word errors across "+words+" passage words";
+ $("readingPage").hidden=true;$("reviewPage").hidden=false;$("overall").textContent=summary;
+ $("passageLinks").replaceChildren(...passages.map(([name],i)=>{
+  const b=document.createElement("button"),n=readings.get(i).s.errors;
+  b.textContent=name+" · "+n+" error"+(n===1?"":"s");b.onclick=()=>selectReview(i);return b
+ }));
+ selectReview(0);$("reviewTitle").focus();$("restart").hidden=parent!==window;
+ if(parent!==window)parent.postMessage({suite:"speech",complete:true,summary},"http://127.0.0.1:8772");
+}
+async function reference(i){
+ if(!references.has(i)){
+  const fetchOK=async path=>{const r=await fetch("/"+prefix(i)+path);if(!r.ok)throw Error("Reference audio unavailable.");return r};
+  references.set(i,Promise.all([fetchOK("reference.wav").then(r=>r.arrayBuffer()).then(b=>ctx.decodeAudioData(b)),fetchOK("reference.json").then(r=>r.json())]).catch(e=>{references.delete(i);throw e}))
+ }
+ return references.get(i)
+}
+async function review(token,entry,button){
+ stopWords();const ticket=playVersion;$("player").pause();
+ for(const b of $("reviewWords").children)b.setAttribute("aria-pressed",b===button);
+ const low=token.confidence!=null && token.confidence<.70;
+ $("wordDetail").textContent=(token.expected||"Extra word")+" → "+(token.heard||"omitted")+" · "+token.kind+
+   (token.confidence!=null?" · ASR confidence "+Math.round(100*token.confidence)+"%":"")+
+   (low?" · low confidence":"")+(token.ambiguous?" · ambiguous occurrence":"");
+ try{
+  await ctx.resume();const [buf,spans]=await reference(current);if(ticket!==playVersion)return;
+  let when=ctx.currentTime+.025;
+  function play(audio,start,end){const src=ctx.createBufferSource();src.buffer=audio;src.connect(ctx.destination);src.start(when,start,end-start);playing.push(src);when+=end-start+.25}
+  if(token.position!==null)play(buf,...spans[token.position-1]);
+  if(token.heard && token.end>token.start)play(entry.audio,token.start,token.end);
+ }catch(e){if(ticket===playVersion)showError(e)}
+}
+function showError(e){($("reviewPage").hidden?$("status"):$("wordDetail")).textContent=e.message||String(e)}
 async function analyze(blob,name){
+ discardCurrent();
  const id=++version;$("result").hidden=true;$("status").textContent="Transcribing "+name+" locally…";
  try{
  ctx=ctx||new AudioContext();const decoded=await ctx.decodeAudioData(await blob.arrayBuffer());
@@ -20,24 +75,46 @@ async function analyze(blob,name){
  function str(i,s){for(let j=0;j<s.length;j++)v.setUint8(i+j,s.charCodeAt(j))}
  str(0,"RIFF");v.setUint32(4,bytes.byteLength-8,true);str(8,"WAVE");str(12,"fmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,16000,true);v.setUint32(28,32000,true);v.setUint16(32,2,true);v.setUint16(34,16,true);str(36,"data");v.setUint32(40,bytes.byteLength-44,true);
  samples.forEach((s,i)=>v.setInt16(44+2*i,Math.round(32767*Math.max(-1,Math.min(1,s))),true));
- if(id!==version)return;if(url)URL.revokeObjectURL(url);url=URL.createObjectURL(new Blob([bytes],{type:"audio/wav"}));$("player").src=url;
- const r=await fetch("/score",{method:"POST",body:bytes});if(!r.ok)throw Error("Could not score this recording.");const s=await r.json();if(id!==version)return;
+ if(id!==version)return;url=URL.createObjectURL(new Blob([bytes],{type:"audio/wav"}));$("player").src=url;
+ const r=await fetch("/score",{method:"POST",headers:{"X-Passage":String(current)},body:bytes});if(!r.ok)throw Error("Could not score this recording.");const s=await r.json();if(id!==version)return;
+ const entry={s,audio:decoded,url,name};if(s.score!==null)readings.set(current,entry);
+ if(s.score===null){$("status").textContent="No words recognized. Record the passage again.";return}
+ $("player").pause();
+ if(readings.size===passages.length){showReview();return}
+ $("inputs").hidden=true;$("passageDone").hidden=false;
+ $("doneTitle").textContent="Passage "+(current+1)+" complete";
+ $("nextName").textContent="Up next: "+passages[current+1][0];$("more").focus();
+ }catch(e){if(id===version)showError(e)}
+}
+function render(entry){
+ const {s,name}=entry;
  $("count").textContent=s.score===null?"Unscored":s.errors+" word error"+(s.errors===1?"":"s");
  $("summary").textContent=s.score===null?"No words recognized. Check the microphone and try again.":s.substitutions+" replaced · "+s.omissions+" skipped · "+s.insertions+" extra";
  $("scale").textContent=s.score===null?"":"Word-error rate: "+(100*s.wer).toFixed(1)+"% of "+s.words+" passage words · Count-based score: "+s.score.toFixed(1)+" / 100";
  $("transcript").textContent=s.transcript||"—";$("events").replaceChildren();
  if(s.score!==null)for(const e of s.events){const li=document.createElement("li");li.textContent=e.kind+" · "+(e.expected||"∅")+" → "+(e.heard||"∅")+" · "+(e.kind==="omission"?"estimated position ":"")+e.start.toFixed(2)+(e.kind==="omission"?"":"–"+e.end.toFixed(2))+" s"+(e.ambiguous?" · ambiguous occurrence":"");$("events").append(li)}
- $("result").hidden=false;$("status").textContent=name+" · complete";
- }catch(e){if(id===version)showError(e)}
+ $("reviewWords").replaceChildren();$("wordDetail").textContent="";
+ if(s.score!==null)for(const token of s.tokens){
+  const b=document.createElement("button");b.textContent=token.expected||("+"+token.heard);
+  if(token.kind!=="match")b.classList.add("wrong");
+  if(token.ambiguous||(token.confidence!=null&&token.confidence<.70))b.classList.add("uncertain");
+  b.setAttribute("aria-label",b.textContent+" · "+token.kind);
+  b.onclick=()=>review(token,entry,b);$("reviewWords").append(b)
+ }
+ $("result").hidden=false;
 }
+$("more").onclick=()=>switchPassage(current+1);
+$("restart").onclick=()=>location.reload();
+switchPassage(0);
 $("upload").onchange=e=>{const f=e.target.files[0];if(f)analyze(f,f.name)};
-$("sample").onchange=async e=>{const key=e.target.value;if(key)try{await analyze(await (await fetch("/"+key+".wav")).blob(),"Synthetic sample")}catch(err){showError(err)}};
+$("sample").onchange=async e=>{const key=e.target.value;if(key)try{const id=++version;const blob=await (await fetch("/"+prefix(current)+key+".wav")).blob();if(id===version)await analyze(blob,"Synthetic sample")}catch(err){showError(err)}};
 $("mic").onclick=async()=>{
  if(recorder?.state==="recording"){recorder.stop();return}
  const btn=$("mic");btn.disabled=true;let stream;
  try{stream=await navigator.mediaDevices.getUserMedia({audio:true});recorder=new MediaRecorder(stream);
  const chunks=[];recorder.ondataavailable=e=>chunks.push(e.data);
  recorder.onstop=()=>{clearTimeout(timer);stream.getTracks().forEach(t=>t.stop());btn.textContent="Record reading";$("sample").disabled=$("upload").disabled=false;analyze(new Blob(chunks,{type:recorder.mimeType}),"Your recording")};
+ discardCurrent();
  recorder.start();version++;$("result").hidden=true;$("player").pause();$("sample").disabled=$("upload").disabled=true;btn.textContent="Stop and score";$("status").textContent="Recording…";timer=setTimeout(()=>{if(recorder.state==="recording")recorder.stop()},58000);
  }catch(e){stream?.getTracks().forEach(t=>t.stop());showError(e)}finally{btn.disabled=false}
 };

@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Trace practice</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#183634;font:16px/1.5 system-ui,sans-serif}main{max-width:980px;margin:auto;padding:clamp(15px,4vw,44px)}header,.bar,footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}header{border-bottom:1px solid #c7cec4;margin-bottom:18px}h1{font:clamp(2rem,5vw,3.4rem) Georgia,serif;margin:0 0 12px}h2{margin:.25em 0;font:1.65rem Georgia,serif}.sheet{background:#fffef9;border:1px solid #c6cec5;border-radius:16px;overflow:hidden}.bar,footer{padding:12px 18px}.bar{border-bottom:1px solid #dce1d6}.stage{display:block;width:100%;height:auto;aspect-ratio:2/1;touch-action:none;cursor:crosshair;user-select:none;background-color:#fffef9}.stage text{font:bold 14px system-ui;paint-order:stroke;stroke:#fffef9;stroke-width:5px;stroke-linejoin:round}.band,.line,.ink{fill:none;stroke-linecap:round;stroke-linejoin:round}.band{stroke:#cfe4da;stroke-width:22}.line{stroke:#4e7768;stroke-width:2}.ink{stroke:#692cb0;stroke-width:3}#ring{fill:none;stroke:#aa3030;stroke-width:4}footer{background:#f4f6ee;min-height:72px}button{font:600 1rem system-ui;border:0;border-radius:7px;padding:10px 18px;background:#174e48;color:white;cursor:pointer}button:focus-visible{outline:3px solid #ed9b26}#status{font-weight:650;margin:0}small,#round{color:#476359}.metrics{font-variant-numeric:tabular-nums}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{text-align:right;border-bottom:1px solid #bbc8bd;padding:7px}th:first-child,td:first-child{text-align:left}tfoot{font-weight:bold}#summary{margin-top:18px}p{margin:.4rem 0 1rem}[hidden]{display:none!important}
-</style></head><body><main><header><h1>Trace practice</h1><span id="round"></span></header>
+*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#183634;font:16px/1.5 system-ui,sans-serif}main{max-width:980px;margin:auto;padding:clamp(15px,4vw,44px)}header,.bar,footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}header{border-bottom:1px solid #c7cec4;margin-bottom:18px}h1{font:clamp(2rem,5vw,3.4rem) Georgia,serif;margin:0 0 12px}h2{margin:.25em 0;font:1.65rem Georgia,serif}.sheet{background:#fffef9;border:1px solid #c6cec5;border-radius:16px;overflow:hidden}.bar,footer{padding:12px 18px}.bar{border-bottom:1px solid #dce1d6}.stage{display:block;width:100%;height:auto;aspect-ratio:2/1;touch-action:none;cursor:crosshair;user-select:none;background-color:#fffef9}.stage text{font:bold 14px system-ui;paint-order:stroke;stroke:#fffef9;stroke-width:5px;stroke-linejoin:round}.band,.line,.ink{fill:none;stroke-linecap:round;stroke-linejoin:round}.band{stroke:#cfe4da;stroke-width:22}.line{stroke:#4e7768;stroke-width:2}.ink{stroke:#692cb0;stroke-width:3}#ring{fill:none;stroke:#257e45;stroke-width:4}footer{background:#f4f6ee;min-height:72px}button{font:600 1rem system-ui;border:0;border-radius:7px;padding:10px 18px;background:#174e48;color:white;cursor:pointer}button:focus-visible{outline:3px solid #ed9b26}#status{font-weight:650;margin:0}small,#round{color:#476359}.metrics{font-variant-numeric:tabular-nums}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{text-align:right;border-bottom:1px solid #bbc8bd;padding:7px}th:first-child,td:first-child{text-align:left}tfoot{font-weight:bold}#summary{margin-top:18px}p{margin:.4rem 0 1rem}[hidden]{display:none!important}
+.stage.tracing{cursor:none}.ghosts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.ghosts figure{margin:0;background:#fffef9;border:1px solid #c7cec4;border-radius:10px;padding:10px}.ghosts svg{width:100%;height:auto}.ghosts figcaption{font-weight:600}</style></head><body><main><header><h1>Trace practice</h1><span id="round"></span></header>
 <p>Follow the green band from Start to Finish by moving your mouse or trackpad. Keep the button released. Touch the blue dot to save your accuracy and time.</p>
 <div class="sheet"><div class="bar"><h2 id="name"></h2><span class="metrics" id="clock">0.0 s</span></div>
 <svg id="stage" class="stage" viewBox="0 0 800 400" aria-label="Tracing area with guide, start, and finish">
-<path id="band" class="band"/><path id="guide" class="line"/><g id="ink"></g><circle id="ring" r="17" visibility="hidden"/><circle id="start" r="12" fill="#bb342e"/><circle id="finish" r="12" fill="#185fbb"/><text id="sl" fill="#a52c25">Start</text><text id="fl" fill="#164d97">Finish</text></svg>
+<path id="band" class="band"/><path id="guide" class="line"/><g id="ink"></g><circle id="ring" r="17" visibility="hidden"/><circle id="start" r="12" fill="#18854d"/><circle id="finish" r="12" fill="#185fbb"/><text id="sl" fill="#176d42">Start</text><text id="fl" fill="#164d97">Finish</text></svg>
 <footer><div><p id="status" role="status"></p></div><button id="advance">Start round</button></footer></div>
-<section id="summary" hidden><h2>Session results</h2><table><thead><tr><th>Sketch</th><th>Accuracy</th><th>Time</th></tr></thead><tbody></tbody><tfoot></tfoot></table><button id="retry">Try again</button></section>
+<section id="summary" hidden><h2>Session results</h2><table><thead><tr><th>Sketch</th><th>Accuracy</th><th>Time</th></tr></thead><tbody></tbody><tfoot></tfoot></table><p>Green band: reference · Purple line: your trace</p><div id="gallery" class="ghosts"></div><button id="retry">Try again</button></section>
 </main><script>
 "use strict";
 const $=id=>document.getElementById(id), svg=$("stage"), NS=svg.namespaceURI;
@@ -34,6 +34,7 @@ function prepared(){
  const len=g.getTotalLength();
  points=typeof shape==="string"?sampled(t=>g.getPointAtLength(t*len),Math.ceil(len/3)):shape.map(asPoint);
  const d=path(points);g.setAttribute("d",d);$("band").setAttribute("d",d);
+ svg.classList.remove("tracing");$("sl").setAttribute("visibility","visible");$("start").setAttribute("visibility","visible");
  const a=points[0],b=points.at(-1);
  center("start",a);center("ring",a);center("finish",b);
  for(const [id,p] of [["sl",a],["fl",b]]){$(id).setAttribute("x",p.x);$(id).setAttribute("y",p.y-19);$(id).setAttribute("text-anchor","middle")}
@@ -47,15 +48,15 @@ function tick(){
  const now=performance.now();
  if(phase==="countdown"){
   const left=Math.ceil((deadline-now)/1000);
-  if(left>0)$("status").textContent="Move your cursor to the red dot · "+left;
-  else {phase="waiting";$("status").textContent="Go · Move to the red dot to start.";if(cursor&&distance(cursor,points[0])<=dot)begin(cursor,now)}
+  if(left>0)$("status").textContent="Move your cursor to the green dot · "+left;
+  else {phase="waiting";$("status").textContent="Go · Move to the green dot to start.";if(cursor&&distance(cursor,points[0])<=dot)begin(cursor,now)}
  }
  if(phase==="running")$("clock").textContent=((now-startTime)/1000).toFixed(1)+" s";
  if(["countdown","waiting","running"].includes(phase))frame=requestAnimationFrame(tick)
 }
 function pen(p){stroke=document.createElementNS(NS,"polyline");stroke.setAttribute("class","ink");$("ink").append(stroke);append(p)}
 function append(p){const q=svg.createSVGPoint();q.x=p.x;q.y=p.y;stroke.points.appendItem(q)}
-function begin(p,now){phase="running";startTime=now;last=p;pen(p);$("status").textContent="Go · Follow the guide.";highlight()}
+function begin(p,now){phase="running";svg.classList.add("tracing");$("sl").setAttribute("visibility","hidden");center("start",p);startTime=now;last=p;pen(p);$("status").textContent="Go · Follow the guide.";highlight()}
 function mix(a,b,t){return {x:a.x+t*(b.x-a.x),y:a.y+t*(b.y-a.y)}}
 // Parameter intervals along the actual pointer segment; union avoids double counting.
 function disk(a,b,c,r){
@@ -87,6 +88,7 @@ function move(p,now){
  cursor=p;highlight();
  if(phase==="waiting"&&distance(p,points[0])<=dot){begin(p,now);return}
  if(phase!=="running")return;
+ center("start",p);$("start").setAttribute("visibility","visible");
  const end=points.at(-1), hitRadius=dot+1e-5;
  if(!last){
   last=p;pen(p);
@@ -100,8 +102,14 @@ function move(p,now){
  if(hit)finish(now);
 }
 function finish(now){
- phase="done";cancelAnimationFrame(frame);
+ phase="done";svg.classList.remove("tracing");$("start").setAttribute("visibility","hidden");cancelAnimationFrame(frame);
  const seconds=(now-startTime)/1000,acc=drawn?100*inside/drawn:0;
+ const figure=document.createElement("figure"),caption=document.createElement("figcaption");
+ caption.textContent=sketches[index][0]+" · "+acc.toFixed(1)+"% · "+seconds.toFixed(1)+" s";
+ const overlay=document.createElementNS(NS,"svg");overlay.setAttribute("viewBox","0 0 800 400");
+ overlay.setAttribute("role","img");overlay.setAttribute("aria-label",sketches[index][0]+" guide and your trace");
+ for(const id of ["band","guide","ink"]){const copy=$(id).cloneNode(true);copy.removeAttribute("id");overlay.append(copy)}
+ figure.append(caption,overlay);$("gallery").append(figure);
  results.push({seconds,acc});$("clock").textContent=seconds.toFixed(1)+" s";
  $("status").textContent=sketches[index][0]+" · "+acc.toFixed(1)+"% accuracy · "+seconds.toFixed(1)+" seconds";
  banner(index===4);
@@ -109,7 +117,8 @@ function finish(now){
   const body=document.querySelector("tbody"),foot=document.querySelector("tfoot");body.replaceChildren();foot.replaceChildren();
   results.forEach((v,i)=>metricRow(body,[sketches[i][0],v.acc.toFixed(1)+"%",v.seconds.toFixed(1)+" s"]));
   const avg=k=>results.reduce((s,v)=>s+v[k],0)/results.length;
-  metricRow(foot,["Mean per sketch",avg("acc").toFixed(1)+"%",avg("seconds").toFixed(1)+" s"]);$("summary").hidden=false
+  metricRow(foot,["Mean per sketch",avg("acc").toFixed(1)+"%",avg("seconds").toFixed(1)+" s"]);$("summary").hidden=false;$("summary").scrollIntoView({block:"start"});
+  if(parent!==window)parent.postMessage({suite:"line",complete:true,summary:avg("acc").toFixed(1)+"% mean accuracy · "+avg("seconds").toFixed(1)+" s per sketch"},"http://127.0.0.1:8772")
  }
 }
 function coords(e){return new DOMPoint(e.clientX,e.clientY).matrixTransform(svg.getScreenCTM().inverse())}
@@ -118,10 +127,10 @@ function eventMove(e){
  const batch=e.getCoalescedEvents?.()||[];
  for(const v of [...batch,e]){const p=coords(v);if(p.x>=0&&p.x<=800&&p.y>=0&&p.y<=400)move(p,performance.now())}
 }
-function gap(){cursor=null;last=null;highlight();if(phase==="running"){$("status").textContent="Move back into the tracing area to resume."}}
+function gap(){cursor=null;last=null;highlight();if(phase==="running"){$("start").setAttribute("visibility","hidden");$("status").textContent="Move back into the tracing area to resume."}}
 svg.addEventListener("pointerenter",eventMove);svg.addEventListener("pointermove",eventMove);
 svg.addEventListener("pointerleave",gap);svg.addEventListener("pointercancel",gap);window.addEventListener("blur",gap);
 $("advance").onclick=()=>{if(phase==="done"){index++;prepared()}if(phase==="preview")countdown()};
-function reset(){index=0;results=[];$("summary").hidden=true;prepared()}
+function reset(){if(parent!==window)parent.postMessage({suite:"line",complete:false},"http://127.0.0.1:8772");index=0;results=[];$("gallery").replaceChildren();$("summary").hidden=true;prepared()}
 $("retry").onclick=reset;reset();
 </script></body></html>
