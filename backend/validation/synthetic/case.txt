@@ -1,0 +1,1 @@
+Synthetic Alex fixture. Fictional ALS case for software testing only.

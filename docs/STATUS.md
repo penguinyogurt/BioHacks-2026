@@ -19,6 +19,14 @@ Last updated: **2026-11-08**
 
 ---
 
+## Repo reorg (2026-11-08): only `frontend/` and `backend/` at the top
+
+`agent/`, `contract/`, `data/` → `backend/`; the six diagnostic dirs →
+`backend/diagnostics/`. If your branch predates this, merge `main` in —
+git follows the renames — but **new files you added at the old paths will
+land at the old paths**; `git mv` them under `backend/`. Agent commands now
+run from `backend/`; contract is `npm test --prefix backend/contract`.
+
 ## ⚠ Two people are building the same pipeline right now
 
 **Jeremy** has the five-stage discovery pipeline in `frontend/` — scripted
@@ -38,12 +46,42 @@ Whoever picks this up: the cheapest win in the repo is making Jeremy's
 `PipelineEvent` stream come from Levi's agents instead of a timer. The seam
 already exists. Talk before either of you builds further.
 
-**Neo** has a third piece, `agent/` (PR #4): a Claude orchestrator that plans
+**Neo** has a third piece, `backend/agent/` (PR #4): a Claude orchestrator that plans
 ALS criteria and runs parallel LLM sub-agents that return drug-free *target
 profiles* (genes + desired action, pathways, site). These are the anchors
 Levi's DRKG agents need, and its SSE stream is a live source for Jeremy's
 `PipelineEvent`s. How to combine all three without building a fourth:
 [`RESEARCH_AGENT_HANDOFF.md`](RESEARCH_AGENT_HANDOFF.md).
+
+## ⚠ Real DRKG stage 3 disagrees with the hand-written stage 4
+
+Stage 3 now runs on the real TransE vectors (`frontend/scripts/drkg_scene.py`
+→ `frontend/public/drkg/`, method in `DECISIONS.md`). Where the hand-written
+drugs actually land, ranked within their own profile out of 10,551 compounds:
+
+| Drug | Stage-4 candidate? | Real rank |
+|---|---|---|
+| Sirolimus | — | **3** |
+| Mecasermin | yes | 18 |
+| Eculizumab | — | 44 |
+| Riluzole | — | 92 |
+| Tocilizumab | yes | 124 |
+| Sarilumab | — | 364 |
+| Anakinra | yes | 402 |
+| Ravulizumab | yes | 1,157 |
+| Edaravone | — | 3,087 |
+| Somatropin | — | 3,368 |
+| Tofersen | — | no DRKG compound |
+
+The real top 5s are mostly investigational kinase/AMPA compounds (e.g.
+Amuvatinib, Azd-8055, Talampanel). **Jeremy:** stage 4's `CANDIDATES` no longer
+follow from stage 3. Either re-pick candidates from the real top lists, or
+say on stage that stage 4 is a curated shortlist, not the top of stage 3.
+Don't demo both screens as one chain until that's settled.
+
+The 3D picture is a clustered layout (24 k-means islands), **not** distance-
+preserving. Never point at two dots and say "these are close"; read the L2
+numbers. Islands mostly split by entity type; three are mixed.
 
 ## Found while auditing — read before you pitch
 

@@ -1,6 +1,7 @@
 .venv/
 private/
 .env*
+!.env.example
 .synapseConfig*
 __pycache__/
 *.wav

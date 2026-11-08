@@ -58,13 +58,13 @@ someone else, stop and tell your human rather than doing it anyway.
 | Directory | What it is | Stack |
 |---|---|---|
 | `frontend/` | The product UI. Ships as **Addo Labs** — an ALS drug-discovery pipeline (patient case → profile agents → DRKG embedding → ranking → report), scripted against a sample patient. The earlier **Motus** at-home monitoring dashboard survives as its "Patient monitoring" view. **Name and product are still open: #5, #6** — don't treat either as settled. | Vite · React 19 · TS · Tailwind v4 · shadcn/ui · Supabase · three |
-| `agent/` | Research-agent backend. An orchestrator reads the patient record and fans out one sub-agent per ALS criterion; each returns **target profiles, never drug names** (see `docs/DECISIONS.md`). FastAPI + SSE. | Python · LangGraph · Anthropic · FastAPI |
-| `backend/query-generation/` | Five fixed-category research agents that turn a case into signed DRKG TransE queries and rank every DrugBank compound. Its README calls it an adaptation of the coordinator in `agent/` — **two agent backends now sit on main; #7.** | Python 3.11+ · LangGraph · numpy |
+| `backend/` | **Everything that isn't the frontend.** One subdirectory per module, listed below. | Python · TS |
+| `backend/agent/` | Neo's research agent. An orchestrator reads the patient record and fans out one sub-agent per ALS criterion; each returns **target profiles, never drug names** (see `docs/DECISIONS.md`). FastAPI + SSE on :8001. Run from `backend/` (`python -m agent.api`). | Python · LangGraph · Anthropic · FastAPI |
+| `backend/query-generation/` | Levi's five fixed-category research agents: turn a case into signed DRKG TransE queries and rank every DrugBank compound. Its README calls it an adaptation of the coordinator in `backend/agent/` — **two agent backends now sit on main; #7.** | Python 3.11+ · LangGraph · numpy |
 | `backend/validation/` | Blinded top-five check: two reviewers independently judge a ranking backend's picks against a baseline from exported CSVs. Reads exports only, imports no backend. Real patient exports stay outside the checkout. | Python 3.9+ stdlib |
-| `master-app/`, `facial-test/`, `speech-test-good/`, `line-test/` | Standalone facial, speech and tracing assessment. See the root README for setup. | Local Python servers and browser UI |
-| `SVD-diagnostic/`, `speech-tests-backup/` | Diagnostic research scripts and earlier speech experiments | Python |
-| `contract/` | The `data/pipeline.json` schema, its tests, and the CLI validator. Owned by nobody, depended on by everybody. | zod · node:test |
-| `data/` | `pipeline.json` — the frozen contract plus a hand-written sample. | — |
+| `backend/diagnostics/` | Standalone facial, speech and tracing assessment (`master-app/`, `facial-test/`, `speech-test-good/`, `line-test/`) plus research scripts (`SVD-diagnostic/`, `speech-tests-backup/`). Kept as siblings — they reference each other by relative path. See the root README for setup. | Local Python servers and browser UI |
+| `backend/contract/` | The `backend/data/pipeline.json` schema, its tests, and the CLI validator. Owned by nobody, depended on by everybody. | zod · node:test |
+| `backend/data/` | `pipeline.json` — the frozen contract plus a hand-written sample — and patient fixtures. | — |
 | `docs/` | Specs, research, decisions, status. **See "Documentation" below.** | — |
 | `.claude/skills/` | 21 pinned design/frontend skills. See `CLAUDE.md`. | — |
 | `.workspace/` | Your personal scratch, gitignored. See its README. | — |
@@ -121,7 +121,7 @@ history whether or not you delete the file.
 Each module writes **one JSON file**. Nobody imports anybody else's code.
 
 ```
-the Python pipeline  → data/pipeline.json   (validated by contract/)
+the Python pipeline  → backend/data/pipeline.json   (validated by backend/contract/)
 FaceCheck            → facecheck.session.v3 (its own export)
 frontend/            → reads what it's given, imports no pipeline code
 ```
@@ -132,19 +132,19 @@ them.**
 
 ### The contract is frozen
 
-`data/pipeline.json`'s executable definition is
-[`contract/contract.ts`](contract/contract.ts); the annotated prose version is
+`backend/data/pipeline.json`'s executable definition is
+[`backend/contract/contract.ts`](backend/contract/contract.ts); the annotated prose version is
 [`docs/CONTRACT.md`](docs/CONTRACT.md).
 
 Check your output without running any frontend:
 
 ```bash
-npm run validate --prefix contract -- path/to/your.json
+npm run validate --prefix backend/contract -- path/to/your.json
 ```
 
 Exits non-zero with readable problems. If the shape genuinely must change:
-update `contract/contract.ts`, update the sample in `data/pipeline.json`, run
-`npm test --prefix contract`, log it in `docs/DECISIONS.md`, and **tell the
+update `backend/contract/contract.ts`, update the sample in `backend/data/pipeline.json`, run
+`npm test --prefix backend/contract`, log it in `docs/DECISIONS.md`, and **tell the
 team in the same breath.**
 
 ---
@@ -187,7 +187,7 @@ rather than editing history.
 - **Never leave `main` in a state where the frontend doesn't render.** A
   broken demo costs more than a missing feature.
 - Non-trivial logic leaves **one runnable check** behind.
-  [`contract/contract.test.ts`](contract/contract.test.ts) is the pattern:
+  [`backend/contract/contract.test.ts`](backend/contract/contract.test.ts) is the pattern:
   node's built-in test runner, no framework.
 
 ---
@@ -198,8 +198,8 @@ rather than editing history.
 npm install --prefix frontend          # once
 npm run dev --prefix frontend          # the frontend on :5173 (next free port if taken)
 
-npm test     --prefix contract         # contract tests
-npm run validate --prefix contract -- <file>   # validate any pipeline JSON
+npm test     --prefix backend/contract # contract tests
+npm run validate --prefix backend/contract -- <file>   # validate any pipeline JSON
 ```
 
 **There is no CI.** We deleted it — it's a hackathon and a red X on a PR

@@ -18,12 +18,11 @@ export type StepStatus = 'pending' | 'running' | 'done'
 
 /** The flow, one page per step (Callio Labs: one sidebar entry per page). */
 export const NAV_PIPELINE: { value: string; label: string; n: string }[] = [
-  { value: 'case', label: 'Patient case', n: '00' },
-  { value: 'analysis', label: 'Patient analysis', n: '01' },
-  { value: 'profiles', label: 'Profile agents', n: '02' },
-  { value: 'embedding', label: 'DRKG embedding', n: '03' },
-  { value: 'candidates', label: 'Research & ranking', n: '04' },
-  { value: 'report', label: 'Report', n: '05' },
+  { value: 'case', label: 'Patient case', n: '01' },
+  { value: 'analysis', label: 'Patient analysis', n: '02' },
+  { value: 'profiles', label: 'Profile agents', n: '03' },
+  { value: 'embedding', label: 'DRKG embedding', n: '04' },
+  { value: 'candidates', label: 'Research report', n: '05' },
 ]
 
 export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [

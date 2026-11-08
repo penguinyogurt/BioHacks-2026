@@ -1,0 +1,8 @@
+packet,neutral_id,reviewer,als_answer,als_rationale,als_experiment,als_readout,ultrasound_answer,ultrasound_rationale,ultrasound_experiment,ultrasound_readout,target_tissue,exposure_evidence
+5d80d4525b7f9d522aedc4dc7f27f993e9335cb4f3265379bc6abda3ee611e73,R01,Synthetic-1,yes,Invented judgment for fixture.,Synthetic comparison against vehicle,Synthetic assay change,no,Invented judgment for fixture.,,,,
+5d80d4525b7f9d522aedc4dc7f27f993e9335cb4f3265379bc6abda3ee611e73,R02,Synthetic-1,no,Invented judgment for fixture.,,,insufficient evidence,Invented judgment for fixture.,,,,
+5d80d4525b7f9d522aedc4dc7f27f993e9335cb4f3265379bc6abda3ee611e73,R03,Synthetic-1,insufficient evidence,Invented judgment for fixture.,,,yes,Invented judgment for fixture.,Synthetic comparison against vehicle,Synthetic assay change,Mock tissue,Invented low tissue concentration
+5d80d4525b7f9d522aedc4dc7f27f993e9335cb4f3265379bc6abda3ee611e73,R04,Synthetic-1,yes,Invented judgment for fixture.,Synthetic comparison against vehicle,Synthetic assay change,no,Invented judgment for fixture.,,,,
+5d80d4525b7f9d522aedc4dc7f27f993e9335cb4f3265379bc6abda3ee611e73,R05,Synthetic-1,no,Invented judgment for fixture.,,,insufficient evidence,Invented judgment for fixture.,,,,
+5d80d4525b7f9d522aedc4dc7f27f993e9335cb4f3265379bc6abda3ee611e73,R06,Synthetic-1,insufficient evidence,Invented judgment for fixture.,,,yes,Invented judgment for fixture.,Synthetic comparison against vehicle,Synthetic assay change,Mock tissue,Invented low tissue concentration
+5d80d4525b7f9d522aedc4dc7f27f993e9335cb4f3265379bc6abda3ee611e73,R07,Synthetic-1,yes,Invented judgment for fixture.,Synthetic comparison against vehicle,Synthetic assay change,no,Invented judgment for fixture.,,,,

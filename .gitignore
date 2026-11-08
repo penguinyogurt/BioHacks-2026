@@ -19,7 +19,7 @@ __pycache__/
 venv/
 
 # ─── Big source data — download it, don't commit it ───────────────────────
-data/raw/
+backend/data/raw/
 *.tsv
 *.tsv.gz
 *.sql
@@ -31,22 +31,22 @@ data/raw/
 # Pipeline intermediates. Each Python module writes one of these; they are
 # regenerable, and `cursor/pipeline-graph-ui` has ~33 MB of them committed.
 # Don't bring that to main — merge.py's output is the only one we keep.
-data/kg_scores.json
-data/bbb_scores.json
-data/patient_filter.json
-data/graveyard.json
+backend/data/kg_scores.json
+backend/data/bbb_scores.json
+backend/data/patient_filter.json
+backend/data/graveyard.json
 artifacts/
 
-# data/pipeline.json IS committed on purpose: it is the contract plus a
+# backend/data/pipeline.json IS committed on purpose: it is the contract plus a
 # hand-written sample, and the frontend renders it with no Python at all.
 # Keep it small — top 100 by score plus every late-stage cut, ~200 KB. The
 # 10.5 MB version on cursor/pipeline-graph-ui is not what main wants.
-!data/pipeline.json
+!backend/data/pipeline.json
 
 # Research agent: recorded runs and tool cache are local
-agent/runs/
-agent/cache/
-agent/.venv/
+backend/agent/runs/
+backend/agent/cache/
+backend/agent/.venv/
 
 # ─── Per-person AI config ─────────────────────────────────────────────────
 # Each harness writes its own machine-local hooks and state. None of it is

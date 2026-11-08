@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Brain, Check, ChevronRight, Circle, FastForward,
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { PageHeader } from '@/components/page-header'
 import { cn } from '@/lib/utils'
 import { SAMPLE_PATIENT, type StageId } from '@/lib/pipeline'
 import { nextStage, useRun, type TraceItem } from '@/lib/run-store'
@@ -20,8 +21,7 @@ export const STEPS: { view: string; label: string; action: string; stage?: Stage
   { view: 'analysis', label: 'Patient analysis', action: 'Run patient analysis', stage: 'analysis' },
   { view: 'profiles', label: 'Profile agents', action: 'Run profile agents', stage: 'profiles' },
   { view: 'embedding', label: 'DRKG embedding', action: 'Run DRKG embedding', stage: 'embedding' },
-  { view: 'candidates', label: 'Research & ranking', action: 'Run research & ranking', stage: 'research' },
-  { view: 'report', label: 'Report', action: 'Write the report', stage: 'report' },
+  { view: 'candidates', label: 'Research report', action: 'Run research agent', stage: 'research' },
 ]
 
 const STEP_ICON = { thinking: Brain, tool_call: Wrench, tool_result: Terminal, output: MessageSquare }
@@ -32,16 +32,13 @@ export function StageHeader({ step, title, description }: { step: string; title:
   const { state, skip, reset, runs, openedId } = useRun()
   const opened = runs.find((r) => r.id === openedId)
   return (
-    <div className="rounded-xl bg-card px-5 pt-5 pb-4 ring-1 ring-border backdrop-blur-md">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="eyebrow">Pipeline / {step}</p>
-          <h2 className="font-brand mt-3 text-[clamp(2rem,3.2vw,3rem)] leading-none">{title}</h2>
-          {description ? <p className="mt-3 max-w-2xl text-muted-foreground">{description}</p> : null}
-        </div>
-        <div className="flex items-center gap-2">
+    <PageHeader
+      eyebrow={`Pipeline / ${step}`}
+      title={title}
+      description={description}
+      actions={
+        <>
           {opened ? <Badge variant="outline" className="font-normal">Run · {opened.date}</Badge> : null}
-          <Badge variant="outline" className="border-watch/40 bg-watch/10 font-normal text-watch">Simulated run</Badge>
           {state.phase === 'running' ? (
             <Button size="sm" variant="outline" onClick={skip}>
               <FastForward aria-hidden /> Finish this step
@@ -51,9 +48,9 @@ export function StageHeader({ step, title, description }: { step: string; title:
               <RotateCcw aria-hidden /> Clear run
             </Button>
           ) : null}
-        </div>
-      </div>
-    </div>
+        </>
+      }
+    />
   )
 }
 
@@ -177,17 +174,21 @@ export function Trace({ stage, lane, title = 'Agent trace', className, maxH = 'm
   )
 }
 
-/** Structured patient summary. In a live run the analysis agent fills this from the case PDF. */
+/** A parsed value the case file didn't state shows as a dash, never as a number we made up. */
+const n = (v: number, unit = '') => (Number.isNaN(v) ? '—' : `${v}${unit}`)
+
+/** Structured patient summary, parsed from the uploaded case PDF. */
 export function PatientCard({ compact = false, footer }: { compact?: boolean; footer?: ReactNode }) {
-  const p = SAMPLE_PATIENT
+  const { caseFile } = useRun()
+  const p = caseFile?.patient ?? SAMPLE_PATIENT
   const rows: [string, string][] = [
-    ['Presentation', `${p.age}${p.sex} · ${p.onset} · ${p.monthsSinceDx} mo`],
-    ['ALSFRS-R', `${p.alsfrs}/48 · ${p.slope} pts/mo`],
-    ['FVC', `${p.fvc}% predicted`],
+    ['Presentation', `${n(p.age)}${p.sex} · ${p.onset} · ${n(p.monthsSinceDx, ' mo')} since diagnosis`],
+    ['ALSFRS-R', `${n(p.alsfrs, '/48')} · ${n(p.slope, ' pts/mo')}`],
+    ['FVC', `${n(p.fvc, '%')} predicted`],
     ['Genetics', p.genetics],
     ['Medication', p.medications.join(', ')],
-    ['Conditions', p.comorbidities.join(', ')],
-    ['Location', `${p.location} · ${p.coverage}`],
+    ['Conditions', p.comorbidities.join(', ') || 'None recorded'],
+    ['Location', `${p.location} · Coverage: ${p.coverage}`],
   ]
   return (
     <Card className="gap-3 [--card-spacing:--spacing(5)]">

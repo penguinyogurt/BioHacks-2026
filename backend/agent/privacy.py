@@ -63,6 +63,13 @@ def sensitive_terms(record: dict) -> list[str]:
     return sorted((t for t in terms if t.strip()), key=len, reverse=True)
 
 
+def identifier_terms(record: dict) -> list[str]:
+    """For web search queries: who the patient is, but not their drug names.
+    "memantine riluzole interaction" identifies nobody and is the query a
+    safety check needs; names, ids, dates and lab values are still redacted."""
+    return sensitive_terms({"identifiers": record.get("identifiers", {})})
+
+
 def redact(text: str, terms: list[str]) -> tuple[str, int]:
     n = 0
     for term in terms:

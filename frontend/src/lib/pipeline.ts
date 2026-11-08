@@ -13,14 +13,13 @@
  * All outputs below are ILLUSTRATIVE — the UI labels the run "Simulated".
  */
 
-export type StageId = 'analysis' | 'profiles' | 'embedding' | 'research' | 'report'
+export type StageId = 'analysis' | 'profiles' | 'embedding' | 'research'
 
 export const STAGES: { id: StageId; label: string; detail: string }[] = [
   { id: 'analysis', label: 'Patient analysis', detail: 'NCBI · ClinVar · Open Targets' },
   { id: 'profiles', label: '5 profile agents', detail: 'Ideal-drug profiles, in parallel' },
   { id: 'embedding', label: 'DRKG embedding', detail: 'Cosine search over compounds' },
-  { id: 'research', label: 'Research agent', detail: 'Open search · patient-specific ranking' },
-  { id: 'report', label: 'Report', detail: 'Cited, exportable' },
+  { id: 'research', label: 'Research agent', detail: 'Open search · cited patient report' },
 ]
 
 export type AgentStep = {
@@ -365,8 +364,8 @@ function script(p: Patient, caseInput: CaseInput): Timed[] {
 
   // 3 — embedding
   at(200, { type: 'stage', stage: 'embedding', status: 'running' })
-  step('embedding', 'tool_call', 'drkg.embed_profiles', '{\n  "model": "TransE_l2",\n  "dim": 400,\n  "profiles": 5,\n  "entity_type": "Compound"\n}', 900)
-  step('embedding', 'tool_result', 'DRKG — result', '5 profile vectors composed from target-gene and relation embeddings. Cosine search over DRKG compound entities; top neighbours kept per profile.', 1500)
+  step('embedding', 'tool_call', 'drkg.query_profiles', '{\n  "model": "TransE_l2",\n  "dim": 400,\n  "profiles": 5,\n  "query": "e[gene] − r[DRUGBANK::target::Compound:Gene]",\n  "universe": "Compound::DB* (10,551)"\n}', 900)
+  step('embedding', 'tool_result', 'DRKG — result', '15 target genes resolved to DRKG gene entities. Each gives a query point e[gene] − r[target]; every compound is scored by 400-d L2 distance and keeps its best gene per profile. Top 5 kept per profile.', 1500)
   at(400, { type: 'matches' })
   at(300, { type: 'stage', stage: 'embedding', status: 'done' })
 
@@ -381,13 +380,9 @@ function script(p: Patient, caseInput: CaseInput): Timed[] {
   step('research', 'tool_result', 'Search — result', 'Three of four marketed in Canada for other indications; mecasermin may need the Special Access Programme.', 1000)
   step('research', 'output', 'Ranking', 'Scored on mechanistic fit (×2), safety & interactions, cost, availability & regulation, and patient acceptance.', 700)
   at(300, { type: 'candidates' })
-  at(300, { type: 'stage', stage: 'research', status: 'done' })
-
-  // 5 — report
-  at(200, { type: 'stage', stage: 'report', status: 'running' })
-  step('report', 'output', 'Report compiled', '4 ranked candidates, 4 exclusions, 7 references.', 1100)
+  step('research', 'output', 'Report written', '4 ranked candidates, 4 exclusions, 7 references.', 1100)
   at(300, { type: 'report' })
-  at(100, { type: 'stage', stage: 'report', status: 'done' })
+  at(300, { type: 'stage', stage: 'research', status: 'done' })
 
   return out.sort((a, b) => a.at - b.at)
 }
