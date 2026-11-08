@@ -1,5 +1,8 @@
 # Research Agent — engineering spec
 
+> **Paths:** since the 2026-11-08 reorg this lives in `backend/`. Paths below
+> (`agent/…`, `data/…`) are relative to `backend/`; run commands from there.
+
 A main research agent (the orchestrator) reads the patient's record and
 decides which questions are worth asking. It then sends a set of smaller
 sub-agents to research specific angles: lifespan, pain, a body region, BBB

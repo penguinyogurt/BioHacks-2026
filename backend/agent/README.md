@@ -1,5 +1,8 @@
 # Research agent backend
 
+> **Paths:** since the 2026-11-08 reorg this lives in `backend/`. Paths below
+> (`agent/…`, `data/…`) are relative to `backend/`; run commands from there.
+
 The orchestrator (Claude Opus 5.5) reads the patient record and picks the ALS
 criteria that matter for this patient: disease mechanisms (`M*`) and
 symptoms (`S*`, see `criteria.py`). It sends one parallel sub-agent (Claude
