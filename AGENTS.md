@@ -58,6 +58,8 @@ someone else, stop and tell your human rather than doing it anyway.
 | Directory | What it is | Stack |
 |---|---|---|
 | `frontend/` | **Motus** — the product. Longitudinal at-home ALS monitoring: speech, typing and handwriting tracked against a personal baseline. Landing + dashboard. | Vite · React 19 · TS · Tailwind v4 · shadcn/ui · Supabase · three |
+| `master-app/`, `facial-test/`, `speech-test-good/`, `line-test/` | Standalone facial, speech and tracing assessment. See the root README for setup. | Local Python servers and browser UI |
+| `SVD-diagnostic/`, `speech-tests-backup/` | Diagnostic research scripts and earlier speech experiments | Python |
 | `contract/` | The `data/pipeline.json` schema, its tests, and the CLI validator. Owned by nobody, depended on by everybody. | zod · node:test |
 | `data/` | `pipeline.json` — the frozen contract plus a hand-written sample. | — |
 | `docs/` | Specs, research, decisions, status. **See "Documentation" below.** | — |
@@ -73,7 +75,7 @@ exists here:
 |---|---|
 | `cursor/pipeline-graph-ui` | The **drug-repurposing pipeline** — `bbb_model.py`, `patient_filter.py`, `merge.py`, `graveyard.py`, scored across 3,791 compounds. This is live work, not abandoned. |
 | `cursor/facial-als-validation` | **FaceCheck** (`facecheck/`) — MediaPipe facial-amplitude prototype. Spec: [`docs/FACECHECK_SPEC.md`](docs/FACECHECK_SPEC.md). |
-| `Master-UI-Neo-Face-Integration` | Speech and diagnostic test apps (`master-app/`, `speech-test-good/`, `facial-test/`, `line-test/`). **Unrelated git history** — it does not share a root with `main`. Merging it is a decision, not a chore; log it in `docs/DECISIONS.md` first. |
+| `Master-UI-Neo-Face-Integration` | Additional FaceCheck integration for the speech comparison demo. The standalone diagnostic suite from its ancestor `codex/diagnostic-tests` is on main. |
 
 **Nothing above is dead.** If you think a track should be dropped, that is a
 decision — write it down, don't silently stop maintaining it.

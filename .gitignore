@@ -80,3 +80,10 @@ agent/.venv/
 # ─── OS noise ─────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+
+# Local diagnostic datasets and generated results
+biceps.zip
+patients.csv
+patient-scores.png
+component-weights.png
+conclusion.txt
