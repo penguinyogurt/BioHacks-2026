@@ -29,6 +29,16 @@ Last updated: **2026-11-07**
 If two of you end up on the same line anyway, that's a conflict in one
 markdown row. Keep both names, talk, move on.
 
+**Your task isn't on the board?** Most won't be. Add the line and claim it
+in the same push — that *is* the claim. Don't go looking for permission.
+
+**When not to claim.** Claiming costs a push, so it has to buy something.
+Skip it for anything another person could not plausibly start at the same
+time: reading code, answering a question, a typo, a one-line fix, anything
+under ~10 minutes. Claim when you're about to **create a file, change a
+shared one, or work somewhere for a while** — that's when collisions happen.
+A board full of "fixed a typo" is a board nobody reads.
+
 ---
 
 ## In flight — claimed, don't touch

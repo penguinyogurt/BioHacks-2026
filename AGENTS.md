@@ -21,9 +21,10 @@ So, in order, every session:
 
 1. **Read [`docs/STATUS.md`](docs/STATUS.md).** It is the shared task board:
    what is claimed, what is open, what is done. Fifteen seconds.
-2. **Claim your task there before you write code** — put your name on the
-   line, commit *just that file*, push immediately. The protocol is at the
-   top of the board. A claim that lands after your work is worthless.
+2. **Claim before you write code** — put your name on the line, commit
+   *just that file*, push immediately. Not on the board yet? Add it and
+   claim it in the same push. A claim that lands after your work is
+   worthless. Small stuff is exempt; the board says where the line is.
 3. **Check the map below** for which directory your work belongs in. If your
    change doesn't obviously fit one, say so before writing code.
 4. **Before you stop, update the board.** Move your line to Done, or back to
