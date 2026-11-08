@@ -37,7 +37,7 @@ export type RunState = {
 
 const initial: RunState = {
   phase: 'idle',
-  stages: { analysis: 'pending', profiles: 'pending', embedding: 'pending', research: 'pending', report: 'pending' },
+  stages: { analysis: 'pending', profiles: 'pending', embedding: 'pending', research: 'pending' },
   trace: [],
   profiles: [],
   matches: false,
@@ -140,7 +140,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
         ? { name: m.caseFile.name, pages: m.caseFile.pages, words: m.caseFile.words, excerpt: m.caseFile.text.join(' ').slice(0, 220).trim() }
         : null
       apply({ type: 'stage-start' })
-      runner.current = runDemoStage(SAMPLE_PATIENT, caseInput, stage, apply, () => {
+      runner.current = runDemoStage(m.caseFile?.patient ?? SAMPLE_PATIENT, caseInput, stage, apply, () => {
         runner.current = null
         const last = stage === STAGES[STAGES.length - 1].id
         apply({ type: 'stage-end', last })

@@ -1,0 +1,811 @@
+{
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+randomized+survival+function%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json": {
+    "kind": "primary literature search",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+randomized+survival+function%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json",
+    "status": "found",
+    "records": [
+      {
+        "id": "42780196",
+        "title": "Case Report: Autologous bone marrow mononuclear cell transplantation improved motor function in a patient with amyotrophic lateral sclerosis.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42780196/"
+      },
+      {
+        "id": "42508294",
+        "title": "Huoling Shengji granule in amyotrophic lateral sclerosis: A multicenter, randomized, double-blind, riluzole-controlled trial.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42508294/"
+      },
+      {
+        "id": "42709218",
+        "title": "Early weight loss predicts poorer prognosis and highlights limitations of predictive energy equations in amyotrophic lateral sclerosis.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42709218/"
+      },
+      {
+        "id": "42751965",
+        "title": "Comparing Missing Data Strategies for Generalized Pairwise Comparisons in Randomized Clinical Trials: A Simulation Study.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42751965/"
+      },
+      {
+        "id": "42301686",
+        "title": "Efficacy of Sodium Phenylbutyrate-Taurursodiol in Amyotrophic Lateral Sclerosis: A Systematic Review and Meta-Analysis.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42301686/"
+      }
+    ],
+    "sha256": "895a23ff4d244a0753f7e8dc949fc9eb1ab472258e97c2e91c9edff3ae7fceb8",
+    "fetched_at": "2026-11-08T05:57:18.407256+00:00",
+    "access": "live"
+  },
+  "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=survival+ALSFRS-R&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus": {
+    "kind": "registry search",
+    "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=survival+ALSFRS-R&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus",
+    "status": "found",
+    "records": [
+      {
+        "id": "NCT07322003",
+        "title": "Pridopidine Phase 3 Study to Evaluate Efficacy and Safety in ALS",
+        "status": "RECRUITING",
+        "url": "https://clinicaltrials.gov/study/NCT07322003"
+      },
+      {
+        "id": "NCT04885374",
+        "title": "China Amyotrophic Lateral Sclerosis Registry of Patients With Traditional Chinese Medicine",
+        "status": "RECRUITING",
+        "url": "https://clinicaltrials.gov/study/NCT04885374"
+      },
+      {
+        "id": "NCT03626012",
+        "title": "A Study to Assess the Safety, Tolerability, and Pharmacokinetics of BIIB078 in Adults With C9ORF72-Associated Amyotrophic Lateral Sclerosis",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT03626012"
+      },
+      {
+        "id": "NCT00072709",
+        "title": "Study Evaluating TCH346 and Placebo Administered Once Daily in Patients With Amyotrophic Lateral Sclerosis (ALS)",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT00072709"
+      },
+      {
+        "id": "NCT05178810",
+        "title": "Study to Investigate the Efficacy and Safety of FAB122 (Daily Oral Edaravone) in Patients With Amyotrophic Lateral Sclerosis",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT05178810"
+      }
+    ],
+    "sha256": "878bd9844f5358306b867aae1b33215ccb3fb12203fe3db1df7ec9e10c54040b",
+    "fetched_at": "2026-11-08T05:57:18.496518+00:00",
+    "access": "live"
+  },
+  "https://api.fda.gov/drug/label.json?search=indications_and_usage%3A%22amyotrophic+lateral+sclerosis%22&limit=3": {
+    "kind": "label search",
+    "url": "https://api.fda.gov/drug/label.json?search=indications_and_usage%3A%22amyotrophic+lateral+sclerosis%22&limit=3",
+    "status": "found",
+    "records": [
+      {
+        "id": "0a4ad0db-ce67-4724-91d2-88258c2cc9f8",
+        "title": "",
+        "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0a4ad0db-ce67-4724-91d2-88258c2cc9f8"
+      },
+      {
+        "id": "0ce2c1c4-2a40-485c-b7cb-96a9b85d9d11",
+        "title": "EDARAVONE",
+        "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0ce2c1c4-2a40-485c-b7cb-96a9b85d9d11"
+      },
+      {
+        "id": "10c8d5e6-cb9f-402d-ab8e-65c1aa049e89",
+        "title": "",
+        "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=10c8d5e6-cb9f-402d-ab8e-65c1aa049e89"
+      }
+    ],
+    "sha256": "a40d384d0d5c9b74d4d819bf31fda20a264c8c606f945eedd0be3f23c11fe35d",
+    "fetched_at": "2026-11-08T05:57:19.103769+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A8302340+OR+EXT_ID%3A25286015+OR+EXT_ID%3A28522181%29&resultType=core&format=json&pageSize=3": {
+    "kind": "reviewed primary records",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A8302340+OR+EXT_ID%3A25286015+OR+EXT_ID%3A28522181%29&resultType=core&format=json&pageSize=3",
+    "status": "found",
+    "records": [
+      {
+        "id": "28522181",
+        "title": "Safety and efficacy of edaravone in well defined patients with amyotrophic lateral sclerosis: a randomised, double-blind, placebo-controlled trial.",
+        "marker": "ALSFRS-R",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28522181/"
+      },
+      {
+        "id": "25286015",
+        "title": "Confirmatory double-blind, parallel-group, placebo-controlled study of efficacy and safety of edaravone (MCI-186) in amyotrophic lateral sclerosis patients.",
+        "marker": "ALSFRS-R",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/25286015/"
+      },
+      {
+        "id": "8302340",
+        "title": "A controlled trial of riluzole in amyotrophic lateral sclerosis. ALS/Riluzole Study Group.",
+        "marker": "survival",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/8302340/"
+      }
+    ],
+    "sha256": "32d6dbee20c1eae2c42a67b38892a941f2d6dbf0e778ca8b271d1d60ba776b52",
+    "fetched_at": "2026-11-08T05:57:19.836206+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+EAAT2+glutamate+transporter+expression%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json": {
+    "kind": "primary literature search",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+EAAT2+glutamate+transporter+expression%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json",
+    "status": "found",
+    "records": [
+      {
+        "id": "42647657",
+        "title": "Characterizing Single-Cell Differences in Aquaporin-4 and Glutamate Transporter-1 Between Control and hSOD1G93A Astrocytes Using Integrated Epifluorescence and Structured Illumination Microscopy.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42647657/"
+      },
+      {
+        "id": "42952031",
+        "title": "Copper-Mediated Radiofluorination of the Excitatory Amino Acid Transporter 2 (EAAT2)-Targeted PET Tracer [<sup>18</sup>F]RP-115: Alternate Synthetic Method.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42952031/"
+      },
+      {
+        "id": "42930031",
+        "title": "Development and Validation of Novel VHHs Targeting Astrocyte-Enriched Glutamate Transporters GLT-1 and GLAST-1.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42930031/"
+      },
+      {
+        "id": "42496779",
+        "title": "Functional and Transcriptional Downregulation of Glutamate Transporters (EAAT1 and EAAT2) via DNMT3B Overexpression in Glial Cells.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42496779/"
+      },
+      {
+        "id": "42792229",
+        "title": "Oxidative Stress and Its Mitigation in Neurodegenerative Disorders.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42792229/"
+      }
+    ],
+    "sha256": "767e3b555bdc092c2d8c4f9367f522d85efafd3822c8f2a673393f6af871436a",
+    "fetched_at": "2026-11-08T05:57:17.767364+00:00",
+    "access": "live"
+  },
+  "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=glutamate+transporter+OR+ceftriaxone&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus": {
+    "kind": "registry search",
+    "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=glutamate+transporter+OR+ceftriaxone&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus",
+    "status": "found",
+    "records": [
+      {
+        "id": "NCT00349622",
+        "title": "Clinical Trial Ceftriaxone in Subjects With ALS",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT00349622"
+      },
+      {
+        "id": "NCT00718393",
+        "title": "Compassionate Use of Ceftriaxone in Patients With Amyotrophic Lateral Sclerosis (ALS)",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT00718393"
+      }
+    ],
+    "sha256": "3f059515717f1452d66ddada2015e64a09658aec76caf5be4c1966e22a46dd46",
+    "fetched_at": "2026-11-08T05:57:17.875980+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/chembl/api/data/target.json?target_components__accession=P43004&limit=5": {
+    "kind": "ChEMBL target search",
+    "url": "https://www.ebi.ac.uk/chembl/api/data/target.json?target_components__accession=P43004&limit=5",
+    "status": "found",
+    "records": [
+      {
+        "id": "CHEMBL4973",
+        "title": "Excitatory amino acid transporter 2",
+        "url": "https://www.ebi.ac.uk/chembl/explore/target/CHEMBL4973"
+      }
+    ],
+    "sha256": "527cb6f503443dbc22c6a51fcb584a64b17461c1acf0365aaac05e4fb41ea0bd",
+    "fetched_at": "2026-11-08T05:57:18.726474+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A7611729+OR+EXT_ID%3A15635412+OR+EXT_ID%3A25297012%29&resultType=core&format=json&pageSize=3": {
+    "kind": "reviewed primary records",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A7611729+OR+EXT_ID%3A15635412+OR+EXT_ID%3A25297012%29&resultType=core&format=json&pageSize=3",
+    "status": "found",
+    "records": [
+      {
+        "id": "25297012",
+        "title": "Safety and efficacy of ceftriaxone for amyotrophic lateral sclerosis: a multi-stage, randomised, double-blind, placebo-controlled trial.",
+        "marker": "stage 3",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/25297012/"
+      },
+      {
+        "id": "15635412",
+        "title": "Beta-lactam antibiotics offer neuroprotection by increasing glutamate transporter expression.",
+        "marker": "expression",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/15635412/"
+      },
+      {
+        "id": "7611729",
+        "title": "Selective loss of glial glutamate transporter GLT-1 in amyotrophic lateral sclerosis.",
+        "marker": "GLT-1",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/7611729/"
+      }
+    ],
+    "sha256": "acccfa5ea883c3f8756814f96d289de20503889c093dc4110dd450dd69fed473",
+    "fetched_at": "2026-11-08T05:57:18.899683+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+glutamate+transport+astrocytes+uptake%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json": {
+    "kind": "primary literature search",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+glutamate+transport+astrocytes+uptake%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json",
+    "status": "found",
+    "records": [
+      {
+        "id": "42930031",
+        "title": "Development and Validation of Novel VHHs Targeting Astrocyte-Enriched Glutamate Transporters GLT-1 and GLAST-1.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42930031/"
+      },
+      {
+        "id": "42791577",
+        "title": "Riluzole shifts glial responses to protect synapses and memory in Aβ oligomer-treated rats.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42791577/"
+      },
+      {
+        "id": "41890591",
+        "title": "Axonal transport impairment as an upstream mechanism in amyotrophic lateral sclerosis pathogenesis.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41890591/"
+      },
+      {
+        "id": "41830672",
+        "title": "Activated astrocytes increase dehydroascorbic acid uptake, changing intracellular metabolism and vitamin C recycling and emulating neuropathological conditions.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41830672/"
+      },
+      {
+        "id": "41057901",
+        "title": "Small molecule-mediated rapid generation of functional human astrocytes: unveiling AKT1-STAT1/3 signaling in astrocyte development.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41057901/"
+      }
+    ],
+    "sha256": "97dfafa9b1f755e5337ae550c2a1dcd8bf1ab691216a984d645291b99fbfafd7",
+    "fetched_at": "2026-11-08T05:57:18.205411+00:00",
+    "access": "live"
+  },
+  "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=excitotoxicity+OR+ceftriaxone&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus": {
+    "kind": "registry search",
+    "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=excitotoxicity+OR+ceftriaxone&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus",
+    "status": "found",
+    "records": [
+      {
+        "id": "NCT01569958",
+        "title": "Transcranial Direct Current Stimulation as a Novel Therapeutic Approach in Amyotrophic Lateral Sclerosis",
+        "status": "UNKNOWN",
+        "url": "https://clinicaltrials.gov/study/NCT01569958"
+      },
+      {
+        "id": "NCT00349622",
+        "title": "Clinical Trial Ceftriaxone in Subjects With ALS",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT00349622"
+      },
+      {
+        "id": "NCT00718393",
+        "title": "Compassionate Use of Ceftriaxone in Patients With Amyotrophic Lateral Sclerosis (ALS)",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT00718393"
+      },
+      {
+        "id": "NCT04654689",
+        "title": "Impact of the Combined Treatment of Liposomed Polyphenols With G04CB02 on the ALS Patients",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT04654689"
+      },
+      {
+        "id": "NCT03377309",
+        "title": "Safety and Tolerability of Perampanel in Amyotrophic Lateral Sclerosis Patients",
+        "status": "TERMINATED",
+        "url": "https://clinicaltrials.gov/study/NCT03377309"
+      }
+    ],
+    "sha256": "3314f52238d1a86868a1e2b2264782fbd6ffd3c3f757c8ec42dec51837fe4194",
+    "fetched_at": "2026-11-08T05:57:18.302823+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A7611729+OR+EXT_ID%3A15635412+OR+EXT_ID%3A24771634+OR+EXT_ID%3A25297012%29&resultType=core&format=json&pageSize=4": {
+    "kind": "reviewed primary records",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A7611729+OR+EXT_ID%3A15635412+OR+EXT_ID%3A24771634+OR+EXT_ID%3A25297012%29&resultType=core&format=json&pageSize=4",
+    "status": "found",
+    "records": [
+      {
+        "id": "25297012",
+        "title": "Safety and efficacy of ceftriaxone for amyotrophic lateral sclerosis: a multi-stage, randomised, double-blind, placebo-controlled trial.",
+        "marker": "stage 3",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/25297012/"
+      },
+      {
+        "id": "24771634",
+        "title": "Systemic pharmacokinetics and cerebrospinal fluid uptake of intravenous ceftriaxone in patients with amyotrophic lateral sclerosis.",
+        "marker": "threshold",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/24771634/"
+      },
+      {
+        "id": "15635412",
+        "title": "Beta-lactam antibiotics offer neuroprotection by increasing glutamate transporter expression.",
+        "marker": "activity",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/15635412/"
+      },
+      {
+        "id": "7611729",
+        "title": "Selective loss of glial glutamate transporter GLT-1 in amyotrophic lateral sclerosis.",
+        "marker": "motor cortex",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/7611729/"
+      }
+    ],
+    "sha256": "2732415379e304f822f23f71604c32c118ec176a7ea4a4d6882733ae641ec6fd",
+    "fetched_at": "2026-11-08T05:57:19.966940+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28CYP1A2+inhibition+amyotrophic+lateral+sclerosis+drug+metabolism%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json": {
+    "kind": "primary literature search",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28CYP1A2+inhibition+amyotrophic+lateral+sclerosis+drug+metabolism%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json",
+    "status": "found",
+    "records": [
+      {
+        "id": "40958536",
+        "title": "A Modeling Investigation of the CYP1A Drug Interactions of Riluzole.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40958536/"
+      },
+      {
+        "id": "42613775",
+        "title": "Integrated In Silico Discovery of Thymoquinone Analogs Targeting the Keap1-Nrf2 Pathway for Amyotrophic Lateral Sclerosis Therapy.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42613775/"
+      },
+      {
+        "id": "42796281",
+        "title": "Computational Repurposing of Janus Kinase Inhibitors as Potential Therapeutic Candidates for Alzheimer's Disease.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42796281/"
+      },
+      {
+        "id": "41706381",
+        "title": "Hepatic Safety of Adjunctive High-Dose Melatonin in Participants Receiving Ocrelizumab for Primary Progressive Multiple Sclerosis: Liver Toxicity Findings from a Phase I/II Randomised Clinical Trial (MELATOMS-1).",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41706381/"
+      },
+      {
+        "id": "41754783",
+        "title": "Antidepressant-Like Effects of <i>n</i>-Butylidenephthalide Using In Vivo and In Silico Approaches.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41754783/"
+      }
+    ],
+    "sha256": "c4a6865229872cc75cdaa30975a912a3c718751c83959bac3e1ecfc6766115f7",
+    "fetched_at": "2026-11-08T05:57:18.332193+00:00",
+    "access": "live"
+  },
+  "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=pharmacokinetics&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus": {
+    "kind": "registry search",
+    "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=pharmacokinetics&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus",
+    "status": "found",
+    "records": [
+      {
+        "id": "NCT04948645",
+        "title": "A Phase 1 Study to Investigate the Safety and Pharmacokinetics of Fosigotifator in Patients With Amyotrophic Lateral Sclerosis",
+        "status": "TERMINATED",
+        "url": "https://clinicaltrials.gov/study/NCT04948645"
+      },
+      {
+        "id": "NCT04176224",
+        "title": "Clinical Pharmacology Study of Oral Edaravone in Patients With Amyotrophic Lateral Sclerosis",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT04176224"
+      },
+      {
+        "id": "NCT03626012",
+        "title": "A Study to Assess the Safety, Tolerability, and Pharmacokinetics of BIIB078 in Adults With C9ORF72-Associated Amyotrophic Lateral Sclerosis",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT03626012"
+      },
+      {
+        "id": "NCT05633459",
+        "title": "A Study Evaluating the Safety and Tolerability of QRL-201 in ALS",
+        "status": "ACTIVE_NOT_RECRUITING",
+        "url": "https://clinicaltrials.gov/study/NCT05633459"
+      },
+      {
+        "id": "NCT05053035",
+        "title": "A Phase 2 Study to Evaluate AL001 in C9orf72-Associated ALS",
+        "status": "TERMINATED",
+        "url": "https://clinicaltrials.gov/study/NCT05053035"
+      }
+    ],
+    "sha256": "8bf64076f016e63ef32e10f46a8c9f68a4378025b8e68db7d1da02bec89707e7",
+    "fetched_at": "2026-11-08T05:57:18.447462+00:00",
+    "access": "live"
+  },
+  "https://api.fda.gov/drug/label.json?search=drug_interactions%3A%22CYP1A2+inhibitors%22&limit=3": {
+    "kind": "label search",
+    "url": "https://api.fda.gov/drug/label.json?search=drug_interactions%3A%22CYP1A2+inhibitors%22&limit=3",
+    "status": "found",
+    "records": [
+      {
+        "id": "00f0fbda-eb62-4f79-ae9c-286b31eca733",
+        "title": "RAMELTEON",
+        "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00f0fbda-eb62-4f79-ae9c-286b31eca733"
+      },
+      {
+        "id": "00f15108-4c15-4bf3-9665-dc32e5299006",
+        "title": "",
+        "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00f15108-4c15-4bf3-9665-dc32e5299006"
+      },
+      {
+        "id": "00fcd792-18a4-45d9-9c6e-0634b54b152a",
+        "title": "TIZANIDNE HYDROCHLORIDE",
+        "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00fcd792-18a4-45d9-9c6e-0634b54b152a"
+      }
+    ],
+    "sha256": "5f3cfe9190748ad15e85b9e99dad02a40da6bbc848ead20ccd6e38dcb7731e4f",
+    "fetched_at": "2026-11-08T05:57:19.138497+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A9316860+OR+EXT_ID%3A37798423%29&resultType=core&format=json&pageSize=2": {
+    "kind": "reviewed primary records",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A9316860+OR+EXT_ID%3A37798423%29&resultType=core&format=json&pageSize=2",
+    "status": "found",
+    "records": [
+      {
+        "id": "37798423",
+        "title": "Quantitative Translation of Substrate Intrinsic Clearance from Recombinant CYP1A1 to Humans.",
+        "marker": "CYP1A1",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/37798423/"
+      },
+      {
+        "id": "9316860",
+        "title": "Involvement of human CYP1A isoenzymes in the metabolism and drug interactions of riluzole in vitro.",
+        "marker": "CYP1A2",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/9316860/"
+      }
+    ],
+    "sha256": "f46fb0f52ea4ee4e48124d4f626f5ddff985a643aa2e5a85b56f5a8258bd1665",
+    "fetched_at": "2026-11-08T05:57:19.801695+00:00",
+    "access": "live"
+  },
+  "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls/b117b981-476c-f9b8-e053-2995a90aee5f.xml": {
+    "kind": "reviewed product label",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls/b117b981-476c-f9b8-e053-2995a90aee5f.xml",
+    "status": "found",
+    "records": [
+      {
+        "id": "b117b981-476c-f9b8-e053-2995a90aee5f",
+        "matched": true,
+        "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      }
+    ],
+    "sha256": "b266e252be6818f46f2eb2c2d5281f362920c1b28a1d4b2ae5bca93f1892fd25",
+    "fetched_at": "2026-11-08T05:57:20.022239+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+swallowing+randomized+bulbar+function%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json": {
+    "kind": "primary literature search",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+swallowing+randomized+bulbar+function%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json",
+    "status": "found",
+    "records": [
+      {
+        "id": "42826312",
+        "title": "Excellent response to high-dose Riboflavin in Brown-Vialetto-Van Laere syndrome: A case report.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42826312/"
+      },
+      {
+        "id": "42152867",
+        "title": "The effects of a mobile healthcare application on speech and swallowing in amyotrophic lateral sclerosis.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42152867/"
+      },
+      {
+        "id": "42404161",
+        "title": "Perspective and quality of life in amyotrophic lateral sclerosis patients undergoing percutaneous endoscopic gastrostomy.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42404161/"
+      },
+      {
+        "id": "41753201",
+        "title": "Impact of Built-In Software Monitoring on Survival in Amyotrophic Lateral Sclerosis Patients Receiving Home Mechanical Ventilation: A Cohort Study.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41753201/"
+      },
+      {
+        "id": "42263252",
+        "title": "Intrathecal Administration of Riluzole in Amyotrophic Lateral Sclerosis.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42263252/"
+      }
+    ],
+    "sha256": "c1f6581d23b77b3787ebe436b27d60c9a5a53fccd1000c25a7364c57c0c8510f",
+    "fetched_at": "2026-11-08T05:57:18.226698+00:00",
+    "access": "live"
+  },
+  "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=swallowing+OR+dysphagia&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus": {
+    "kind": "registry search",
+    "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=swallowing+OR+dysphagia&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus",
+    "status": "found",
+    "records": [
+      {
+        "id": "NCT01771640",
+        "title": "Intrathecal Transplantation of Mesenchymal Stem Cell in Patients With ALS",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT01771640"
+      },
+      {
+        "id": "NCT06426030",
+        "title": "Validation of Czech Language Versions of Questionnaires for ALS Patients' Functional Status and Biomarker Long-term Follow-up",
+        "status": "UNKNOWN",
+        "url": "https://clinicaltrials.gov/study/NCT06426030"
+      },
+      {
+        "id": "NCT03755167",
+        "title": "A Follow up Study to Protocol 101/2 - Continued Treatment by IPL344 IV",
+        "status": "SUSPENDED",
+        "url": "https://clinicaltrials.gov/study/NCT03755167"
+      },
+      {
+        "id": "NCT03334786",
+        "title": "Study to Evaluate Safety & Efficacy of FLX-787-ODT to Treat Fasciculations in Tongue and Appendicular Muscle in Adult Subjects With ALS",
+        "status": "TERMINATED",
+        "url": "https://clinicaltrials.gov/study/NCT03334786"
+      },
+      {
+        "id": "NCT06598202",
+        "title": "Exploring Nasal Drop Therapy With Small Extracellular Vesicles for ALS",
+        "status": "UNKNOWN",
+        "url": "https://clinicaltrials.gov/study/NCT06598202"
+      }
+    ],
+    "sha256": "ed3cdbc4d90de1b3a58606ae854887aef7a39893c5176549d6a230de0937f236",
+    "fetched_at": "2026-11-08T05:57:18.312204+00:00",
+    "access": "live"
+  },
+  "https://api.fda.gov/drug/label.json?search=indications_and_usage%3A%22swallowing%22&limit=3": {
+    "kind": "label search",
+    "url": "https://api.fda.gov/drug/label.json?search=indications_and_usage%3A%22swallowing%22&limit=3",
+    "status": "found",
+    "records": [
+      {
+        "id": "00738f01-8010-49bd-a903-568d1b134ac0",
+        "title": "",
+        "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00738f01-8010-49bd-a903-568d1b134ac0"
+      },
+      {
+        "id": "00da35b2-5946-4c1b-991c-9b2d88d22acf",
+        "title": "",
+        "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00da35b2-5946-4c1b-991c-9b2d88d22acf"
+      },
+      {
+        "id": "010e5c7e-1c2c-49ab-a9ca-6e89ae86a6d3",
+        "title": "",
+        "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=010e5c7e-1c2c-49ab-a9ca-6e89ae86a6d3"
+      }
+    ],
+    "sha256": "0297398bda062388a6a2858a2dba677d80cf4007cb00a951111c2e5dcb6086e5",
+    "fetched_at": "2026-11-08T05:57:18.745953+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A28070747%29&resultType=core&format=json&pageSize=1": {
+    "kind": "reviewed primary records",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A28070747%29&resultType=core&format=json&pageSize=1",
+    "status": "found",
+    "records": [
+      {
+        "id": "28070747",
+        "title": "Enhanced Bulbar Function in Amyotrophic Lateral Sclerosis: The Nuedexta Treatment Trial.",
+        "marker": "swallowing",
+        "matched": true,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28070747/"
+      }
+    ],
+    "sha256": "c7136556fb72e5d0530ee23d930abb9f5dc10b61093fb52ab35edfde43aa9aa8",
+    "fetched_at": "2026-11-08T05:57:19.506964+00:00",
+    "access": "live"
+  },
+  "https://clinicaltrials.gov/api/v2/studies/NCT03883581": {
+    "kind": "reviewed trial protocol",
+    "url": "https://clinicaltrials.gov/api/v2/studies/NCT03883581",
+    "status": "found",
+    "records": [
+      {
+        "id": "NCT03883581",
+        "outcomes": [
+          "Change in Dynamic Imaging Grade of Swallowing Toxicity",
+          "Change in Speech Intelligibility",
+          "Change in Patient-reported Outcome: Center for Neurologic Study-Bulbar Function Scale (CNS-BFS)",
+          "Change in ALSFRS-R Bulbar Subscale Score",
+          "Bamboo Passage Reading Duration (in Seconds)"
+        ],
+        "url": "https://clinicaltrials.gov/study/NCT03883581"
+      }
+    ],
+    "sha256": "1f0b0e86e04ab95f5feee3b5a6284dd9edea14c17b74e252652c0ee69732a526",
+    "fetched_at": "2026-11-08T05:57:19.612725+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+safety+tolerability%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json": {
+    "kind": "primary literature search",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28amyotrophic+lateral+sclerosis+safety+tolerability%29+NOT+PUB_TYPE%3AReview&pageSize=5&format=json",
+    "status": "found",
+    "records": [
+      {
+        "id": "42735682",
+        "title": "N-of-1 investigational study of a novel antisense oligonucleotide drug in CHCHD10-related ALS shows early signs of efficacy.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42735682/"
+      },
+      {
+        "id": "42751043",
+        "title": "From Vision to Validation: The Journey of Tofersen in Superoxide Dismutase 1 Gene-Associated Amyotrophic Lateral Sclerosis.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42751043/"
+      },
+      {
+        "id": "42406382",
+        "title": "Antisense Oligonucleotide Tofersen Distribution in the Central Nervous System of SOD1-ALS Autopsy Tissue Donors.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42406382/"
+      },
+      {
+        "id": "42716044",
+        "title": "Safety, tolerability, and efficacy of RIPK1 inhibitor, SAR443820, in amyotrophic lateral sclerosis (HIMALAYA): a multicentre, randomised, double-blind, placebo-controlled, phase 2 trial.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42716044/"
+      },
+      {
+        "id": "41837970",
+        "title": "Safety and Efficacy of PrimeC in Amyotrophic Lateral Sclerosis: The PARADIGM Randomized Clinical Trial.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41837970/"
+      }
+    ],
+    "sha256": "7e80e9b689b7574b4bb810685100639307a896ba916e461c9db7519d29dc0d0f",
+    "fetched_at": "2026-11-08T05:25:55.324523+00:00",
+    "access": "cached"
+  },
+  "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=tolerability&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus": {
+    "kind": "registry search",
+    "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=amyotrophic+lateral+sclerosis&query.term=tolerability&pageSize=5&fields=NCTId%2CBriefTitle%2COverallStatus",
+    "status": "found",
+    "records": [
+      {
+        "id": "NCT06454682",
+        "title": "An IIT Clinical Study to Evaluate the Safety and Efficacy of a Single Intrathecal Injection of RJK002 in Patients With ALS",
+        "status": "ACTIVE_NOT_RECRUITING",
+        "url": "https://clinicaltrials.gov/study/NCT06454682"
+      },
+      {
+        "id": "NCT06726577",
+        "title": "TP04HN106 in the Treatment of Patients With Amyotrophic Lateral Sclerosis",
+        "status": "RECRUITING",
+        "url": "https://clinicaltrials.gov/study/NCT06726577"
+      },
+      {
+        "id": "NCT04948645",
+        "title": "A Phase 1 Study to Investigate the Safety and Pharmacokinetics of Fosigotifator in Patients With Amyotrophic Lateral Sclerosis",
+        "status": "TERMINATED",
+        "url": "https://clinicaltrials.gov/study/NCT04948645"
+      },
+      {
+        "id": "NCT03755167",
+        "title": "A Follow up Study to Protocol 101/2 - Continued Treatment by IPL344 IV",
+        "status": "SUSPENDED",
+        "url": "https://clinicaltrials.gov/study/NCT03755167"
+      },
+      {
+        "id": "NCT01640067",
+        "title": "Human Neural Stem Cell Transplantation in Amyotrophic Lateral Sclerosis (ALS)",
+        "status": "COMPLETED",
+        "url": "https://clinicaltrials.gov/study/NCT01640067"
+      }
+    ],
+    "sha256": "9996d46f02d5049caf1f11199fec20d5484f2edab0b0aa91cf08980e07c51612",
+    "fetched_at": "2026-11-08T05:25:55.431551+00:00",
+    "access": "cached"
+  },
+  "https://rest.uniprot.org/uniprotkb/P43004.json": {
+    "kind": "target and process annotations",
+    "url": "https://rest.uniprot.org/uniprotkb/P43004.json",
+    "status": "found",
+    "records": [
+      {
+        "id": "P43004",
+        "url": "https://rest.uniprot.org/uniprotkb/P43004.json",
+        "symbol": "SLC1A2",
+        "processes": [
+          {
+            "id": "GO:0006865",
+            "label": "amino acid transport"
+          },
+          {
+            "id": "GO:0007268",
+            "label": "chemical synaptic transmission"
+          },
+          {
+            "id": "GO:0070779",
+            "label": "D-aspartate import across plasma membrane"
+          },
+          {
+            "id": "GO:0090461",
+            "label": "intracellular glutamate homeostasis"
+          },
+          {
+            "id": "GO:0140009",
+            "label": "L-aspartate import across plasma membrane"
+          },
+          {
+            "id": "GO:0070778",
+            "label": "L-aspartate transmembrane transport"
+          },
+          {
+            "id": "GO:0098712",
+            "label": "L-glutamate import across plasma membrane"
+          },
+          {
+            "id": "GO:0015813",
+            "label": "L-glutamate transmembrane transport"
+          },
+          {
+            "id": "GO:0006836",
+            "label": "neurotransmitter transport"
+          },
+          {
+            "id": "GO:0070207",
+            "label": "protein homotrimerization"
+          },
+          {
+            "id": "GO:0070633",
+            "label": "transepithelial transport"
+          },
+          {
+            "id": "GO:0150104",
+            "label": "transport across blood-brain barrier"
+          }
+        ]
+      }
+    ],
+    "sha256": "dc41ec558b566cb3f612f79a84507921eeee84cf2ced09d82d65223d72346e75",
+    "fetched_at": "2026-11-08T05:57:20.554434+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A28070747%29+AND+TITLE_ABS%3ASIGMAR1&resultType=core&format=json&pageSize=1#agonize": {
+    "kind": "direction check",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A28070747%29+AND+TITLE_ABS%3ASIGMAR1&resultType=core&format=json&pageSize=1#agonize",
+    "status": "zero hits",
+    "records": [],
+    "sha256": "58de26f056a472d2609a9c115d99eb83c8c3e42b4797f2c9dcab36862b65c521",
+    "fetched_at": "2026-11-08T05:42:26.124693+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A15635412+OR+EXT_ID%3A25297012+OR+EXT_ID%3A7611729%29+AND+TITLE_ABS%3ASLC1A2&resultType=core&format=json&pageSize=3#increase_expression": {
+    "kind": "direction check",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A15635412+OR+EXT_ID%3A25297012+OR+EXT_ID%3A7611729%29+AND+TITLE_ABS%3ASLC1A2&resultType=core&format=json&pageSize=3#increase_expression",
+    "status": "zero hits",
+    "records": [],
+    "sha256": "ec1d2c3c1567b58a3682a3617e8c98836c7e0c0fdcb7715f4e5998771d7b829c",
+    "fetched_at": "2026-11-08T05:42:10.839139+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A15635412+OR+EXT_ID%3A24771634+OR+EXT_ID%3A25297012+OR+EXT_ID%3A7611729%29+AND+TITLE_ABS%3ASLC1A3&resultType=core&format=json&pageSize=4#increase_expression": {
+    "kind": "direction check",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A15635412+OR+EXT_ID%3A24771634+OR+EXT_ID%3A25297012+OR+EXT_ID%3A7611729%29+AND+TITLE_ABS%3ASLC1A3&resultType=core&format=json&pageSize=4#increase_expression",
+    "status": "zero hits",
+    "records": [],
+    "sha256": "8e835c57504886a8c288221fdb60cea1ad5d1c0924cb293e07417830232cb5b9",
+    "fetched_at": "2026-11-08T05:57:23.477077+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A15635412+OR+EXT_ID%3A24771634+OR+EXT_ID%3A25297012+OR+EXT_ID%3A7611729%29+AND+TITLE_ABS%3ASLC1A2&resultType=core&format=json&pageSize=4#increase_expression": {
+    "kind": "direction check",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A15635412+OR+EXT_ID%3A24771634+OR+EXT_ID%3A25297012+OR+EXT_ID%3A7611729%29+AND+TITLE_ABS%3ASLC1A2&resultType=core&format=json&pageSize=4#increase_expression",
+    "status": "zero hits",
+    "records": [],
+    "sha256": "64c5fca9093c7c13276731df2e152bd8282f920b9383d793e6b46d397f2b6b83",
+    "fetched_at": "2026-11-08T05:42:10.835620+00:00",
+    "access": "live"
+  },
+  "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A28070747%29+AND+TITLE_ABS%3AGRIN1&resultType=core&format=json&pageSize=1#antagonize": {
+    "kind": "direction check",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=SRC%3AMED+AND+%28EXT_ID%3A28070747%29+AND+TITLE_ABS%3AGRIN1&resultType=core&format=json&pageSize=1#antagonize",
+    "status": "zero hits",
+    "records": [],
+    "sha256": "90666f2461a2d6599a4f68b5ef1630edacde3429307431ed9f2febc6d63eedf9",
+    "fetched_at": "2026-11-08T05:42:11.247460+00:00",
+    "access": "live"
+  }
+}

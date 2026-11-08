@@ -1,0 +1,1308 @@
+{
+  "rank_type": "benefit",
+  "full_cohort_size": 10540,
+  "top_k": [
+    {
+      "id": "Compound::DB00138",
+      "query": 0,
+      "l2": 12.607829525815406,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 1
+    },
+    {
+      "id": "Compound::DB00145",
+      "query": 0,
+      "l2": 12.816800668916443,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 2
+    },
+    {
+      "id": "Compound::DB02530",
+      "query": 0,
+      "l2": 13.209137867010478,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 3
+    },
+    {
+      "id": "Compound::DB11858",
+      "query": 0,
+      "l2": 13.329428021043952,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 4
+    },
+    {
+      "id": "Compound::DB00151",
+      "query": 0,
+      "l2": 13.428424000224505,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 5
+    },
+    {
+      "id": "Compound::DB00174",
+      "query": 0,
+      "l2": 13.46688273638513,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 6
+    },
+    {
+      "id": "Compound::DB01956",
+      "query": 0,
+      "l2": 13.47006654918208,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 7
+    },
+    {
+      "id": "Compound::DB00129",
+      "query": 0,
+      "l2": 13.522776727372447,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 8
+    },
+    {
+      "id": "Compound::DB00128",
+      "query": 0,
+      "l2": 13.57396759046153,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 9
+    },
+    {
+      "id": "Compound::DB00142",
+      "query": 0,
+      "l2": 13.578403387949878,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 10
+    },
+    {
+      "id": "Compound::DB03929",
+      "query": 0,
+      "l2": 13.612476002796974,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 11
+    },
+    {
+      "id": "Compound::DB12519",
+      "query": 0,
+      "l2": 13.644859470816247,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 12
+    },
+    {
+      "id": "Compound::DB01373",
+      "query": 0,
+      "l2": 13.680948305974077,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 13
+    },
+    {
+      "id": "Compound::DB00123",
+      "query": 0,
+      "l2": 13.730036741514768,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 14
+    },
+    {
+      "id": "Compound::DB00160",
+      "query": 0,
+      "l2": 13.730532924343516,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 15
+    },
+    {
+      "id": "Compound::DB00134",
+      "query": 0,
+      "l2": 13.740070365055708,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 16
+    },
+    {
+      "id": "Compound::DB00466",
+      "query": 0,
+      "l2": 13.75680047096499,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 17
+    },
+    {
+      "id": "Compound::DB00119",
+      "query": 0,
+      "l2": 13.760541719418502,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 18
+    },
+    {
+      "id": "Compound::DB00171",
+      "query": 0,
+      "l2": 13.825598370790646,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 19
+    },
+    {
+      "id": "Compound::DB00125",
+      "query": 0,
+      "l2": 13.846005798931051,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 20
+    },
+    {
+      "id": "Compound::DB00898",
+      "query": 0,
+      "l2": 13.859239295712182,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 21
+    },
+    {
+      "id": "Compound::DB01221",
+      "query": 0,
+      "l2": 13.877871319547541,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 22
+    },
+    {
+      "id": "Compound::DB00139",
+      "query": 0,
+      "l2": 13.943047378442147,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 23
+    },
+    {
+      "id": "Compound::DB05381",
+      "query": 0,
+      "l2": 13.952629786359378,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 24
+    },
+    {
+      "id": "Compound::DB08855",
+      "query": 0,
+      "l2": 13.964804521373967,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 25
+    },
+    {
+      "id": "Compound::DB00515",
+      "query": 0,
+      "l2": 13.998165537991547,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 26
+    },
+    {
+      "id": "Compound::DB03566",
+      "query": 0,
+      "l2": 14.008254533924783,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 27
+    },
+    {
+      "id": "Compound::DB00313",
+      "query": 0,
+      "l2": 14.014859602364417,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 28
+    },
+    {
+      "id": "Compound::DB12310",
+      "query": 0,
+      "l2": 14.016764517733147,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 29
+    },
+    {
+      "id": "Compound::DB06151",
+      "query": 0,
+      "l2": 14.022131992931099,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 30
+    },
+    {
+      "id": "Compound::DB11735",
+      "query": 0,
+      "l2": 14.060904740824745,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 31
+    },
+    {
+      "id": "Compound::DB04137",
+      "query": 0,
+      "l2": 14.065974275382649,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 32
+    },
+    {
+      "id": "Compound::DB03128",
+      "query": 0,
+      "l2": 14.068308029182532,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 33
+    },
+    {
+      "id": "Compound::DB15127",
+      "query": 0,
+      "l2": 14.075449500760136,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 34
+    },
+    {
+      "id": "Compound::DB00783",
+      "query": 0,
+      "l2": 14.081684541187538,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 35
+    },
+    {
+      "id": "Compound::DB04557",
+      "query": 0,
+      "l2": 14.083760047122906,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 36
+    },
+    {
+      "id": "Compound::DB09152",
+      "query": 0,
+      "l2": 14.085998525715118,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 37
+    },
+    {
+      "id": "Compound::DB11118",
+      "query": 0,
+      "l2": 14.090579671204509,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 38
+    },
+    {
+      "id": "Compound::DB00544",
+      "query": 0,
+      "l2": 14.108096108129763,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 39
+    },
+    {
+      "id": "Compound::DB00143",
+      "query": 0,
+      "l2": 14.11644787592267,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 40
+    },
+    {
+      "id": "Compound::DB08839",
+      "query": 0,
+      "l2": 14.11931672151133,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 41
+    },
+    {
+      "id": "Compound::DB00117",
+      "query": 0,
+      "l2": 14.122350820856031,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 42
+    },
+    {
+      "id": "Compound::DB00184",
+      "query": 0,
+      "l2": 14.132374790199142,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 43
+    },
+    {
+      "id": "Compound::DB00988",
+      "query": 0,
+      "l2": 14.136304316818078,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 44
+    },
+    {
+      "id": "Compound::DB00363",
+      "query": 0,
+      "l2": 14.136805373051459,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 45
+    },
+    {
+      "id": "Compound::DB00130",
+      "query": 0,
+      "l2": 14.148722834203678,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 46
+    },
+    {
+      "id": "Compound::DB00122",
+      "query": 0,
+      "l2": 14.162704067163189,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 47
+    },
+    {
+      "id": "Compound::DB01577",
+      "query": 0,
+      "l2": 14.170295057883196,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 48
+    },
+    {
+      "id": "Compound::DB09341",
+      "query": 0,
+      "l2": 14.172536181478854,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 49
+    },
+    {
+      "id": "Compound::DB11797",
+      "query": 0,
+      "l2": 14.173863912253001,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 50
+    },
+    {
+      "id": "Compound::DB06774",
+      "query": 0,
+      "l2": 14.175875916276784,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 51
+    },
+    {
+      "id": "Compound::DB08844",
+      "query": 0,
+      "l2": 14.18874123360968,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 52
+    },
+    {
+      "id": "Compound::DB00149",
+      "query": 0,
+      "l2": 14.188834386386013,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 53
+    },
+    {
+      "id": "Compound::DB12458",
+      "query": 0,
+      "l2": 14.189149961266503,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 54
+    },
+    {
+      "id": "Compound::DB01043",
+      "query": 0,
+      "l2": 14.195291312793785,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 55
+    },
+    {
+      "id": "Compound::DB00328",
+      "query": 0,
+      "l2": 14.211664459774406,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 56
+    },
+    {
+      "id": "Compound::DB01065",
+      "query": 0,
+      "l2": 14.214033260936477,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 57
+    },
+    {
+      "id": "Compound::DB01159",
+      "query": 0,
+      "l2": 14.21468348932932,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 58
+    },
+    {
+      "id": "Compound::DB04365",
+      "query": 0,
+      "l2": 14.214913290265311,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 59
+    },
+    {
+      "id": "Compound::DB03575",
+      "query": 0,
+      "l2": 14.215645522019132,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 60
+    },
+    {
+      "id": "Compound::DB01234",
+      "query": 0,
+      "l2": 14.230825157121515,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 61
+    },
+    {
+      "id": "Compound::DB00127",
+      "query": 0,
+      "l2": 14.233442536331793,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 62
+    },
+    {
+      "id": "Compound::DB01592",
+      "query": 0,
+      "l2": 14.233977121959363,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 63
+    },
+    {
+      "id": "Compound::DB14547",
+      "query": 0,
+      "l2": 14.2446263337876,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 64
+    },
+    {
+      "id": "Compound::DB00997",
+      "query": 0,
+      "l2": 14.248954327810333,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 65
+    },
+    {
+      "id": "Compound::DB00907",
+      "query": 0,
+      "l2": 14.252156957888701,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 66
+    },
+    {
+      "id": "Compound::DB00158",
+      "query": 0,
+      "l2": 14.25263530206098,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 67
+    },
+    {
+      "id": "Compound::DB03166",
+      "query": 0,
+      "l2": 14.258307395636802,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 68
+    },
+    {
+      "id": "Compound::DB03904",
+      "query": 0,
+      "l2": 14.261241006898329,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 69
+    },
+    {
+      "id": "Compound::DB09153",
+      "query": 0,
+      "l2": 14.267663602720093,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 70
+    },
+    {
+      "id": "Compound::DB00755",
+      "query": 0,
+      "l2": 14.289480775400495,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 71
+    },
+    {
+      "id": "Compound::DB00133",
+      "query": 0,
+      "l2": 14.302454491219091,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 72
+    },
+    {
+      "id": "Compound::DB00877",
+      "query": 0,
+      "l2": 14.304433889615206,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 73
+    },
+    {
+      "id": "Compound::DB00396",
+      "query": 0,
+      "l2": 14.31495320977932,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 74
+    },
+    {
+      "id": "Compound::DB04540",
+      "query": 0,
+      "l2": 14.315001426162436,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 75
+    },
+    {
+      "id": "Compound::DB02527",
+      "query": 0,
+      "l2": 14.316131647950437,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 76
+    },
+    {
+      "id": "Compound::DB02999",
+      "query": 0,
+      "l2": 14.321556695325903,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 77
+    },
+    {
+      "id": "Compound::DB09130",
+      "query": 0,
+      "l2": 14.32593437120746,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 78
+    },
+    {
+      "id": "Compound::DB01645",
+      "query": 0,
+      "l2": 14.335366102533127,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 79
+    },
+    {
+      "id": "Compound::DB14500",
+      "query": 0,
+      "l2": 14.338992318867978,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 80
+    },
+    {
+      "id": "Compound::DB01593",
+      "query": 0,
+      "l2": 14.342946307800833,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 81
+    },
+    {
+      "id": "Compound::DB04422",
+      "query": 0,
+      "l2": 14.353256994091568,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 82
+    },
+    {
+      "id": "Compound::DB01115",
+      "query": 0,
+      "l2": 14.363843116697078,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 83
+    },
+    {
+      "id": "Compound::DB00675",
+      "query": 0,
+      "l2": 14.365220106693382,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 84
+    },
+    {
+      "id": "Compound::DB01381",
+      "query": 0,
+      "l2": 14.373887987513037,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 85
+    },
+    {
+      "id": "Compound::DB00661",
+      "query": 0,
+      "l2": 14.382071255243613,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 86
+    },
+    {
+      "id": "Compound::DB00161",
+      "query": 0,
+      "l2": 14.38477887495365,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 87
+    },
+    {
+      "id": "Compound::DB00753",
+      "query": 0,
+      "l2": 14.387758999073506,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 88
+    },
+    {
+      "id": "Compound::DB11091",
+      "query": 0,
+      "l2": 14.395559510847862,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 89
+    },
+    {
+      "id": "Compound::DB02772",
+      "query": 0,
+      "l2": 14.40921315940115,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 90
+    },
+    {
+      "id": "Compound::DB00148",
+      "query": 0,
+      "l2": 14.418191479673068,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 91
+    },
+    {
+      "id": "Compound::DB00734",
+      "query": 0,
+      "l2": 14.423965309947205,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 92
+    },
+    {
+      "id": "Compound::DB01093",
+      "query": 0,
+      "l2": 14.427450604711726,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 93
+    },
+    {
+      "id": "Compound::DB00201",
+      "query": 0,
+      "l2": 14.43179144127283,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 94
+    },
+    {
+      "id": "Compound::DB00121",
+      "query": 0,
+      "l2": 14.438359559515643,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 95
+    },
+    {
+      "id": "Compound::DB04005",
+      "query": 0,
+      "l2": 14.44063204501513,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 96
+    },
+    {
+      "id": "Compound::DB03756",
+      "query": 0,
+      "l2": 14.444087035655992,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 97
+    },
+    {
+      "id": "Compound::DB00917",
+      "query": 0,
+      "l2": 14.44447402132871,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 98
+    },
+    {
+      "id": "Compound::DB00502",
+      "query": 0,
+      "l2": 14.447222110552042,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 99
+    },
+    {
+      "id": "Compound::DB00563",
+      "query": 0,
+      "l2": 14.452179431110345,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7611729/",
+        "https://pubmed.ncbi.nlm.nih.gov/15635412/",
+        "https://rest.uniprot.org/uniprotkb/P43004.json"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 100
+    }
+  ],
+  "fusion_ranks": [],
+  "aggregation": "Smallest L2 across compatible translations for each drug. Ties use canonical ID. Risk rank 1 means greatest predicted concern."
+}

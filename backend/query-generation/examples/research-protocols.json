@@ -1,0 +1,197 @@
+{
+  "disease-indications": {
+    "fact": "diagnosis",
+    "concept": "als",
+    "literature": "amyotrophic lateral sclerosis randomized survival function",
+    "registry": "survival ALSFRS-R",
+    "database": [
+      "label",
+      "amyotrophic lateral sclerosis"
+    ],
+    "papers": {
+      "8302340": [
+        "survival",
+        "A controlled human trial supports using ALS survival as a disease-level outcome.",
+        "support"
+      ],
+      "25286015": [
+        "ALSFRS-R",
+        "A broader trial did not show a significant functional difference. Population and regimen matter.",
+        "contrary"
+      ],
+      "28522181": [
+        "ALSFRS-R",
+        "A selected early ALS population showed a functional endpoint benefit.",
+        "support"
+      ]
+    },
+    "proposals": [
+      {
+        "goal": "treat diagnosed ALS; look for disease-course outcomes",
+        "anchor": "Amyotrophic Lateral Sclerosis",
+        "kind": "disease",
+        "action": "treat",
+        "requires": [
+          "8302340"
+        ]
+      }
+    ]
+  },
+  "genes-targets": {
+    "fact": "diagnosis",
+    "concept": "als",
+    "literature": "amyotrophic lateral sclerosis EAAT2 glutamate transporter expression",
+    "registry": "glutamate transporter OR ceftriaxone",
+    "database": [
+      "target",
+      "P43004"
+    ],
+    "papers": {
+      "7611729": [
+        "GLT-1",
+        "Postmortem ALS tissue showed lower glial glutamate transporter protein. This is a group observation.",
+        "support"
+      ],
+      "15635412": [
+        "expression",
+        "Preclinical induction of GLT1 expression increased glutamate transport. Upregulation is a research hypothesis.",
+        "support"
+      ],
+      "25297012": [
+        "stage 3",
+        "The phase III test of the induction strategy did not improve ALS function or survival and had hepatobiliary toxicity.",
+        "contrary"
+      ]
+    },
+    "proposals": [
+      {
+        "goal": "increase astroglial glutamate transporter expression",
+        "anchor": "SLC1A2",
+        "kind": "gene",
+        "action": "increase_expression",
+        "requires": [
+          "7611729",
+          "15635412"
+        ]
+      }
+    ]
+  },
+  "pathways-processes": {
+    "fact": "diagnosis",
+    "concept": "als",
+    "literature": "amyotrophic lateral sclerosis glutamate transport astrocytes uptake",
+    "registry": "excitotoxicity OR ceftriaxone",
+    "database": [
+      "target",
+      "P43004"
+    ],
+    "papers": {
+      "7611729": [
+        "motor cortex",
+        "Glial transporter loss in ALS tissue motivates investigating glutamate clearance.",
+        "support"
+      ],
+      "15635412": [
+        "activity",
+        "Increasing transporter expression enhanced glutamate uptake in models. This gives the proposed direction.",
+        "support"
+      ],
+      "24771634": [
+        "threshold",
+        "CSF concentrations reached the in-vitro-derived target in the ALS study. Site-specific engagement remains unknown.",
+        "limitation"
+      ],
+      "25297012": [
+        "stage 3",
+        "Phase III clinical results did not validate the predicted benefit of increasing transporter activity.",
+        "contrary"
+      ]
+    },
+    "proposals": [
+      {
+        "goal": "increase L-glutamate transport through expression of a participating transporter",
+        "anchor": "L-glutamate transport",
+        "kind": "biological process",
+        "bridge": "SLC1A2",
+        "action": "increase_expression",
+        "requires": [
+          "7611729",
+          "15635412"
+        ]
+      }
+    ]
+  },
+  "safety-interactions-class": {
+    "fact": "current_therapy",
+    "concept": "cyp1a2_exposure",
+    "literature": "CYP1A2 inhibition amyotrophic lateral sclerosis drug metabolism",
+    "registry": "pharmacokinetics",
+    "database": [
+      "label",
+      "CYP1A2 inhibitors"
+    ],
+    "papers": {
+      "9316860": [
+        "CYP1A2",
+        "Human microsomes showed CYP1A2-mediated metabolism. Inhibition could raise exposure to the index therapy.",
+        "support"
+      ],
+      "37798423": [
+        "CYP1A1",
+        "Human clearance extrapolation also implicated extrahepatic metabolism. A single-enzyme distance cannot quantify an interaction.",
+        "limitation"
+      ]
+    },
+    "label": {
+      "id": "b117b981-476c-f9b8-e053-2995a90aee5f",
+      "marker": "CYP1A2 inhibitors",
+      "finding": "The index therapy label warns of increased exposure with strong or moderate CYP1A2 inhibitors."
+    },
+    "proposals": [
+      {
+        "goal": "flag CYP1A2 inhibition as a potential interaction",
+        "anchor": "CYP1A2",
+        "kind": "gene",
+        "action": "inhibit",
+        "risk": true,
+        "requires": [
+          "9316860",
+          "label"
+        ]
+      }
+    ]
+  },
+  "symptoms-function": {
+    "fact": "swallow",
+    "concept": "swallowing",
+    "literature": "amyotrophic lateral sclerosis swallowing randomized bulbar function",
+    "registry": "swallowing OR dysphagia",
+    "database": [
+      "label",
+      "swallowing"
+    ],
+    "papers": {
+      "28070747": [
+        "swallowing",
+        "The short blinded ALS crossover trial found improvement on self-reported swallowing. This supports a symptomatic outcome distinct from disease course.",
+        "support"
+      ]
+    },
+    "trial": {
+      "id": "NCT03883581",
+      "finding": "The protocol calls for objective swallowing measures because patient-reported change alone does not establish safer swallowing.",
+      "role": "limitation"
+    },
+    "proposals": [
+      {
+        "goal": "improve swallowing function, pending objective confirmation",
+        "anchor": "Deglutition Disorders",
+        "kind": "disease",
+        "action": "treat",
+        "requires": [
+          "28070747"
+        ]
+      }
+    ]
+  }
+}

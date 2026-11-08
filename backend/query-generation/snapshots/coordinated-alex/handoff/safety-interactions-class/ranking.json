@@ -1,0 +1,1306 @@
+{
+  "rank_type": "concern",
+  "full_cohort_size": 10540,
+  "top_k": [
+    {
+      "id": "Compound::DB06732",
+      "query": 1,
+      "l2": 9.511383229053983,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 1
+    },
+    {
+      "id": "Compound::DB00675",
+      "query": 1,
+      "l2": 9.594901015800431,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 2
+    },
+    {
+      "id": "Compound::DB01058",
+      "query": 1,
+      "l2": 9.610071355044893,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 3
+    },
+    {
+      "id": "Compound::DB01065",
+      "query": 1,
+      "l2": 9.627749711984405,
+      "support": [
+        [
+          "Compound::DB01065",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 4
+    },
+    {
+      "id": "Compound::DB01045",
+      "query": 1,
+      "l2": 9.694124592484112,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 5
+    },
+    {
+      "id": "Compound::DB01094",
+      "query": 1,
+      "l2": 9.72838156884828,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 6
+    },
+    {
+      "id": "Compound::DB00201",
+      "query": 1,
+      "l2": 9.75187567180071,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 7
+    },
+    {
+      "id": "Compound::DB01645",
+      "query": 1,
+      "l2": 9.77175756036806,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 8
+    },
+    {
+      "id": "Compound::DB06235",
+      "query": 1,
+      "l2": 9.847397469078293,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 9
+    },
+    {
+      "id": "Compound::DB00316",
+      "query": 1,
+      "l2": 9.905452235846797,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 10
+    },
+    {
+      "id": "Compound::DB02134",
+      "query": 1,
+      "l2": 9.911352516103419,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 11
+    },
+    {
+      "id": "Compound::DB00544",
+      "query": 1,
+      "l2": 9.912319591607229,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 12
+    },
+    {
+      "id": "Compound::DB00499",
+      "query": 1,
+      "l2": 9.918866283955817,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 13
+    },
+    {
+      "id": "Compound::DB00313",
+      "query": 1,
+      "l2": 9.942496961494763,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 14
+    },
+    {
+      "id": "Compound::DB00682",
+      "query": 1,
+      "l2": 9.97813804601912,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 15
+    },
+    {
+      "id": "Compound::DB00818",
+      "query": 1,
+      "l2": 10.01025022242233,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 16
+    },
+    {
+      "id": "Compound::DB00281",
+      "query": 1,
+      "l2": 10.017610416463912,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 17
+    },
+    {
+      "id": "Compound::DB03783",
+      "query": 1,
+      "l2": 10.019142214678807,
+      "support": [
+        [
+          "Compound::DB03783",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 18
+    },
+    {
+      "id": "Compound::DB00184",
+      "query": 1,
+      "l2": 10.033223695271046,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 19
+    },
+    {
+      "id": "Compound::DB01026",
+      "query": 1,
+      "l2": 10.035627318755882,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 20
+    },
+    {
+      "id": "Compound::DB00338",
+      "query": 1,
+      "l2": 10.050840242651908,
+      "support": [
+        [
+          "Compound::DB00338",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 21
+    },
+    {
+      "id": "Compound::DB00586",
+      "query": 1,
+      "l2": 10.068670512815244,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 22
+    },
+    {
+      "id": "Compound::DB05812",
+      "query": 1,
+      "l2": 10.081719311715926,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 23
+    },
+    {
+      "id": "Compound::DB00773",
+      "query": 1,
+      "l2": 10.095517175322632,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 24
+    },
+    {
+      "id": "Compound::DB00625",
+      "query": 1,
+      "l2": 10.148912829298444,
+      "support": [
+        [
+          "Compound::DB00625",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 25
+    },
+    {
+      "id": "Compound::DB00898",
+      "query": 1,
+      "l2": 10.168653163309315,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 26
+    },
+    {
+      "id": "Compound::DB00850",
+      "query": 1,
+      "l2": 10.181583497002055,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 27
+    },
+    {
+      "id": "Compound::DB01184",
+      "query": 1,
+      "l2": 10.183809472722185,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 28
+    },
+    {
+      "id": "Compound::DB00382",
+      "query": 1,
+      "l2": 10.188301290415685,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 29
+    },
+    {
+      "id": "Compound::DB01191",
+      "query": 1,
+      "l2": 10.195498387095913,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 30
+    },
+    {
+      "id": "Compound::DB01118",
+      "query": 1,
+      "l2": 10.202650819824017,
+      "support": [
+        [
+          "Compound::DB01118",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 31
+    },
+    {
+      "id": "Compound::DB00442",
+      "query": 1,
+      "l2": 10.21474627153856,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 32
+    },
+    {
+      "id": "Compound::DB00755",
+      "query": 1,
+      "l2": 10.216969959070138,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 33
+    },
+    {
+      "id": "Compound::DB00501",
+      "query": 1,
+      "l2": 10.2315001615437,
+      "support": [
+        [
+          "Compound::DB00501",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 34
+    },
+    {
+      "id": "Compound::DB00564",
+      "query": 1,
+      "l2": 10.250059641861837,
+      "support": [
+        [
+          "Compound::DB00564",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 35
+    },
+    {
+      "id": "Compound::DB00400",
+      "query": 1,
+      "l2": 10.252461300850262,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 36
+    },
+    {
+      "id": "Compound::DB00951",
+      "query": 1,
+      "l2": 10.265915147413862,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 37
+    },
+    {
+      "id": "Compound::DB00783",
+      "query": 1,
+      "l2": 10.267892732465628,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 38
+    },
+    {
+      "id": "Compound::DB00715",
+      "query": 1,
+      "l2": 10.269026461279013,
+      "support": [
+        [
+          "Compound::DB00715",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 39
+    },
+    {
+      "id": "Compound::DB01174",
+      "query": 1,
+      "l2": 10.293545618084242,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 40
+    },
+    {
+      "id": "Compound::DB00250",
+      "query": 1,
+      "l2": 10.293615949306893,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 41
+    },
+    {
+      "id": "Compound::DB00472",
+      "query": 1,
+      "l2": 10.297624240135484,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 42
+    },
+    {
+      "id": "Compound::DB00661",
+      "query": 1,
+      "l2": 10.299760318350673,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 43
+    },
+    {
+      "id": "Compound::DB00363",
+      "query": 1,
+      "l2": 10.30449250029536,
+      "support": [
+        [
+          "Compound::DB00363",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 44
+    },
+    {
+      "id": "Compound::DB00788",
+      "query": 1,
+      "l2": 10.314665700809785,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 45
+    },
+    {
+      "id": "Compound::DB00571",
+      "query": 1,
+      "l2": 10.322813268180266,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 46
+    },
+    {
+      "id": "Compound::DB00752",
+      "query": 1,
+      "l2": 10.323910162573636,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 47
+    },
+    {
+      "id": "Compound::DB00549",
+      "query": 1,
+      "l2": 10.329005072034471,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 48
+    },
+    {
+      "id": "Compound::DB00863",
+      "query": 1,
+      "l2": 10.335330339232764,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 49
+    },
+    {
+      "id": "Compound::DB00518",
+      "query": 1,
+      "l2": 10.335620143661645,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 50
+    },
+    {
+      "id": "Compound::DB01241",
+      "query": 1,
+      "l2": 10.340209100064607,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 51
+    },
+    {
+      "id": "Compound::DB06594",
+      "query": 1,
+      "l2": 10.351968871999354,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 52
+    },
+    {
+      "id": "Compound::DB00503",
+      "query": 1,
+      "l2": 10.362397218320657,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 53
+    },
+    {
+      "id": "Compound::DB00851",
+      "query": 1,
+      "l2": 10.371434940893632,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 54
+    },
+    {
+      "id": "Compound::DB00822",
+      "query": 1,
+      "l2": 10.379713339439489,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 55
+    },
+    {
+      "id": "Compound::DB00238",
+      "query": 1,
+      "l2": 10.383003663282201,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 56
+    },
+    {
+      "id": "Compound::DB01100",
+      "query": 1,
+      "l2": 10.392298065740787,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 57
+    },
+    {
+      "id": "Compound::DB04951",
+      "query": 1,
+      "l2": 10.39414841667326,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 58
+    },
+    {
+      "id": "Compound::DB06774",
+      "query": 1,
+      "l2": 10.396072948065562,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 59
+    },
+    {
+      "id": "Compound::DB00969",
+      "query": 1,
+      "l2": 10.404660484810556,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 60
+    },
+    {
+      "id": "Compound::DB01056",
+      "query": 1,
+      "l2": 10.405732960348294,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 61
+    },
+    {
+      "id": "Compound::DB00396",
+      "query": 1,
+      "l2": 10.40638181227529,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 62
+    },
+    {
+      "id": "Compound::DB00993",
+      "query": 1,
+      "l2": 10.413816523984652,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 63
+    },
+    {
+      "id": "Compound::DB00533",
+      "query": 1,
+      "l2": 10.414136378173234,
+      "support": [
+        [
+          "Compound::DB00533",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 64
+    },
+    {
+      "id": "Compound::DB01087",
+      "query": 1,
+      "l2": 10.425369089944535,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 65
+    },
+    {
+      "id": "Compound::DB01435",
+      "query": 1,
+      "l2": 10.438183011534456,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 66
+    },
+    {
+      "id": "Compound::DB01012",
+      "query": 1,
+      "l2": 10.438533522515284,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 67
+    },
+    {
+      "id": "Compound::DB05396",
+      "query": 1,
+      "l2": 10.440424530189983,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 68
+    },
+    {
+      "id": "Compound::DB06803",
+      "query": 1,
+      "l2": 10.441006255480847,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 69
+    },
+    {
+      "id": "Compound::DB00831",
+      "query": 1,
+      "l2": 10.44314533230313,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 70
+    },
+    {
+      "id": "Compound::DB00857",
+      "query": 1,
+      "l2": 10.44597729639198,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 71
+    },
+    {
+      "id": "Compound::DB00540",
+      "query": 1,
+      "l2": 10.448490481824715,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 72
+    },
+    {
+      "id": "Compound::DB00420",
+      "query": 1,
+      "l2": 10.450225891483598,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 73
+    },
+    {
+      "id": "Compound::DB00972",
+      "query": 1,
+      "l2": 10.452273717239365,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 74
+    },
+    {
+      "id": "Compound::DB00575",
+      "query": 1,
+      "l2": 10.457508095134022,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 75
+    },
+    {
+      "id": "Compound::DB06442",
+      "query": 1,
+      "l2": 10.480278113585165,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 76
+    },
+    {
+      "id": "Compound::DB05708",
+      "query": 1,
+      "l2": 10.4833219944817,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 77
+    },
+    {
+      "id": "Compound::DB00170",
+      "query": 1,
+      "l2": 10.48699925402779,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 78
+    },
+    {
+      "id": "Compound::DB00758",
+      "query": 1,
+      "l2": 10.497007350195886,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 79
+    },
+    {
+      "id": "Compound::DB00532",
+      "query": 1,
+      "l2": 10.501288951448275,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 80
+    },
+    {
+      "id": "Compound::DB11672",
+      "query": 1,
+      "l2": 10.50224443273257,
+      "support": [
+        [
+          "Compound::DB11672",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 81
+    },
+    {
+      "id": "Compound::DB06210",
+      "query": 1,
+      "l2": 10.510342136485365,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 82
+    },
+    {
+      "id": "Compound::DB00321",
+      "query": 1,
+      "l2": 10.510962164923077,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 83
+    },
+    {
+      "id": "Compound::DB00458",
+      "query": 1,
+      "l2": 10.518917795163539,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 84
+    },
+    {
+      "id": "Compound::DB00502",
+      "query": 1,
+      "l2": 10.520435214136398,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 85
+    },
+    {
+      "id": "Compound::DB00641",
+      "query": 1,
+      "l2": 10.527256083055265,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 86
+    },
+    {
+      "id": "Compound::DB04557",
+      "query": 1,
+      "l2": 10.531714618626749,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 87
+    },
+    {
+      "id": "Compound::DB00806",
+      "query": 1,
+      "l2": 10.541300657169755,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 88
+    },
+    {
+      "id": "Compound::DB01195",
+      "query": 1,
+      "l2": 10.544571375892565,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 89
+    },
+    {
+      "id": "Compound::DB01097",
+      "query": 1,
+      "l2": 10.545603903161734,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 90
+    },
+    {
+      "id": "Compound::DB01115",
+      "query": 1,
+      "l2": 10.550786182489034,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 91
+    },
+    {
+      "id": "Compound::DB01059",
+      "query": 1,
+      "l2": 10.552779336947015,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 92
+    },
+    {
+      "id": "Compound::DB00624",
+      "query": 1,
+      "l2": 10.554290163301,
+      "support": [
+        [
+          "Compound::DB00624",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 93
+    },
+    {
+      "id": "Compound::DB00582",
+      "query": 1,
+      "l2": 10.55779956302419,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 94
+    },
+    {
+      "id": "Compound::DB03756",
+      "query": 1,
+      "l2": 10.56346645613804,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 95
+    },
+    {
+      "id": "Compound::DB01211",
+      "query": 1,
+      "l2": 10.564636323467074,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 96
+    },
+    {
+      "id": "Compound::DB01223",
+      "query": 1,
+      "l2": 10.566719920061203,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 97
+    },
+    {
+      "id": "Compound::DB00252",
+      "query": 1,
+      "l2": 10.569145389453302,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 98
+    },
+    {
+      "id": "Compound::DB04216",
+      "query": 1,
+      "l2": 10.571908479414896,
+      "support": [
+        [
+          "Compound::DB04216",
+          "GNBR::N::Compound:Gene",
+          "Gene::1544"
+        ]
+      ],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "observed link plus graph prediction",
+      "rank": 99
+    },
+    {
+      "id": "Compound::DB01104",
+      "query": 1,
+      "l2": 10.573801928687677,
+      "support": [],
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 100
+    }
+  ],
+  "fusion_ranks": [
+    {
+      "id": "Compound::DB01043",
+      "query": 1,
+      "l2": 11.53408818386229,
+      "support": {
+        "name": "memantine",
+        "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=65c9e7bc-71f0-4113-8de1-4fcaa591735f",
+        "finding": "Section 12.3 reports minimal CYP1A2 inhibition in vitro. This supports only a narrow interaction review.",
+        "remaining_risks": "Renal function, tolerability and safety under local delivery unknown.",
+        "trial": "MND-SMART found little or no effect on functional decline at the tested dose.",
+        "trial_source": "https://pubmed.ncbi.nlm.nih.gov/39307154/"
+      },
+      "evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/9316860/",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b117b981-476c-f9b8-e053-2995a90aee5f"
+      ],
+      "interpretation": "graph prediction only",
+      "rank": 1
+    }
+  ],
+  "aggregation": "Smallest L2 across compatible translations for each drug. Ties use canonical ID. Risk rank 1 means greatest predicted concern."
+}

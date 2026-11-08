@@ -1,0 +1,42 @@
+{
+  "dispatched_brief": {
+    "criterion": "pathways-processes",
+    "objective": "Identify biological processes in amyotrophic lateral sclerosis whose modulation could preserve function. Evaluate glutamate excitotoxicity as a hypothesis among other processes, with the evidence for each. Do not assume a molecular subtype.",
+    "goal_provenance": "research objective",
+    "facts": [
+      {
+        "field": "diagnosis",
+        "pointer": "patient_profile.summary",
+        "status": "reported",
+        "concept": "als",
+        "quote": "Amyotrophic Lateral Sclerosis",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      }
+    ],
+    "constraints": [
+      "Process relevant to amyotrophic lateral sclerosis pathophysiology",
+      "Include glutamate excitotoxicity as a hypothesis alongside other supported processes",
+      "Note the evidence level and whether modulation has been tested clinically",
+      "Applicable irrespective of a documented genotype"
+    ],
+    "avoid": [
+      "Assuming the process is active in the individual patient",
+      "Assigning a molecular subtype"
+    ],
+    "unknowns": [
+      "Patient-specific process activity and engagement.",
+      "The record does not state the patient's own treatment priorities.",
+      "No genotype is documented; do not assign a molecular subtype."
+    ],
+    "mechanism_scope": "Glutamate excitotoxicity",
+    "planner": "claude"
+  },
+  "local_source_quotes": {
+    "diagnosis": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.summary",
+      "quote": "Limb-onset ALS, diagnosed 2026."
+    }
+  }
+}

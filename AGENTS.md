@@ -58,8 +58,13 @@ someone else, stop and tell your human rather than doing it anyway.
 | Directory | What it is | Stack |
 |---|---|---|
 | `frontend/` | **Motus** — the product. Longitudinal at-home ALS monitoring: speech, typing and handwriting tracked against a personal baseline. Landing + dashboard. | Vite · React 19 · TS · Tailwind v4 · shadcn/ui · Supabase · three |
-| `contract/` | The `data/pipeline.json` schema, its tests, and the CLI validator. Owned by nobody, depended on by everybody. | zod · node:test |
-| `data/` | `pipeline.json` — the frozen contract plus a hand-written sample. | — |
+| `backend/` | **Everything that isn't the Motus UI.** One subdirectory per module, listed below. | Python · TS |
+| `backend/agent/` | Neo's research agent: Claude orchestrator + sub-agents, FastAPI on :8001. Run from `backend/` (`python -m agent.api`). | Python · LangGraph |
+| `backend/query-generation/` | Levi's five DRKG agents + ranking. | Python |
+| `backend/validation/` | Blinded top-five candidate validation. | Python |
+| `backend/diagnostics/` | Standalone facial, speech and tracing assessment (`master-app/`, `facial-test/`, `speech-test-good/`, `line-test/`) plus research scripts (`SVD-diagnostic/`, `speech-tests-backup/`). Kept as siblings — they reference each other by relative path. See the root README for setup. | Local Python servers and browser UI |
+| `backend/contract/` | The `backend/data/pipeline.json` schema, its tests, and the CLI validator. Owned by nobody, depended on by everybody. | zod · node:test |
+| `backend/data/` | `pipeline.json` — the frozen contract plus a hand-written sample — and patient fixtures. | — |
 | `docs/` | Specs, research, decisions, status. **See "Documentation" below.** | — |
 | `.claude/skills/` | 21 pinned design/frontend skills. See `CLAUDE.md`. | — |
 | `.workspace/` | Your personal scratch, gitignored. See its README. | — |
@@ -73,7 +78,7 @@ exists here:
 |---|---|
 | `cursor/pipeline-graph-ui` | The **drug-repurposing pipeline** — `bbb_model.py`, `patient_filter.py`, `merge.py`, `graveyard.py`, scored across 3,791 compounds. This is live work, not abandoned. |
 | `cursor/facial-als-validation` | **FaceCheck** (`facecheck/`) — MediaPipe facial-amplitude prototype. Spec: [`docs/FACECHECK_SPEC.md`](docs/FACECHECK_SPEC.md). |
-| `Master-UI-Neo-Face-Integration` | Speech and diagnostic test apps (`master-app/`, `speech-test-good/`, `facial-test/`, `line-test/`). **Unrelated git history** — it does not share a root with `main`. Merging it is a decision, not a chore; log it in `docs/DECISIONS.md` first. |
+| `Master-UI-Neo-Face-Integration` | Additional FaceCheck integration for the speech comparison demo. The standalone diagnostic suite from its ancestor `codex/diagnostic-tests` is on main. |
 
 **Nothing above is dead.** If you think a track should be dropped, that is a
 decision — write it down, don't silently stop maintaining it.
@@ -116,7 +121,7 @@ history whether or not you delete the file.
 Each module writes **one JSON file**. Nobody imports anybody else's code.
 
 ```
-the Python pipeline  → data/pipeline.json   (validated by contract/)
+the Python pipeline  → backend/data/pipeline.json   (validated by backend/contract/)
 FaceCheck            → facecheck.session.v3 (its own export)
 frontend/            → reads what it's given, imports no pipeline code
 ```
@@ -127,19 +132,19 @@ them.**
 
 ### The contract is frozen
 
-`data/pipeline.json`'s executable definition is
-[`contract/contract.ts`](contract/contract.ts); the annotated prose version is
+`backend/data/pipeline.json`'s executable definition is
+[`backend/contract/contract.ts`](backend/contract/contract.ts); the annotated prose version is
 [`docs/CONTRACT.md`](docs/CONTRACT.md).
 
 Check your output without running any frontend:
 
 ```bash
-npm run validate --prefix contract -- path/to/your.json
+npm run validate --prefix backend/contract -- path/to/your.json
 ```
 
 Exits non-zero with readable problems. If the shape genuinely must change:
-update `contract/contract.ts`, update the sample in `data/pipeline.json`, run
-`npm test --prefix contract`, log it in `docs/DECISIONS.md`, and **tell the
+update `backend/contract/contract.ts`, update the sample in `backend/data/pipeline.json`, run
+`npm test --prefix backend/contract`, log it in `docs/DECISIONS.md`, and **tell the
 team in the same breath.**
 
 ---
@@ -182,7 +187,7 @@ rather than editing history.
 - **Never leave `main` in a state where the frontend doesn't render.** A
   broken demo costs more than a missing feature.
 - Non-trivial logic leaves **one runnable check** behind.
-  [`contract/contract.test.ts`](contract/contract.test.ts) is the pattern:
+  [`backend/contract/contract.test.ts`](backend/contract/contract.test.ts) is the pattern:
   node's built-in test runner, no framework.
 
 ---
@@ -193,8 +198,8 @@ rather than editing history.
 npm install --prefix frontend          # once
 npm run dev --prefix frontend          # Motus on :5173
 
-npm test     --prefix contract         # contract tests
-npm run validate --prefix contract -- <file>   # validate any pipeline JSON
+npm test     --prefix backend/contract # contract tests
+npm run validate --prefix backend/contract -- <file>   # validate any pipeline JSON
 ```
 
 **There is no CI.** We deleted it — it's a hackathon and a red X on a PR

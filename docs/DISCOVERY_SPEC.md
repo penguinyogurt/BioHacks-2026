@@ -26,7 +26,7 @@ proposes to search is a set nobody has had a reason to search.
 
 ### It connects to work already in this repo
 
-`data/pipeline.json` carries a **graveyard partition**: every drug that
+`backend/data/pipeline.json` carries a **graveyard partition**: every drug that
 failed a human ALS trial, split into
 
 - `never_arrived` — predicted barrier-negative, so it may never have reached
@@ -122,7 +122,7 @@ seam; don't let anyone collapse it under time pressure.
 2. **What is it called?** `theme.ts`, `pipeline.ts` and `report.tsx` say
    **Addo Labs**. The landing page says **motus**. Pick one today.
 3. **Does the old elimination funnel feed this?** The discovery module is
-   self-contained and never reads `data/pipeline.json`. Either wire the
+   self-contained and never reads `backend/data/pipeline.json`. Either wire the
    graveyard in as the candidate pool (§1 — cheap, and it makes the two
    tracks one story) or retire the contract and say so.
 4. **Answered → [`FUS_RESEARCH.md`](FUS_RESEARCH.md).** Was: **Can we cite the Sunnybrook FUS work accurately?** The claim rests on

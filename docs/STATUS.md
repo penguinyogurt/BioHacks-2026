@@ -19,6 +19,14 @@ Last updated: **2026-11-08**
 
 ---
 
+## Repo reorg (2026-11-08): only `frontend/` and `backend/` at the top
+
+`agent/`, `contract/`, `data/` → `backend/`; the six diagnostic dirs →
+`backend/diagnostics/`. If your branch predates this, merge `main` in —
+git follows the renames — but **new files you added at the old paths will
+land at the old paths**; `git mv` them under `backend/`. Agent commands now
+run from `backend/`; contract is `npm test --prefix backend/contract`.
+
 ## ⚠ Two people are building the same pipeline right now
 
 **Jeremy** has the five-stage discovery pipeline in `frontend/` — scripted
@@ -38,7 +46,7 @@ Whoever picks this up: the cheapest win in the repo is making Jeremy's
 `PipelineEvent` stream come from Levi's agents instead of a timer. The seam
 already exists. Talk before either of you builds further.
 
-**Neo** has a third piece, `agent/` (PR #4): a Claude orchestrator that plans
+**Neo** has a third piece, `backend/agent/` (PR #4): a Claude orchestrator that plans
 ALS criteria and runs parallel LLM sub-agents that return drug-free *target
 profiles* (genes + desired action, pathways, site). These are the anchors
 Levi's DRKG agents need, and its SSE stream is a live source for Jeremy's
@@ -125,6 +133,6 @@ One time only. Sorry — that one's on Henri, and it was the only file under
 
 `main` deleted `app/` on 2026-11-07, so branches that built there get
 modify/delete conflicts (measured: 11 on `cursor/pipeline-graph-ui`, 19 on
-`frontend/kg-and-provenance`). `Master-UI-Neo-Face-Integration` and
-`codex/diagnostic-tests` share **no common ancestor** with main and can't be
-merged without `--allow-unrelated-histories`. Your branch, your call.
+`frontend/kg-and-provenance`).
+
+The standalone diagnostic suite was integrated from `codex/diagnostic-tests` by joining its original history to main. The additional FaceCheck integration remains on `Master-UI-Neo-Face-Integration`. See issue #18 and the root README for the merge and launcher.

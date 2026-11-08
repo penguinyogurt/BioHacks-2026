@@ -1,0 +1,42 @@
+{
+  "dispatched_brief": {
+    "criterion": "genes-targets",
+    "objective": "Identify molecular targets, with the direction of modulation (inhibition, activation or other) and the rationale, that could preserve motor neurons in amyotrophic lateral sclerosis. Treat glutamate excitotoxicity as a hypothesis to evaluate, not an established mechanism. Do not assume any genotype or molecular subtype.",
+    "goal_provenance": "research objective",
+    "facts": [
+      {
+        "field": "diagnosis",
+        "pointer": "patient_profile.summary",
+        "status": "reported",
+        "concept": "als",
+        "quote": "Amyotrophic Lateral Sclerosis",
+        "hypotheses": [],
+        "source_kind": "de-identified abstraction; local ledger holds the chart quotation"
+      }
+    ],
+    "constraints": [
+      "Target relevant to motor neuron survival in amyotrophic lateral sclerosis",
+      "State the direction of modulation needed and the supporting evidence level",
+      "Include targets linked to glutamate excitotoxicity as a hypothesis, alongside other supported targets",
+      "Applicable irrespective of a documented genotype"
+    ],
+    "avoid": [
+      "Assigning a genetic subtype",
+      "Assuming target engagement in the individual patient"
+    ],
+    "unknowns": [
+      "Patient-level target engagement and causal genotype unless specifically tested.",
+      "The record does not state the patient's own treatment priorities.",
+      "No genotype is documented; do not assign a molecular subtype."
+    ],
+    "mechanism_scope": "Glutamate excitotoxicity",
+    "planner": "claude"
+  },
+  "local_source_quotes": {
+    "diagnosis": {
+      "source": "https://github.com/penguinyogurt/BioHacks-2026/blob/da0eb26f5e774491ad5b9502aa5d110168c829de/data/pipeline.json",
+      "pointer": "patient_profile.summary",
+      "quote": "Limb-onset ALS, diagnosed 2026."
+    }
+  }
+}

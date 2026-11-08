@@ -253,7 +253,7 @@ Owns `capture.ts`, `landmarker.ts`, `render.ts`.
 
 ### P2 — Analytics & stats
 Owns `compare.ts`, `storage.ts`, a new `features.ts`, and a node test file
-(`compare.test.ts`, same pattern as `contract/contract.test.ts`).
+(`compare.test.ts`, same pattern as `backend/contract/contract.test.ts`).
 - Run-in baseline (median/MAD across N sessions), spread floor
 - Feature-level z-scores, lower-face composite vs brow control, flag logic
 - Confounder exclusion from trend stats
@@ -306,7 +306,7 @@ Owns `main.ts`, `style.css`, `index.html`.
 
 - FaceCheck is **standalone**. It does not import from `frontend/` or the Python
   modules, and they don't import from it (AGENTS.md architecture rule).
-- `data/pipeline.json` and its contract stay untouched unless the whole team
+- `backend/data/pipeline.json` and its contract stay untouched unless the whole team
   agrees (§3.5).
 - **Offline at the expo:** the MediaPipe WASM and model load from Google's
   CDN. Before Sunday, vendor them into `facecheck/public/` or prove the

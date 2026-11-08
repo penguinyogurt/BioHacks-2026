@@ -17,6 +17,7 @@
     "@supabase/supabase-js": "^2.119.0",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.2",
+    "jspdf": "^4.2.1",
     "lucide-react": "^1.70.0",
     "pdfjs-dist": "^6.5.438",
     "radix-ui": "^1.8.1",

@@ -1,15 +1,15 @@
-# The `data/pipeline.json` contract
+# The `backend/data/pipeline.json` contract
 
 One file. The frontend reads it and nothing else. `merge.py` writes it.
 
-The **executable** definition is [`contract/contract.ts`](../contract/contract.ts)
+The **executable** definition is [`backend/contract/contract.ts`](../backend/contract/contract.ts)
 — a zod schema. This document is the prose version with the reasoning. Where
 they disagree, the schema wins; fix this file.
 
 ## Check your output
 
 ```bash
-npm run validate --prefix app -- data/pipeline.json
+npm run validate --prefix backend/contract -- backend/data/pipeline.json
 ```
 
 Exits 0 with a summary, or 1 with a list of exactly what's wrong and where.
@@ -166,8 +166,8 @@ failure reads better than a flattering metric a judge pokes a hole in.
 
 ## Changing the contract
 
-1. Update `contract/contract.ts`.
-2. Update the sample in `data/pipeline.json` so it still validates.
+1. Update `backend/contract/contract.ts`.
+2. Update the sample in `backend/data/pipeline.json` so it still validates.
 3. Update this file.
 4. `npm run check --prefix app`.
 5. **Tell the team.** Four people write against this.

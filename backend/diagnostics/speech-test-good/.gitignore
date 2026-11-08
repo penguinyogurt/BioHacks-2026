@@ -1,0 +1,7 @@
+.venv/
+private/
+.env*
+.synapseConfig*
+__pycache__/
+*.wav
+*.WAV

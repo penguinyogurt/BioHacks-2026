@@ -1,5 +1,8 @@
 # Research agent — handoff for merging the two agent workflows
 
+> **Paths:** since the 2026-11-08 reorg this lives in `backend/`. Paths below
+> (`agent/…`, `data/…`) are relative to `backend/`; run commands from there.
+
 From: Neo's session, 2026-11-07 → 11-08. Branch: `agent/research-backend`.
 For: whoever merges this with Levi's `backend/query-generation/`
 (`agentic-query-generation`) and Jeremy's discovery UI.
@@ -41,7 +44,7 @@ POST /api/research
 | `api.py` | FastAPI + SSE for the frontend | Yes |
 | `llm.py` · `config.py` | The only place Claude clients are built; budgets | Yes |
 
-How to run it, the API table and the event list are in [`agent/README.md`](../agent/README.md).
+How to run it, the API table and the event list are in [`backend/agent/README.md`](../backend/agent/README.md).
 The original design and the list of data sources are in [`RESEARCH_AGENT_SPEC.md`](RESEARCH_AGENT_SPEC.md).
 **Where they disagree, this file and the README are current.** The spec
 still describes sub-agents that return drug findings and the old Gemini
@@ -168,6 +171,97 @@ That gives the demo a real, recorded run with no live API calls at the
 expo table.
 
 ---
+
+## 3b. After the matcher: drug assessment (`agent/assess.py`)
+
+This is added after the first handoff, and it's the step that comes *after*
+Levi's ranking: `DISCOVERY_SPEC.md` stages 4–5 (research, then report).
+
+```
+drug list (Levi's report / data/pipeline.json / names)
+  → one Sonnet researcher per drug, Claude web search, sees only the drug name → DrugDossier
+  → Opus orchestrator with the record + research-run target profiles + dossiers (+ sanitized web follow-ups)
+  → DrugReport: ranked, verdict, fit, pros/cons, patient-specific risks, monitoring, sources
+```
+
+- **Input:** it reads Levi's `aggregation.final` (or `fallback.final`) and
+  `ingredient_names` as they are, so his `run.py` needs **no changes** to
+  feed it. The review notes his pipeline attaches go to the orchestrator
+  only.
+- **CLI:** `python -m agent.assess --patient alex --drugs <file>` writes
+  `agent/runs/a<time>.drugs.json` plus the report as `.drugs.pdf`.
+- **API:** `POST /api/assess`, with the same SSE/report URLs as research runs; the PDF is at `GET /api/research/{run_id}/report.pdf`.
+- **Tested on Levi's saved Alex run** (5 drugs), about 3.5 minutes:
+  1. Melatonin: worth discussing.
+  2. Memantine: use with caution.
+  3. Acetylcysteine: use with caution.
+  4. Arimoclomol: not recommended (failed phase 3).
+  5. Minocycline: not recommended (harm in phase 3).
+
+  This is roughly the reverse of the DRKG order, because human trial outcomes
+  override mechanistic links. The report also names the gaps none of the
+  five cover (cramps, weight loss).
+- **Privacy is the same wall:** the researchers never see the patient.
+  The orchestrator's `web_research` questions have patient identifiers
+  removed (`privacy.identifier_terms`). Medication names are kept, because
+  interaction checks need them. Cited URLs must come from real search
+  results.
+
+## 3c. Verified: coordinated pipeline → assessment → PDF (2026-11-08)
+
+Levi merged the orchestrator into `backend/query-generation/` (PR #20).
+Checked on Windows:
+
+- `python -m unittest discover -s tests` passes: **28/28**.
+- `run.py --offline --planner claude --medication-check` **reproduces the
+  committed snapshot exactly**: same `advanced`, same 19 `discovery_leads`
+  and scores, same fallback. Only a link line in `summary.md` differs.
+
+Found while checking (owner: Levi, not changed here):
+
+1. **The offline replay fails on Windows without `PYTHONUTF8=1`.** Files are
+   read with `read_text()` and no encoding, so Windows decodes them as cp1252.
+   That changes the content hash of the hosted-replay cache key, which fails
+   with *"Hosted research replay missing for pathways-processes"*. The `Ã—`
+   in `final.json`'s stage list is the same bug. Fix: `encoding="utf-8"` on
+   every `read_text`/`open`, or document `PYTHONUTF8=1`.
+2. **The replay needs the Sonnet/Haiku model pair.** Pointing `--agent-env`
+   at `agent/.env` selects Opus/Sonnet, and no replay exists for that pair.
+   Set `CLAUDE_ORCHESTRATOR_MODEL=claude-sonnet-5-5` and
+   `CLAUDE_SUBAGENT_MODEL=claude-haiku-5-5` for the replay.
+3. **The candidate pool includes endogenous metabolites.**
+   - Leads 1, 4, 5, 10 and 16 are creatinine, GABA, acetylcholine, uric acid
+     and L-threonine. Creatinine is a lab marker, not a drug.
+   - 8 of the 19 leads have no name in DRKG's glossary. `assess.py` resolves
+     them through PubChem.
+4. **Methylcobalamin (lead 3) is marked "unverified in bounded cache".** It
+   has a positive phase 3 trial (JETALS, NCT03548311) and is approved in
+   Japan. The trial cache is missing it.
+5. **Genes/targets and pathways contribute 0 supported candidates** for Alex
+   ("graph-only supported counts": 29 / 0 / 1 / 0 / 5). The target-profile
+   half of the design isn't reaching the ranking yet.
+
+**Integration:** `assess.load_drugs` reads the coordinated report directly
+(`reports/<case>-coordinated.json`). It takes, in order:
+1. `advanced`
+2. `reassessments` with unresolved human evidence (established comparators excluded)
+3. `discovery_leads`
+
+The pipeline holds every lead at *"unresolved patient safety"*. Resolving
+that per patient is what this step does.
+
+```bash
+python -m agent.assess --patient alex --drugs backend/query-generation/reports/alex-coordinated.json --max 25
+```
+
+**Alex run:**
+- 21 drugs, about 4.5 minutes, 56 researcher web searches plus 3 follow-ups, 0 dropped citations.
+- Output is `agent/runs/a20261108-012417.drugs.pdf`, 22 pages. Each drug section names its pipeline origin ("discovery lead #3 · unresolved patient safety").
+- Top of the ranking:
+  1. Methylcobalamin: strong candidate. JETALS was positive, but Alex is about 13 months from onset, it's injection-only, and it's not available in Canada.
+  2. Melatonin and levetiracetam: worth discussing, for sleep and cramps.
+  3. Calciferol: worth discussing.
+- The report names creatinine, GABA, acetylcholine and uric acid as "not usable drugs". It flags quinidine and dextromethorphan for QT/CYP2D6 risk in this patient.
 
 ## 4. Running it
 

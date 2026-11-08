@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Trace practice</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f6f4ee;color:#183634;font:16px/1.5 system-ui,sans-serif}main{max-width:980px;margin:auto;padding:clamp(15px,4vw,44px)}header,.bar,footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}header{border-bottom:1px solid #c7cec4;margin-bottom:18px}h1{font:clamp(2rem,5vw,3.4rem) Georgia,serif;margin:0 0 12px}h2{margin:.25em 0;font:1.65rem Georgia,serif}.sheet{background:#fffef9;border:1px solid #c6cec5;border-radius:16px;overflow:hidden}.bar,footer{padding:12px 18px}.bar{border-bottom:1px solid #dce1d6}.stage{display:block;width:100%;height:auto;aspect-ratio:2/1;touch-action:none;cursor:crosshair;user-select:none;background-color:#fffef9}.stage text{font:bold 14px system-ui;paint-order:stroke;stroke:#fffef9;stroke-width:5px;stroke-linejoin:round}.band,.line,.ink{fill:none;stroke-linecap:round;stroke-linejoin:round}.band{stroke:#cfe4da;stroke-width:22}.line{stroke:#4e7768;stroke-width:2}.ink{stroke:#692cb0;stroke-width:3}#ring{fill:none;stroke:#257e45;stroke-width:4}footer{background:#f4f6ee;min-height:72px}button{font:600 1rem system-ui;border:0;border-radius:7px;padding:10px 18px;background:#174e48;color:white;cursor:pointer}button:focus-visible{outline:3px solid #ed9b26}#status{font-weight:650;margin:0}small,#round{color:#476359}.metrics{font-variant-numeric:tabular-nums}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{text-align:right;border-bottom:1px solid #bbc8bd;padding:7px}th:first-child,td:first-child{text-align:left}tfoot{font-weight:bold}#summary{margin-top:18px}p{margin:.4rem 0 1rem}[hidden]{display:none!important}
+.stage.tracing{cursor:none}.ghosts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.ghosts figure{margin:0;background:#fffef9;border:1px solid #c7cec4;border-radius:10px;padding:10px}.ghosts svg{width:100%;height:auto}.ghosts figcaption{font-weight:600}footer{flex-direction:column;justify-content:center;gap:5px;padding:18px}footer #status{font-size:1rem;margin:6px 0;font-weight:500}#summary{max-width:930px;text-align:center;margin:0 auto;min-height:75vh;align-content:center}#gallery{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:20px 0}#gallery figure{flex:0 1 28%;min-width:min(180px,100%)}#gallery figcaption small{display:block;font-size:1rem;font-weight:400}#average{font-size:1.12rem;font-weight:600}
+button[data-proceed]{position:relative;font-size:1.25rem;font-weight:650;border-radius:12px;min-height:58px;min-width:min(270px,88%);padding:12px 24px;background:#195e50;color:white}
+button[data-proceed]:not(:disabled)::before,button[data-proceed]:not(:disabled)::after{content:"";position:absolute;inset:0;pointer-events:none;border:3px solid #699e8b;border-radius:inherit;animation:guidePulse 1s ease-out infinite}
+button[data-proceed]:not(:disabled)::after{animation-delay:-.5s}
+@keyframes guidePulse{from{inset:0;opacity:.52;border-color:#699e8b}55%{opacity:.30;border-color:#83b6a1}to{inset:-20px;opacity:0;border-color:#91d7b7}}
+@media(prefers-reduced-motion:reduce){button[data-proceed]:not(:disabled)::before,button[data-proceed]:not(:disabled)::after{animation:none;opacity:0}}
+</style></head><body><main><div id="roundPage"><header><h1>Trace practice</h1><span id="round"></span></header>
+<p>Follow the green band from Start to Finish by moving your mouse or trackpad. Keep the button released. Touch the blue dot to save your accuracy and time.</p>
+<div class="sheet"><div class="bar"><h2 id="name"></h2><span class="metrics" id="clock">0.0 s</span></div>
+<svg id="stage" class="stage" viewBox="0 0 800 400" aria-label="Tracing area with guide, start, and finish">
+<path id="band" class="band"/><path id="guide" class="line"/><g id="ink"></g><circle id="ring" r="17" visibility="hidden"/><circle id="start" r="12" fill="#18854d"/><circle id="finish" r="12" fill="#185fbb"/><text id="sl" fill="#176d42">Start</text><text id="fl" fill="#164d97">Finish</text></svg>
+<footer><button data-proceed id="advance">Start round</button><p id="status" role="status"></p></footer></div></div>
+<section id="summary" hidden><h2>Tracing results</h2><div id="gallery" class="ghosts"></div><p id="average"></p></section>
+</main><script>
+"use strict";
+const $=id=>document.getElementById(id), svg=$("stage"), NS=svg.namespaceURI;
+const radius=11, dot=12, distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+function sampled(fn,n){return Array.from({length:n+1},(_,i)=>fn(i/n))}
+const sketches=[
+ ["Sine wave",sampled(t=>[75+650*t,200-90*Math.sin(t*3*Math.PI)],160)],
+ ["Zigzag",[[78,270],[210,100],[340,282],[470,100],[600,282],[722,130]]],
+ ["S-curve","M 530 62 C 210 44 215 168 402 200 C 580 235 586 352 257 336"],
+ ["Rounded staircase","M 68 323 H 183 Q 198 323 198 308 V 264 Q 198 249 213 249 H 334 Q 349 249 349 234 V 190 Q 349 175 364 175 H 485 Q 500 175 500 160 V 116 Q 500 101 515 101 H 637 Q 652 101 652 86 V 76 Q 652 61 667 61 H 734"],
+ ["Outward spiral",sampled(t=>{const a=t*4.2*Math.PI,r=23+139*t;return [402+r*Math.cos(a),200+r*Math.sin(a)]},300)]
+];
+function path(points){return points.map((p,i)=>(i?"L":"M")+p.x+" "+p.y).join(" ")}
+const asPoint=a=>({x:a[0],y:a[1]});
+let index,phase,points,cursor=null,last=null,stroke,startTime,drawn,inside,results=[],frame,deadline;
+
+function center(id,p){$(id).setAttribute("cx",p.x);$(id).setAttribute("cy",p.y)}
+function prepared(){
+ cancelAnimationFrame(frame);phase="preview";last=null;drawn=inside=0;
+ const [title,shape]=sketches[index],g=$("guide");
+ g.setAttribute("d",typeof shape==="string"?shape:path(shape.map(asPoint)));
+ // Sample smooth SVG curves; retain exact corners for the polyline guides.
+ const len=g.getTotalLength();
+ points=typeof shape==="string"?sampled(t=>g.getPointAtLength(t*len),Math.ceil(len/3)):shape.map(asPoint);
+ const d=path(points);g.setAttribute("d",d);$("band").setAttribute("d",d);
+ svg.classList.remove("tracing");$("sl").setAttribute("visibility","visible");$("start").setAttribute("visibility","visible");
+ const a=points[0],b=points.at(-1);
+ center("start",a);center("ring",a);center("finish",b);
+ for(const [id,p] of [["sl",a],["fl",b]]){$(id).setAttribute("x",p.x);$(id).setAttribute("y",p.y-19);$(id).setAttribute("text-anchor","middle")}
+ $("name").textContent=title;$("round").textContent="Sketch "+(index+1)+" of 5";$("clock").textContent="0.0 s";$("ink").replaceChildren();
+ $("status").textContent="Preview the path.";banner(false);highlight()
+}
+function banner(hide){$("advance").hidden=hide;$("advance").textContent=phase==="done"?"Next sketch":"Start round"}
+function highlight(){$("ring").setAttribute("visibility",cursor&&distance(cursor,points[0])<=dot&&["preview","countdown","waiting"].includes(phase)?"visible":"hidden")}
+function countdown(){phase="countdown";deadline=performance.now()+3000;banner(true);tick()}
+function tick(){
+ const now=performance.now();
+ if(phase==="countdown"){
+  const left=Math.ceil((deadline-now)/1000);
+  if(left>0)$("status").textContent="Move your cursor to the green dot · "+left;
+  else {phase="waiting";$("status").textContent="Go · Move to the green dot to start.";if(cursor&&distance(cursor,points[0])<=dot)begin(cursor,now)}
+ }
+ if(phase==="running")$("clock").textContent=((now-startTime)/1000).toFixed(1)+" s";
+ if(["countdown","waiting","running"].includes(phase))frame=requestAnimationFrame(tick)
+}
+function pen(p){stroke=document.createElementNS(NS,"polyline");stroke.setAttribute("class","ink");$("ink").append(stroke);append(p)}
+function append(p){const q=svg.createSVGPoint();q.x=p.x;q.y=p.y;stroke.points.appendItem(q)}
+function begin(p,now){phase="running";svg.classList.add("tracing");$("sl").setAttribute("visibility","hidden");center("start",p);startTime=now;last=p;pen(p);$("status").textContent="Go · Follow the guide.";highlight()}
+function mix(a,b,t){return {x:a.x+t*(b.x-a.x),y:a.y+t*(b.y-a.y)}}
+// Parameter intervals along the actual pointer segment; union avoids double counting.
+function disk(a,b,c,r){
+ const x=b.x-a.x,y=b.y-a.y,u=a.x-c.x,v=a.y-c.y,A=x*x+y*y,B=x*u+y*v,D=B*B-A*(u*u+v*v-r*r);
+ if(!A||D<0)return null;
+ const root=Math.sqrt(D),lo=Math.max(0,(-B-root)/A),hi=Math.min(1,(-B+root)/A);
+ return lo<=hi?[lo,hi]:null
+}
+function slab(p,v,lo,hi,range){
+ if(Math.abs(v)<1e-10)return p>=lo&&p<=hi;
+ let t=(lo-p)/v,s=(hi-p)/v;if(t>s)[t,s]=[s,t];
+ range[0]=Math.max(range[0],t);range[1]=Math.min(range[1],s);return range[0]<=range[1]
+}
+function fraction(a,b){
+ const iv=[],dx=b.x-a.x,dy=b.y-a.y;
+ for(let i=0;i<points.length;i++){
+  const c=points[i],e=points[i+1]||c;
+  if(Math.max(a.x,b.x)<Math.min(c.x,e.x)-radius||Math.min(a.x,b.x)>Math.max(c.x,e.x)+radius||
+     Math.max(a.y,b.y)<Math.min(c.y,e.y)-radius||Math.min(a.y,b.y)>Math.max(c.y,e.y)+radius)continue;
+  const cap=disk(a,b,c,radius);if(cap)iv.push(cap);
+  const l=distance(c,e);if(!l)continue;
+  const ux=(e.x-c.x)/l,uy=(e.y-c.y)/l,x=a.x-c.x,y=a.y-c.y,r=[0,1];
+  if(slab(x*ux+y*uy,dx*ux+dy*uy,0,l,r)&&slab(-x*uy+y*ux,-dx*uy+dy*ux,-radius,radius,r))iv.push(r)
+ }
+ iv.sort((u,v)=>u[0]-v[0]);let total=0,end=0;
+ for(const [l,h] of iv){total+=Math.max(0,h-Math.max(l,end));end=Math.max(end,h)}return Math.min(1,total)
+}
+function move(p,now){
+ cursor=p;highlight();
+ if(phase==="waiting"&&distance(p,points[0])<=dot){begin(p,now);return}
+ if(phase!=="running")return;
+ center("start",p);$("start").setAttribute("visibility","visible");
+ const end=points.at(-1), hitRadius=dot+1e-5;
+ if(!last){
+  last=p;pen(p);
+  if(distance(p,end)<=hitRadius){finish(now);return}
+  $("status").textContent="Follow the guide.";return
+ }
+ const a=last;if(!distance(a,p))return;
+ const hit=disk(a,p,end,hitRadius);
+ const b=hit?mix(a,p,hit[0]):p;
+ const l=distance(a,b);if(l){inside+=l*fraction(a,b);drawn+=l;append(b)}last=b;
+ if(hit)finish(now);
+}
+function finish(now){
+ phase="done";svg.classList.remove("tracing");$("start").setAttribute("visibility","hidden");cancelAnimationFrame(frame);
+ const seconds=(now-startTime)/1000,acc=drawn?100*inside/drawn:0;
+ const figure=document.createElement("figure"),caption=document.createElement("figcaption");
+ caption.textContent=sketches[index][0];const stats=document.createElement("small");stats.textContent=acc.toFixed(1)+"% accuracy · "+seconds.toFixed(1)+" seconds";caption.append(stats);
+ const overlay=document.createElementNS(NS,"svg");overlay.setAttribute("viewBox","0 0 800 400");
+ overlay.setAttribute("role","img");overlay.setAttribute("aria-label",sketches[index][0]+" guide and your trace");
+ for(const id of ["band","guide","ink"]){const copy=$(id).cloneNode(true);copy.removeAttribute("id");overlay.append(copy)}
+ figure.append(overlay,caption);$("gallery").append(figure);
+ results.push({seconds,acc});$("clock").textContent=seconds.toFixed(1)+" s";
+ $("status").textContent=sketches[index][0]+" · "+acc.toFixed(1)+"% accuracy · "+seconds.toFixed(1)+" seconds";
+ banner(index===4);
+ if(index===4){
+  const avg=k=>results.reduce((sum,v)=>sum+v[k],0)/results.length;
+  $("average").textContent="Average time: "+avg("seconds").toFixed(1)+" seconds · Average accuracy: "+avg("acc").toFixed(1)+"%";
+  $("roundPage").hidden=true;$("summary").hidden=false;window.scrollTo(0,0);
+  if(parent!==window)parent.postMessage({suite:"line",complete:true,summary:avg("acc").toFixed(1)+"% mean accuracy · "+avg("seconds").toFixed(1)+" s per sketch"},"http://127.0.0.1:8772")
+ }
+}
+function coords(e){return new DOMPoint(e.clientX,e.clientY).matrixTransform(svg.getScreenCTM().inverse())}
+function eventMove(e){
+ if(e.pointerType==="touch")return;
+ const batch=e.getCoalescedEvents?.()||[];
+ for(const v of [...batch,e]){const p=coords(v);if(p.x>=0&&p.x<=800&&p.y>=0&&p.y<=400)move(p,performance.now())}
+}
+function gap(){cursor=null;last=null;highlight();if(phase==="running"){$("start").setAttribute("visibility","hidden");$("status").textContent="Move back into the tracing area to resume."}}
+svg.addEventListener("pointerenter",eventMove);svg.addEventListener("pointermove",eventMove);
+svg.addEventListener("pointerleave",gap);svg.addEventListener("pointercancel",gap);window.addEventListener("blur",gap);
+$("advance").onclick=()=>{if(phase==="done"){index++;prepared()}if(phase==="preview")countdown()};
+function reset(){if(parent!==window)parent.postMessage({suite:"line",complete:false},"http://127.0.0.1:8772");index=0;results=[];$("gallery").replaceChildren();$("summary").hidden=true;prepared()}
+reset();
+</script></body></html>

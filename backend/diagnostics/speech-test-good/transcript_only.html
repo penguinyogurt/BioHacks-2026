@@ -1,0 +1,115 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Passage word check</title>
+<style>*{box-sizing:border-box}body{max-width:790px;margin:auto;padding:32px 20px;background:#f8f6ef;color:#183837;font:16px/1.5 system-ui}h1{font:2.8rem Georgia;margin:0}blockquote{font:1.6rem/1.55 Georgia;margin:20px 0}section{background:white;border:1px solid #c9d6d0;border-radius:12px;padding:20px;margin:14px 0}button,select{font:inherit;padding:8px;border-radius:6px;border:1px solid #78958f;background:white}button{color:white;background:#205952;cursor:pointer}audio{width:100%;margin-top:12px}label{display:inline-block;margin:4px 8px 4px 0}strong{font-size:2.4rem}li{margin:.35rem 0}#reviewWords{display:flex;gap:6px;flex-wrap:wrap}#reviewWords button{background:#e6f3e9;color:#174b39;border-bottom:3px solid #438162}#reviewWords .wrong{background:#fff0e5;color:#78361b;border-color:#bd6937}#reviewWords .uncertain{outline:2px dashed #825a90;outline-offset:1px}#reviewWords [aria-pressed=true]{box-shadow:0 0 0 3px #283c61}#total{font-weight:650}[hidden]{display:none!important}#passageDone{text-align:center;padding:28px}#more{min-width:190px;font-size:1.15rem;padding:12px 24px}#reviewPage h1,#overall,#reviewName,#passageLinks{text-align:center}#passageLinks{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:20px 0}#passageLinks [aria-pressed=true]{outline:3px solid #a4bcab;outline-offset:2px}#reviewPage{margin:auto;max-width:740px}#reviewPage strong{font-size:1.6rem}#inputs{border:0;background:transparent;text-align:center;padding:clamp(30px,10vh,80px) 8px}#status:empty,#wordDetail:empty{display:none}#passage{font-size:clamp(1.7rem,4vw,2.2rem)}#reviewWords .wrong{color:#852020;border-color:#ae3333;background:#ffe6e4}#reviewWords button{font-size:1.12rem;min-height:44px}#more{font-size:1.25rem}
+button[data-proceed]{position:relative;font-size:1.25rem;font-weight:650;border-radius:12px;min-height:58px;min-width:min(270px,88%);padding:12px 24px;background:#195e50;color:white}
+button[data-proceed]:not(:disabled)::before,button[data-proceed]:not(:disabled)::after{content:"";position:absolute;inset:0;pointer-events:none;border:3px solid #699e8b;border-radius:inherit;animation:guidePulse 1s ease-out infinite}
+button[data-proceed]:not(:disabled)::after{animation-delay:-.5s}
+@keyframes guidePulse{from{inset:0;opacity:.52;border-color:#699e8b}55%{opacity:.30;border-color:#83b6a1}to{inset:-20px;opacity:0;border-color:#91d7b7}}
+@media(prefers-reduced-motion:reduce){button[data-proceed]:not(:disabled)::before,button[data-proceed]:not(:disabled)::after{animation:none;opacity:0}}
+</style>
+<main id="readingPage"><h1>Passage word check</h1><p id="total"></p><blockquote id="passage"></blockquote>
+<section id="passageDone" hidden><h2 id="doneTitle" tabindex="-1"></h2><p id="nextName"></p><button data-proceed id="more">Next passage</button></section>
+<section id="inputs"><button data-proceed id="mic">Record reading</button><p role="status" id="status"></p></section>
+</main><main id="reviewPage" hidden><h1 id="reviewTitle" tabindex="-1">Speech results</h1><nav id="passageLinks" aria-label="Review a passage"></nav><h2 id="reviewName"></h2><section id="result" hidden><p>Green words are correct. Red words are incorrect. Click a word to hear the reference and your reading.</p><div id="reviewWords"></div><p id="wordDetail" role="status"></p></section></main>
+<script>
+const $=id=>document.getElementById(id);
+let recorder,ctx,version=0,timer;
+const passages=__PASSAGES__, readings=new Map(), references=new Map();
+let current=0,playing=[],playVersion=0;
+const prefix=i=>i?"p"+i+"-":"";
+function stopWords(){playVersion++;for(const src of playing){try{src.stop()}catch{}}playing=[]}
+function switchPassage(i){
+ stopWords();version++;current=i;$("passage").textContent=passages[i][1];
+ $("total").textContent="Passage "+(i+1)+" of "+passages.length+" · "+passages[i][0];
+
+ $("passageDone").hidden=true;$("inputs").hidden=false;
+ $("status").textContent="";
+}
+function discardCurrent(){
+ stopWords();
+ readings.delete(current);
+}
+function selectReview(i){
+ stopWords();current=i;$("reviewName").textContent=passages[i][0];render(readings.get(i));
+ [...$("passageLinks").children].forEach((b,j)=>b.setAttribute("aria-pressed",String(j===i)));
+}
+function showReview(){
+ const errors=[...readings.values()].reduce((n,r)=>n+r.s.errors,0);
+ const words=[...readings.values()].reduce((n,r)=>n+r.s.words,0);
+ const summary=errors+" word errors across "+words+" passage words";
+ $("readingPage").hidden=true;$("reviewPage").hidden=false;
+ $("passageLinks").replaceChildren(...passages.map(([name],i)=>{
+  const b=document.createElement("button");
+  b.textContent=name;b.onclick=()=>selectReview(i);return b
+ }));
+ selectReview(0);$("reviewTitle").focus();
+ if(parent!==window)parent.postMessage({suite:"speech",complete:true,summary},"http://127.0.0.1:8772");
+}
+async function reference(i){
+ if(!references.has(i)){
+  const fetchOK=async path=>{const r=await fetch("/"+prefix(i)+path);if(!r.ok)throw Error("Reference audio unavailable.");return r};
+  references.set(i,Promise.all([fetchOK("reference.wav").then(r=>r.arrayBuffer()).then(b=>ctx.decodeAudioData(b)),fetchOK("reference.json").then(r=>r.json())]).catch(e=>{references.delete(i);throw e}))
+ }
+ return references.get(i)
+}
+async function review(token,entry,button){
+ stopWords();const ticket=playVersion;
+ for(const b of $("reviewWords").children)b.setAttribute("aria-pressed",b===button);
+ $("wordDetail").textContent="";
+ try{
+  await ctx.resume();const [buf,spans]=await reference(current);if(ticket!==playVersion)return;
+  let when=ctx.currentTime+.025;
+  function play(audio,start,end){const src=ctx.createBufferSource();src.buffer=audio;src.connect(ctx.destination);src.start(when,start,end-start);playing.push(src);when+=end-start+.25}
+  if(token.position!==null)play(buf,...spans[token.position-1]);
+  if(token.heard && token.end>token.start)play(entry.audio,token.start,token.end);
+ }catch(e){if(ticket===playVersion)showError(e)}
+}
+function showError(e){($("reviewPage").hidden?$("status"):$("wordDetail")).textContent=e.message||String(e)}
+async function analyze(blob,name){
+ discardCurrent();
+ const id=++version;$("result").hidden=true;$("status").textContent="Transcribing "+name+" locally…";
+ try{
+ ctx=ctx||new AudioContext();const decoded=await ctx.decodeAudioData(await blob.arrayBuffer());
+ if(decoded.duration>60||decoded.duration<.2)throw Error("Choose 0.2–60 seconds of audio.");
+ const offline=new OfflineAudioContext(1,Math.ceil(decoded.duration*16000),16000),source=offline.createBufferSource();
+ source.buffer=decoded;source.connect(offline.destination);source.start();const samples=(await offline.startRendering()).getChannelData(0);
+ const bytes=new ArrayBuffer(44+2*samples.length),v=new DataView(bytes);
+ function str(i,s){for(let j=0;j<s.length;j++)v.setUint8(i+j,s.charCodeAt(j))}
+ str(0,"RIFF");v.setUint32(4,bytes.byteLength-8,true);str(8,"WAVE");str(12,"fmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,16000,true);v.setUint32(28,32000,true);v.setUint16(32,2,true);v.setUint16(34,16,true);str(36,"data");v.setUint32(40,bytes.byteLength-44,true);
+ samples.forEach((s,i)=>v.setInt16(44+2*i,Math.round(32767*Math.max(-1,Math.min(1,s))),true));
+ if(id!==version)return;
+ const r=await fetch("/score",{method:"POST",headers:{"X-Passage":String(current)},body:bytes});if(!r.ok)throw Error("Could not score this recording.");const s=await r.json();if(id!==version)return;
+ const entry={s,audio:decoded,name};if(s.score!==null)readings.set(current,entry);
+ if(s.score===null){$("status").textContent="No words recognized. Record the passage again.";return}
+
+ if(readings.size===passages.length){showReview();return}
+ $("inputs").hidden=true;$("passageDone").hidden=false;
+ $("doneTitle").textContent="Passage "+(current+1)+" complete";
+ $("nextName").textContent="Up next: "+passages[current+1][0];$("more").focus();
+ }catch(e){if(id===version)showError(e)}
+}
+function render(entry){
+ const {s}=entry;
+ $("reviewWords").replaceChildren();$("wordDetail").textContent="";
+ if(s.score!==null)for(const token of s.tokens){
+  const b=document.createElement("button");b.textContent=(token.kind==="match"?"":"× ")+(token.expected||("+"+token.heard));
+  if(token.kind!=="match")b.classList.add("wrong");
+
+  b.setAttribute("aria-label",b.textContent+" · "+(token.kind==="match"?"correct":"incorrect"));
+  b.onclick=()=>review(token,entry,b);$("reviewWords").append(b)
+ }
+ $("result").hidden=false;
+}
+$("more").onclick=()=>switchPassage(current+1);
+
+switchPassage(0);
+$("mic").onclick=async()=>{
+ if(recorder?.state==="recording"){recorder.stop();return}
+ const btn=$("mic");btn.disabled=true;let stream;
+ try{stream=await navigator.mediaDevices.getUserMedia({audio:true});recorder=new MediaRecorder(stream);
+ const chunks=[];recorder.ondataavailable=e=>chunks.push(e.data);
+ recorder.onstop=()=>{clearTimeout(timer);stream.getTracks().forEach(t=>t.stop());btn.textContent="Record reading";btn.disabled=true;analyze(new Blob(chunks,{type:recorder.mimeType}),"Your recording").finally(()=>btn.disabled=false)};
+ discardCurrent();
+ recorder.start();version++;$("result").hidden=true;btn.textContent="Finish recording";$("status").textContent="Recording…";timer=setTimeout(()=>{if(recorder.state==="recording")recorder.stop()},58000);
+ }catch(e){stream?.getTracks().forEach(t=>t.stop());showError(e)}finally{btn.disabled=false}
+};
+</script></html>

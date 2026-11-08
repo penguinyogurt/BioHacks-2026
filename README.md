@@ -44,11 +44,31 @@ Nothing here is a diagnosis, and every screen says so.
 
 | | |
 |---|---|
-| `contract/` | Schema + validator for `data/pipeline.json` |
+| `backend/` | Everything else: research agent, query generation, validation, diagnostics, and the `pipeline.json` contract |
+| `backend/contract/` | Schema + validator for `backend/data/pipeline.json` |
 | `docs/` | Specs, research, decisions, status |
 
-Three more tracks live on branches — the drug-repurposing pipeline,
-FaceCheck, and the speech test apps. See [`AGENTS.md`](AGENTS.md) for the map.
+The drug-repurposing pipeline and FaceCheck have their own branches. See [`AGENTS.md`](AGENTS.md) for the map.
+
+## Standalone diagnostic tests
+
+Launch the complete session on this Mac:
+
+```sh
+cd ~/Documents/BioHacks && python3 backend/diagnostics/master-app/diagnostic_complete.py
+```
+
+The master app opens at http://127.0.0.1:8772. Select **Begin** on each animated introduction, then complete the facial expression challenge, passage reading, and line tracing in order. Review each test’s results and select **Proceed To Next Test**. The speech test includes three passages with word-level playback. After all five tracing overlays, **Complete Diagnostic** opens the thank-you screen. Camera and microphone access are requested by the individual tests.
+
+On a fresh checkout, run `bash backend/diagnostics/facial-test/setup.sh` and `bash backend/diagnostics/speech-test-good/setup.sh` first. The launcher reuses running local test servers or starts them as needed. Control-C stops the launcher and the servers it started.
+
+| Directory | Contents |
+|---|---|
+| [speech-test-good](backend/diagnostics/speech-test-good/) | Current transcript-only passage test and Mac launcher |
+| [speech-tests-backup](backend/diagnostics/speech-tests-backup/) | Earlier speech tests, calibrated comparison demo, and VOC-ALS experiments |
+| [facial-test](backend/diagnostics/facial-test/) | Four-round POSTER++ webcam expression challenge |
+| [line-test](backend/diagnostics/line-test/index.html) | Standalone mouse and trackpad tracing challenge |
+| [SVD-diagnostic](backend/diagnostics/SVD-diagnostic/) | EMG SVD analysis and speech SVD comparisons |
 
 ## Working here
 
@@ -57,5 +77,5 @@ FaceCheck, and the speech test apps. See [`AGENTS.md`](AGENTS.md) for the map.
 two files are how we avoid building the same thing twice.
 
 ```bash
-npm test --prefix contract     # before you push anything touching the contract
+npm test --prefix backend/contract     # before you push anything touching the contract
 ```

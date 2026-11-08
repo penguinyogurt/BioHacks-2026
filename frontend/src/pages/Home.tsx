@@ -1,16 +1,18 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { AsciiBackground } from '@/components/background'
 import OverviewDashboard from '@/components/overview-dashboard'
+import FusPage from '@/components/fus-page'
+import { PageHeader } from '@/components/page-header'
 import Runs from '@/components/discovery/runs'
 import { GoContext } from '@/components/discovery/pieces'
-import { AnalysisPage, CandidatesPage, CasePage, EmbeddingPage, ProfilesPage, ReportPage } from '@/components/discovery/pages'
+import { AnalysisPage, CandidatesPage, CasePage, EmbeddingPage, ProfilesPage } from '@/components/discovery/pages'
 import { AppSidebar, ALL_NAV, NAV_GROUPS, NAV_PIPELINE, NAV_SECONDARY, type Profile, type StepStatus } from '@/components/app-sidebar'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { useAuth } from '@/lib/auth'
-import { SAMPLE_PATIENT, type StageId } from '@/lib/pipeline'
+import type { StageId } from '@/lib/pipeline'
 import { RunProvider, useRun } from '@/lib/run-store'
 
 
@@ -40,11 +42,6 @@ const VIEWS: Record<string, { title: string; description: string; placeholder: s
     title: 'What the numbers miss.',
     description: 'Cramps, fatigue, swallowing, falls — logged in a few taps.',
     placeholder: 'The symptom diary is coming soon.',
-  },
-  fus: {
-    title: 'Opening the barrier, on purpose.',
-    description: 'MR-guided focused ultrasound briefly opens the blood–brain barrier over motor cortex so large drugs can reach it.',
-    placeholder: 'Delivery planning (target region, session schedule, site availability) is coming soon.',
   },
   trials: {
     title: 'Studies the patient may qualify for.',
@@ -79,7 +76,6 @@ const STAGE_VIEW: Record<StageId, string> = {
   profiles: 'profiles',
   embedding: 'embedding',
   research: 'candidates',
-  report: 'report',
 }
 
 export default function Home() {
@@ -133,9 +129,9 @@ function Workspace({ view, setView, profile, onSignOut }: { view: string; setVie
 
   return (
     <div className="relative h-dvh w-full overflow-hidden text-foreground">
-      {/* The landing's Gradient ASCII field runs behind the whole workspace, quieter. */}
+      {/* The same Gradient ASCII field as the landing, behind the whole workspace. */}
       <div className="fixed inset-0 z-0" aria-hidden>
-        <AsciiBackground quiet />
+        <AsciiBackground />
       </div>
 
       <TooltipProvider delayDuration={0}>
@@ -145,7 +141,7 @@ function Workspace({ view, setView, profile, onSignOut }: { view: string; setVie
         >
           <AppSidebar active={view} onSelect={select} profile={profile} onSignOut={onSignOut} steps={steps} />
           <SidebarInset className="min-h-0 overflow-y-auto !bg-transparent">
-            <header className="sticky top-0 z-10 flex h-(--header-height) shrink-0 items-center gap-2 border-b border-border bg-background/60 backdrop-blur-md">
+            <header className="sticky top-0 z-10 flex rounded-xl h-(--header-height) shrink-0 items-center gap-2 border-b border-border bg-background/60 backdrop-blur-md">
               <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
                 <SidebarTrigger className="-ml-1" />
                 <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
@@ -161,26 +157,22 @@ function Workspace({ view, setView, profile, onSignOut }: { view: string; setVie
                 <ProfilesPage />
               ) : view === 'embedding' ? (
                 <EmbeddingPage />
-              ) : view === 'candidates' ? (
+              ) : view === 'candidates' || view === 'report' ? (
                 <CandidatesPage />
-              ) : view === 'report' ? (
-                <ReportPage />
               ) : view === 'runs' ? (
                 <Runs onNewRun={() => select('new-run')} />
+              ) : view === 'fus' ? (
+                <FusPage />
               ) : view === 'patient' ? (
-                <OverviewDashboard title={SAMPLE_PATIENT.label} />
+                <OverviewDashboard />
               ) : page && !isPipeline ? (
-                <div className="pt-8 lg:pt-12">
-                  <p className="eyebrow mb-8">{section} / {label}</p>
-                  <div aria-live="polite">
-                    <h2 className="font-brand text-[clamp(2.75rem,7vw,4.5rem)] leading-none">{page.title}</h2>
-                    <p className="mt-6 max-w-xl text-lg text-muted-foreground">{page.description}</p>
-                  </div>
-                  <Card className="mt-12 max-w-2xl gap-4 [--card-spacing:--spacing(8)]">
-                    <div className="px-8">
+                <div className="mx-auto max-w-[1440px] space-y-3 text-sm" aria-live="polite">
+                  <PageHeader eyebrow={`${section} / ${label}`} title={page.title} description={page.description} />
+                  <Card className="max-w-2xl gap-2 [--card-spacing:--spacing(5)]">
+                    <div className="px-5">
                       <p className="eyebrow">Coming soon</p>
-                      <h3 className="mt-4 text-2xl font-medium">{label}</h3>
-                      <p className="mt-4 text-muted-foreground">{page.placeholder}</p>
+                      <h3 className="mt-3 text-lg">{label}</h3>
+                      <p className="mt-2 text-muted-foreground">{page.placeholder}</p>
                     </div>
                   </Card>
                 </div>
